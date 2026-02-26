@@ -60,27 +60,116 @@ plt.close()
 # =====================================
 
 html = f"""
-<html>
+<!DOCTYPE html>
+<html lang="pt-br">
 <head>
-    <meta charset="utf-8">
-    <title>Tá no Precinho?</title>
+<meta charset="UTF-8">
+<title>Tá no Precinho?</title>
+
+<style>
+body {{
+    font-family: Arial, sans-serif;
+    background-color: #0f172a;
+    color: #e2e8f0;
+    margin: 0;
+    padding: 40px;
+}}
+
+h1 {{
+    color: #38bdf8;
+    font-size: 40px;
+}}
+
+h2 {{
+    margin-top: 40px;
+    color: #f8fafc;
+}}
+
+.card {{
+    background-color: #1e293b;
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 30px;
+}}
+
+table {{
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}}
+
+th {{
+    background-color: #1e293b;
+    padding: 12px;
+    text-align: left;
+}}
+
+td {{
+    padding: 10px;
+    border-bottom: 1px solid #334155;
+}}
+
+tr:hover {{
+    background-color: #1e293b;
+}}
+
+.score-high {{
+    color: #22c55e;
+    font-weight: bold;
+}}
+
+.score-mid {{
+    color: #facc15;
+    font-weight: bold;
+}}
+
+.score-low {{
+    color: #ef4444;
+    font-weight: bold;
+}}
+
+.footer {{
+    margin-top: 60px;
+    font-size: 14px;
+    color: #94a3b8;
+}}
+
+.button {{
+    display: inline-block;
+    background-color: #38bdf8;
+    color: #0f172a;
+    padding: 10px 18px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    margin-top: 15px;
+}}
+
+.button:hover {{
+    background-color: #0ea5e9;
+}}
+</style>
 </head>
-<body style="font-family: Arial; margin:40px;">
+
+<body>
 
 <h1>📉 Tá no Precinho?</h1>
 
+<div class="card">
 <p>
-Site que exibe ações brasileiras negociadas com desconto
-segundo métricas fundamentalistas inspiradas em investidores
-como Warren Buffett e Luiz Barsi.
+Radar de ações brasileiras negociadas com desconto segundo métricas
+fundamentalistas inspiradas em grandes investidores de valor.
 </p>
 
-<p><b>Data:</b> {hoje}</p>
+<p><strong>Data da atualização:</strong> {hoje}</p>
+</div>
 
-<h2>Top 10 Ações com Maior Score</h2>
+<h2>Top 10 Ações Mais Descontadas</h2>
 
-<table border="1" cellpadding="6" cellspacing="0">
-<tr style="background-color:#f2f2f2;">
+<div class="card">
+
+<table>
+<tr>
 <th>Ticker</th>
 <th>Setor</th>
 <th>PL</th>
@@ -90,35 +179,43 @@ como Warren Buffett e Luiz Barsi.
 <th>Score</th>
 </tr>
 """
-
 for _, row in top10.iterrows():
+
+    score_class = "score-low"
+    if row["Score"] >= 50:
+        score_class = "score-high"
+    elif row["Score"] >= 30:
+        score_class = "score-mid"
+
     html += f"""
 <tr>
-<td>{row.get('Ticker', '')}</td>
-<td>{row.get('Setor', '')}</td>
-<td>{round(row.get('PL', 0),2)}</td>
-<td>{round(row.get('PVP', 0),2)}</td>
-<td>{round(row.get('ROE', 0)*100,2)}%</td>
-<td>{round(row.get('DivYield', 0)*100,2)}%</td>
-<td>{row.get('Score', 0)}</td>
+<td><strong>{row['Ticker']}</strong></td>
+<td>{row['Setor']}</td>
+<td>{round(row['PL'],2)}</td>
+<td>{round(row['PVP'],2)}</td>
+<td>{round(row['ROE']*100,2)}%</td>
+<td>{round(row['DivYield']*100,2)}%</td>
+<td class="{score_class}">{row['Score']}</td>
 </tr>
 """
 
 html += f"""
 </table>
 
-<h2>📊 Gráfico</h2>
-<img src="grafico.png" width="700">
+<a class="button" href="ranking_{hoje}.csv">Baixar CSV Completo</a>
 
-<h2>⬇️ Download</h2>
-<a href="ranking_{hoje}.csv">Baixar CSV</a>
+</div>
 
-<hr>
-<p style="font-size:12px; color:gray;">
+<h2>Gráfico</h2>
+<div class="card">
+<img src="grafico.png" width="100%">
+</div>
+
+<div class="footer">
 ⚠️ Este site não faz recomendação de investimento.
-Os dados são públicos e exibidos apenas para fins educacionais.
-Cada investidor deve realizar sua própria análise.
-</p>
+Dados públicos utilizados para fins educacionais.
+Decisões de investimento são de responsabilidade do investidor.
+</div>
 
 </body>
 </html>
