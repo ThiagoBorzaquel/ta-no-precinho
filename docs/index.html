@@ -1,6 +1,5 @@
 
-<!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
 <title>Tá no Precinho?</title>
@@ -8,84 +7,41 @@
 <style>
 body {
     font-family: Arial, sans-serif;
-    background-color: #0f172a;
-    color: #e2e8f0;
-    margin: 0;
-    padding: 40px;
+    margin: 40px;
+    background-color: #f4f4f4;
 }
 
 h1 {
-    color: #38bdf8;
-    font-size: 40px;
-}
-
-h2 {
-    margin-top: 40px;
-    color: #f8fafc;
-}
-
-.card {
-    background-color: #1e293b;
-    padding: 20px;
-    border-radius: 12px;
-    margin-bottom: 30px;
+    color: #1e3a8a;
 }
 
 table {
-    width: 100%;
     border-collapse: collapse;
-    margin-top: 20px;
+    background: white;
 }
 
 th {
-    background-color: #1e293b;
-    padding: 12px;
-    text-align: left;
+    background-color: #1e3a8a;
+    color: white;
 }
 
-td {
-    padding: 10px;
-    border-bottom: 1px solid #334155;
+th, td {
+    padding: 8px 12px;
+    text-align: center;
 }
 
-tr:hover {
-    background-color: #1e293b;
+tr:nth-child(even) {
+    background-color: #f2f2f2;
 }
 
-.score-high {
-    color: #22c55e;
-    font-weight: bold;
+a {
+    color: #1e3a8a;
 }
 
-.score-mid {
-    color: #facc15;
-    font-weight: bold;
-}
-
-.score-low {
-    color: #ef4444;
-    font-weight: bold;
-}
-
-.footer {
-    margin-top: 60px;
-    font-size: 14px;
-    color: #94a3b8;
-}
-
-.button {
-    display: inline-block;
-    background-color: #38bdf8;
-    color: #0f172a;
-    padding: 10px 18px;
-    border-radius: 8px;
-    text-decoration: none;
-    font-weight: bold;
-    margin-top: 15px;
-}
-
-.button:hover {
-    background-color: #0ea5e9;
+.disclaimer {
+    margin-top: 40px;
+    font-size: 12px;
+    color: gray;
 }
 </style>
 </head>
@@ -94,145 +50,139 @@ tr:hover {
 
 <h1>📉 Tá no Precinho?</h1>
 
-<div class="card">
 <p>
-Radar de ações brasileiras negociadas com desconto segundo métricas
-fundamentalistas inspiradas em grandes investidores de valor.
+Plataforma educacional que exibe ações brasileiras negociadas com desconto,
+com base em métricas fundamentalistas inspiradas na filosofia de investimento
+de longo prazo.
 </p>
 
-<p><strong>Data da atualização:</strong> 2026-02-26</p>
-</div>
+<p><b>Data da atualização:</b> 26/02/2026</p>
 
-<h2>Top 10 Ações Mais Descontadas</h2>
+<h2>Top 10 Ações com Maior Desconto</h2>
 
-<div class="card">
-
-<table>
+<table border="1">
 <tr>
 <th>Ticker</th>
 <th>Setor</th>
-<th>PL</th>
-<th>PVP</th>
+<th>P/L</th>
+<th>P/VP</th>
 <th>ROE</th>
-<th>DY</th>
+<th>Dividend Yield</th>
 <th>Score</th>
 </tr>
 
 <tr>
-<td><strong>PETR4</strong></td>
+<td>PETR4</td>
 <td>Energy</td>
-<td>7.05</td>
-<td>1.19</td>
+<td>7.09</td>
+<td>1.2</td>
 <td>19.02%</td>
 <td>1172.0%</td>
-<td class="score-high">100</td>
+<td>100</td>
 </tr>
 
 <tr>
-<td><strong>BBDC4</strong></td>
+<td>BBDC4</td>
 <td>Financial Services</td>
-<td>9.8</td>
-<td>1.24</td>
+<td>9.77</td>
+<td>1.23</td>
 <td>13.75%</td>
 <td>108.0%</td>
-<td class="score-high">80</td>
+<td>80</td>
 </tr>
 
 <tr>
-<td><strong>SUZB3</strong></td>
+<td>SUZB3</td>
 <td>Basic Materials</td>
-<td>5.48</td>
-<td>1.67</td>
+<td>5.45</td>
+<td>1.66</td>
 <td>35.19%</td>
 <td>190.0%</td>
-<td class="score-high">70</td>
+<td>70</td>
 </tr>
 
 <tr>
-<td><strong>PRIO3</strong></td>
+<td>PRIO3</td>
 <td>Energy</td>
-<td>4.38</td>
-<td>1.66</td>
+<td>4.36</td>
+<td>1.65</td>
 <td>45.54%</td>
 <td>0.0%</td>
-<td class="score-high">65</td>
+<td>65</td>
 </tr>
 
 <tr>
-<td><strong>BBAS3</strong></td>
+<td>BBAS3</td>
 <td>Financial Services</td>
-<td>11.42</td>
+<td>11.37</td>
 <td>0.84</td>
 <td>8.88%</td>
 <td>102.0%</td>
-<td class="score-high">55</td>
+<td>55</td>
 </tr>
 
 <tr>
-<td><strong>WEGE3</strong></td>
+<td>WEGE3</td>
 <td>Industrials</td>
-<td>31.7</td>
-<td>9.14</td>
+<td>31.33</td>
+<td>9.03</td>
 <td>31.19%</td>
 <td>324.0%</td>
-<td class="score-high">55</td>
+<td>55</td>
 </tr>
 
 <tr>
-<td><strong>ITUB4</strong></td>
+<td>ITUB4</td>
 <td>Financial Services</td>
 <td>11.82</td>
 <td>2.56</td>
 <td>21.01%</td>
 <td>46.0%</td>
-<td class="score-high">55</td>
+<td>55</td>
 </tr>
 
 <tr>
-<td><strong>GGBR4</strong></td>
+<td>GGBR4</td>
 <td>Basic Materials</td>
-<td>14.22</td>
+<td>14.15</td>
 <td>0.78</td>
 <td>2.53%</td>
 <td>187.0%</td>
-<td class="score-high">55</td>
+<td>55</td>
 </tr>
 
 <tr>
-<td><strong>RADL3</strong></td>
+<td>RADL3</td>
 <td>Healthcare</td>
-<td>32.24</td>
-<td>6.36</td>
+<td>32.1</td>
+<td>6.34</td>
 <td>20.38%</td>
 <td>150.0%</td>
-<td class="score-high">55</td>
+<td>55</td>
 </tr>
 
 <tr>
-<td><strong>CSNA3</strong></td>
+<td>CSNA3</td>
 <td>Basic Materials</td>
 <td>0.0</td>
-<td>0.8</td>
+<td>0.79</td>
 <td>-5.34%</td>
 <td>1564.0%</td>
-<td class="score-mid">45</td>
+<td>45</td>
 </tr>
 
 </table>
 
-<a class="button" href="ranking_2026-02-26.csv">Baixar CSV Completo</a>
-
-</div>
-
 <h2>Gráfico</h2>
-<div class="card">
-<img src="grafico.png" width="100%">
-</div>
+<img src="grafico.png" width="700">
 
-<div class="footer">
-⚠️ Este site não faz recomendação de investimento.
-Dados públicos utilizados para fins educacionais.
-Decisões de investimento são de responsabilidade do investidor.
+<h2>Download</h2>
+<p><a href="ranking_2026-02-26.csv">Baixar planilha CSV</a></p>
+
+<div class="disclaimer">
+⚠️ Este site não realiza recomendação de investimento.
+Os dados apresentados são públicos e possuem finalidade exclusivamente educacional.
+O investidor deve realizar sua própria análise antes de qualquer decisão.
 </div>
 
 </body>
