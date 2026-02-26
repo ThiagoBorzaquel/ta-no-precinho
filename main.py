@@ -11,13 +11,8 @@ import matplotlib.pyplot as plt
 
 def get_ibov_tickers():
     return [
-        "PETR4","VALE3","ITUB4","BBDC4","BBAS3",
-        "WEGE3","MGLU3","SUZB3","RENT3","PRIO3",
-        "GGBR4","CSNA3","JBSS3","RADL3","EQTL3",
-        "RAIL3","LREN3","ELET3","EMBR3","HAPV3",
-        "VIVT3","TIMS3","BRFS3","AZUL4","CMIG4",
-        "CPFE3","BRKM5","KLBN11","UGPA3",
-        "MULT3","CYRE3","MRVE3","HYPE3","RDOR3"
+        "AALR3","ABCB4","ABEV3","ADMF3","AERI3","AGRO3","ALUP11","AMER3","AZUL4","B3SA3","BBAS3","BBSE3","BBDC4","BPAC11","BRAP4","BRFS3","BRKM5","BEEF3","CAML3","CCRO3","CIEL3","CMIN3","COGN3","CPFE3","CPLE6","CSAN3","CYRE3","DXCO3","ELET3","ELET6","EMBR3","ENGI11","ENEV3","EGIE3","FLRY3","GGBR4","GOAU4","HAPV3","IGTA3","IRBR3","ITAU4","ITSA4","JBSS3", "KLBN11", "LAME4", "LREN3", "MGLU3", "MRVE3", "MULT3", "PARD3", "PCAR3", "PETR3", "PETR4", "PRIO3", "RADL3", "RAIZ4", "RENT3", "SULA11", "SUZB3", "TAEE11", "TOTS3", "TRPL4", "UGPA3", "USIM5", "VALE3", "VIVT3", "WEGE3", "YDUQ2"
+
     ]
 
 # =========================
