@@ -4,6 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Tá no Precinho?</title>
+
 <style>
 body {
     font-family: Arial, sans-serif;
@@ -12,7 +13,19 @@ body {
 }
 
 h1 {
-    color: #1f2937;
+    color: #111827;
+}
+
+.filters {
+    margin-bottom: 20px;
+    padding: 15px;
+    background: white;
+    border-radius: 8px;
+}
+
+select, input {
+    padding: 6px;
+    margin-right: 10px;
 }
 
 table {
@@ -22,7 +35,7 @@ table {
 }
 
 th, td {
-    padding: 10px;
+    padding: 8px;
     text-align: center;
 }
 
@@ -41,22 +54,61 @@ tr:nth-child(even) {
     color: #6b7280;
 }
 </style>
-</head>
 
+<script>
+function aplicarFiltros() {
+    let setor = document.getElementById("filtroSetor").value;
+    let scoreMin = parseFloat(document.getElementById("filtroScore").value) || 0;
+
+    let linhas = document.querySelectorAll("tbody tr");
+
+    linhas.forEach(linha => {
+        let setorLinha = linha.getAttribute("data-setor");
+        let scoreLinha = parseFloat(linha.getAttribute("data-score"));
+
+        let mostrar = true;
+
+        if (setor !== "Todos" && setorLinha !== setor) {
+            mostrar = false;
+        }
+
+        if (scoreLinha < scoreMin) {
+
+Thiago Borzaquel, [26/02/2026 13:32]
+mostrar = false;
+        }
+
+        linha.style.display = mostrar ? "" : "none";
+    });
+}
+</script>
+
+</head>
 <body>
 
 <h1>📉 Tá no Precinho?</h1>
 
 <p>
-Plataforma que exibe ações do IBOVESPA negociadas com maior desconto
-segundo métricas fundamentalistas inspiradas em Value Investing.
+Ações do IBOVESPA negociadas com maior desconto segundo métricas fundamentalistas.
 </p>
 
 <p><strong>Data da atualização:</strong> 26/02/2026</p>
 
-<h2>🏆 Top 10 Ações com Maior Score</h2>
+<div class="filters">
+    <label>Setor:</label>
+    <select id="filtroSetor" onchange="aplicarFiltros()">
+        <option>Todos</option>
+<option>Basic Materials</option><option>Communication Services</option><option>Consumer Cyclical</option><option>Energy</option><option>Financial Services</option><option>Healthcare</option><option>Industrials</option><option>Não informado</option><option>Real Estate</option><option>Utilities</option>
+    </select>
+
+    <label>Score mínimo:</label>
+    <input type="number" id="filtroScore" onchange="aplicarFiltros()" placeholder="Ex: 50">
+</div>
+
+<h2>Ranking Completo</h2>
 
 <table>
+<thead>
 <tr>
 <th>Ticker</th>
 <th>Setor</th>
@@ -66,120 +118,361 @@ segundo métricas fundamentalistas inspiradas em Value Investing.
 <th>Div Yield</th>
 <th>Score</th>
 </tr>
+</thead>
+<tbody>
 
-<tr>
+<tr data-setor="Energy" data-score="100">
 <td>PETR4</td>
 <td>Energy</td>
-<td>7.11</td>
+<td>7.15</td>
 <td>1.21</td>
 <td>19.02%</td>
 <td>1172.0%</td>
-<td><strong>8</strong></td>
+<td><strong>100</strong></td>
 </tr>
 
-<tr>
+<tr data-setor="Consumer Cyclical" data-score="100">
 <td>CYRE3</td>
 <td>Consumer Cyclical</td>
-<td>6.29</td>
+<td>6.27</td>
 <td>1.11</td>
 <td>20.09%</td>
 <td>1199.0%</td>
-<td><strong>8</strong></td>
+<td><strong>100</strong></td>
 </tr>
 
-<tr>
-<td>SUZB3</td>
-<td>Basic Materials</td>
-<td>5.42</td>
-<td>1.65</td>
-<td>35.19%</td>
-<td>190.0%</td>
-<td><strong>6</strong></td>
-</tr>
-
-<tr>
-<td>UGPA3</td>
-<td>Energy</td>
-<td>9.97</td>
-<td>1.75</td>
-<td>18.76%</td>
-<td>654.0%</td>
-<td><strong>6</strong></td>
-</tr>
-
-<tr>
+<tr data-setor="Utilities" data-score="80">
 <td>CMIG4</td>
 <td>Utilities</td>
-<td>5.36</td>
+<td>5.38</td>
 <td>1.22</td>
 <td>14.16%</td>
 <td>1338.0%</td>
-<td><strong>6</strong></td>
+<td><strong>80</strong></td>
 </tr>
 
-<tr>
+<tr data-setor="Financial Services" data-score="80">
 <td>BBDC4</td>
 <td>Financial Services</td>
-<td>9.77</td>
-<td>1.23</td>
+<td>9.79</td>
+<td>1.24</td>
 <td>13.75%</td>
 <td>108.0%</td>
-<td><strong>6</strong></td>
+<td><strong>80</strong></td>
 </tr>
 
-<tr>
-<td>RADL3</td>
-<td>Healthcare</td>
-<td>32.19</td>
-<td>6.35</td>
-<td>20.38%</td>
-<td>150.0%</td>
-<td><strong>4</strong></td>
+<tr data-setor="Energy" data-score="75">
+<td>UGPA3</td>
+<td>Energy</td>
+<td>9.99</td>
+<td>1.75</td>
+<td>18.76%</td>
+<td>654.0%</td>
+<td><strong>75</strong></td>
 </tr>
 
-<tr>
-<td>MGLU3</td>
-<td>Consumer Cyclical</td>
-<td>20.04</td>
-<td>0.67</td>
-<td>3.31%</td>
-<td>306.0%</td>
-<td><strong>4</strong></td>
+<tr data-setor="Basic Materials" data-score="75">
+<td>SUZB3</td>
+<td>Basic Materials</td>
+<td>5.43</td>
+<td>1.66</td>
+<td>35.19%</td>
+<td>190.0%</td>
+<td><strong>75</strong></td>
 </tr>
 
-<tr>
+<tr data-setor="Energy" data-score="60">
 <td>PRIO3</td>
 <td>Energy</td>
-<td>4.4</td>
+<td>4.41</td>
 <td>1.67</td>
 <td>45.54%</td>
 <td>0%</td>
-<td><strong>4</strong></td>
+<td><strong>60</strong></td>
 </tr>
 
-<tr>
+<tr data-setor="Healthcare" data-score="55">
+<td>HYPE3</td>
+<td>Healthcare</td>
+<td>18.55</td>
+<td>1.23</td>
+<td>6.71%</td>
+<td>600.0%</td>
+<td><strong>55</strong></td>
+</tr>
+
+<tr data-setor="Basic Materials" data-score="55">
+<td>CSNA3</td>
+<td>Basic Materials</td>
+<td>0.0</td>
+<td>0.8</td>
+<td>-5.34%</td>
+<td>1564.0%</td>
+<td><strong>55</strong></td>
+</tr>
+
+<tr data-setor="Financial Services" data-score="55">
+<td>BBAS3</td>
+<td>Financial Services</td>
+<td>11.43</td>
+<td>0.85</td>
+<td>8.88%</td>
+<td>102.0%</td>
+<td><strong>55</strong></td>
+</tr>
+
+<tr data-setor="Basic Materials" data-score="55">
 <td>GGBR4</td>
 <td>Basic Materials</td>
-<td>14.22</td>
+<td>14.24</td>
 <td>0.78</td>
 <td>2.53%</td>
 <td>187.0%</td>
-<td><strong>4</strong></td>
+<td><strong>55</strong></td>
 </tr>
 
+<tr data-setor="Healthcare" data-score="50">
+<td>RDOR3</td>
+<td>Healthcare</td>
+<td>20.48</td>
+<td>3.47</td>
+<td>16.6%</td>
+<td>768.0%</td>
+<td><strong>50</strong></td>
+</tr>
+
+<tr data-setor="Communication Services" data-score="50">
+<td>TIMS3</td>
+<td>Communication Services</td>
+<td>15.72</td>
+<td>2.8</td>
+<td>17.12%</td>
+<td>992.0%</td>
+<td><strong>50</strong></td>
+</tr>
+
+<tr data-setor="Real Estate" data-score="50">
+<td>MULT3</td>
+<td>Real Estate</td>
+<td>15.39</td>
+<td>2.75</td>
+<td>19.11%</td>
+<td>352.0%</td>
+<td><strong>50</strong></td>
+</tr>
+
+<tr data-setor="Healthcare" data-score="50">
+<td>RADL3</td>
+<td>Healthcare</td>
+<td>32.08</td>
+<td>6.33</td>
+<td>20.38%</td>
+<td>150.0%</td>
+<td><strong>50</strong></td>
+</tr>
+
+<tr data-setor="Utilities" data-score="50">
+<td>CPFE3</td>
+<td>Utilities</td>
+<td>10.82</td>
+<td>2.61</td>
+<td>25.48%</td>
+<td>549.0%</td>
+<td><strong>50</strong></td>
+</tr>
+
+<tr data-setor="Industrials" data-score="50">
+<td>WEGE3</td>
+<td>Industrials</td>
+<td>31.4</td>
+<td>9.05</td>
+<td>31.19%</td>
+<td>324.0%</td>
+<td><strong>50</strong></td>
+</tr>
+
+<tr data-setor="Financial Services" data-score="50">
+<td>ITUB4</td>
+<td>Financial Services</td>
+<td>11.85</td>
+<td>2.56</td>
+<td>21.01%</td>
+<td>46.0%</td>
+<td><strong>50</strong></td>
+</tr>
+
+<tr data-setor="Consumer Cyclical" data-score="40">
+<td>MGLU3</td>
+<td>Consumer Cyclical</td>
+<td>20.1</td>
+<td>0.67</td>
+<td>3.31%</td>
+<td>306.0%</td>
+<td><strong>40</strong></td>
+</tr>
+
+<tr data-setor="Basic Materials" data-score="30">
+<td>VALE3</td>
+<td>Basic Materials</td>
+<td>31.44</td>
+<td>2.06</td>
+<td>5.87%</td>
+<td>766.0%</td>
+<td><strong>30</strong></td>
+</tr>
+
+<tr data-setor="Communication Services" data-score="30">
+<td>VIVT3</td>
+<td>Communication Services</td>
+<td>22.7</td>
+<td>1.97</td>
+<td>8.9%</td>
+<td>264.0%</td>
+<td><strong>30</strong></td>
+</tr>
+
+<tr data-setor="Basic Materials" data-score="30">
+<td>KLBN11</td>
+<td>Basic Materials</td>
+<td>31.45</td>
+<td>3.23</td>
+<td>14.57%</td>
+<td>792.0%</td>
+<td><strong>30</strong></td>
+</tr>
+
+<tr data-setor="Utilities" data-score="30">
+<td>EQTL3</td>
+<td>Utilities</td>
+<td>16.43</td>
+<td>1.87</td>
+<td>13.13%</td>
+<td>562.0%</td>
+<td><strong>30</strong></td>
+</tr>
+
+<tr data-setor="Industrials" data-score="30">
+<td>RENT3</td>
+<td>Industrials</td>
+<td>30.65</td>
+<td>2.15</td>
+<td>6.97%</td>
+<td>406.0%</td>
+<td><strong>30</strong></td>
+</tr>
+
+<tr data-setor="Industrials" data-score="30">
+<td>RAIL3</td>
+<td>Industrials</td>
+<td>82.4</td>
+<td>2.22</td>
+<td>2.69%</td>
+<td>486.0%</td>
+<td><strong>30</strong></td>
+</tr>
+
+<tr data-setor="Consumer Cyclical" data-score="30">
+<td>LREN3</td>
+<td>Consumer Cyclical</td>
+<td>12.01</td>
+<td>1.57</td>
+<td>13.56%</td>
+<td>577.0%</td>
+<td><strong>30</strong></td>
+</tr>
+
+<tr data-setor="Real Estate" data-score="25">
+<td>MRVE3</td>
+<td>Real Estate</td>
+<td>0.0</td>
+<td>1.11</td>
+<td>-19.69%</td>
+<td>0%</td>
+<td><strong>25</strong></td>
+</tr>
+
+<tr data-setor="Financial Services" data-score="25">
+<td>HAPV3</td>
+<td>Financial Services</td>
+<td>0.0</td>
+<td>0.11</td>
+<td>-0.64%</td>
+<td>0%</td>
+<td><strong>25</strong></td>
+</tr>
+
+<tr data-setor="Não informado" data-score="0">
+<td>ELET3</td>
+<td>Não informado</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0%</td>
+<td>0%</td>
+<td><strong>0</strong></td>
+</tr>
+
+<tr data-setor="Não informado" data-score="0">
+<td>JBSS3</td>
+<td>Não informado</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0%</td>
+<td>0%</td>
+<td><strong>0</strong></td>
+</tr>
+
+<tr data-setor="Não informado" data-score="0">
+<td>BRFS3</td>
+<td>Não informado</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0%</td>
+<td>0%</td>
+<td><strong>0</strong></td>
+</tr>
+
+<tr data-setor="Não informado" data-score="0">
+<td>AZUL4</td>
+<td>Não informado</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0%</td>
+<td>0%</td>
+<td><strong>0</strong></td>
+</tr>
+
+<tr data-setor="Não informado" data-score="0">
+<td>EMBR3</td>
+<td>Não informado</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0%</td>
+<td>0%</td>
+<td><strong>0</strong></td>
+</tr>
+
+<tr data-setor="Basic Materials" data-score="0">
+<td>BRKM5</td>
+<td>Basic Materials</td>
+<td>0.0</td>
+<td>-2.13</td>
+<td>0%</td>
+<td>0%</td>
+<td><strong>0</strong></td>
+</tr>
+
+</tbody>
 </table>
 
 <h2>📊 Visualização</h2>
 <img src="grafico.png" width="700">
 
 <h2>⬇️ Download</h2>
-
-Thiago Borzaquel, [26/02/2026 13:18]
 <p><a href="ranking_2026-02-26.csv">Baixar ranking em CSV</a></p>
 
 <div class="footer">
-⚠️ Este site não constitui recomendação de investimento.  
-Dados públicos com finalidade exclusivamente educacional.
+⚠️ Este site não constitui recomendação de investimento.
+Dados públicos para fins educacionais.
 </div>
 
 </body>
