@@ -1,0 +1,35 @@
+name: Atualização diária
+
+on:
+  schedule:
+    - cron: '0 12 * * *'  # 09h Brasil (UTC-3)
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Instalar dependências
+        run: pip install -r requirements.txt
+
+      - name: Rodar script
+        run: python main.py
+
+      - name: Commit automático
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git add docs/*
+          git commit -m "Atualização automática diária" || echo "Sem alterações"
+          git push
