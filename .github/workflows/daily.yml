@@ -2,8 +2,11 @@ name: Atualização diária
 
 on:
   schedule:
-    - cron: "0 11 * * 1-5"   # 11h UTC = 08h Brasil (dias úteis)
-  workflow_dispatch:        # botão para rodar manual
+    - cron: "0 10 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
 
 jobs:
   build:

@@ -2,20 +2,18 @@ import os
 import datetime
 import matplotlib.pyplot as plt
 
-from data.market_data import get_stock_data
+from data.market_data import get_ibov_tickers, get_stock_data
 from analysis.scoring import value_score
 
 
-# =====================================
-# LISTA INICIAL (versão simples)
-# =====================================
+# =====================
+# BUSCAR IBOV AUTOMÁTICO
+# =====================
 
-tickers = [
-    "PETR4", "VALE3", "ITUB4", "BBDC4", "BBAS3",
-    "WEGE3", "MGLU3", "SUZB3", "RENT3",
-    "PRIO3", "GGBR4", "CSNA3",
-    "JBSS3", "RADL3", "EQTL3"
-]
+tickers = get_ibov_tickers()
+print(f"{len(tickers)} ações encontradas no IBOV")
+
+df = get_stock_data(tickers)
 
 
 # =====================================
