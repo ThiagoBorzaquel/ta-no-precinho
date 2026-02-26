@@ -35,7 +35,8 @@ os.makedirs("docs", exist_ok=True)
 
 hoje = datetime.date.today()
 csv_path = f"docs/ranking_{hoje}.csv"
-top10.to_csv(csv_path, index=False)
+arquivo = f"docs/ranking_value_{hoje}.csv"
+top20.to_csv(arquivo, index=False)
 
 # =====================
 # GERAR GRÁFICO
