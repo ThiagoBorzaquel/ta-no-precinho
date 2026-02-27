@@ -24,12 +24,11 @@ body {
 
 h1 {
     font-size: 32px;
-    margin-bottom: 5px;
 }
 
 .subtitle {
     color: #94a3b8;
-    margin-bottom: 30px;
+    margin-bottom: 25px;
 }
 
 .card {
@@ -59,6 +58,7 @@ table {
 th {
     background: #334155;
     padding: 10px;
+    cursor: pointer;
 }
 
 td {
@@ -70,11 +70,14 @@ tr:nth-child(even) {
     background: #1e293b;
 }
 
-.badge {
-    padding: 4px 8px;
-    border-radius: 6px;
-    font-size: 12px;
-    background: #2563eb;
+.green {
+    color: #22c55e;
+    font-weight: bold;
+}
+
+.red {
+    color: #ef4444;
+    font-weight: bold;
 }
 
 .footer {
@@ -88,14 +91,14 @@ tr:nth-child(even) {
 function aplicarFiltros() {
     let setor = document.getElementById("filtroSetor").value;
     let categoria = document.getElementById("filtroCategoria").value;
-    let scoreMin = parseFloat(document.getElementById("filtroScore").value) || 0;
+    let descontoMin = parseFloat(document.getElementById("filtroDesconto").value) || -999;
 
     let linhas = document.querySelectorAll("tbody tr");
 
     linhas.forEach(linha => {
-        let setorLinha = linha.getAttribute("data-setor");
-        let categoriaLinha = linha.getAttribute("data-categoria");
-        let scoreLinha = parseFloat(linha.getAttribute("data-score"));
+        let setorLinha = linha.dataset.setor;
+        let categoriaLinha = linha.dataset.categoria;
+        let descontoLinha = parseFloat(linha.dataset.desconto);
 
         let mostrar = true;
 
@@ -105,642 +108,556 @@ function aplicarFiltros() {
         if (categoria !== "Todos" && categoriaLinha !== categoria)
             mostrar = false;
 
-        if (scoreLinha < scoreMin)
+        if (descontoLinha < descontoMin)
             mostrar = false;
 
         linha.style.display = mostrar ? "" : "none";
     });
 }
+
+function ordenarTabela(coluna) {
+    let tabela = document.getElementById("tabela");
+    let linhas = Array.from(tabela.rows).slice(1);
+
+    let asc = tabela.dataset.sortAsc === "true";
+    tabela.dataset.sortAsc = !asc;
+
+    linhas.sort((a, b) => {
+        let valA = a.cells[coluna].innerText.replace("R$ ","").replace("%","");
+        let valB = b.cells[coluna].innerText.replace("R$ ","").replace("%","");
+
+        return asc ? valA - valB : valB - valA;
+    });
+
+    linhas.forEach(l => tabela.appendChild(l));
+}
 </script>
 
 </head>
+
 <body>
 
 <div class="container">
 
 <h1>📉 Tá no Precinho?</h1>
 <div class="subtitle">
-Ações do IBOV negociadas com desconto segundo métricas fundamentalistas.
-<br>Atualizado em 27/02/2026
+Ações com estimativa de preço justo<br>
+Atualizado em 27/02/2026
 </div>
 
 <div class="card">
 <div class="filters">
-    <div>
-        <label>Setor</label><br>
-        <select id="filtroSetor" onchange="aplicarFiltros()">
-            <option>Todos</option>
+
+<div>
+<label>Setor</label><br>
+<select id="filtroSetor" onchange="aplicarFiltros()">
+<option>Todos</option>
 <option>Basic Materials</option><option>Communication Services</option><option>Consumer Cyclical</option><option>Consumer Defensive</option><option>Energy</option><option>Financial Services</option><option>Healthcare</option><option>Industrials</option><option>Real Estate</option><option>Technology</option><option>Utilities</option>
-        </select>
-    </div>
+</select>
+</div>
 
-    <div>
-        <label>Categoria</label><br>
-        <select id="filtroCategoria" onchange="aplicarFiltros()">
-            <option>Todos</option>
+<div>
+<label>Categoria</label><br>
+<select id="filtroCategoria" onchange="aplicarFiltros()">
+<option>Todos</option>
 <option>Large Cap</option><option>Mid Cap</option><option>Small Cap</option>
-        </select>
-    </div>
+</select>
+</div>
 
-    <div>
-        <label>Score mínimo</label><br>
-        <input type="number" id="filtroScore" onchange="aplicarFiltros()" placeholder="Ex: 50">
-    </div>
+<div>
+<label>Desconto mínimo (%)</label><br>
+<input type="number" id="filtroDesconto" onchange="aplicarFiltros()">
+</div>
+
 </div>
 </div>
 
 <div class="card">
-<h2>🏆 Top 10 Score</h2>
+<h2>🏆 Top 10 Maiores Descontos</h2>
 <canvas id="grafico"></canvas>
 </div>
 
 <div class="card">
 <h2>📊 Ranking Completo</h2>
-<table>
+<table id="tabela" data-sort-asc="false">
 <thead>
 <tr>
-<th>Ticker</th>
-<th>Setor</th>
-<th>Categoria</th>
-<th>P/L</th>
-<th>P/VP</th>
-<th>ROE</th>
-<th>DY</th>
-<th>Score</th>
+<th onclick="ordenarTabela(0)">Ticker</th>
+<th onclick="ordenarTabela(1)">Preço</th>
+<th onclick="ordenarTabela(2)">Preço Justo</th>
+<th onclick="ordenarTabela(3)">Desconto %</th>
+<th onclick="ordenarTabela(4)">Categoria</th>
+<th onclick="ordenarTabela(5)">Score</th>
 </tr>
 </thead>
 <tbody>
 
-<tr data-setor="Energy" data-categoria="Large Cap" data-score="100">
-<td><strong>PETR4</strong></td>
-<td>Energy</td>
-<td><span class="badge">Large Cap</span></td>
-<td>7.24</td>
-<td>1.22</td>
-<td>19.02%</td>
-<td>1171.0%</td>
-<td><strong>100</strong></td>
-</tr>
-
-<tr data-setor="Energy" data-categoria="Large Cap" data-score="100">
-<td><strong>PETR3</strong></td>
-<td>Energy</td>
-<td><span class="badge">Large Cap</span></td>
-<td>7.81</td>
-<td>1.32</td>
-<td>19.02%</td>
-<td>1085.0%</td>
-<td><strong>100</strong></td>
-</tr>
-
-<tr data-setor="Consumer Cyclical" data-categoria="Mid Cap" data-score="100">
-<td><strong>CYRE3</strong></td>
-<td>Consumer Cyclical</td>
-<td><span class="badge">Mid Cap</span></td>
-<td>6.08</td>
-<td>1.08</td>
-<td>20.09%</td>
-<td>1202.0%</td>
-<td><strong>100</strong></td>
-</tr>
-
-<tr data-setor="Financial Services" data-categoria="Small Cap" data-score="85">
-<td><strong>ABCB4</strong></td>
-<td>Financial Services</td>
-<td><span class="badge">Small Cap</span></td>
-<td>5.16</td>
-<td>0.99</td>
-<td>15.46%</td>
-<td>1097.0%</td>
-<td><strong>85</strong></td>
-</tr>
-
-<tr data-setor="Utilities" data-categoria="Mid Cap" data-score="80">
-<td><strong>ALUP11</strong></td>
-<td>Utilities</td>
-<td><span class="badge">Mid Cap</span></td>
-<td>8.63</td>
-<td>1.32</td>
-<td>14.23%</td>
-<td>265.0%</td>
-<td><strong>80</strong></td>
-</tr>
-
-<tr data-setor="Utilities" data-categoria="Mid Cap" data-score="75">
-<td><strong>ENGI11</strong></td>
-<td>Utilities</td>
-<td><span class="badge">Mid Cap</span></td>
-<td>39.66</td>
-<td>1.13</td>
-<td>19.87%</td>
-<td>592.0%</td>
-<td><strong>75</strong></td>
-</tr>
-
-<tr data-setor="Energy" data-categoria="Mid Cap" data-score="75">
-<td><strong>UGPA3</strong></td>
-<td>Energy</td>
-<td><span class="badge">Mid Cap</span></td>
-<td>9.88</td>
-<td>1.73</td>
-<td>18.76%</td>
-<td>655.0%</td>
-<td><strong>75</strong></td>
-</tr>
-
-<tr data-setor="Basic Materials" data-categoria="Large Cap" data-score="75">
-<td><strong>SUZB3</strong></td>
-<td>Basic Materials</td>
-<td><span class="badge">Large Cap</span></td>
-<td>5.43</td>
-<td>1.66</td>
-<td>35.19%</td>
-<td>189.0%</td>
-<td><strong>75</strong></td>
-</tr>
-
-<tr data-setor="Financial Services" data-categoria="Large Cap" data-score="75">
-<td><strong>BBSE3</strong></td>
-<td>Financial Services</td>
-<td><span class="badge">Large Cap</span></td>
-<td>7.55</td>
-<td>6.56</td>
-<td>89.81%</td>
-<td>1485.0%</td>
-<td><strong>75</strong></td>
-</tr>
-
-<tr data-setor="Consumer Defensive" data-categoria="Small Cap" data-score="65">
-<td><strong>COGN3</strong></td>
-<td>Consumer Defensive</td>
-<td><span class="badge">Small Cap</span></td>
-<td>5.5</td>
-<td>0.55</td>
-<td>10.89%</td>
-<td>494.0%</td>
-<td><strong>65</strong></td>
-</tr>
-
-<tr data-setor="Financial Services" data-categoria="Small Cap" data-score="65">
-<td><strong>BRAP4</strong></td>
-<td>Financial Services</td>
-<td><span class="badge">Small Cap</span></td>
-<td>9.21</td>
-<td>1.07</td>
-<td>12.6%</td>
-<td>1399.0%</td>
-<td><strong>65</strong></td>
-</tr>
-
-<tr data-setor="Energy" data-categoria="Mid Cap" data-score="60">
+<tr data-setor="Energy" data-categoria="Mid Cap" data-desconto="71.07">
 <td><strong>PRIO3</strong></td>
-<td>Energy</td>
-<td><span class="badge">Mid Cap</span></td>
-<td>4.35</td>
-<td>1.65</td>
-<td>45.54%</td>
-<td>0%</td>
-<td><strong>60</strong></td>
+<td>R$ 52.6</td>
+<td>R$ 181.8</td>
+<td class="green">71.07%</td>
+<td>Mid Cap</td>
+<td>60</td>
 </tr>
 
-<tr data-setor="Basic Materials" data-categoria="Mid Cap" data-score="55">
-<td><strong>GGBR4</strong></td>
-<td>Basic Materials</td>
-<td><span class="badge">Mid Cap</span></td>
-<td>14.01</td>
-<td>0.77</td>
-<td>2.53%</td>
-<td>190.0%</td>
-<td><strong>55</strong></td>
+<tr data-setor="Financial Services" data-categoria="Small Cap" data-desconto="66.04">
+<td><strong>ABCB4</strong></td>
+<td>R$ 27.25</td>
+<td>R$ 80.25</td>
+<td class="green">66.04%</td>
+<td>Small Cap</td>
+<td>85</td>
 </tr>
 
-<tr data-setor="Financial Services" data-categoria="Large Cap" data-score="55">
-<td><strong>BBAS3</strong></td>
-<td>Financial Services</td>
-<td><span class="badge">Large Cap</span></td>
-<td>11.27</td>
-<td>0.83</td>
-<td>8.88%</td>
-<td>103.0%</td>
-<td><strong>55</strong></td>
+<tr data-setor="Basic Materials" data-categoria="Large Cap" data-desconto="63.94">
+<td><strong>SUZB3</strong></td>
+<td>R$ 58.52</td>
+<td>R$ 162.3</td>
+<td class="green">63.94%</td>
+<td>Large Cap</td>
+<td>75</td>
 </tr>
 
-<tr data-setor="Financial Services" data-categoria="Large Cap" data-score="55">
+<tr data-setor="Consumer Defensive" data-categoria="Small Cap" data-desconto="63.54">
+<td><strong>COGN3</strong></td>
+<td>R$ 3.5</td>
+<td>R$ 9.6</td>
+<td class="green">63.54%</td>
+<td>Small Cap</td>
+<td>65</td>
+</tr>
+
+<tr data-setor="Consumer Cyclical" data-categoria="Mid Cap" data-desconto="59.62">
+<td><strong>CYRE3</strong></td>
+<td>R$ 30.53</td>
+<td>R$ 75.6</td>
+<td class="green">59.62%</td>
+<td>Mid Cap</td>
+<td>100</td>
+</tr>
+
+<tr data-setor="Energy" data-categoria="Large Cap" data-desconto="51.74">
+<td><strong>PETR4</strong></td>
+<td>R$ 39.98</td>
+<td>R$ 82.85</td>
+<td class="green">51.74%</td>
+<td>Large Cap</td>
+<td>100</td>
+</tr>
+
+<tr data-setor="Financial Services" data-categoria="Large Cap" data-desconto="49.98">
+<td><strong>BBSE3</strong></td>
+<td>R$ 34.89</td>
+<td>R$ 69.75</td>
+<td class="green">49.98%</td>
+<td>Large Cap</td>
+<td>75</td>
+</tr>
+
+<tr data-setor="Energy" data-categoria="Large Cap" data-desconto="48.02">
+<td><strong>PETR3</strong></td>
+<td>R$ 43.12</td>
+<td>R$ 82.95</td>
+<td class="green">48.02%</td>
+<td>Large Cap</td>
+<td>100</td>
+</tr>
+
+<tr data-setor="Utilities" data-categoria="Mid Cap" data-desconto="43.04">
+<td><strong>ALUP11</strong></td>
+<td>R$ 35.65</td>
+<td>R$ 62.59</td>
+<td class="green">43.04%</td>
+<td>Mid Cap</td>
+<td>80</td>
+</tr>
+
+<tr data-setor="Financial Services" data-categoria="Small Cap" data-desconto="38.57">
+<td><strong>BRAP4</strong></td>
+<td>R$ 24.88</td>
+<td>R$ 40.5</td>
+<td class="green">38.57%</td>
+<td>Small Cap</td>
+<td>65</td>
+</tr>
+
+<tr data-setor="Energy" data-categoria="Mid Cap" data-desconto="34.33">
+<td><strong>UGPA3</strong></td>
+<td>R$ 26.4</td>
+<td>R$ 40.2</td>
+<td class="green">34.33%</td>
+<td>Mid Cap</td>
+<td>75</td>
+</tr>
+
+<tr data-setor="Financial Services" data-categoria="Large Cap" data-desconto="32.57">
 <td><strong>BBDC4</strong></td>
-<td>Financial Services</td>
-<td><span class="badge">Large Cap</span></td>
-<td>10.21</td>
-<td>1.29</td>
-<td>13.75%</td>
-<td>109.0%</td>
-<td><strong>55</strong></td>
+<td>R$ 21.55</td>
+<td>R$ 31.96</td>
+<td class="green">32.57%</td>
+<td>Large Cap</td>
+<td>55</td>
 </tr>
 
-<tr data-setor="Basic Materials" data-categoria="Mid Cap" data-score="55">
-<td><strong>GOAU4</strong></td>
-<td>Basic Materials</td>
-<td><span class="badge">Mid Cap</span></td>
-<td>26.11</td>
-<td>0.65</td>
-<td>2.52%</td>
-<td>212.0%</td>
-<td><strong>55</strong></td>
-</tr>
-
-<tr data-setor="Utilities" data-categoria="Large Cap" data-score="50">
-<td><strong>CPFE3</strong></td>
-<td>Utilities</td>
-<td><span class="badge">Large Cap</span></td>
-<td>10.69</td>
-<td>2.58</td>
-<td>25.48%</td>
-<td>541.0%</td>
-<td><strong>50</strong></td>
-</tr>
-
-<tr data-setor="Financial Services" data-categoria="Large Cap" data-score="50">
-<td><strong>BPAC11</strong></td>
-<td>Financial Services</td>
-<td><span class="badge">Large Cap</span></td>
-<td>100.07</td>
-<td>4.23</td>
-<td>23.87%</td>
-<td>225.0%</td>
-<td><strong>50</strong></td>
-</tr>
-
-<tr data-setor="Financial Services" data-categoria="Large Cap" data-score="50">
-<td><strong>B3SA3</strong></td>
-<td>Financial Services</td>
-<td><span class="badge">Large Cap</span></td>
-<td>19.66</td>
-<td>4.69</td>
-<td>24.94%</td>
-<td>331.0%</td>
-<td><strong>50</strong></td>
-</tr>
-
-<tr data-setor="Consumer Defensive" data-categoria="Large Cap" data-score="50">
-<td><strong>ABEV3</strong></td>
-<td>Consumer Defensive</td>
-<td><span class="badge">Large Cap</span></td>
-<td>17.55</td>
-<td>2.9</td>
-<td>16.98%</td>
-<td>1454.0%</td>
-<td><strong>50</strong></td>
-</tr>
-
-<tr data-setor="Basic Materials" data-categoria="Mid Cap" data-score="50">
-<td><strong>CMIN3</strong></td>
-<td>Basic Materials</td>
-<td><span class="badge">Mid Cap</span></td>
-<td>12.18</td>
-<td>2.95</td>
-<td>25.95%</td>
-<td>948.0%</td>
-<td><strong>50</strong></td>
-</tr>
-
-<tr data-setor="Real Estate" data-categoria="Mid Cap" data-score="50">
-<td><strong>MULT3</strong></td>
-<td>Real Estate</td>
-<td><span class="badge">Mid Cap</span></td>
-<td>15.4</td>
-<td>2.75</td>
-<td>19.11%</td>
-<td>343.0%</td>
-<td><strong>50</strong></td>
-</tr>
-
-<tr data-setor="Utilities" data-categoria="Mid Cap" data-score="50">
-<td><strong>TAEE11</strong></td>
-<td>Utilities</td>
-<td><span class="badge">Mid Cap</span></td>
-<td>39.04</td>
-<td>1.99</td>
-<td>23.59%</td>
-<td>723.0%</td>
-<td><strong>50</strong></td>
-</tr>
-
-<tr data-setor="Healthcare" data-categoria="Mid Cap" data-score="50">
-<td><strong>RADL3</strong></td>
-<td>Healthcare</td>
-<td><span class="badge">Mid Cap</span></td>
-<td>32.73</td>
-<td>6.46</td>
-<td>20.38%</td>
-<td>149.0%</td>
-<td><strong>50</strong></td>
-</tr>
-
-<tr data-setor="Industrials" data-categoria="Large Cap" data-score="50">
+<tr data-setor="Industrials" data-categoria="Large Cap" data-desconto="30.14">
 <td><strong>ITSA4</strong></td>
-<td>Industrials</td>
-<td><span class="badge">Large Cap</span></td>
-<td>10.52</td>
-<td>1.76</td>
-<td>17.06%</td>
-<td>66.0%</td>
-<td><strong>50</strong></td>
+<td>R$ 14.46</td>
+<td>R$ 20.7</td>
+<td class="green">30.14%</td>
+<td>Large Cap</td>
+<td>50</td>
 </tr>
 
-<tr data-setor="Utilities" data-categoria="Mid Cap" data-score="50">
-<td><strong>EGIE3</strong></td>
-<td>Utilities</td>
-<td><span class="badge">Mid Cap</span></td>
-<td>12.64</td>
-<td>3.01</td>
-<td>21.82%</td>
-<td>462.0%</td>
-<td><strong>50</strong></td>
+<tr data-setor="Utilities" data-categoria="Large Cap" data-desconto="28.83">
+<td><strong>CPFE3</strong></td>
+<td>R$ 50.6</td>
+<td>R$ 71.1</td>
+<td class="green">28.83%</td>
+<td>Large Cap</td>
+<td>50</td>
 </tr>
 
-<tr data-setor="Technology" data-categoria="Mid Cap" data-score="50">
-<td><strong>TOTS3</strong></td>
-<td>Technology</td>
-<td><span class="badge">Mid Cap</span></td>
-<td>27.01</td>
-<td>4.38</td>
-<td>16.14%</td>
-<td>160.0%</td>
-<td><strong>50</strong></td>
+<tr data-setor="Financial Services" data-categoria="Large Cap" data-desconto="25.11">
+<td><strong>BBAS3</strong></td>
+<td>R$ 26.96</td>
+<td>R$ 36.0</td>
+<td class="green">25.11%</td>
+<td>Large Cap</td>
+<td>55</td>
 </tr>
 
-<tr data-setor="Industrials" data-categoria="Large Cap" data-score="50">
-<td><strong>WEGE3</strong></td>
-<td>Industrials</td>
-<td><span class="badge">Large Cap</span></td>
-<td>31.67</td>
-<td>9.19</td>
-<td>31.19%</td>
-<td>324.0%</td>
-<td><strong>50</strong></td>
-</tr>
-
-<tr data-setor="Consumer Cyclical" data-categoria="Small Cap" data-score="40">
-<td><strong>MGLU3</strong></td>
-<td>Consumer Cyclical</td>
-<td><span class="badge">Small Cap</span></td>
-<td>19.92</td>
-<td>0.66</td>
-<td>3.31%</td>
-<td>303.0%</td>
-<td><strong>40</strong></td>
-</tr>
-
-<tr data-setor="Basic Materials" data-categoria="Small Cap" data-score="40">
-<td><strong>DXCO3</strong></td>
-<td>Basic Materials</td>
-<td><span class="badge">Small Cap</span></td>
-<td>46.33</td>
-<td>0.75</td>
-<td>1.95%</td>
-<td>85.0%</td>
-<td><strong>40</strong></td>
-</tr>
-
-<tr data-setor="Consumer Defensive" data-categoria="Small Cap" data-score="40">
-<td><strong>CAML3</strong></td>
-<td>Consumer Defensive</td>
-<td><span class="badge">Small Cap</span></td>
-<td>14.91</td>
-<td>0.68</td>
-<td>4.69%</td>
-<td>1103.0%</td>
-<td><strong>40</strong></td>
-</tr>
-
-<tr data-setor="Consumer Defensive" data-categoria="Small Cap" data-score="40">
-<td><strong>AGRO3</strong></td>
-<td>Consumer Defensive</td>
-<td><span class="badge">Small Cap</span></td>
-<td>0.0</td>
-<td>1.05</td>
-<td>-0.07%</td>
-<td>340.0%</td>
-<td><strong>40</strong></td>
-</tr>
-
-<tr data-setor="Communication Services" data-categoria="Large Cap" data-score="30">
-<td><strong>VIVT3</strong></td>
-<td>Communication Services</td>
-<td><span class="badge">Large Cap</span></td>
-<td>22.31</td>
-<td>1.98</td>
-<td>8.9%</td>
-<td>260.0%</td>
-<td><strong>30</strong></td>
-</tr>
-
-<tr data-setor="Consumer Cyclical" data-categoria="Mid Cap" data-score="30">
+<tr data-setor="Consumer Cyclical" data-categoria="Mid Cap" data-desconto="20.7">
 <td><strong>LREN3</strong></td>
-<td>Consumer Cyclical</td>
-<td><span class="badge">Mid Cap</span></td>
-<td>11.93</td>
-<td>1.56</td>
-<td>13.56%</td>
-<td>568.0%</td>
-<td><strong>30</strong></td>
+<td>R$ 15.94</td>
+<td>R$ 20.1</td>
+<td class="green">20.7%</td>
+<td>Mid Cap</td>
+<td>30</td>
 </tr>
 
-<tr data-setor="Industrials" data-categoria="Large Cap" data-score="30">
-<td><strong>RENT3</strong></td>
-<td>Industrials</td>
-<td><span class="badge">Large Cap</span></td>
-<td>30.9</td>
-<td>2.15</td>
-<td>6.97%</td>
-<td>409.0%</td>
-<td><strong>30</strong></td>
+<tr data-setor="Basic Materials" data-categoria="Mid Cap" data-desconto="18.96">
+<td><strong>CMIN3</strong></td>
+<td>R$ 5.47</td>
+<td>R$ 6.75</td>
+<td class="green">18.96%</td>
+<td>Mid Cap</td>
+<td>50</td>
 </tr>
 
-<tr data-setor="Basic Materials" data-categoria="Large Cap" data-score="30">
-<td><strong>VALE3</strong></td>
-<td>Basic Materials</td>
-<td><span class="badge">Large Cap</span></td>
-<td>31.6</td>
-<td>2.06</td>
-<td>5.87%</td>
-<td>773.0%</td>
-<td><strong>30</strong></td>
+<tr data-setor="Utilities" data-categoria="Mid Cap" data-desconto="15.89">
+<td><strong>EGIE3</strong></td>
+<td>R$ 33.56</td>
+<td>R$ 39.9</td>
+<td class="green">15.89%</td>
+<td>Mid Cap</td>
+<td>50</td>
 </tr>
 
-<tr data-setor="Basic Materials" data-categoria="Large Cap" data-score="30">
-<td><strong>KLBN11</strong></td>
-<td>Basic Materials</td>
-<td><span class="badge">Large Cap</span></td>
-<td>31.32</td>
-<td>3.22</td>
-<td>14.57%</td>
-<td>786.0%</td>
-<td><strong>30</strong></td>
-</tr>
-
-<tr data-setor="Consumer Cyclical" data-categoria="Small Cap" data-score="25">
-<td><strong>PCAR3</strong></td>
-<td>Consumer Cyclical</td>
-<td><span class="badge">Small Cap</span></td>
-<td>0.0</td>
-<td>0.57</td>
-<td>-25.47%</td>
-<td>0%</td>
-<td><strong>25</strong></td>
-</tr>
-
-<tr data-setor="Financial Services" data-categoria="Small Cap" data-score="25">
-<td><strong>HAPV3</strong></td>
-<td>Financial Services</td>
-<td><span class="badge">Small Cap</span></td>
-<td>0.0</td>
-<td>0.11</td>
-<td>-0.64%</td>
-<td>0%</td>
-<td><strong>25</strong></td>
-</tr>
-
-<tr data-setor="Real Estate" data-categoria="Small Cap" data-score="25">
-<td><strong>MRVE3</strong></td>
-<td>Real Estate</td>
-<td><span class="badge">Small Cap</span></td>
-<td>0.0</td>
-<td>1.1</td>
-<td>-19.69%</td>
-<td>0%</td>
-<td><strong>25</strong></td>
-</tr>
-
-<tr data-setor="Healthcare" data-categoria="Small Cap" data-score="25">
-<td><strong>AALR3</strong></td>
-<td>Healthcare</td>
-<td><span class="badge">Small Cap</span></td>
-<td>0.0</td>
-<td>0.75</td>
-<td>-6.19%</td>
-<td>0%</td>
-<td><strong>25</strong></td>
-</tr>
-
-<tr data-setor="Consumer Cyclical" data-categoria="Small Cap" data-score="25">
-<td><strong>AMER3</strong></td>
-<td>Consumer Cyclical</td>
-<td><span class="badge">Small Cap</span></td>
-<td>0.0</td>
-<td>0.24</td>
-<td>-15.06%</td>
-<td>0%</td>
-<td><strong>25</strong></td>
-</tr>
-
-<tr data-setor="Basic Materials" data-categoria="Small Cap" data-score="25">
-<td><strong>USIM5</strong></td>
-<td>Basic Materials</td>
-<td><span class="badge">Small Cap</span></td>
-<td>0.0</td>
-<td>0.41</td>
-<td>-11.55%</td>
-<td>0%</td>
-<td><strong>25</strong></td>
-</tr>
-
-<tr data-setor="Financial Services" data-categoria="Small Cap" data-score="25">
+<tr data-setor="Financial Services" data-categoria="Small Cap" data-desconto="13.15">
 <td><strong>IRBR3</strong></td>
-<td>Financial Services</td>
-<td><span class="badge">Small Cap</span></td>
-<td>13.18</td>
-<td>0.97</td>
-<td>10.59%</td>
-<td>0%</td>
-<td><strong>25</strong></td>
+<td>R$ 62.27</td>
+<td>R$ 71.7</td>
+<td class="green">13.15%</td>
+<td>Small Cap</td>
+<td>25</td>
 </tr>
 
-<tr data-setor="Utilities" data-categoria="Mid Cap" data-score="15">
-<td><strong>ENEV3</strong></td>
-<td>Utilities</td>
-<td><span class="badge">Mid Cap</span></td>
-<td>151.71</td>
-<td>2.05</td>
-<td>2.93%</td>
-<td>0%</td>
-<td><strong>15</strong></td>
+<tr data-setor="Basic Materials" data-categoria="Mid Cap" data-desconto="6.89">
+<td><strong>GGBR4</strong></td>
+<td>R$ 20.81</td>
+<td>R$ 22.35</td>
+<td class="green">6.89%</td>
+<td>Mid Cap</td>
+<td>55</td>
 </tr>
 
-<tr data-setor="Energy" data-categoria="Mid Cap" data-score="15">
-<td><strong>CSAN3</strong></td>
-<td>Energy</td>
-<td><span class="badge">Mid Cap</span></td>
-<td>0.0</td>
-<td>2.07</td>
-<td>-29.68%</td>
-<td>0%</td>
-<td><strong>15</strong></td>
+<tr data-setor="Consumer Defensive" data-categoria="Small Cap" data-desconto="1.16">
+<td><strong>CAML3</strong></td>
+<td>R$ 6.82</td>
+<td>R$ 6.9</td>
+<td class="green">1.16%</td>
+<td>Small Cap</td>
+<td>40</td>
 </tr>
 
-<tr data-setor="Healthcare" data-categoria="Small Cap" data-score="15">
+<tr data-setor="Real Estate" data-categoria="Mid Cap" data-desconto="-2.61">
+<td><strong>MULT3</strong></td>
+<td>R$ 35.4</td>
+<td>R$ 34.5</td>
+<td class="red">-2.61%</td>
+<td>Mid Cap</td>
+<td>50</td>
+</tr>
+
+<tr data-setor="Healthcare" data-categoria="Small Cap" data-desconto="-2.73">
 <td><strong>FLRY3</strong></td>
-<td>Healthcare</td>
-<td><span class="badge">Small Cap</span></td>
-<td>15.55</td>
-<td>1.73</td>
-<td>10.62%</td>
-<td>1096.0%</td>
-<td><strong>15</strong></td>
+<td>R$ 16.95</td>
+<td>R$ 16.5</td>
+<td class="red">-2.73%</td>
+<td>Small Cap</td>
+<td>15</td>
 </tr>
 
-<tr data-setor="Consumer Defensive" data-categoria="Small Cap" data-score="15">
-<td><strong>BEEF3</strong></td>
-<td>Consumer Defensive</td>
-<td><span class="badge">Small Cap</span></td>
-<td>0.0</td>
-<td>3.99</td>
-<td>-50.41%</td>
-<td>1259.0%</td>
-<td><strong>15</strong></td>
+<tr data-setor="Consumer Defensive" data-categoria="Large Cap" data-desconto="-16.7">
+<td><strong>ABEV3</strong></td>
+<td>R$ 16.28</td>
+<td>R$ 13.95</td>
+<td class="red">-16.7%</td>
+<td>Large Cap</td>
+<td>50</td>
 </tr>
 
-<tr data-setor="Basic Materials" data-categoria="Small Cap" data-score="0">
-<td><strong>BRKM5</strong></td>
-<td>Basic Materials</td>
-<td><span class="badge">Small Cap</span></td>
-<td>0.0</td>
-<td>-2.15</td>
-<td>0%</td>
-<td>0%</td>
-<td><strong>0</strong></td>
+<tr data-setor="Financial Services" data-categoria="Large Cap" data-desconto="-31.81">
+<td><strong>B3SA3</strong></td>
+<td>R$ 18.19</td>
+<td>R$ 13.8</td>
+<td class="red">-31.81%</td>
+<td>Large Cap</td>
+<td>50</td>
 </tr>
 
-<tr data-setor="Industrials" data-categoria="Small Cap" data-score="0">
+<tr data-setor="Consumer Cyclical" data-categoria="Small Cap" data-desconto="-32.22">
+<td><strong>MGLU3</strong></td>
+<td>R$ 9.52</td>
+<td>R$ 7.2</td>
+<td class="red">-32.22%</td>
+<td>Small Cap</td>
+<td>40</td>
+</tr>
+
+<tr data-setor="Communication Services" data-categoria="Large Cap" data-desconto="-47.89">
+<td><strong>VIVT3</strong></td>
+<td>R$ 42.37</td>
+<td>R$ 28.65</td>
+<td class="red">-47.89%</td>
+<td>Large Cap</td>
+<td>30</td>
+</tr>
+
+<tr data-setor="Basic Materials" data-categoria="Mid Cap" data-desconto="-73.7">
+<td><strong>GOAU4</strong></td>
+<td>R$ 9.38</td>
+<td>R$ 5.4</td>
+<td class="red">-73.7%</td>
+<td>Mid Cap</td>
+<td>55</td>
+</tr>
+
+<tr data-setor="Technology" data-categoria="Mid Cap" data-desconto="-79.91">
+<td><strong>TOTS3</strong></td>
+<td>R$ 38.05</td>
+<td>R$ 21.15</td>
+<td class="red">-79.91%</td>
+<td>Mid Cap</td>
+<td>50</td>
+</tr>
+
+<tr data-setor="Industrials" data-categoria="Large Cap" data-desconto="-106.02">
+<td><strong>RENT3</strong></td>
+<td>R$ 51.3</td>
+<td>R$ 24.9</td>
+<td class="red">-106.02%</td>
+<td>Large Cap</td>
+<td>30</td>
+</tr>
+
+<tr data-setor="Basic Materials" data-categoria="Large Cap" data-desconto="-107.96">
+<td><strong>KLBN11</strong></td>
+<td>R$ 20.63</td>
+<td>R$ 9.92</td>
+<td class="red">-107.96%</td>
+<td>Large Cap</td>
+<td>30</td>
+</tr>
+
+<tr data-setor="Basic Materials" data-categoria="Large Cap" data-desconto="-110.69">
+<td><strong>VALE3</strong></td>
+<td>R$ 89.12</td>
+<td>R$ 42.3</td>
+<td class="red">-110.69%</td>
+<td>Large Cap</td>
+<td>30</td>
+</tr>
+
+<tr data-setor="Industrials" data-categoria="Large Cap" data-desconto="-111.61">
+<td><strong>WEGE3</strong></td>
+<td>R$ 49.2</td>
+<td>R$ 23.25</td>
+<td class="red">-111.61%</td>
+<td>Large Cap</td>
+<td>50</td>
+</tr>
+
+<tr data-setor="Healthcare" data-categoria="Mid Cap" data-desconto="-117.38">
+<td><strong>RADL3</strong></td>
+<td>R$ 25.76</td>
+<td>R$ 11.85</td>
+<td class="red">-117.38%</td>
+<td>Mid Cap</td>
+<td>50</td>
+</tr>
+
+<tr data-setor="Utilities" data-categoria="Mid Cap" data-desconto="-159.94">
+<td><strong>TAEE11</strong></td>
+<td>R$ 44.06</td>
+<td>R$ 16.95</td>
+<td class="red">-159.94%</td>
+<td>Mid Cap</td>
+<td>50</td>
+</tr>
+
+<tr data-setor="Utilities" data-categoria="Mid Cap" data-desconto="-161.88">
+<td><strong>ENGI11</strong></td>
+<td>R$ 54.21</td>
+<td>R$ 20.7</td>
+<td class="red">-161.88%</td>
+<td>Mid Cap</td>
+<td>75</td>
+</tr>
+
+<tr data-setor="Basic Materials" data-categoria="Small Cap" data-desconto="-206.11">
+<td><strong>DXCO3</strong></td>
+<td>R$ 5.51</td>
+<td>R$ 1.8</td>
+<td class="red">-206.11%</td>
+<td>Small Cap</td>
+<td>40</td>
+</tr>
+
+<tr data-setor="Financial Services" data-categoria="Large Cap" data-desconto="-563.3">
+<td><strong>BPAC11</strong></td>
+<td>R$ 61.09</td>
+<td>R$ 9.21</td>
+<td class="red">-563.3%</td>
+<td>Large Cap</td>
+<td>50</td>
+</tr>
+
+<tr data-setor="Utilities" data-categoria="Mid Cap" data-desconto="-908.57">
+<td><strong>ENEV3</strong></td>
+<td>R$ 21.18</td>
+<td>R$ 2.1</td>
+<td class="red">-908.57%</td>
+<td>Mid Cap</td>
+<td>15</td>
+</tr>
+
+<tr data-setor="Industrials" data-categoria="Small Cap" data-desconto="-inf">
 <td><strong>AERI3</strong></td>
-<td>Industrials</td>
-<td><span class="badge">Small Cap</span></td>
-<td>0.0</td>
-<td>-0.82</td>
-<td>-300.45%</td>
-<td>0%</td>
-<td><strong>0</strong></td>
+<td>R$ 2.81</td>
+<td>R$ 0.0</td>
+<td class="red">-inf%</td>
+<td>Small Cap</td>
+<td>0</td>
 </tr>
 
-<tr data-setor="Financial Services" data-categoria="Small Cap" data-score="0">
+<tr data-setor="Consumer Cyclical" data-categoria="Small Cap" data-desconto="-inf">
+<td><strong>AMER3</strong></td>
+<td>R$ 5.64</td>
+<td>R$ 0.0</td>
+<td class="red">-inf%</td>
+<td>Small Cap</td>
+<td>25</td>
+</tr>
+
+<tr data-setor="Financial Services" data-categoria="Small Cap" data-desconto="-inf">
 <td><strong>ADMF3</strong></td>
-<td>Financial Services</td>
-<td><span class="badge">Small Cap</span></td>
-<td>0.0</td>
-<td>0.0</td>
-<td>0%</td>
-<td>0%</td>
-<td><strong>0</strong></td>
+<td>R$ 9.5</td>
+<td>R$ 0.0</td>
+<td class="red">-inf%</td>
+<td>Small Cap</td>
+<td>0</td>
 </tr>
 
-<tr data-setor="Utilities" data-categoria="Small Cap" data-score="0">
+<tr data-setor="Healthcare" data-categoria="Small Cap" data-desconto="-inf">
+<td><strong>AALR3</strong></td>
+<td>R$ 5.2</td>
+<td>R$ 0.0</td>
+<td class="red">-inf%</td>
+<td>Small Cap</td>
+<td>25</td>
+</tr>
+
+<tr data-setor="Consumer Defensive" data-categoria="Small Cap" data-desconto="-inf">
+<td><strong>AGRO3</strong></td>
+<td>R$ 21.6</td>
+<td>R$ 0.0</td>
+<td class="red">-inf%</td>
+<td>Small Cap</td>
+<td>40</td>
+</tr>
+
+<tr data-setor="Basic Materials" data-categoria="Small Cap" data-desconto="-inf">
+<td><strong>BRKM5</strong></td>
+<td>R$ 9.51</td>
+<td>R$ 0.0</td>
+<td class="red">-inf%</td>
+<td>Small Cap</td>
+<td>0</td>
+</tr>
+
+<tr data-setor="Consumer Defensive" data-categoria="Small Cap" data-desconto="-inf">
+<td><strong>BEEF3</strong></td>
+<td>R$ 5.22</td>
+<td>R$ 0.0</td>
+<td class="red">-inf%</td>
+<td>Small Cap</td>
+<td>15</td>
+</tr>
+
+<tr data-setor="Energy" data-categoria="Mid Cap" data-desconto="-inf">
+<td><strong>CSAN3</strong></td>
+<td>R$ 6.51</td>
+<td>R$ 0.0</td>
+<td class="red">-inf%</td>
+<td>Mid Cap</td>
+<td>15</td>
+</tr>
+
+<tr data-setor="Financial Services" data-categoria="Small Cap" data-desconto="-inf">
+<td><strong>HAPV3</strong></td>
+<td>R$ 10.62</td>
+<td>R$ 0.0</td>
+<td class="red">-inf%</td>
+<td>Small Cap</td>
+<td>25</td>
+</tr>
+
+<tr data-setor="Real Estate" data-categoria="Small Cap" data-desconto="-inf">
+<td><strong>MRVE3</strong></td>
+<td>R$ 10.17</td>
+<td>R$ 0.0</td>
+<td class="red">-inf%</td>
+<td>Small Cap</td>
+<td>25</td>
+</tr>
+
+<tr data-setor="Consumer Cyclical" data-categoria="Small Cap" data-desconto="-inf">
+<td><strong>PCAR3</strong></td>
+<td>R$ 3.13</td>
+<td>R$ 0.0</td>
+<td class="red">-inf%</td>
+<td>Small Cap</td>
+<td>25</td>
+</tr>
+
+<tr data-setor="Utilities" data-categoria="Small Cap" data-desconto="-inf">
 <td><strong>RAIZ4</strong></td>
-<td>Utilities</td>
-<td><span class="badge">Small Cap</span></td>
-<td>0.0</td>
-<td>-4.16</td>
-<td>-231.28%</td>
-<td>0%</td>
-<td><strong>0</strong></td>
+<td>R$ 0.64</td>
+<td>R$ 0.0</td>
+<td class="red">-inf%</td>
+<td>Small Cap</td>
+<td>0</td>
+</tr>
+
+<tr data-setor="Basic Materials" data-categoria="Small Cap" data-desconto="-inf">
+<td><strong>USIM5</strong></td>
+<td>R$ 6.93</td>
+<td>R$ 0.0</td>
+<td class="red">-inf%</td>
+<td>Small Cap</td>
+<td>25</td>
 </tr>
 
 </tbody>
@@ -748,7 +665,7 @@ Ações do IBOV negociadas com desconto segundo métricas fundamentalistas.
 </div>
 
 <div class="footer">
-⚠️ Não constitui recomendação de investimento. Dados públicos para fins educacionais.
+⚠️ Modelo simplificado. Não é recomendação.
 <br>
 <a href="ranking_2026-02-27.csv" style="color:#38bdf8;">Baixar CSV</a>
 </div>
@@ -756,23 +673,17 @@ Ações do IBOV negociadas com desconto segundo métricas fundamentalistas.
 </div>
 
 <script>
-const ctx = document.getElementById('grafico');
-
-new Chart(ctx, {
+new Chart(document.getElementById('grafico'), {
     type: 'bar',
     data: {
-        labels: ['PETR4', 'PETR3', 'CYRE3', 'ABCB4', 'ALUP11', 'ENGI11', 'UGPA3', 'SUZB3', 'BBSE3', 'COGN3'],
+        labels: ['PRIO3', 'ABCB4', 'SUZB3', 'COGN3', 'CYRE3', 'PETR4', 'BBSE3', 'PETR3', 'ALUP11', 'BRAP4'],
         datasets: [{
-            label: 'Score',
-            data: [100, 100, 100, 85, 80, 75, 75, 75, 75, 65],
-            borderWidth: 1
+            label: 'Desconto %',
+            data: [71.07, 66.04, 63.94, 63.54, 59.62, 51.74, 49.98, 48.02, 43.04, 38.57],
         }]
     },
     options: {
         responsive: true,
-        plugins: {
-            legend: { display: false }
-        },
         scales: {
             y: { beginAtZero: true }
         }
