@@ -14,6 +14,17 @@ def get_ibov_tickers():
         "AALR3","ABCB4","ABEV3","ADMF3","AERI3","AGRO3","ALUP11","AMER3","AZUL4","B3SA3","BBAS3","BBSE3","BBDC4","BPAC11","BRAP4","BRFS3","BRKM5","BEEF3","CAML3","CCRO3","CIEL3","CMIN3","COGN3","CPFE3","CPLE6","CSAN3","CYRE3","DXCO3","ELET3","ELET6","EMBR3","ENGI11","ENEV3","EGIE3","FLRY3","GGBR4","GOAU4","HAPV3","IGTA3","IRBR3","ITAU4","ITSA4","JBSS3", "KLBN11", "LAME4", "LREN3", "MGLU3", "MRVE3", "MULT3", "PARD3", "PCAR3", "PETR3", "PETR4", "PRIO3", "RADL3", "RAIZ4", "RENT3", "SULA11", "SUZB3", "TAEE11", "TOTS3", "TRPL4", "UGPA3", "USIM5", "VALE3", "VIVT3", "WEGE3", "YDUQ2"
 
     ]
+# =========================
+# CLASSIFICAÇÃO MARKET CAP
+# =========================
+
+def classificar_cap(market_cap):
+    if market_cap >= 50_000_000_000:
+        return "Large Cap"
+    elif market_cap >= 10_000_000_000:
+        return "Mid Cap"
+    else:
+        return "Small Cap"
 
 # =========================
 # SCORE VALUE
@@ -52,6 +63,11 @@ def get_stock_data(tickers):
             acao = yf.Ticker(f"{ticker}.SA")
             info = acao.info
 
+            market_cap = info.get("marketCap")
+
+            if not market_cap:
+                continue
+
             dados.append({
                 "Ticker": ticker,
                 "Setor": info.get("sector", "Não informado"),
@@ -59,13 +75,14 @@ def get_stock_data(tickers):
                 "PVP": info.get("priceToBook") or 0,
                 "ROE": info.get("returnOnEquity") or 0,
                 "DivYield": info.get("dividendYield") or 0,
-                "MarketCap": info.get("marketCap") or 0
+                "MarketCap": market_cap,
+                "Categoria": classificar_cap(market_cap)
             })
 
-            time.sleep(0.4)
+            time.sleep(0.3)
 
-        except Exception as e:
-            print(f"Erro em {ticker}: {e}")
+        except Exception:
+            continue
 
     return pd.DataFrame(dados)
 
@@ -77,6 +94,10 @@ print("Buscando dados do IBOV...")
 
 tickers = get_ibov_tickers()
 df = get_stock_data(tickers)
+
+if df.empty:
+    print("Nenhum dado válido encontrado. Encerrando execução.")
+    exit()
 
 df["Score"] = df.apply(value_score, axis=1)
 df = df.sort_values("Score", ascending=False)
