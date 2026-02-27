@@ -141,80 +141,110 @@ html = f"""
 <html lang="pt-br">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Tá no Precinho?</title>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
 body {{
-    font-family: Arial, sans-serif;
-    margin: 40px;
-    background-color: #f4f6f9;
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: #0f172a;
+    color: #e2e8f0;
+}}
+
+.container {{
+    max-width: 1200px;
+    margin: auto;
+    padding: 40px 20px;
 }}
 
 h1 {{
-    color: #111827;
+    font-size: 32px;
+    margin-bottom: 5px;
+}}
+
+.subtitle {{
+    color: #94a3b8;
+    margin-bottom: 30px;
+}}
+
+.card {{
+    background: #1e293b;
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 25px;
 }}
 
 .filters {{
-    margin-bottom: 20px;
-    padding: 15px;
-    background: white;
-    border-radius: 8px;
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
 }}
 
 select, input {{
-    padding: 6px;
-    margin-right: 10px;
+    padding: 8px;
+    border-radius: 6px;
+    border: none;
 }}
 
 table {{
-    border-collapse: collapse;
     width: 100%;
-    background: white;
+    border-collapse: collapse;
 }}
 
-th, td {{
+th {{
+    background: #334155;
+    padding: 10px;
+}}
+
+td {{
     padding: 8px;
     text-align: center;
 }}
 
-th {{
-    background-color: #111827;
-    color: white;
+tr:nth-child(even) {{
+    background: #1e293b;
 }}
 
-tr:nth-child(even) {{
-    background-color: #f2f2f2;
+.badge {{
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 12px;
+    background: #2563eb;
 }}
 
 .footer {{
     margin-top: 40px;
-    font-size: 14px;
-    color: #6b7280;
+    font-size: 13px;
+    color: #64748b;
 }}
 </style>
 
 <script>
 function aplicarFiltros() {{
     let setor = document.getElementById("filtroSetor").value;
+    let categoria = document.getElementById("filtroCategoria").value;
     let scoreMin = parseFloat(document.getElementById("filtroScore").value) || 0;
 
     let linhas = document.querySelectorAll("tbody tr");
 
     linhas.forEach(linha => {{
         let setorLinha = linha.getAttribute("data-setor");
+        let categoriaLinha = linha.getAttribute("data-categoria");
         let scoreLinha = parseFloat(linha.getAttribute("data-score"));
 
         let mostrar = true;
 
-        if (setor !== "Todos" && setorLinha !== setor) {{
+        if (setor !== "Todos" && setorLinha !== setor)
             mostrar = false;
-        }}
 
-        if (scoreLinha < scoreMin) {{
+        if (categoria !== "Todos" && categoriaLinha !== categoria)
+            mostrar = false;
 
-Thiago Borzaquel, [26/02/2026 13:32]
-mostrar = false;
-        }}
+        if (scoreLinha < scoreMin)
+            mostrar = false;
 
         linha.style.display = mostrar ? "" : "none";
     }});
@@ -224,41 +254,66 @@ mostrar = false;
 </head>
 <body>
 
+<div class="container">
+
 <h1>📉 Tá no Precinho?</h1>
-
-<p>
-Ações do IBOVESPA negociadas com maior desconto segundo métricas fundamentalistas.
-</p>
-
-<p><strong>Data da atualização:</strong> {data_br}</p>
-
-<div class="filters">
-    <label>Setor:</label>
-    <select id="filtroSetor" onchange="aplicarFiltros()">
-        <option>Todos</option>
-"""
-
-for setor in setores_unicos:
-    html += f'<option>{setor}</option>'
-
-html += """
-    </select>
-
-    <label>Score mínimo:</label>
-    <input type="number" id="filtroScore" onchange="aplicarFiltros()" placeholder="Ex: 50">
+<div class="subtitle">
+Ações do IBOV negociadas com desconto segundo métricas fundamentalistas.
+<br>Atualizado em {data_br}
 </div>
 
-<h2>Ranking Completo</h2>
+<div class="card">
+<div class="filters">
+    <div>
+        <label>Setor</label><br>
+        <select id="filtroSetor" onchange="aplicarFiltros()">
+            <option>Todos</option>
+"""
 
+for s in setores_unicos:
+    html += f"<option>{s}</option>"
+
+html += """
+        </select>
+    </div>
+
+    <div>
+        <label>Categoria</label><br>
+        <select id="filtroCategoria" onchange="aplicarFiltros()">
+            <option>Todos</option>
+"""
+
+for c in sorted(df["Categoria"].unique()):
+    html += f"<option>{c}</option>"
+
+html += """
+        </select>
+    </div>
+
+    <div>
+        <label>Score mínimo</label><br>
+        <input type="number" id="filtroScore" onchange="aplicarFiltros()" placeholder="Ex: 50">
+    </div>
+</div>
+</div>
+
+<div class="card">
+<h2>🏆 Top 10 Score</h2>
+<canvas id="grafico"></canvas>
+</div>
+
+<div class="card">
+<h2>📊 Ranking Completo</h2>
 <table>
 <thead>
 <tr>
 <th>Ticker</th>
 <th>Setor</th>
+<th>Categoria</th>
 <th>P/L</th>
 <th>P/VP</th>
 <th>ROE</th>
-<th>Div Yield</th>
+<th>DY</th>
 <th>Score</th>
 </tr>
 </thead>
@@ -270,9 +325,10 @@ for _, row in df.iterrows():
     dy = round((row["DivYield"] or 0) * 100, 2)
 
     html += f"""
-<tr data-setor="{row['Setor']}" data-score="{row['Score']}">
-<td>{row['Ticker']}</td>
+<tr data-setor="{row['Setor']}" data-categoria="{row['Categoria']}" data-score="{row['Score']}">
+<td><strong>{row['Ticker']}</strong></td>
 <td>{row['Setor']}</td>
+<td><span class="badge">{row['Categoria']}</span></td>
 <td>{round(row['PL'],2)}</td>
 <td>{round(row['PVP'],2)}</td>
 <td>{roe}%</td>
@@ -284,17 +340,40 @@ for _, row in df.iterrows():
 html += f"""
 </tbody>
 </table>
-
-<h2>📊 Visualização</h2>
-<img src="grafico.png" width="700">
-
-<h2>⬇️ Download</h2>
-<p><a href="ranking_{hoje}.csv">Baixar ranking em CSV</a></p>
+</div>
 
 <div class="footer">
-⚠️ Este site não constitui recomendação de investimento.
-Dados públicos para fins educacionais.
+⚠️ Não constitui recomendação de investimento. Dados públicos para fins educacionais.
+<br>
+<a href="ranking_{hoje}.csv" style="color:#38bdf8;">Baixar CSV</a>
 </div>
+
+</div>
+
+<script>
+const ctx = document.getElementById('grafico');
+
+new Chart(ctx, {{
+    type: 'bar',
+    data: {{
+        labels: {list(top10["Ticker"])},
+        datasets: [{{
+            label: 'Score',
+            data: {list(top10["Score"])},
+            borderWidth: 1
+        }}]
+    }},
+    options: {{
+        responsive: true,
+        plugins: {{
+            legend: {{ display: false }}
+        }},
+        scales: {{
+            y: {{ beginAtZero: true }}
+        }}
+    }}
+}});
+</script>
 
 </body>
 </html>
