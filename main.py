@@ -188,95 +188,145 @@ html = f"""
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
+
+:root {{
+    --bg: #0f172a;
+    --card: #1e293b;
+    --card-light: #0f172a;
+    --accent: #3b82f6;
+    --text: #e2e8f0;
+    --muted: #94a3b8;
+}}
+
 body {{
     margin: 0;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    background: #0f172a;
-    color: #e2e8f0;
+    background: var(--bg);
+    color: var(--text);
 }}
 
 .container {{
-    max-width: 1300px;
+    max-width: 1200px;
     margin: auto;
-    padding: 40px 20px;
+    padding: 25px 16px;
 }}
 
 h1 {{
-    font-size: 32px;
+    font-size: 26px;
     margin-bottom: 5px;
 }}
 
 .subtitle {{
-    color: #94a3b8;
-    margin-bottom: 30px;
+    color: var(--muted);
+    margin-bottom: 25px;
+    font-size: 14px;
 }}
 
 .card {{
-    background: #1e293b;
-    padding: 20px;
+    background: var(--card);
+    padding: 18px;
     border-radius: 14px;
-    margin-bottom: 25px;
+    margin-bottom: 20px;
 }}
 
 .filters {{
     display: flex;
-    gap: 20px;
+    gap: 12px;
     flex-wrap: wrap;
 }}
 
 select, input {{
     padding: 8px;
-    border-radius: 6px;
+    border-radius: 8px;
     border: none;
+    font-size: 14px;
+}}
+
+.table-wrapper {{
+    overflow-x: auto;
 }}
 
 table {{
     width: 100%;
     border-collapse: collapse;
+    min-width: 900px;
 }}
 
 th {{
     background: #334155;
     padding: 10px;
     cursor: pointer;
+    position: relative;
+    font-size: 14px;
+}}
+
+th span {{
+    font-size: 10px;
+    margin-left: 5px;
+    opacity: 0.6;
+}}
+
+th.active span {{
+    opacity: 1;
+    color: var(--accent);
 }}
 
 td {{
     padding: 8px;
     text-align: center;
+    font-size: 13px;
 }}
 
 tr:nth-child(even) {{
-    background: #0f172a;
+    background: var(--card-light);
 }}
 
 .badge {{
     padding: 4px 8px;
-    border-radius: 6px;
-    font-size: 12px;
-    background: #2563eb;
+    border-radius: 8px;
+    font-size: 11px;
+    background: var(--accent);
 }}
 
 .grid {{
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 15px;
 }}
 
 .grafico-box {{
-    background: #0f172a;
-    padding: 15px;
+    background: var(--card-light);
+    padding: 12px;
     border-radius: 12px;
 }}
 
 .footer {{
-    margin-top: 40px;
-    font-size: 13px;
-    color: #64748b;
+    margin-top: 30px;
+    font-size: 12px;
+    color: var(--muted);
+    text-align: center;
 }}
+
+@media(max-width: 600px) {{
+    h1 {{
+        font-size: 22px;
+    }}
+
+    .filters {{
+        flex-direction: column;
+    }}
+
+    select, input {{
+        width: 100%;
+    }}
+}}
+
 </style>
 
 <script>
+
+let ordemAsc = false;
+
 function aplicarFiltros() {{
     let setor = document.getElementById("filtroSetor").value;
     let categoria = document.getElementById("filtroCategoria").value;
@@ -285,9 +335,9 @@ function aplicarFiltros() {{
     let linhas = document.querySelectorAll("tbody tr");
 
     linhas.forEach(linha => {{
-        let setorLinha = linha.getAttribute("data-setor");
-        let categoriaLinha = linha.getAttribute("data-categoria");
-        let scoreLinha = parseFloat(linha.getAttribute("data-score"));
+        let setorLinha = linha.dataset.setor;
+        let categoriaLinha = linha.dataset.categoria;
+        let scoreLinha = parseFloat(linha.dataset.score);
 
         let mostrar = true;
 
@@ -304,19 +354,27 @@ function aplicarFiltros() {{
     }});
 }}
 
-function ordenarTabela(coluna) {{
+function ordenarTabela(coluna, thElement) {{
     let tabela = document.querySelector("tbody");
     let linhas = Array.from(tabela.querySelectorAll("tr"));
 
-    linhas.sort((a, b) => {{
-        let valA = a.children[coluna].innerText.replace('%','');
-        let valB = b.children[coluna].innerText.replace('%','');
+    ordemAsc = !ordemAsc;
 
-        return parseFloat(valB) - parseFloat(valA);
+    document.querySelectorAll("th").forEach(th => th.classList.remove("active"));
+    thElement.classList.add("active");
+
+    linhas.sort((a, b) => {{
+        let valA = a.children[coluna].innerText.replace('%','').replace(',','.');
+        let valB = b.children[coluna].innerText.replace('%','').replace(',','.');
+
+        return ordemAsc 
+            ? parseFloat(valA) - parseFloat(valB)
+            : parseFloat(valB) - parseFloat(valA);
     }});
 
     linhas.forEach(l => tabela.appendChild(l));
 }}
+
 </script>
 
 </head>
@@ -326,7 +384,7 @@ function ordenarTabela(coluna) {{
 
 <h1>📉 Tá no Precinho?</h1>
 <div class="subtitle">
-Ações do IBOV negociadas com maior desconto segundo métricas fundamentalistas.<br>
+Ações do IBOV negociadas com desconto segundo métricas fundamentalistas.<br>
 Atualizado em {data_br}
 </div>
 
@@ -368,46 +426,48 @@ html += """
 </div>
 
 <div class="card">
-<h2>📊 Visualização</h2>
-
+<h2>📊 Gráficos</h2>
 <div class="grid">
+
 <div class="grafico-box">
 <h3>Top 10 Geral</h3>
 <canvas id="graficoTop10"></canvas>
 </div>
 
 <div class="grafico-box">
-<h3>Top Blue Chips</h3>
+<h3>Blue Chips</h3>
 <canvas id="graficoBlue"></canvas>
 </div>
 
 <div class="grafico-box">
-<h3>Top Mid Caps</h3>
+<h3>Mid Caps</h3>
 <canvas id="graficoMid"></canvas>
 </div>
 
 <div class="grafico-box">
-<h3>Top Small Caps</h3>
+<h3>Small Caps</h3>
 <canvas id="graficoSmall"></canvas>
 </div>
+
 </div>
 </div>
 
 <div class="card">
-<h2>📋 Ranking Completo</h2>
+<h2>📋 Ranking</h2>
 
+<div class="table-wrapper">
 <table>
 <thead>
 <tr>
-<th onclick="ordenarTabela(0)">Ticker</th>
-<th onclick="ordenarTabela(1)">Setor</th>
-<th onclick="ordenarTabela(2)">Categoria</th>
-<th onclick="ordenarTabela(3)">P/L</th>
-<th onclick="ordenarTabela(4)">P/VP</th>
-<th onclick="ordenarTabela(5)">ROE</th>
-<th onclick="ordenarTabela(6)">DY</th>
-<th onclick="ordenarTabela(7)">Score</th>
-<th onclick="ordenarTabela(8)">Desconto %</th>
+<th onclick="ordenarTabela(0,this)">Ticker</th>
+<th onclick="ordenarTabela(1,this)">Setor</th>
+<th onclick="ordenarTabela(2,this)">Categoria</th>
+<th onclick="ordenarTabela(3,this)">P/L <span>↕</span></th>
+<th onclick="ordenarTabela(4,this)">P/VP <span>↕</span></th>
+<th onclick="ordenarTabela(5,this)">ROE <span>↕</span></th>
+<th onclick="ordenarTabela(6,this)">DY <span>↕</span></th>
+<th onclick="ordenarTabela(7,this)">Score <span>↕</span></th>
+<th onclick="ordenarTabela(8,this)">Desconto % <span>↕</span></th>
 </tr>
 </thead>
 <tbody>
@@ -427,8 +487,8 @@ for _, row in df.iterrows():
 <td>{round(row['PVP'],2)}</td>
 <td>{roe}%</td>
 <td>{dy}%</td>
-<td><strong>{row['Score']}</strong></td>
-<td><strong>{desconto}%</strong></td>
+<td>{row['Score']}</td>
+<td>{desconto}%</td>
 </tr>
 """
 
@@ -436,15 +496,17 @@ html += f"""
 </tbody>
 </table>
 </div>
+</div>
 
 <div class="footer">
 ⚠️ Não constitui recomendação de investimento.<br>
-<a href="ranking_{hoje}.csv" style="color:#38bdf8;">Baixar CSV</a>
+<a href="ranking_{hoje}.csv" style="color:#3b82f6;">Baixar CSV</a>
 </div>
 
 </div>
 
 <script>
+
 function criarGrafico(id, labels, data) {{
     new Chart(document.getElementById(id), {{
         type: 'bar',
@@ -481,6 +543,7 @@ criarGrafico("graficoSmall",
 {list(top_small["Ticker"])},
 {list(top_small["Desconto_%"])}
 );
+
 </script>
 
 </body>
