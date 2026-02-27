@@ -4,6 +4,20 @@ import time
 import os
 import datetime
 
+traducao_setores = {
+    "Energy": "Energia",
+    "Basic Materials": "Materiais Básicos",
+    "Financial Services": "Serviços Financeiros",
+    "Healthcare": "Saúde",
+    "Industrials": "Indústria",
+    "Consumer Cyclical": "Consumo Cíclico",
+    "Consumer Defensive": "Consumo Defensivo",
+    "Utilities": "Utilidades Públicas",
+    "Real Estate": "Imobiliário",
+    "Communication Services": "Comunicação",
+    "Technology": "Tecnologia"
+}
+
 # =========================
 # LISTA IBOV (fixa segura)
 # =========================
@@ -20,11 +34,11 @@ def get_ibov_tickers():
 
 def classificar_cap(market_cap):
     if market_cap >= 50_000_000_000:
-        return "Large Cap"
+        return "Blue Chips"
     elif market_cap >= 10_000_000_000:
-        return "Mid Cap"
+        return "Mid Caps"
     else:
-        return "Small Cap"
+        return "Small Caps"
 
 # =========================
 # SCORE VALUE
@@ -89,7 +103,8 @@ def get_stock_data(tickers):
 
             dados.append({
                 "Ticker": ticker,
-                "Setor": info.get("sector", "Não informado"),
+                "setor_original": info.get("sector", "Não informado"),
+                "Setor": traducao_setores.get(info.get("sector", "Não informado"), info.get("sector", "Não informado")),
                 "PL": info.get("trailingPE") or 0,
                 "PVP": info.get("priceToBook") or 0,
                 "ROE": info.get("returnOnEquity") or 0,
@@ -135,7 +150,11 @@ df["Desconto_%"] = df["Desconto_%"].round(2)
 # Ordenar por maior desconto
 df = df.sort_values("Desconto_%", ascending=False)
 
-top10 = df.head(10)
+top10 = df.sort_values("Desconto_%", ascending=False).head(10)
+
+top_blue = df[df["Categoria"] == "Blue Chips"].sort_values("Desconto_%", ascending=False).head(5)
+top_mid = df[df["Categoria"] == "Mid Caps"].sort_values("Desconto_%", ascending=False).head(5)
+top_small = df[df["Categoria"] == "Small Caps"].sort_values("Desconto_%", ascending=False).head(5)
 
 # =========================
 # GERAR SITE
@@ -177,30 +196,31 @@ body {{
 }}
 
 .container {{
-    max-width: 1200px;
+    max-width: 1300px;
     margin: auto;
     padding: 40px 20px;
 }}
 
 h1 {{
     font-size: 32px;
+    margin-bottom: 5px;
 }}
 
 .subtitle {{
     color: #94a3b8;
-    margin-bottom: 25px;
+    margin-bottom: 30px;
 }}
 
 .card {{
     background: #1e293b;
     padding: 20px;
-    border-radius: 12px;
+    border-radius: 14px;
     margin-bottom: 25px;
 }}
 
 .filters {{
     display: flex;
-    gap: 15px;
+    gap: 20px;
     flex-wrap: wrap;
 }}
 
@@ -227,17 +247,26 @@ td {{
 }}
 
 tr:nth-child(even) {{
-    background: #1e293b;
+    background: #0f172a;
 }}
 
-.green {{
-    color: #22c55e;
-    font-weight: bold;
+.badge {{
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 12px;
+    background: #2563eb;
 }}
 
-.red {{
-    color: #ef4444;
-    font-weight: bold;
+.grid {{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+}}
+
+.grafico-box {{
+    background: #0f172a;
+    padding: 15px;
+    border-radius: 12px;
 }}
 
 .footer {{
@@ -251,14 +280,14 @@ tr:nth-child(even) {{
 function aplicarFiltros() {{
     let setor = document.getElementById("filtroSetor").value;
     let categoria = document.getElementById("filtroCategoria").value;
-    let descontoMin = parseFloat(document.getElementById("filtroDesconto").value) || -999;
+    let scoreMin = parseFloat(document.getElementById("filtroScore").value) || 0;
 
     let linhas = document.querySelectorAll("tbody tr");
 
     linhas.forEach(linha => {{
-        let setorLinha = linha.dataset.setor;
-        let categoriaLinha = linha.dataset.categoria;
-        let descontoLinha = parseFloat(linha.dataset.desconto);
+        let setorLinha = linha.getAttribute("data-setor");
+        let categoriaLinha = linha.getAttribute("data-categoria");
+        let scoreLinha = parseFloat(linha.getAttribute("data-score"));
 
         let mostrar = true;
 
@@ -268,7 +297,7 @@ function aplicarFiltros() {{
         if (categoria !== "Todos" && categoriaLinha !== categoria)
             mostrar = false;
 
-        if (descontoLinha < descontoMin)
+        if (scoreLinha < scoreMin)
             mostrar = false;
 
         linha.style.display = mostrar ? "" : "none";
@@ -276,17 +305,14 @@ function aplicarFiltros() {{
 }}
 
 function ordenarTabela(coluna) {{
-    let tabela = document.getElementById("tabela");
-    let linhas = Array.from(tabela.rows).slice(1);
-
-    let asc = tabela.dataset.sortAsc === "true";
-    tabela.dataset.sortAsc = !asc;
+    let tabela = document.querySelector("tbody");
+    let linhas = Array.from(tabela.querySelectorAll("tr"));
 
     linhas.sort((a, b) => {{
-        let valA = a.cells[coluna].innerText.replace("R$ ","").replace("%","");
-        let valB = b.cells[coluna].innerText.replace("R$ ","").replace("%","");
+        let valA = a.children[coluna].innerText.replace('%','');
+        let valB = b.children[coluna].innerText.replace('%','');
 
-        return asc ? valA - valB : valB - valA;
+        return parseFloat(valB) - parseFloat(valA);
     }});
 
     linhas.forEach(l => tabela.appendChild(l));
@@ -294,14 +320,13 @@ function ordenarTabela(coluna) {{
 </script>
 
 </head>
-
 <body>
 
 <div class="container">
 
 <h1>📉 Tá no Precinho?</h1>
 <div class="subtitle">
-Ações com estimativa de preço justo<br>
+Ações do IBOV negociadas com maior desconto segundo métricas fundamentalistas.<br>
 Atualizado em {data_br}
 </div>
 
@@ -314,7 +339,7 @@ Atualizado em {data_br}
 <option>Todos</option>
 """
 
-for s in setores:
+for s in sorted(df["Setor"].unique()):
     html += f"<option>{s}</option>"
 
 html += """
@@ -327,7 +352,7 @@ html += """
 <option>Todos</option>
 """
 
-for c in categorias:
+for c in sorted(df["Categoria"].unique()):
     html += f"<option>{c}</option>"
 
 html += """
@@ -335,45 +360,75 @@ html += """
 </div>
 
 <div>
-<label>Desconto mínimo (%)</label><br>
-<input type="number" id="filtroDesconto" onchange="aplicarFiltros()">
+<label>Score mínimo</label><br>
+<input type="number" id="filtroScore" onchange="aplicarFiltros()" placeholder="Ex: 50">
 </div>
 
 </div>
 </div>
 
 <div class="card">
-<h2>🏆 Top 10 Maiores Descontos</h2>
-<canvas id="grafico"></canvas>
+<h2>📊 Visualização</h2>
+
+<div class="grid">
+<div class="grafico-box">
+<h3>Top 10 Geral</h3>
+<canvas id="graficoTop10"></canvas>
+</div>
+
+<div class="grafico-box">
+<h3>Top Blue Chips</h3>
+<canvas id="graficoBlue"></canvas>
+</div>
+
+<div class="grafico-box">
+<h3>Top Mid Caps</h3>
+<canvas id="graficoMid"></canvas>
+</div>
+
+<div class="grafico-box">
+<h3>Top Small Caps</h3>
+<canvas id="graficoSmall"></canvas>
+</div>
+</div>
 </div>
 
 <div class="card">
-<h2>📊 Ranking Completo</h2>
-<table id="tabela" data-sort-asc="false">
+<h2>📋 Ranking Completo</h2>
+
+<table>
 <thead>
 <tr>
 <th onclick="ordenarTabela(0)">Ticker</th>
-<th onclick="ordenarTabela(1)">Preço</th>
-<th onclick="ordenarTabela(2)">Preço Justo</th>
-<th onclick="ordenarTabela(3)">Desconto %</th>
-<th onclick="ordenarTabela(4)">Categoria</th>
-<th onclick="ordenarTabela(5)">Score</th>
+<th onclick="ordenarTabela(1)">Setor</th>
+<th onclick="ordenarTabela(2)">Categoria</th>
+<th onclick="ordenarTabela(3)">P/L</th>
+<th onclick="ordenarTabela(4)">P/VP</th>
+<th onclick="ordenarTabela(5)">ROE</th>
+<th onclick="ordenarTabela(6)">DY</th>
+<th onclick="ordenarTabela(7)">Score</th>
+<th onclick="ordenarTabela(8)">Desconto %</th>
 </tr>
 </thead>
 <tbody>
 """
 
 for _, row in df.iterrows():
-    desconto_class = "green" if row["Desconto_%"] > 0 else "red"
+    roe = round((row["ROE"] or 0) * 100, 2)
+    dy = round((row["DivYield"] or 0) * 100, 2)
+    desconto = round(row["Desconto_%"], 2)
 
     html += f"""
-<tr data-setor="{row['Setor']}" data-categoria="{row['Categoria']}" data-desconto="{row['Desconto_%']}">
+<tr data-setor="{row['Setor']}" data-categoria="{row['Categoria']}" data-score="{row['Score']}">
 <td><strong>{row['Ticker']}</strong></td>
-<td>R$ {round(row['Preco'],2)}</td>
-<td>R$ {row['PrecoJusto']}</td>
-<td class="{desconto_class}">{row['Desconto_%']}%</td>
-<td>{row['Categoria']}</td>
-<td>{row['Score']}</td>
+<td>{row['Setor']}</td>
+<td><span class="badge">{row['Categoria']}</span></td>
+<td>{round(row['PL'],2)}</td>
+<td>{round(row['PVP'],2)}</td>
+<td>{roe}%</td>
+<td>{dy}%</td>
+<td><strong>{row['Score']}</strong></td>
+<td><strong>{desconto}%</strong></td>
 </tr>
 """
 
@@ -383,30 +438,49 @@ html += f"""
 </div>
 
 <div class="footer">
-⚠️ Modelo simplificado. Não é recomendação.
-<br>
+⚠️ Não constitui recomendação de investimento.<br>
 <a href="ranking_{hoje}.csv" style="color:#38bdf8;">Baixar CSV</a>
 </div>
 
 </div>
 
 <script>
-new Chart(document.getElementById('grafico'), {{
-    type: 'bar',
-    data: {{
-        labels: {list(top10["Ticker"])},
-        datasets: [{{
-            label: 'Desconto %',
-            data: {list(top10["Desconto_%"])},
-        }}]
-    }},
-    options: {{
-        responsive: true,
-        scales: {{
-            y: {{ beginAtZero: true }}
+function criarGrafico(id, labels, data) {{
+    new Chart(document.getElementById(id), {{
+        type: 'bar',
+        data: {{
+            labels: labels,
+            datasets: [{{
+                data: data
+            }}]
+        }},
+        options: {{
+            responsive: true,
+            plugins: {{ legend: {{ display: false }} }},
+            scales: {{ y: {{ beginAtZero: true }} }}
         }}
-    }}
-}});
+    }});
+}}
+
+criarGrafico("graficoTop10",
+{list(top10["Ticker"])},
+{list(top10["Desconto_%"])}
+);
+
+criarGrafico("graficoBlue",
+{list(top_blue["Ticker"])},
+{list(top_blue["Desconto_%"])}
+);
+
+criarGrafico("graficoMid",
+{list(top_mid["Ticker"])},
+{list(top_mid["Desconto_%"])}
+);
+
+criarGrafico("graficoSmall",
+{list(top_small["Ticker"])},
+{list(top_small["Desconto_%"])}
+);
 </script>
 
 </body>
