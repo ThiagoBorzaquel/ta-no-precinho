@@ -152,49 +152,87 @@ function aplicarFiltros() {
     let setor = document.getElementById("filtroSetor").value;
     let categoria = document.getElementById("filtroCategoria").value;
     let scoreMin = parseFloat(document.getElementById("filtroScore").value) || 0;
+    let quantidade = parseInt(document.getElementById("filtroQuantidade").value);
 
-    let linhas = document.querySelectorAll("tbody tr");
+    let linhas = Array.from(document.querySelectorAll("tbody tr"));
 
-    linhas.forEach(linha => {
+    let filtradas = linhas.filter(linha => {
         let setorLinha = linha.dataset.setor;
         let categoriaLinha = linha.dataset.categoria;
         let scoreLinha = parseFloat(linha.dataset.score);
 
-        let mostrar = true;
+        if (setor !== "Todos" && setorLinha !== setor) return false;
+        if (categoria !== "Todos" && categoriaLinha !== categoria) return false;
+        if (scoreLinha < scoreMin) return false;
 
-        if (setor !== "Todos" && setorLinha !== setor)
-            mostrar = false;
+        return true;
+    });
 
-        if (categoria !== "Todos" && categoriaLinha !== categoria)
-            mostrar = false;
+    linhas.forEach(l => l.style.display = "none");
 
-        if (scoreLinha < scoreMin)
-            mostrar = false;
-
-        linha.style.display = mostrar ? "" : "none";
+    filtradas.slice(0, quantidade).forEach(l => {
+        l.style.display = "";
     });
 }
 
-function ordenarTabela(coluna, thElement) {
+function ordenarTabela(coluna) {
     let tabela = document.querySelector("tbody");
     let linhas = Array.from(tabela.querySelectorAll("tr"));
 
     ordemAsc = !ordemAsc;
 
-    document.querySelectorAll("th").forEach(th => th.classList.remove("active"));
-    thElement.classList.add("active");
-
     linhas.sort((a, b) => {
         let valA = a.children[coluna].innerText.replace('%','').replace(',','.');
         let valB = b.children[coluna].innerText.replace('%','').replace(',','.');
 
-        return ordemAsc 
+        return ordemAsc
             ? parseFloat(valA) - parseFloat(valB)
             : parseFloat(valB) - parseFloat(valA);
     });
 
     linhas.forEach(l => tabela.appendChild(l));
 }
+
+function criarGrafico(id, labels, data) {
+    new Chart(document.getElementById(id), {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                data: data
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: { legend: { display: false } },
+            scales: { y: { beginAtZero: true } }
+        }
+    });
+}
+
+window.onload = function() {
+    criarGrafico("graficoTop10",
+        ['PRIO3', 'ABCB4', 'COGN3', 'SUZB3', 'CYRE3', 'BBSE3', 'PETR4', 'PETR3', 'ALUP11', 'BRAP4'],
+        [68.42, 67.75, 65.73, 65.05, 61.93, 51.41, 50.69, 46.35, 45.92, 42.4]
+    );
+
+    criarGrafico("graficoBlue",
+        ['SUZB3', 'BBSE3', 'PETR4', 'PETR3', 'BBDC4'],
+        [65.05, 51.41, 50.69, 46.35, 37.0]
+    );
+
+    criarGrafico("graficoMid",
+        ['PRIO3', 'CYRE3', 'ALUP11', 'UGPA3', 'LREN3'],
+        [68.42, 61.93, 45.92, 38.15, 27.31]
+    );
+
+    criarGrafico("graficoSmall",
+        ['ABCB4', 'COGN3', 'BRAP4', 'IRBR3', 'CAML3'],
+        [67.75, 65.73, 42.4, 18.01, 4.49]
+    );
+
+    aplicarFiltros();
+};
 
 </script>
 
@@ -204,6 +242,7 @@ function ordenarTabela(coluna, thElement) {
 <div class="container">
 
 <h1>📉 Tá no Precinho?</h1>
+
 <div class="subtitle">
 Ações do IBOV negociadas com desconto segundo métricas fundamentalistas.<br>
 Atualizado em 03/03/2026
@@ -211,6 +250,18 @@ Atualizado em 03/03/2026
 
 <div class="card">
 <div class="filters">
+
+<div>
+<label>Quantidade</label><br>
+<select id="filtroQuantidade" onchange="aplicarFiltros()">
+<option value="20" selected>20</option>
+<option value="30">30</option>
+<option value="40">40</option>
+<option value="50">50</option>
+<option value="100">100</option>
+<option value="9999">Todos</option>
+</select>
+</div>
 
 <div>
 <label>Setor</label><br>
@@ -266,19 +317,18 @@ Atualizado em 03/03/2026
 <div class="card">
 <h2>📋 Ranking</h2>
 
-<div class="table-wrapper">
 <table>
 <thead>
 <tr>
-<th onclick="ordenarTabela(0,this)">Ticker</th>
-<th onclick="ordenarTabela(1,this)">Setor</th>
-<th onclick="ordenarTabela(2,this)">Categoria</th>
-<th onclick="ordenarTabela(3,this)">P/L <span>↕</span></th>
-<th onclick="ordenarTabela(4,this)">P/VP <span>↕</span></th>
-<th onclick="ordenarTabela(5,this)">ROE <span>↕</span></th>
-<th onclick="ordenarTabela(6,this)">DY <span>↕</span></th>
-<th onclick="ordenarTabela(7,this)">Score <span>↕</span></th>
-<th onclick="ordenarTabela(8,this)">Desconto % <span>↕</span></th>
+<th onclick="ordenarTabela(0)">Ticker</th>
+<th onclick="ordenarTabela(1)">Setor</th>
+<th onclick="ordenarTabela(2)">Categoria</th>
+<th onclick="ordenarTabela(3)">P/L</th>
+<th onclick="ordenarTabela(4)">P/VP</th>
+<th onclick="ordenarTabela(5)">ROE</th>
+<th onclick="ordenarTabela(6)">DY</th>
+<th onclick="ordenarTabela(7)">Score</th>
+<th onclick="ordenarTabela(8)">Desconto %</th>
 </tr>
 </thead>
 <tbody>
@@ -287,18 +337,27 @@ Atualizado em 03/03/2026
 <td><strong>PRIO3</strong></td>
 <td>Energia</td>
 <td><span class="badge">Mid Caps</span></td>
+<<<<<<< HEAD
 <td>4.73</td>
+=======
+<td>4.74</td>
+>>>>>>> fbbe77c (Adiciona atualização filtros tickers)
 <td>1.79</td>
 <td>45.54%</td>
 <td>0%</td>
 <td>60</td>
+<<<<<<< HEAD
 <td>68.49%</td>
+=======
+<td>68.42%</td>
+>>>>>>> fbbe77c (Adiciona atualização filtros tickers)
 </tr>
 
 <tr data-setor="Serviços Financeiros" data-categoria="Small Caps" data-score="85">
 <td><strong>ABCB4</strong></td>
 <td>Serviços Financeiros</td>
 <td><span class="badge">Small Caps</span></td>
+<<<<<<< HEAD
 <td>5.03</td>
 <td>0.96</td>
 <td>15.46%</td>
@@ -317,27 +376,57 @@ Atualizado em 03/03/2026
 <td>193.0%</td>
 <td>75</td>
 <td>64.23%</td>
+=======
+<td>4.84</td>
+<td>0.92</td>
+<td>15.46%</td>
+<td>1137.0%</td>
+<td>85</td>
+<td>67.75%</td>
+>>>>>>> fbbe77c (Adiciona atualização filtros tickers)
 </tr>
 
 <tr data-setor="Consumo Defensivo" data-categoria="Small Caps" data-score="65">
 <td><strong>COGN3</strong></td>
 <td>Consumo Defensivo</td>
 <td><span class="badge">Small Caps</span></td>
+<<<<<<< HEAD
 <td>5.41</td>
 <td>0.54</td>
 <td>10.89%</td>
 <td>501.0%</td>
 <td>65</td>
 <td>63.96%</td>
+=======
+<td>5.14</td>
+<td>0.51</td>
+<td>10.89%</td>
+<td>507.0%</td>
+<td>65</td>
+<td>65.73%</td>
+</tr>
+
+<tr data-setor="Materiais Básicos" data-categoria="Blue Chips" data-score="75">
+<td><strong>SUZB3</strong></td>
+<td>Materiais Básicos</td>
+<td><span class="badge">Blue Chips</span></td>
+<td>5.24</td>
+<td>1.6</td>
+<td>35.19%</td>
+<td>192.0%</td>
+<td>75</td>
+<td>65.05%</td>
+>>>>>>> fbbe77c (Adiciona atualização filtros tickers)
 </tr>
 
 <tr data-setor="Consumo Cíclico" data-categoria="Mid Caps" data-score="100">
 <td><strong>CYRE3</strong></td>
 <td>Consumo Cíclico</td>
 <td><span class="badge">Mid Caps</span></td>
-<td>6.08</td>
-<td>1.08</td>
+<td>5.71</td>
+<td>1.01</td>
 <td>20.09%</td>
+<<<<<<< HEAD
 <td>1237.0%</td>
 <td>100</td>
 <td>59.46%</td>
@@ -353,180 +442,330 @@ Atualizado em 03/03/2026
 <td>1179.0%</td>
 <td>100</td>
 <td>50.51%</td>
+=======
+<td>1239.0%</td>
+<td>100</td>
+<td>61.93%</td>
+>>>>>>> fbbe77c (Adiciona atualização filtros tickers)
 </tr>
 
 <tr data-setor="Serviços Financeiros" data-categoria="Blue Chips" data-score="75">
 <td><strong>BBSE3</strong></td>
 <td>Serviços Financeiros</td>
 <td><span class="badge">Blue Chips</span></td>
+<<<<<<< HEAD
 <td>7.47</td>
 <td>6.5</td>
 <td>89.81%</td>
 <td>1503.0%</td>
 <td>75</td>
 <td>50.18%</td>
+=======
+<td>7.29</td>
+<td>6.34</td>
+<td>89.81%</td>
+<td>1500.0%</td>
+<td>75</td>
+<td>51.41%</td>
+</tr>
+
+<tr data-setor="Energia" data-categoria="Blue Chips" data-score="100">
+<td><strong>PETR4</strong></td>
+<td>Energia</td>
+<td><span class="badge">Blue Chips</span></td>
+<td>7.4</td>
+<td>1.25</td>
+<td>19.02%</td>
+<td>1128.0%</td>
+<td>100</td>
+<td>50.69%</td>
+>>>>>>> fbbe77c (Adiciona atualização filtros tickers)
 </tr>
 
 <tr data-setor="Energia" data-categoria="Blue Chips" data-score="100">
 <td><strong>PETR3</strong></td>
 <td>Energia</td>
 <td><span class="badge">Blue Chips</span></td>
+<<<<<<< HEAD
 <td>8.07</td>
+=======
+<td>8.05</td>
+>>>>>>> fbbe77c (Adiciona atualização filtros tickers)
 <td>1.36</td>
 <td>19.02%</td>
-<td>1085.0%</td>
+<td>1037.0%</td>
 <td>100</td>
+<<<<<<< HEAD
 <td>46.2%</td>
+=======
+<td>46.35%</td>
+>>>>>>> fbbe77c (Adiciona atualização filtros tickers)
 </tr>
 
 <tr data-setor="Utilidades Públicas" data-categoria="Mid Caps" data-score="80">
 <td><strong>ALUP11</strong></td>
 <td>Utilidades Públicas</td>
 <td><span class="badge">Mid Caps</span></td>
+<<<<<<< HEAD
 <td>8.39</td>
 <td>1.28</td>
 <td>14.23%</td>
 <td>269.0%</td>
 <td>80</td>
 <td>44.08%</td>
+=======
+<td>8.11</td>
+<td>1.24</td>
+<td>14.23%</td>
+<td>274.0%</td>
+<td>80</td>
+<td>45.92%</td>
+>>>>>>> fbbe77c (Adiciona atualização filtros tickers)
 </tr>
 
 <tr data-setor="Serviços Financeiros" data-categoria="Small Caps" data-score="65">
 <td><strong>BRAP4</strong></td>
 <td>Serviços Financeiros</td>
 <td><span class="badge">Small Caps</span></td>
+<<<<<<< HEAD
 <td>9.2</td>
 <td>1.07</td>
 <td>12.6%</td>
 <td>1404.0%</td>
 <td>65</td>
 <td>38.69%</td>
+=======
+<td>8.64</td>
+<td>1.01</td>
+<td>12.6%</td>
+<td>1404.0%</td>
+<td>65</td>
+<td>42.4%</td>
+>>>>>>> fbbe77c (Adiciona atualização filtros tickers)
 </tr>
 
 <tr data-setor="Energia" data-categoria="Mid Caps" data-score="75">
 <td><strong>UGPA3</strong></td>
 <td>Energia</td>
 <td><span class="badge">Mid Caps</span></td>
+<<<<<<< HEAD
 <td>9.63</td>
 <td>1.69</td>
 <td>18.76%</td>
 <td>678.0%</td>
 <td>75</td>
 <td>35.79%</td>
+=======
+<td>9.28</td>
+<td>1.62</td>
+<td>18.76%</td>
+<td>675.0%</td>
+<td>75</td>
+<td>38.15%</td>
+>>>>>>> fbbe77c (Adiciona atualização filtros tickers)
 </tr>
 
 <tr data-setor="Serviços Financeiros" data-categoria="Blue Chips" data-score="80">
 <td><strong>BBDC4</strong></td>
 <td>Serviços Financeiros</td>
 <td><span class="badge">Blue Chips</span></td>
+<<<<<<< HEAD
 <td>9.97</td>
 <td>1.26</td>
 <td>13.75%</td>
 <td>108.0%</td>
 <td>80</td>
 <td>33.55%</td>
+=======
+<td>9.45</td>
+<td>1.19</td>
+<td>13.75%</td>
+<td>107.0%</td>
+<td>80</td>
+<td>37.0%</td>
+>>>>>>> fbbe77c (Adiciona atualização filtros tickers)
 </tr>
 
-<tr data-setor="Indústria" data-categoria="Blue Chips" data-score="50">
+<tr data-setor="Indústria" data-categoria="Blue Chips" data-score="75">
 <td><strong>ITSA4</strong></td>
 <td>Indústria</td>
 <td><span class="badge">Blue Chips</span></td>
+<<<<<<< HEAD
 <td>10.25</td>
 <td>1.72</td>
 <td>17.06%</td>
 <td>68.0%</td>
 <td>50</td>
 <td>31.69%</td>
+=======
+<td>9.69</td>
+<td>1.62</td>
+<td>17.06%</td>
+<td>69.0%</td>
+<td>75</td>
+<td>35.41%</td>
+>>>>>>> fbbe77c (Adiciona atualização filtros tickers)
 </tr>
 
-<tr data-setor="Utilidades Públicas" data-categoria="Blue Chips" data-score="50">
+<tr data-setor="Utilidades Públicas" data-categoria="Blue Chips" data-score="75">
 <td><strong>CPFE3</strong></td>
 <td>Utilidades Públicas</td>
 <td><span class="badge">Blue Chips</span></td>
+<<<<<<< HEAD
 <td>10.44</td>
 <td>2.51</td>
 <td>25.48%</td>
 <td>555.0%</td>
 <td>50</td>
 <td>30.42%</td>
+=======
+<td>9.91</td>
+<td>2.39</td>
+<td>25.48%</td>
+<td>565.0%</td>
+<td>75</td>
+<td>33.95%</td>
+>>>>>>> fbbe77c (Adiciona atualização filtros tickers)
 </tr>
 
 <tr data-setor="Serviços Financeiros" data-categoria="Blue Chips" data-score="55">
 <td><strong>BBAS3</strong></td>
 <td>Serviços Financeiros</td>
 <td><span class="badge">Blue Chips</span></td>
-<td>11.23</td>
-<td>0.83</td>
+<td>10.66</td>
+<td>0.79</td>
 <td>8.88%</td>
 <td>104.0%</td>
 <td>55</td>
+<<<<<<< HEAD
 <td>25.14%</td>
+=======
+<td>28.94%</td>
+>>>>>>> fbbe77c (Adiciona atualização filtros tickers)
 </tr>
 
-<tr data-setor="Consumo Cíclico" data-categoria="Mid Caps" data-score="30">
+<tr data-setor="Consumo Cíclico" data-categoria="Mid Caps" data-score="55">
 <td><strong>LREN3</strong></td>
 <td>Consumo Cíclico</td>
 <td><span class="badge">Mid Caps</span></td>
+<<<<<<< HEAD
 <td>11.58</td>
 <td>1.51</td>
 <td>13.56%</td>
 <td>585.0%</td>
 <td>30</td>
 <td>22.79%</td>
+=======
+<td>10.9</td>
+<td>1.42</td>
+<td>13.56%</td>
+<td>587.0%</td>
+<td>55</td>
+<td>27.31%</td>
+>>>>>>> fbbe77c (Adiciona atualização filtros tickers)
 </tr>
 
 <tr data-setor="Materiais Básicos" data-categoria="Mid Caps" data-score="50">
 <td><strong>CMIN3</strong></td>
 <td>Materiais Básicos</td>
 <td><span class="badge">Mid Caps</span></td>
+<<<<<<< HEAD
 <td>12.13</td>
 <td>2.94</td>
 <td>25.95%</td>
 <td>961.0%</td>
 <td>50</td>
 <td>19.11%</td>
+=======
+<td>11.67</td>
+<td>2.82</td>
+<td>25.95%</td>
+<td>957.0%</td>
+<td>50</td>
+<td>22.22%</td>
+>>>>>>> fbbe77c (Adiciona atualização filtros tickers)
 </tr>
 
 <tr data-setor="Utilidades Públicas" data-categoria="Mid Caps" data-score="50">
 <td><strong>EGIE3</strong></td>
 <td>Utilidades Públicas</td>
 <td><span class="badge">Mid Caps</span></td>
+<<<<<<< HEAD
 <td>12.52</td>
 <td>2.98</td>
 <td>21.82%</td>
 <td>464.0%</td>
 <td>50</td>
 <td>16.52%</td>
+=======
+<td>12.05</td>
+<td>2.86</td>
+<td>21.82%</td>
+<td>469.0%</td>
+<td>50</td>
+<td>19.65%</td>
+>>>>>>> fbbe77c (Adiciona atualização filtros tickers)
 </tr>
 
 <tr data-setor="Serviços Financeiros" data-categoria="Small Caps" data-score="25">
 <td><strong>IRBR3</strong></td>
 <td>Serviços Financeiros</td>
 <td><span class="badge">Small Caps</span></td>
+<<<<<<< HEAD
 <td>12.82</td>
 <td>0.94</td>
 <td>10.59%</td>
 <td>0%</td>
 <td>25</td>
 <td>14.53%</td>
+=======
+<td>12.3</td>
+<td>0.9</td>
+<td>10.59%</td>
+<td>0%</td>
+<td>25</td>
+<td>18.01%</td>
+>>>>>>> fbbe77c (Adiciona atualização filtros tickers)
 </tr>
 
 <tr data-setor="Materiais Básicos" data-categoria="Mid Caps" data-score="55">
 <td><strong>GGBR4</strong></td>
 <td>Materiais Básicos</td>
 <td><span class="badge">Mid Caps</span></td>
+<<<<<<< HEAD
 <td>13.96</td>
 <td>0.77</td>
 <td>2.53%</td>
 <td>191.0%</td>
 <td>55</td>
 <td>6.94%</td>
+=======
+<td>13.13</td>
+<td>0.72</td>
+<td>2.53%</td>
+<td>192.0%</td>
+<td>55</td>
+<td>12.48%</td>
+</tr>
+
+<tr data-setor="Consumo Defensivo" data-categoria="Small Caps" data-score="40">
+<td><strong>CAML3</strong></td>
+<td>Consumo Defensivo</td>
+<td><span class="badge">Small Caps</span></td>
+<td>14.33</td>
+<td>0.65</td>
+<td>4.69%</td>
+<td>597.0%</td>
+<td>40</td>
+<td>4.49%</td>
+>>>>>>> fbbe77c (Adiciona atualização filtros tickers)
 </tr>
 
 <tr data-setor="Imobiliário" data-categoria="Mid Caps" data-score="50">
 <td><strong>MULT3</strong></td>
 <td>Imobiliário</td>
 <td><span class="badge">Mid Caps</span></td>
+<<<<<<< HEAD
 <td>14.83</td>
 <td>2.65</td>
 <td>19.11%</td>
@@ -545,84 +784,147 @@ Atualizado em 03/03/2026
 <td>1108.0%</td>
 <td>40</td>
 <td>0.43%</td>
+=======
+<td>14.33</td>
+<td>2.56</td>
+<td>19.11%</td>
+<td>359.0%</td>
+<td>50</td>
+<td>4.49%</td>
+>>>>>>> fbbe77c (Adiciona atualização filtros tickers)
 </tr>
 
 <tr data-setor="Saúde" data-categoria="Small Caps" data-score="15">
 <td><strong>FLRY3</strong></td>
 <td>Saúde</td>
 <td><span class="badge">Small Caps</span></td>
+<<<<<<< HEAD
 <td>15.36</td>
 <td>1.71</td>
 <td>10.62%</td>
 <td>1123.0%</td>
 <td>15</td>
 <td>-2.42%</td>
+=======
+<td>15.04</td>
+<td>1.67</td>
+<td>10.62%</td>
+<td>1118.0%</td>
+<td>15</td>
+<td>-0.24%</td>
+>>>>>>> fbbe77c (Adiciona atualização filtros tickers)
 </tr>
 
 <tr data-setor="Consumo Defensivo" data-categoria="Blue Chips" data-score="50">
 <td><strong>ABEV3</strong></td>
 <td>Consumo Defensivo</td>
 <td><span class="badge">Blue Chips</span></td>
+<<<<<<< HEAD
 <td>17.11</td>
 <td>2.83</td>
 <td>16.98%</td>
 <td>1467.0%</td>
 <td>50</td>
 <td>-14.05%</td>
+=======
+<td>16.48</td>
+<td>2.72</td>
+<td>16.98%</td>
+<td>1500.0%</td>
+<td>50</td>
+<td>-9.89%</td>
+>>>>>>> fbbe77c (Adiciona atualização filtros tickers)
 </tr>
 
 <tr data-setor="Consumo Cíclico" data-categoria="Small Caps" data-score="40">
 <td><strong>MGLU3</strong></td>
 <td>Consumo Cíclico</td>
 <td><span class="badge">Small Caps</span></td>
+<<<<<<< HEAD
 <td>19.15</td>
 <td>0.64</td>
 <td>3.31%</td>
 <td>311.0%</td>
 <td>40</td>
 <td>-27.64%</td>
+=======
+<td>18.1</td>
+<td>0.6</td>
+<td>3.31%</td>
+<td>316.0%</td>
+<td>40</td>
+<td>-20.69%</td>
+>>>>>>> fbbe77c (Adiciona atualização filtros tickers)
 </tr>
 
 <tr data-setor="Serviços Financeiros" data-categoria="Blue Chips" data-score="50">
 <td><strong>B3SA3</strong></td>
 <td>Serviços Financeiros</td>
 <td><span class="badge">Blue Chips</span></td>
+<<<<<<< HEAD
 <td>20.1</td>
 <td>5.34</td>
 <td>25.59%</td>
 <td>332.0%</td>
 <td>50</td>
 <td>-33.99%</td>
+=======
+<td>18.82</td>
+<td>5.0</td>
+<td>25.59%</td>
+<td>321.0%</td>
+<td>50</td>
+<td>-25.43%</td>
+>>>>>>> fbbe77c (Adiciona atualização filtros tickers)
 </tr>
 
 <tr data-setor="Comunicação" data-categoria="Blue Chips" data-score="30">
 <td><strong>VIVT3</strong></td>
 <td>Comunicação</td>
 <td><span class="badge">Blue Chips</span></td>
+<<<<<<< HEAD
 <td>22.13</td>
 <td>1.97</td>
 <td>8.9%</td>
 <td>257.0%</td>
 <td>30</td>
 <td>-47.5%</td>
+=======
+<td>21.5</td>
+<td>1.91</td>
+<td>8.9%</td>
+<td>263.0%</td>
+<td>30</td>
+<td>-43.32%</td>
+>>>>>>> fbbe77c (Adiciona atualização filtros tickers)
 </tr>
 
 <tr data-setor="Materiais Básicos" data-categoria="Mid Caps" data-score="55">
 <td><strong>GOAU4</strong></td>
 <td>Materiais Básicos</td>
 <td><span class="badge">Mid Caps</span></td>
+<<<<<<< HEAD
 <td>25.75</td>
 <td>0.64</td>
 <td>2.52%</td>
 <td>214.0%</td>
 <td>55</td>
 <td>-71.67%</td>
+=======
+<td>24.39</td>
+<td>0.61</td>
+<td>2.52%</td>
+<td>216.0%</td>
+<td>55</td>
+<td>-62.59%</td>
+>>>>>>> fbbe77c (Adiciona atualização filtros tickers)
 </tr>
 
 <tr data-setor="Tecnologia" data-categoria="Mid Caps" data-score="50">
 <td><strong>TOTS3</strong></td>
 <td>Tecnologia</td>
 <td><span class="badge">Mid Caps</span></td>
+<<<<<<< HEAD
 <td>26.48</td>
 <td>4.3</td>
 <td>16.14%</td>
@@ -653,12 +955,21 @@ Atualizado em 03/03/2026
 <td>779.0%</td>
 <td>30</td>
 <td>-107.68%</td>
+=======
+<td>25.62</td>
+<td>4.16</td>
+<td>16.14%</td>
+<td>163.0%</td>
+<td>50</td>
+<td>-70.83%</td>
+>>>>>>> fbbe77c (Adiciona atualização filtros tickers)
 </tr>
 
 <tr data-setor="Indústria" data-categoria="Blue Chips" data-score="30">
 <td><strong>RENT3</strong></td>
 <td>Indústria</td>
 <td><span class="badge">Blue Chips</span></td>
+<<<<<<< HEAD
 <td>31.16</td>
 <td>2.14</td>
 <td>13.19%</td>
@@ -679,76 +990,176 @@ Atualizado em 03/03/2026
 <td>-107.76%</td>
 </tr>
 
+=======
+<td>28.71</td>
+<td>2.06</td>
+<td>7.21%</td>
+<td>399.0%</td>
+<td>30</td>
+<td>-91.42%</td>
+</tr>
+
+<tr data-setor="Materiais Básicos" data-categoria="Blue Chips" data-score="30">
+<td><strong>VALE3</strong></td>
+<td>Materiais Básicos</td>
+<td><span class="badge">Blue Chips</span></td>
+<td>29.41</td>
+<td>1.92</td>
+<td>5.87%</td>
+<td>782.0%</td>
+<td>30</td>
+<td>-96.05%</td>
+</tr>
+
+<tr data-setor="Saúde" data-categoria="Mid Caps" data-score="50">
+<td><strong>RADL3</strong></td>
+<td>Saúde</td>
+<td><span class="badge">Mid Caps</span></td>
+<td>29.86</td>
+<td>5.89</td>
+<td>20.38%</td>
+<td>156.0%</td>
+<td>50</td>
+<td>-99.07%</td>
+</tr>
+
+<tr data-setor="Materiais Básicos" data-categoria="Blue Chips" data-score="30">
+<td><strong>KLBN11</strong></td>
+<td>Materiais Básicos</td>
+<td><span class="badge">Blue Chips</span></td>
+<td>30.02</td>
+<td>3.09</td>
+<td>14.57%</td>
+<td>794.0%</td>
+<td>30</td>
+<td>-100.2%</td>
+</tr>
+
+>>>>>>> fbbe77c (Adiciona atualização filtros tickers)
 <tr data-setor="Indústria" data-categoria="Blue Chips" data-score="50">
 <td><strong>WEGE3</strong></td>
 <td>Indústria</td>
 <td><span class="badge">Blue Chips</span></td>
+<<<<<<< HEAD
 <td>31.41</td>
 <td>11.73</td>
 <td>32.51%</td>
 <td>328.0%</td>
 <td>50</td>
 <td>-109.42%</td>
+=======
+<td>30.17</td>
+<td>11.19</td>
+<td>32.51%</td>
+<td>335.0%</td>
+<td>50</td>
+<td>-101.13%</td>
+>>>>>>> fbbe77c (Adiciona atualização filtros tickers)
 </tr>
 
 <tr data-setor="Utilidades Públicas" data-categoria="Mid Caps" data-score="75">
 <td><strong>ENGI11</strong></td>
 <td>Utilidades Públicas</td>
 <td><span class="badge">Mid Caps</span></td>
+<<<<<<< HEAD
 <td>38.8</td>
 <td>1.11</td>
 <td>19.87%</td>
 <td>608.0%</td>
 <td>75</td>
 <td>-158.65%</td>
+=======
+<td>37.2</td>
+<td>1.06</td>
+<td>19.87%</td>
+<td>611.0%</td>
+<td>75</td>
+<td>-147.97%</td>
+>>>>>>> fbbe77c (Adiciona atualização filtros tickers)
 </tr>
 
 <tr data-setor="Utilidades Públicas" data-categoria="Mid Caps" data-score="50">
 <td><strong>TAEE11</strong></td>
 <td>Utilidades Públicas</td>
 <td><span class="badge">Mid Caps</span></td>
+<<<<<<< HEAD
 <td>38.92</td>
 <td>1.96</td>
 <td>23.59%</td>
 <td>731.0%</td>
 <td>50</td>
 <td>-159.46%</td>
+=======
+<td>37.67</td>
+<td>1.88</td>
+<td>23.59%</td>
+<td>741.0%</td>
+<td>50</td>
+<td>-151.11%</td>
+>>>>>>> fbbe77c (Adiciona atualização filtros tickers)
 </tr>
 
 <tr data-setor="Materiais Básicos" data-categoria="Small Caps" data-score="40">
 <td><strong>DXCO3</strong></td>
 <td>Materiais Básicos</td>
 <td><span class="badge">Small Caps</span></td>
+<<<<<<< HEAD
 <td>44.42</td>
 <td>0.72</td>
 <td>1.95%</td>
 <td>88.0%</td>
 <td>40</td>
 <td>-196.11%</td>
+=======
+<td>43.25</td>
+<td>0.7</td>
+<td>1.95%</td>
+<td>90.0%</td>
+<td>40</td>
+<td>-188.33%</td>
+>>>>>>> fbbe77c (Adiciona atualização filtros tickers)
 </tr>
 
 <tr data-setor="Serviços Financeiros" data-categoria="Blue Chips" data-score="50">
 <td><strong>BPAC11</strong></td>
 <td>Serviços Financeiros</td>
 <td><span class="badge">Blue Chips</span></td>
+<<<<<<< HEAD
 <td>99.5</td>
 <td>4.2</td>
 <td>23.87%</td>
 <td>228.0%</td>
 <td>50</td>
 <td>-563.3%</td>
+=======
+<td>92.02</td>
+<td>3.89</td>
+<td>23.87%</td>
+<td>228.0%</td>
+<td>50</td>
+<td>-513.68%</td>
+>>>>>>> fbbe77c (Adiciona atualização filtros tickers)
 </tr>
 
 <tr data-setor="Utilidades Públicas" data-categoria="Mid Caps" data-score="15">
 <td><strong>ENEV3</strong></td>
 <td>Utilidades Públicas</td>
 <td><span class="badge">Mid Caps</span></td>
+<<<<<<< HEAD
 <td>141.87</td>
 <td>2.05</td>
 <td>2.93%</td>
 <td>0%</td>
 <td>15</td>
 <td>-845.78%</td>
+=======
+<td>145.5</td>
+<td>1.97</td>
+<td>2.93%</td>
+<td>0%</td>
+<td>15</td>
+<td>-870.0%</td>
+>>>>>>> fbbe77c (Adiciona atualização filtros tickers)
 </tr>
 
 <tr data-setor="Indústria" data-categoria="Small Caps" data-score="0">
@@ -756,7 +1167,7 @@ Atualizado em 03/03/2026
 <td>Indústria</td>
 <td><span class="badge">Small Caps</span></td>
 <td>0.0</td>
-<td>-0.82</td>
+<td>-0.81</td>
 <td>-300.45%</td>
 <td>0%</td>
 <td>0</td>
@@ -768,7 +1179,11 @@ Atualizado em 03/03/2026
 <td>Consumo Cíclico</td>
 <td><span class="badge">Small Caps</span></td>
 <td>0.0</td>
+<<<<<<< HEAD
 <td>0.23</td>
+=======
+<td>0.22</td>
+>>>>>>> fbbe77c (Adiciona atualização filtros tickers)
 <td>-15.06%</td>
 <td>0%</td>
 <td>25</td>
@@ -792,7 +1207,11 @@ Atualizado em 03/03/2026
 <td>Saúde</td>
 <td><span class="badge">Small Caps</span></td>
 <td>0.0</td>
+<<<<<<< HEAD
 <td>0.7</td>
+=======
+<td>0.71</td>
+>>>>>>> fbbe77c (Adiciona atualização filtros tickers)
 <td>-6.19%</td>
 <td>0%</td>
 <td>25</td>
@@ -804,7 +1223,11 @@ Atualizado em 03/03/2026
 <td>Consumo Defensivo</td>
 <td><span class="badge">Small Caps</span></td>
 <td>0.0</td>
+<<<<<<< HEAD
 <td>1.02</td>
+=======
+<td>1.01</td>
+>>>>>>> fbbe77c (Adiciona atualização filtros tickers)
 <td>-0.07%</td>
 <td>352.0%</td>
 <td>40</td>
@@ -816,7 +1239,11 @@ Atualizado em 03/03/2026
 <td>Materiais Básicos</td>
 <td><span class="badge">Small Caps</span></td>
 <td>0.0</td>
+<<<<<<< HEAD
 <td>-2.09</td>
+=======
+<td>-2.04</td>
+>>>>>>> fbbe77c (Adiciona atualização filtros tickers)
 <td>0%</td>
 <td>0%</td>
 <td>0</td>
@@ -828,9 +1255,15 @@ Atualizado em 03/03/2026
 <td>Consumo Defensivo</td>
 <td><span class="badge">Small Caps</span></td>
 <td>0.0</td>
+<<<<<<< HEAD
 <td>3.89</td>
 <td>-50.41%</td>
 <td>1261.0%</td>
+=======
+<td>3.81</td>
+<td>-50.41%</td>
+<td>1291.0%</td>
+>>>>>>> fbbe77c (Adiciona atualização filtros tickers)
 <td>15</td>
 <td>-inf%</td>
 </tr>
@@ -840,7 +1273,11 @@ Atualizado em 03/03/2026
 <td>Energia</td>
 <td><span class="badge">Mid Caps</span></td>
 <td>0.0</td>
+<<<<<<< HEAD
 <td>1.94</td>
+=======
+<td>1.83</td>
+>>>>>>> fbbe77c (Adiciona atualização filtros tickers)
 <td>-29.68%</td>
 <td>0%</td>
 <td>15</td>
@@ -852,7 +1289,7 @@ Atualizado em 03/03/2026
 <td>Serviços Financeiros</td>
 <td><span class="badge">Small Caps</span></td>
 <td>0.0</td>
-<td>0.11</td>
+<td>0.1</td>
 <td>-0.64%</td>
 <td>0%</td>
 <td>25</td>
@@ -864,7 +1301,11 @@ Atualizado em 03/03/2026
 <td>Imobiliário</td>
 <td><span class="badge">Small Caps</span></td>
 <td>0.0</td>
+<<<<<<< HEAD
 <td>1.07</td>
+=======
+<td>1.01</td>
+>>>>>>> fbbe77c (Adiciona atualização filtros tickers)
 <td>-19.69%</td>
 <td>0%</td>
 <td>25</td>
@@ -876,7 +1317,11 @@ Atualizado em 03/03/2026
 <td>Consumo Cíclico</td>
 <td><span class="badge">Small Caps</span></td>
 <td>0.0</td>
+<<<<<<< HEAD
 <td>0.73</td>
+=======
+<td>0.66</td>
+>>>>>>> fbbe77c (Adiciona atualização filtros tickers)
 <td>-25.47%</td>
 <td>0%</td>
 <td>25</td>
@@ -888,7 +1333,11 @@ Atualizado em 03/03/2026
 <td>Utilidades Públicas</td>
 <td><span class="badge">Small Caps</span></td>
 <td>0.0</td>
+<<<<<<< HEAD
 <td>-4.22</td>
+=======
+<td>-4.09</td>
+>>>>>>> fbbe77c (Adiciona atualização filtros tickers)
 <td>-231.28%</td>
 <td>0%</td>
 <td>0</td>
@@ -900,7 +1349,7 @@ Atualizado em 03/03/2026
 <td>Materiais Básicos</td>
 <td><span class="badge">Small Caps</span></td>
 <td>0.0</td>
-<td>0.41</td>
+<td>0.39</td>
 <td>-11.55%</td>
 <td>0%</td>
 <td>25</td>
@@ -909,8 +1358,6 @@ Atualizado em 03/03/2026
 
 </tbody>
 </table>
-</div>
-</div>
 
 <div class="footer">
 ⚠️ Não constitui recomendação de investimento.<br>
@@ -919,6 +1366,7 @@ Atualizado em 03/03/2026
 
 </div>
 
+<<<<<<< HEAD
 <script>
 
 function criarGrafico(id, labels, data) {
@@ -960,5 +1408,7 @@ criarGrafico("graficoSmall",
 
 </script>
 
+=======
+>>>>>>> fbbe77c (Adiciona atualização filtros tickers)
 </body>
 </html>

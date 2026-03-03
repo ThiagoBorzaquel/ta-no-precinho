@@ -331,49 +331,87 @@ function aplicarFiltros() {{
     let setor = document.getElementById("filtroSetor").value;
     let categoria = document.getElementById("filtroCategoria").value;
     let scoreMin = parseFloat(document.getElementById("filtroScore").value) || 0;
+    let quantidade = parseInt(document.getElementById("filtroQuantidade").value);
 
-    let linhas = document.querySelectorAll("tbody tr");
+    let linhas = Array.from(document.querySelectorAll("tbody tr"));
 
-    linhas.forEach(linha => {{
+    let filtradas = linhas.filter(linha => {{
         let setorLinha = linha.dataset.setor;
         let categoriaLinha = linha.dataset.categoria;
         let scoreLinha = parseFloat(linha.dataset.score);
 
-        let mostrar = true;
+        if (setor !== "Todos" && setorLinha !== setor) return false;
+        if (categoria !== "Todos" && categoriaLinha !== categoria) return false;
+        if (scoreLinha < scoreMin) return false;
 
-        if (setor !== "Todos" && setorLinha !== setor)
-            mostrar = false;
+        return true;
+    }});
 
-        if (categoria !== "Todos" && categoriaLinha !== categoria)
-            mostrar = false;
+    linhas.forEach(l => l.style.display = "none");
 
-        if (scoreLinha < scoreMin)
-            mostrar = false;
-
-        linha.style.display = mostrar ? "" : "none";
+    filtradas.slice(0, quantidade).forEach(l => {{
+        l.style.display = "";
     }});
 }}
 
-function ordenarTabela(coluna, thElement) {{
+function ordenarTabela(coluna) {{
     let tabela = document.querySelector("tbody");
     let linhas = Array.from(tabela.querySelectorAll("tr"));
 
     ordemAsc = !ordemAsc;
 
-    document.querySelectorAll("th").forEach(th => th.classList.remove("active"));
-    thElement.classList.add("active");
-
     linhas.sort((a, b) => {{
         let valA = a.children[coluna].innerText.replace('%','').replace(',','.');
         let valB = b.children[coluna].innerText.replace('%','').replace(',','.');
 
-        return ordemAsc 
+        return ordemAsc
             ? parseFloat(valA) - parseFloat(valB)
             : parseFloat(valB) - parseFloat(valA);
     }});
 
     linhas.forEach(l => tabela.appendChild(l));
 }}
+
+function criarGrafico(id, labels, data) {{
+    new Chart(document.getElementById(id), {{
+        type: 'bar',
+        data: {{
+            labels: labels,
+            datasets: [{{
+                data: data
+            }}]
+        }},
+        options: {{
+            responsive: true,
+            plugins: {{ legend: {{ display: false }} }},
+            scales: {{ y: {{ beginAtZero: true }} }}
+        }}
+    }});
+}}
+
+window.onload = function() {{
+    criarGrafico("graficoTop10",
+        {list(top10["Ticker"])},
+        {list(top10["Desconto_%"])}
+    );
+
+    criarGrafico("graficoBlue",
+        {list(top_blue["Ticker"])},
+        {list(top_blue["Desconto_%"])}
+    );
+
+    criarGrafico("graficoMid",
+        {list(top_mid["Ticker"])},
+        {list(top_mid["Desconto_%"])}
+    );
+
+    criarGrafico("graficoSmall",
+        {list(top_small["Ticker"])},
+        {list(top_small["Desconto_%"])}
+    );
+
+    aplicarFiltros();
+}};
 
 </script>
 
@@ -383,6 +421,7 @@ function ordenarTabela(coluna, thElement) {{
 <div class="container">
 
 <h1>📉 Tá no Precinho?</h1>
+
 <div class="subtitle">
 Ações do IBOV negociadas com desconto segundo métricas fundamentalistas.<br>
 Atualizado em {data_br}
@@ -392,12 +431,24 @@ Atualizado em {data_br}
 <div class="filters">
 
 <div>
+<label>Quantidade</label><br>
+<select id="filtroQuantidade" onchange="aplicarFiltros()">
+<option value="20" selected>20</option>
+<option value="30">30</option>
+<option value="40">40</option>
+<option value="50">50</option>
+<option value="100">100</option>
+<option value="9999">Todos</option>
+</select>
+</div>
+
+<div>
 <label>Setor</label><br>
 <select id="filtroSetor" onchange="aplicarFiltros()">
 <option>Todos</option>
 """
 
-for s in sorted(df["Setor"].unique()):
+for s in setores:
     html += f"<option>{s}</option>"
 
 html += """
@@ -410,7 +461,7 @@ html += """
 <option>Todos</option>
 """
 
-for c in sorted(df["Categoria"].unique()):
+for c in categorias:
     html += f"<option>{c}</option>"
 
 html += """
@@ -455,19 +506,18 @@ html += """
 <div class="card">
 <h2>📋 Ranking</h2>
 
-<div class="table-wrapper">
 <table>
 <thead>
 <tr>
-<th onclick="ordenarTabela(0,this)">Ticker</th>
-<th onclick="ordenarTabela(1,this)">Setor</th>
-<th onclick="ordenarTabela(2,this)">Categoria</th>
-<th onclick="ordenarTabela(3,this)">P/L <span>↕</span></th>
-<th onclick="ordenarTabela(4,this)">P/VP <span>↕</span></th>
-<th onclick="ordenarTabela(5,this)">ROE <span>↕</span></th>
-<th onclick="ordenarTabela(6,this)">DY <span>↕</span></th>
-<th onclick="ordenarTabela(7,this)">Score <span>↕</span></th>
-<th onclick="ordenarTabela(8,this)">Desconto % <span>↕</span></th>
+<th onclick="ordenarTabela(0)">Ticker</th>
+<th onclick="ordenarTabela(1)">Setor</th>
+<th onclick="ordenarTabela(2)">Categoria</th>
+<th onclick="ordenarTabela(3)">P/L</th>
+<th onclick="ordenarTabela(4)">P/VP</th>
+<th onclick="ordenarTabela(5)">ROE</th>
+<th onclick="ordenarTabela(6)">DY</th>
+<th onclick="ordenarTabela(7)">Score</th>
+<th onclick="ordenarTabela(8)">Desconto %</th>
 </tr>
 </thead>
 <tbody>
@@ -495,8 +545,6 @@ for _, row in df.iterrows():
 html += f"""
 </tbody>
 </table>
-</div>
-</div>
 
 <div class="footer">
 ⚠️ Não constitui recomendação de investimento.<br>
@@ -504,47 +552,6 @@ html += f"""
 </div>
 
 </div>
-
-<script>
-
-function criarGrafico(id, labels, data) {{
-    new Chart(document.getElementById(id), {{
-        type: 'bar',
-        data: {{
-            labels: labels,
-            datasets: [{{
-                data: data
-            }}]
-        }},
-        options: {{
-            responsive: true,
-            plugins: {{ legend: {{ display: false }} }},
-            scales: {{ y: {{ beginAtZero: true }} }}
-        }}
-    }});
-}}
-
-criarGrafico("graficoTop10",
-{list(top10["Ticker"])},
-{list(top10["Desconto_%"])}
-);
-
-criarGrafico("graficoBlue",
-{list(top_blue["Ticker"])},
-{list(top_blue["Desconto_%"])}
-);
-
-criarGrafico("graficoMid",
-{list(top_mid["Ticker"])},
-{list(top_mid["Desconto_%"])}
-);
-
-criarGrafico("graficoSmall",
-{list(top_small["Ticker"])},
-{list(top_small["Desconto_%"])}
-);
-
-</script>
 
 </body>
 </html>
