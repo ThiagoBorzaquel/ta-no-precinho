@@ -481,7 +481,7 @@ html += """
 <div class="grid">
 
 <div class="grafico-box">
-<h3>Top 10 Geral</h3>
+<h3>Mais descontadas do dia🔥</h3>
 <canvas id="graficoTop10"></canvas>
 </div>
 
@@ -525,7 +525,7 @@ html += """
 
 for _, row in df.iterrows():
     roe = round((row["ROE"] or 0) * 100, 2)
-    dy = round((row["DivYield"] or 0) * 100, 2)
+    dy = round(row["DivYield"] or 0, 2)
     desconto = round(row["Desconto_%"], 2)
 
     html += f"""
