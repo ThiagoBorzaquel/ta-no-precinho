@@ -193,43 +193,53 @@ function ordenarTabela(coluna) {
     linhas.forEach(l => tabela.appendChild(l));
 }
 
-function criarGrafico(id, labels, data) {
+function criarGrafico(id, labels, data, cor) {
     new Chart(document.getElementById(id), {
         type: 'bar',
         data: {
             labels: labels,
             datasets: [{
-                data: data
+                data: data,
+                backgroundColor: cor,
+                borderRadius: 6
             }]
         },
         options: {
             responsive: true,
-            plugins: { legend: { display: false } },
-            scales: { y: { beginAtZero: true } }
+            plugins: { 
+                legend: { display: false } 
+            },
+            scales: { 
+                y: { beginAtZero: true } 
+            }
         }
     });
 }
 
 window.onload = function() {
     criarGrafico("graficoTop10",
-        ['PRIO3', 'ABCB4', 'COGN3', 'SUZB3', 'CYRE3', 'BBSE3', 'PETR4', 'ALUP11', 'PETR3', 'BRAP4'],
-        [68.48, 67.12, 65.52, 64.95, 61.79, 51.2, 50.2, 45.89, 45.87, 42.07]
-    );
+    ['RSID3', 'ESTR4', 'MNPR3', 'NORD3', 'FICT3', 'RVEE3', 'BDLL4', 'LIGT3', 'BDLL3', 'MWET4'],
+    [99.22, 98.66, 96.14, 95.37, 94.74, 94.34, 94.15, 94.03, 93.3, 92.88],
+    "#ef4444"   // vermelho destaque
+);
 
-    criarGrafico("graficoBlue",
-        ['SUZB3', 'BBSE3', 'PETR4', 'PETR3', 'BBDC4'],
-        [64.95, 51.2, 50.2, 45.87, 36.78]
-    );
+criarGrafico("graficoBlue",
+    ['SUZB3', 'BBSE3', 'PETR4', 'BPAC5', 'PETR3'],
+    [64.84, 51.17, 50.2, 48.0, 45.87],
+    "#3b82f6"
+);
 
-    criarGrafico("graficoMid",
-        ['PRIO3', 'CYRE3', 'ALUP11', 'UGPA3', 'LREN3'],
-        [68.48, 61.79, 45.89, 37.76, 26.97]
-    );
+criarGrafico("graficoMid",
+    ['BNBR3', 'PRIO3', 'CMIG4', 'CYRE3', 'SAPR4'],
+    [71.51, 68.95, 66.49, 61.67, 58.59],
+    "#22c55e"
+);
 
-    criarGrafico("graficoSmall",
-        ['ABCB4', 'COGN3', 'BRAP4', 'IRBR3', 'CAML3'],
-        [67.12, 65.52, 42.07, 19.43, 4.35]
-    );
+criarGrafico("graficoSmall",
+    ['RSID3', 'ESTR4', 'MNPR3', 'NORD3', 'FICT3'],
+    [99.22, 98.66, 96.14, 95.37, 94.74],
+    "#facc15"
+);
 
     aplicarFiltros();
 };
@@ -267,7 +277,7 @@ Atualizado em 03/03/2026
 <label>Setor</label><br>
 <select id="filtroSetor" onchange="aplicarFiltros()">
 <option>Todos</option>
-<option>Comunicação</option><option>Consumo Cíclico</option><option>Consumo Defensivo</option><option>Energia</option><option>Imobiliário</option><option>Indústria</option><option>Materiais Básicos</option><option>Saúde</option><option>Serviços Financeiros</option><option>Tecnologia</option><option>Utilidades Públicas</option>
+<option>Comunicação</option><option>Consumo Cíclico</option><option>Consumo Defensivo</option><option>Energia</option><option>Imobiliário</option><option>Indústria</option><option>Materiais Básicos</option><option>Não informado</option><option>Saúde</option><option>Serviços Financeiros</option><option>Tecnologia</option><option>Utilidades Públicas</option>
 </select>
 </div>
 
@@ -333,64 +343,904 @@ Atualizado em 03/03/2026
 </thead>
 <tbody>
 
+<tr data-setor="Consumo Cíclico" data-categoria="Small Caps" data-score="25">
+<td><strong>RSID3</strong></td>
+<td>Consumo Cíclico</td>
+<td><span class="badge">Small Caps</span></td>
+<td>0.12</td>
+<td>-0.03</td>
+<td>0%</td>
+<td>0%</td>
+<td>25</td>
+<td>99.22%</td>
+</tr>
+
+<tr data-setor="Consumo Cíclico" data-categoria="Small Caps" data-score="25">
+<td><strong>ESTR4</strong></td>
+<td>Consumo Cíclico</td>
+<td><span class="badge">Small Caps</span></td>
+<td>0.2</td>
+<td>-0.2</td>
+<td>0%</td>
+<td>0%</td>
+<td>25</td>
+<td>98.66%</td>
+</tr>
+
+<tr data-setor="Consumo Defensivo" data-categoria="Small Caps" data-score="50">
+<td><strong>MNPR3</strong></td>
+<td>Consumo Defensivo</td>
+<td><span class="badge">Small Caps</span></td>
+<td>0.58</td>
+<td>1.49</td>
+<td>0%</td>
+<td>0%</td>
+<td>50</td>
+<td>96.14%</td>
+</tr>
+
+<tr data-setor="Serviços Financeiros" data-categoria="Small Caps" data-score="25">
+<td><strong>NORD3</strong></td>
+<td>Serviços Financeiros</td>
+<td><span class="badge">Small Caps</span></td>
+<td>0.69</td>
+<td>-0.21</td>
+<td>0%</td>
+<td>0%</td>
+<td>25</td>
+<td>95.37%</td>
+</tr>
+
+<tr data-setor="Comunicação" data-categoria="Small Caps" data-score="50">
+<td><strong>FICT3</strong></td>
+<td>Comunicação</td>
+<td><span class="badge">Small Caps</span></td>
+<td>0.79</td>
+<td>0.44</td>
+<td>-47.56%</td>
+<td>0%</td>
+<td>50</td>
+<td>94.74%</td>
+</tr>
+
+<tr data-setor="Indústria" data-categoria="Small Caps" data-score="25">
+<td><strong>RVEE3</strong></td>
+<td>Indústria</td>
+<td><span class="badge">Small Caps</span></td>
+<td>0.85</td>
+<td>0.0</td>
+<td>0%</td>
+<td>0%</td>
+<td>25</td>
+<td>94.34%</td>
+</tr>
+
+<tr data-setor="Indústria" data-categoria="Small Caps" data-score="25">
+<td><strong>BDLL4</strong></td>
+<td>Indústria</td>
+<td><span class="badge">Small Caps</span></td>
+<td>0.88</td>
+<td>-0.04</td>
+<td>0%</td>
+<td>0%</td>
+<td>25</td>
+<td>94.15%</td>
+</tr>
+
+<tr data-setor="Utilidades Públicas" data-categoria="Small Caps" data-score="70">
+<td><strong>LIGT3</strong></td>
+<td>Utilidades Públicas</td>
+<td><span class="badge">Small Caps</span></td>
+<td>0.9</td>
+<td>0.32</td>
+<td>54.21%</td>
+<td>0%</td>
+<td>70</td>
+<td>94.03%</td>
+</tr>
+
+<tr data-setor="Indústria" data-categoria="Small Caps" data-score="25">
+<td><strong>BDLL3</strong></td>
+<td>Indústria</td>
+<td><span class="badge">Small Caps</span></td>
+<td>1.0</td>
+<td>-0.05</td>
+<td>0%</td>
+<td>0%</td>
+<td>25</td>
+<td>93.3%</td>
+</tr>
+
+<tr data-setor="Consumo Cíclico" data-categoria="Small Caps" data-score="45">
+<td><strong>MWET4</strong></td>
+<td>Consumo Cíclico</td>
+<td><span class="badge">Small Caps</span></td>
+<td>1.07</td>
+<td>2.85</td>
+<td>639.9%</td>
+<td>0%</td>
+<td>45</td>
+<td>92.88%</td>
+</tr>
+
+<tr data-setor="Tecnologia" data-categoria="Small Caps" data-score="85">
+<td><strong>ALLD3</strong></td>
+<td>Tecnologia</td>
+<td><span class="badge">Small Caps</span></td>
+<td>1.98</td>
+<td>0.4</td>
+<td>21.95%</td>
+<td>31.59%</td>
+<td>85</td>
+<td>86.81%</td>
+</tr>
+
+<tr data-setor="Serviços Financeiros" data-categoria="Small Caps" data-score="85">
+<td><strong>BSLI3</strong></td>
+<td>Serviços Financeiros</td>
+<td><span class="badge">Small Caps</span></td>
+<td>2.28</td>
+<td>0.56</td>
+<td>25.13%</td>
+<td>12.66%</td>
+<td>85</td>
+<td>84.82%</td>
+</tr>
+
+<tr data-setor="Serviços Financeiros" data-categoria="Small Caps" data-score="85">
+<td><strong>BSLI4</strong></td>
+<td>Serviços Financeiros</td>
+<td><span class="badge">Small Caps</span></td>
+<td>2.28</td>
+<td>0.56</td>
+<td>25.13%</td>
+<td>13.6%</td>
+<td>85</td>
+<td>84.82%</td>
+</tr>
+
+<tr data-setor="Consumo Cíclico" data-categoria="Small Caps" data-score="25">
+<td><strong>CTKA4</strong></td>
+<td>Consumo Cíclico</td>
+<td><span class="badge">Small Caps</span></td>
+<td>2.3</td>
+<td>4.72</td>
+<td>0%</td>
+<td>0%</td>
+<td>25</td>
+<td>84.65%</td>
+</tr>
+
+<tr data-setor="Consumo Cíclico" data-categoria="Small Caps" data-score="70">
+<td><strong>CEDO4</strong></td>
+<td>Consumo Cíclico</td>
+<td><span class="badge">Small Caps</span></td>
+<td>2.38</td>
+<td>0.33</td>
+<td>15.02%</td>
+<td>0%</td>
+<td>70</td>
+<td>84.15%</td>
+</tr>
+
+<tr data-setor="Consumo Cíclico" data-categoria="Small Caps" data-score="25">
+<td><strong>CTKA3</strong></td>
+<td>Consumo Cíclico</td>
+<td><span class="badge">Small Caps</span></td>
+<td>2.68</td>
+<td>5.5</td>
+<td>0%</td>
+<td>0%</td>
+<td>25</td>
+<td>82.11%</td>
+</tr>
+
+<tr data-setor="Consumo Cíclico" data-categoria="Small Caps" data-score="85">
+<td><strong>BMKS3</strong></td>
+<td>Consumo Cíclico</td>
+<td><span class="badge">Small Caps</span></td>
+<td>2.93</td>
+<td>0.71</td>
+<td>26.64%</td>
+<td>31.01%</td>
+<td>85</td>
+<td>80.46%</td>
+</tr>
+
+<tr data-setor="Indústria" data-categoria="Small Caps" data-score="85">
+<td><strong>EALT3</strong></td>
+<td>Indústria</td>
+<td><span class="badge">Small Caps</span></td>
+<td>3.15</td>
+<td>0.88</td>
+<td>33.3%</td>
+<td>8.22%</td>
+<td>85</td>
+<td>79.01%</td>
+</tr>
+
+<tr data-setor="Indústria" data-categoria="Small Caps" data-score="85">
+<td><strong>EALT4</strong></td>
+<td>Indústria</td>
+<td><span class="badge">Small Caps</span></td>
+<td>3.18</td>
+<td>0.89</td>
+<td>33.3%</td>
+<td>3.25%</td>
+<td>85</td>
+<td>78.8%</td>
+</tr>
+
+<tr data-setor="Consumo Cíclico" data-categoria="Small Caps" data-score="25">
+<td><strong>HOOT4</strong></td>
+<td>Consumo Cíclico</td>
+<td><span class="badge">Small Caps</span></td>
+<td>3.95</td>
+<td>-4.11</td>
+<td>0%</td>
+<td>0%</td>
+<td>25</td>
+<td>73.67%</td>
+</tr>
+
+<tr data-setor="Indústria" data-categoria="Small Caps" data-score="65">
+<td><strong>CALI3</strong></td>
+<td>Indústria</td>
+<td><span class="badge">Small Caps</span></td>
+<td>4.01</td>
+<td>0.67</td>
+<td>14.54%</td>
+<td>1.57%</td>
+<td>65</td>
+<td>73.26%</td>
+</tr>
+
+<tr data-setor="Materiais Básicos" data-categoria="Small Caps" data-score="70">
+<td><strong>MGEL4</strong></td>
+<td>Materiais Básicos</td>
+<td><span class="badge">Small Caps</span></td>
+<td>4.03</td>
+<td>1.15</td>
+<td>32.6%</td>
+<td>0%</td>
+<td>70</td>
+<td>73.11%</td>
+</tr>
+
+<tr data-setor="Serviços Financeiros" data-categoria="Small Caps" data-score="85">
+<td><strong>BAZA3</strong></td>
+<td>Serviços Financeiros</td>
+<td><span class="badge">Small Caps</span></td>
+<td>4.14</td>
+<td>0.67</td>
+<td>15.24%</td>
+<td>9.06%</td>
+<td>85</td>
+<td>72.38%</td>
+</tr>
+
+<tr data-setor="Serviços Financeiros" data-categoria="Small Caps" data-score="85">
+<td><strong>BRSR6</strong></td>
+<td>Serviços Financeiros</td>
+<td><span class="badge">Small Caps</span></td>
+<td>4.26</td>
+<td>0.64</td>
+<td>15.67%</td>
+<td>7.86%</td>
+<td>85</td>
+<td>71.6%</td>
+</tr>
+
+<tr data-setor="Serviços Financeiros" data-categoria="Mid Caps" data-score="100">
+<td><strong>BNBR3</strong></td>
+<td>Serviços Financeiros</td>
+<td><span class="badge">Mid Caps</span></td>
+<td>4.27</td>
+<td>0.78</td>
+<td>19.41%</td>
+<td>4.94%</td>
+<td>100</td>
+<td>71.51%</td>
+</tr>
+
+<tr data-setor="Consumo Cíclico" data-categoria="Small Caps" data-score="60">
+<td><strong>VULC3</strong></td>
+<td>Consumo Cíclico</td>
+<td><span class="badge">Small Caps</span></td>
+<td>4.42</td>
+<td>1.96</td>
+<td>51.65%</td>
+<td>41.4%</td>
+<td>60</td>
+<td>70.56%</td>
+</tr>
+
+<tr data-setor="Utilidades Públicas" data-categoria="Small Caps" data-score="65">
+<td><strong>CBEE3</strong></td>
+<td>Utilidades Públicas</td>
+<td><span class="badge">Small Caps</span></td>
+<td>4.5</td>
+<td>0.45</td>
+<td>8.27%</td>
+<td>4.19%</td>
+<td>65</td>
+<td>69.97%</td>
+</tr>
+
+<tr data-setor="Serviços Financeiros" data-categoria="Small Caps" data-score="85">
+<td><strong>BRSR5</strong></td>
+<td>Serviços Financeiros</td>
+<td><span class="badge">Small Caps</span></td>
+<td>4.51</td>
+<td>0.67</td>
+<td>15.67%</td>
+<td>6.75%</td>
+<td>85</td>
+<td>69.93%</td>
+</tr>
+
+<tr data-setor="Serviços Financeiros" data-categoria="Small Caps" data-score="85">
+<td><strong>BRSR3</strong></td>
+<td>Serviços Financeiros</td>
+<td><span class="badge">Small Caps</span></td>
+<td>4.57</td>
+<td>0.68</td>
+<td>15.67%</td>
+<td>6.43%</td>
+<td>85</td>
+<td>69.51%</td>
+</tr>
+
+<tr data-setor="Serviços Financeiros" data-categoria="Small Caps" data-score="85">
+<td><strong>BGIP4</strong></td>
+<td>Serviços Financeiros</td>
+<td><span class="badge">Small Caps</span></td>
+<td>4.6</td>
+<td>0.88</td>
+<td>15.68%</td>
+<td>15.78%</td>
+<td>85</td>
+<td>69.3%</td>
+</tr>
+
 <tr data-setor="Energia" data-categoria="Mid Caps" data-score="60">
 <td><strong>PRIO3</strong></td>
 <td>Energia</td>
 <td><span class="badge">Mid Caps</span></td>
-<td>4.73</td>
-<td>1.79</td>
+<td>4.66</td>
+<td>1.76</td>
 <td>45.54%</td>
 <td>0%</td>
 <td>60</td>
-<td>68.48%</td>
+<td>68.95%</td>
 </tr>
 
 <tr data-setor="Serviços Financeiros" data-categoria="Small Caps" data-score="85">
 <td><strong>ABCB4</strong></td>
 <td>Serviços Financeiros</td>
 <td><span class="badge">Small Caps</span></td>
-<td>4.93</td>
-<td>0.94</td>
+<td>4.89</td>
+<td>0.93</td>
 <td>15.46%</td>
 <td>11.37%</td>
 <td>85</td>
-<td>67.12%</td>
+<td>67.38%</td>
+</tr>
+
+<tr data-setor="Imobiliário" data-categoria="Small Caps" data-score="85">
+<td><strong>JHSF3</strong></td>
+<td>Imobiliário</td>
+<td><span class="badge">Small Caps</span></td>
+<td>4.9</td>
+<td>0.99</td>
+<td>20.97%</td>
+<td>8.41%</td>
+<td>85</td>
+<td>67.33%</td>
+</tr>
+
+<tr data-setor="Indústria" data-categoria="Small Caps" data-score="60">
+<td><strong>SOND6</strong></td>
+<td>Indústria</td>
+<td><span class="badge">Small Caps</span></td>
+<td>4.9</td>
+<td>1.83</td>
+<td>42.34%</td>
+<td>28.77%</td>
+<td>60</td>
+<td>67.31%</td>
+</tr>
+
+<tr data-setor="Utilidades Públicas" data-categoria="Mid Caps" data-score="80">
+<td><strong>CMIG4</strong></td>
+<td>Utilidades Públicas</td>
+<td><span class="badge">Mid Caps</span></td>
+<td>5.03</td>
+<td>1.14</td>
+<td>14.16%</td>
+<td>13.84%</td>
+<td>80</td>
+<td>66.49%</td>
 </tr>
 
 <tr data-setor="Consumo Defensivo" data-categoria="Small Caps" data-score="65">
 <td><strong>COGN3</strong></td>
 <td>Consumo Defensivo</td>
 <td><span class="badge">Small Caps</span></td>
-<td>5.17</td>
+<td>5.19</td>
 <td>0.52</td>
 <td>10.89%</td>
 <td>5.07%</td>
 <td>65</td>
-<td>65.52%</td>
+<td>65.41%</td>
+</tr>
+
+<tr data-setor="Indústria" data-categoria="Small Caps" data-score="65">
+<td><strong>ETER3</strong></td>
+<td>Indústria</td>
+<td><span class="badge">Small Caps</span></td>
+<td>5.2</td>
+<td>0.29</td>
+<td>4.83%</td>
+<td>7.17%</td>
+<td>65</td>
+<td>65.35%</td>
+</tr>
+
+<tr data-setor="Utilidades Públicas" data-categoria="Small Caps" data-score="85">
+<td><strong>CEEB5</strong></td>
+<td>Utilidades Públicas</td>
+<td><span class="badge">Small Caps</span></td>
+<td>5.26</td>
+<td>1.27</td>
+<td>25.59%</td>
+<td>15.84%</td>
+<td>85</td>
+<td>64.96%</td>
 </tr>
 
 <tr data-setor="Materiais Básicos" data-categoria="Blue Chips" data-score="75">
 <td><strong>SUZB3</strong></td>
 <td>Materiais Básicos</td>
 <td><span class="badge">Blue Chips</span></td>
-<td>5.26</td>
-<td>1.6</td>
+<td>5.27</td>
+<td>1.61</td>
 <td>35.19%</td>
 <td>1.92%</td>
 <td>75</td>
-<td>64.95%</td>
+<td>64.84%</td>
+</tr>
+
+<tr data-setor="Indústria" data-categoria="Small Caps" data-score="60">
+<td><strong>SOND5</strong></td>
+<td>Indústria</td>
+<td><span class="badge">Small Caps</span></td>
+<td>5.4</td>
+<td>2.02</td>
+<td>42.34%</td>
+<td>26.14%</td>
+<td>60</td>
+<td>64.03%</td>
 </tr>
 
 <tr data-setor="Consumo Cíclico" data-categoria="Mid Caps" data-score="100">
 <td><strong>CYRE3</strong></td>
 <td>Consumo Cíclico</td>
 <td><span class="badge">Mid Caps</span></td>
-<td>5.73</td>
-<td>1.01</td>
+<td>5.75</td>
+<td>1.02</td>
 <td>20.09%</td>
 <td>12.39%</td>
 <td>100</td>
-<td>61.79%</td>
+<td>61.67%</td>
+</tr>
+
+<tr data-setor="Consumo Cíclico" data-categoria="Small Caps" data-score="60">
+<td><strong>RANI3</strong></td>
+<td>Consumo Cíclico</td>
+<td><span class="badge">Small Caps</span></td>
+<td>5.77</td>
+<td>1.54</td>
+<td>18.02%</td>
+<td>5.46%</td>
+<td>60</td>
+<td>61.55%</td>
+</tr>
+
+<tr data-setor="Comunicação" data-categoria="Small Caps" data-score="50">
+<td><strong>CASH3</strong></td>
+<td>Comunicação</td>
+<td><span class="badge">Small Caps</span></td>
+<td>5.83</td>
+<td>0.7</td>
+<td>12.2%</td>
+<td>0%</td>
+<td>50</td>
+<td>61.15%</td>
+</tr>
+
+<tr data-setor="Utilidades Públicas" data-categoria="Small Caps" data-score="85">
+<td><strong>EMAE4</strong></td>
+<td>Utilidades Públicas</td>
+<td><span class="badge">Small Caps</span></td>
+<td>5.84</td>
+<td>1.14</td>
+<td>23.44%</td>
+<td>9.78%</td>
+<td>85</td>
+<td>61.07%</td>
+</tr>
+
+<tr data-setor="Indústria" data-categoria="Small Caps" data-score="85">
+<td><strong>LUXM4</strong></td>
+<td>Indústria</td>
+<td><span class="badge">Small Caps</span></td>
+<td>5.91</td>
+<td>1.11</td>
+<td>27.95%</td>
+<td>2.7%</td>
+<td>85</td>
+<td>60.61%</td>
+</tr>
+
+<tr data-setor="Materiais Básicos" data-categoria="Small Caps" data-score="85">
+<td><strong>DEXP4</strong></td>
+<td>Materiais Básicos</td>
+<td><span class="badge">Small Caps</span></td>
+<td>5.91</td>
+<td>0.86</td>
+<td>15.67%</td>
+<td>8.22%</td>
+<td>85</td>
+<td>60.59%</td>
+</tr>
+
+<tr data-setor="Consumo Cíclico" data-categoria="Small Caps" data-score="85">
+<td><strong>RSUL4</strong></td>
+<td>Consumo Cíclico</td>
+<td><span class="badge">Small Caps</span></td>
+<td>5.92</td>
+<td>1.42</td>
+<td>26.48%</td>
+<td>7.03%</td>
+<td>85</td>
+<td>60.53%</td>
+</tr>
+
+<tr data-setor="Energia" data-categoria="Small Caps" data-score="65">
+<td><strong>RECV3</strong></td>
+<td>Energia</td>
+<td><span class="badge">Small Caps</span></td>
+<td>5.93</td>
+<td>0.81</td>
+<td>13.57%</td>
+<td>15.11%</td>
+<td>65</td>
+<td>60.44%</td>
+</tr>
+
+<tr data-setor="Consumo Cíclico" data-categoria="Small Caps" data-score="85">
+<td><strong>CAMB3</strong></td>
+<td>Consumo Cíclico</td>
+<td><span class="badge">Small Caps</span></td>
+<td>5.94</td>
+<td>1.26</td>
+<td>22.23%</td>
+<td>11.1%</td>
+<td>85</td>
+<td>60.42%</td>
+</tr>
+
+<tr data-setor="Materiais Básicos" data-categoria="Small Caps" data-score="85">
+<td><strong>DEXP3</strong></td>
+<td>Materiais Básicos</td>
+<td><span class="badge">Small Caps</span></td>
+<td>5.95</td>
+<td>0.87</td>
+<td>15.67%</td>
+<td>11.13%</td>
+<td>85</td>
+<td>60.32%</td>
+</tr>
+
+<tr data-setor="Imobiliário" data-categoria="Small Caps" data-score="65">
+<td><strong>SYNE3</strong></td>
+<td>Imobiliário</td>
+<td><span class="badge">Small Caps</span></td>
+<td>5.97</td>
+<td>0.97</td>
+<td>5.8%</td>
+<td>53.77%</td>
+<td>65</td>
+<td>60.17%</td>
+</tr>
+
+<tr data-setor="Saúde" data-categoria="Small Caps" data-score="65">
+<td><strong>BLAU3</strong></td>
+<td>Saúde</td>
+<td><span class="badge">Small Caps</span></td>
+<td>6.07</td>
+<td>1.01</td>
+<td>14.32%</td>
+<td>7.18%</td>
+<td>65</td>
+<td>59.53%</td>
+</tr>
+
+<tr data-setor="Consumo Cíclico" data-categoria="Small Caps" data-score="85">
+<td><strong>GRND3</strong></td>
+<td>Consumo Cíclico</td>
+<td><span class="badge">Small Caps</span></td>
+<td>6.14</td>
+<td>1.09</td>
+<td>18.36%</td>
+<td>27.13%</td>
+<td>85</td>
+<td>59.08%</td>
+</tr>
+
+<tr data-setor="Utilidades Públicas" data-categoria="Mid Caps" data-score="100">
+<td><strong>SAPR4</strong></td>
+<td>Utilidades Públicas</td>
+<td><span class="badge">Mid Caps</span></td>
+<td>6.21</td>
+<td>0.23</td>
+<td>18.87%</td>
+<td>2.62%</td>
+<td>100</td>
+<td>58.59%</td>
+</tr>
+
+<tr data-setor="Utilidades Públicas" data-categoria="Mid Caps" data-score="80">
+<td><strong>ISAE4</strong></td>
+<td>Utilidades Públicas</td>
+<td><span class="badge">Mid Caps</span></td>
+<td>6.22</td>
+<td>0.87</td>
+<td>14.34%</td>
+<td>9.23%</td>
+<td>80</td>
+<td>58.51%</td>
+</tr>
+
+<tr data-setor="Serviços Financeiros" data-categoria="Small Caps" data-score="60">
+<td><strong>PINE3</strong></td>
+<td>Serviços Financeiros</td>
+<td><span class="badge">Small Caps</span></td>
+<td>6.25</td>
+<td>2.22</td>
+<td>33.77%</td>
+<td>5.44%</td>
+<td>60</td>
+<td>58.33%</td>
+</tr>
+
+<tr data-setor="Imobiliário" data-categoria="Small Caps" data-score="85">
+<td><strong>LPSB3</strong></td>
+<td>Imobiliário</td>
+<td><span class="badge">Small Caps</span></td>
+<td>6.28</td>
+<td>0.96</td>
+<td>20.64%</td>
+<td>9.51%</td>
+<td>85</td>
+<td>58.16%</td>
+</tr>
+
+<tr data-setor="Consumo Cíclico" data-categoria="Small Caps" data-score="65">
+<td><strong>CGRA4</strong></td>
+<td>Consumo Cíclico</td>
+<td><span class="badge">Small Caps</span></td>
+<td>6.35</td>
+<td>0.67</td>
+<td>10.78%</td>
+<td>7.16%</td>
+<td>65</td>
+<td>57.68%</td>
+</tr>
+
+<tr data-setor="Indústria" data-categoria="Small Caps" data-score="65">
+<td><strong>TASA3</strong></td>
+<td>Indústria</td>
+<td><span class="badge">Small Caps</span></td>
+<td>6.4</td>
+<td>0.61</td>
+<td>9.93%</td>
+<td>7.77%</td>
+<td>65</td>
+<td>57.3%</td>
+</tr>
+
+<tr data-setor="Consumo Cíclico" data-categoria="Mid Caps" data-score="100">
+<td><strong>GMAT3</strong></td>
+<td>Consumo Cíclico</td>
+<td><span class="badge">Mid Caps</span></td>
+<td>6.45</td>
+<td>1.19</td>
+<td>18.4%</td>
+<td>4.41%</td>
+<td>100</td>
+<td>56.98%</td>
+</tr>
+
+<tr data-setor="Indústria" data-categoria="Small Caps" data-score="60">
+<td><strong>POMO3</strong></td>
+<td>Indústria</td>
+<td><span class="badge">Small Caps</span></td>
+<td>6.46</td>
+<td>1.76</td>
+<td>29.19%</td>
+<td>18.1%</td>
+<td>60</td>
+<td>56.91%</td>
+</tr>
+
+<tr data-setor="Indústria" data-categoria="Small Caps" data-score="65">
+<td><strong>TASA4</strong></td>
+<td>Indústria</td>
+<td><span class="badge">Small Caps</span></td>
+<td>6.47</td>
+<td>0.62</td>
+<td>9.93%</td>
+<td>7.73%</td>
+<td>65</td>
+<td>56.85%</td>
+</tr>
+
+<tr data-setor="Utilidades Públicas" data-categoria="Mid Caps" data-score="75">
+<td><strong>CEEB3</strong></td>
+<td>Utilidades Públicas</td>
+<td><span class="badge">Mid Caps</span></td>
+<td>6.49</td>
+<td>1.57</td>
+<td>25.59%</td>
+<td>12.89%</td>
+<td>75</td>
+<td>56.75%</td>
+</tr>
+
+<tr data-setor="Consumo Cíclico" data-categoria="Small Caps" data-score="65">
+<td><strong>CGRA3</strong></td>
+<td>Consumo Cíclico</td>
+<td><span class="badge">Small Caps</span></td>
+<td>6.5</td>
+<td>0.68</td>
+<td>10.78%</td>
+<td>6.92%</td>
+<td>65</td>
+<td>56.66%</td>
+</tr>
+
+<tr data-setor="Consumo Defensivo" data-categoria="Small Caps" data-score="85">
+<td><strong>VTRU3</strong></td>
+<td>Consumo Defensivo</td>
+<td><span class="badge">Small Caps</span></td>
+<td>6.51</td>
+<td>0.67</td>
+<td>18.06%</td>
+<td>0.15%</td>
+<td>85</td>
+<td>56.61%</td>
+</tr>
+
+<tr data-setor="Serviços Financeiros" data-categoria="Small Caps" data-score="60">
+<td><strong>PINE4</strong></td>
+<td>Serviços Financeiros</td>
+<td><span class="badge">Small Caps</span></td>
+<td>6.51</td>
+<td>2.31</td>
+<td>33.77%</td>
+<td>4.67%</td>
+<td>60</td>
+<td>56.6%</td>
+</tr>
+
+<tr data-setor="Utilidades Públicas" data-categoria="Mid Caps" data-score="80">
+<td><strong>CMIG3</strong></td>
+<td>Utilidades Públicas</td>
+<td><span class="badge">Mid Caps</span></td>
+<td>6.59</td>
+<td>1.5</td>
+<td>14.16%</td>
+<td>10.68%</td>
+<td>80</td>
+<td>56.08%</td>
+</tr>
+
+<tr data-setor="Indústria" data-categoria="Small Caps" data-score="65">
+<td><strong>EUCA4</strong></td>
+<td>Indústria</td>
+<td><span class="badge">Small Caps</span></td>
+<td>6.68</td>
+<td>0.69</td>
+<td>10.97%</td>
+<td>5.18%</td>
+<td>65</td>
+<td>55.46%</td>
+</tr>
+
+<tr data-setor="Imobiliário" data-categoria="Small Caps" data-score="65">
+<td><strong>LOGG3</strong></td>
+<td>Imobiliário</td>
+<td><span class="badge">Small Caps</span></td>
+<td>6.76</td>
+<td>0.66</td>
+<td>10.04%</td>
+<td>14.15%</td>
+<td>65</td>
+<td>54.95%</td>
+</tr>
+
+<tr data-setor="Indústria" data-categoria="Small Caps" data-score="60">
+<td><strong>POMO4</strong></td>
+<td>Indústria</td>
+<td><span class="badge">Small Caps</span></td>
+<td>6.84</td>
+<td>1.86</td>
+<td>29.19%</td>
+<td>17.15%</td>
+<td>60</td>
+<td>54.39%</td>
+</tr>
+
+<tr data-setor="Consumo Cíclico" data-categoria="Small Caps" data-score="85">
+<td><strong>CEAB3</strong></td>
+<td>Consumo Cíclico</td>
+<td><span class="badge">Small Caps</span></td>
+<td>6.94</td>
+<td>1.09</td>
+<td>15.74%</td>
+<td>6.99%</td>
+<td>85</td>
+<td>53.76%</td>
+</tr>
+
+<tr data-setor="Imobiliário" data-categoria="Small Caps" data-score="65">
+<td><strong>IGTI3</strong></td>
+<td>Imobiliário</td>
+<td><span class="badge">Small Caps</span></td>
+<td>6.94</td>
+<td>0.22</td>
+<td>13.0%</td>
+<td>2.83%</td>
+<td>65</td>
+<td>53.76%</td>
+</tr>
+
+<tr data-setor="Indústria" data-categoria="Small Caps" data-score="65">
+<td><strong>VLID3</strong></td>
+<td>Indústria</td>
+<td><span class="badge">Small Caps</span></td>
+<td>6.95</td>
+<td>0.96</td>
+<td>14.05%</td>
+<td>14.9%</td>
+<td>65</td>
+<td>53.64%</td>
+</tr>
+
+<tr data-setor="Imobiliário" data-categoria="Small Caps" data-score="65">
+<td><strong>MELK3</strong></td>
+<td>Imobiliário</td>
+<td><span class="badge">Small Caps</span></td>
+<td>7.23</td>
+<td>0.72</td>
+<td>13.42%</td>
+<td>14.19%</td>
+<td>65</td>
+<td>51.82%</td>
+</tr>
+
+<tr data-setor="Imobiliário" data-categoria="Small Caps" data-score="85">
+<td><strong>MDNE3</strong></td>
+<td>Imobiliário</td>
+<td><span class="badge">Small Caps</span></td>
+<td>7.32</td>
+<td>1.43</td>
+<td>20.98%</td>
+<td>14.7%</td>
+<td>85</td>
+<td>51.19%</td>
 </tr>
 
 <tr data-setor="Serviços Financeiros" data-categoria="Blue Chips" data-score="75">
@@ -398,11 +1248,83 @@ Atualizado em 03/03/2026
 <td>Serviços Financeiros</td>
 <td><span class="badge">Blue Chips</span></td>
 <td>7.32</td>
-<td>6.36</td>
+<td>6.37</td>
 <td>89.81%</td>
 <td>15.0%</td>
 <td>75</td>
-<td>51.2%</td>
+<td>51.17%</td>
+</tr>
+
+<tr data-setor="Consumo Cíclico" data-categoria="Small Caps" data-score="85">
+<td><strong>SHUL4</strong></td>
+<td>Consumo Cíclico</td>
+<td><span class="badge">Small Caps</span></td>
+<td>7.4</td>
+<td>1.24</td>
+<td>17.66%</td>
+<td>7.6%</td>
+<td>85</td>
+<td>50.68%</td>
+</tr>
+
+<tr data-setor="Consumo Cíclico" data-categoria="Small Caps" data-score="65">
+<td><strong>MYPK3</strong></td>
+<td>Consumo Cíclico</td>
+<td><span class="badge">Small Caps</span></td>
+<td>7.43</td>
+<td>0.35</td>
+<td>4.38%</td>
+<td>8.75%</td>
+<td>65</td>
+<td>50.45%</td>
+</tr>
+
+<tr data-setor="Utilidades Públicas" data-categoria="Mid Caps" data-score="100">
+<td><strong>ENGI4</strong></td>
+<td>Utilidades Públicas</td>
+<td><span class="badge">Mid Caps</span></td>
+<td>7.44</td>
+<td>0.2</td>
+<td>19.87%</td>
+<td>6.39%</td>
+<td>100</td>
+<td>50.38%</td>
+</tr>
+
+<tr data-setor="Utilidades Públicas" data-categoria="Mid Caps" data-score="100">
+<td><strong>SAPR3</strong></td>
+<td>Utilidades Públicas</td>
+<td><span class="badge">Mid Caps</span></td>
+<td>7.45</td>
+<td>0.27</td>
+<td>18.87%</td>
+<td>1.91%</td>
+<td>100</td>
+<td>50.3%</td>
+</tr>
+
+<tr data-setor="Utilidades Públicas" data-categoria="Small Caps" data-score="85">
+<td><strong>CLSC3</strong></td>
+<td>Utilidades Públicas</td>
+<td><span class="badge">Small Caps</span></td>
+<td>7.46</td>
+<td>1.25</td>
+<td>19.13%</td>
+<td>5.63%</td>
+<td>85</td>
+<td>50.27%</td>
+</tr>
+
+<tr data-setor="Utilidades Públicas" data-categoria="Small Caps" data-score="85">
+<td><strong>EQMA3B</strong></td>
+<td>Utilidades Públicas</td>
+<td><span class="badge">Small Caps</span></td>
+<td>7.47</td>
+<td>1.29</td>
+<td>17.86%</td>
+<td>8.06%</td>
+<td>85</td>
+<td>50.21%</td>
 </tr>
 
 <tr data-setor="Energia" data-categoria="Blue Chips" data-score="100">
@@ -417,16 +1339,196 @@ Atualizado em 03/03/2026
 <td>50.2%</td>
 </tr>
 
+<tr data-setor="Indústria" data-categoria="Small Caps" data-score="65">
+<td><strong>EUCA3</strong></td>
+<td>Indústria</td>
+<td><span class="badge">Small Caps</span></td>
+<td>7.47</td>
+<td>0.77</td>
+<td>10.97%</td>
+<td>4.36%</td>
+<td>65</td>
+<td>50.19%</td>
+</tr>
+
+<tr data-setor="Consumo Cíclico" data-categoria="Small Caps" data-score="65">
+<td><strong>WLMM3</strong></td>
+<td>Consumo Cíclico</td>
+<td><span class="badge">Small Caps</span></td>
+<td>7.49</td>
+<td>1.01</td>
+<td>14.85%</td>
+<td>9.1%</td>
+<td>65</td>
+<td>50.05%</td>
+</tr>
+
+<tr data-setor="Imobiliário" data-categoria="Small Caps" data-score="60">
+<td><strong>LAVV3</strong></td>
+<td>Imobiliário</td>
+<td><span class="badge">Small Caps</span></td>
+<td>7.51</td>
+<td>2.25</td>
+<td>28.97%</td>
+<td>10.38%</td>
+<td>60</td>
+<td>49.94%</td>
+</tr>
+
+<tr data-setor="Serviços Financeiros" data-categoria="Small Caps" data-score="65">
+<td><strong>BRAP3</strong></td>
+<td>Serviços Financeiros</td>
+<td><span class="badge">Small Caps</span></td>
+<td>7.56</td>
+<td>0.88</td>
+<td>12.6%</td>
+<td>14.88%</td>
+<td>65</td>
+<td>49.63%</td>
+</tr>
+
+<tr data-setor="Imobiliário" data-categoria="Small Caps" data-score="65">
+<td><strong>EZTC3</strong></td>
+<td>Imobiliário</td>
+<td><span class="badge">Small Caps</span></td>
+<td>7.57</td>
+<td>0.8</td>
+<td>10.97%</td>
+<td>7.89%</td>
+<td>65</td>
+<td>49.56%</td>
+</tr>
+
+<tr data-setor="Indústria" data-categoria="Small Caps" data-score="60">
+<td><strong>ECOR3</strong></td>
+<td>Indústria</td>
+<td><span class="badge">Small Caps</span></td>
+<td>7.6</td>
+<td>1.66</td>
+<td>22.02%</td>
+<td>2.9%</td>
+<td>60</td>
+<td>49.34%</td>
+</tr>
+
 <tr data-setor="Utilidades Públicas" data-categoria="Mid Caps" data-score="80">
-<td><strong>ALUP11</strong></td>
+<td><strong>ISAE3</strong></td>
 <td>Utilidades Públicas</td>
 <td><span class="badge">Mid Caps</span></td>
-<td>8.12</td>
-<td>1.24</td>
-<td>14.23%</td>
-<td>2.74%</td>
+<td>7.61</td>
+<td>1.07</td>
+<td>14.34%</td>
+<td>7.67%</td>
 <td>80</td>
-<td>45.89%</td>
+<td>49.25%</td>
+</tr>
+
+<tr data-setor="Materiais Básicos" data-categoria="Small Caps" data-score="65">
+<td><strong>SMTO3</strong></td>
+<td>Materiais Básicos</td>
+<td><span class="badge">Small Caps</span></td>
+<td>7.68</td>
+<td>0.95</td>
+<td>11.12%</td>
+<td>4.97%</td>
+<td>65</td>
+<td>48.79%</td>
+</tr>
+
+<tr data-setor="Consumo Cíclico" data-categoria="Small Caps" data-score="65">
+<td><strong>AZZA3</strong></td>
+<td>Consumo Cíclico</td>
+<td><span class="badge">Small Caps</span></td>
+<td>7.7</td>
+<td>0.6</td>
+<td>9.27%</td>
+<td>9.37%</td>
+<td>65</td>
+<td>48.68%</td>
+</tr>
+
+<tr data-setor="Serviços Financeiros" data-categoria="Small Caps" data-score="60">
+<td><strong>WIZC3</strong></td>
+<td>Serviços Financeiros</td>
+<td><span class="badge">Small Caps</span></td>
+<td>7.74</td>
+<td>2.11</td>
+<td>27.26%</td>
+<td>6.04%</td>
+<td>60</td>
+<td>48.4%</td>
+</tr>
+
+<tr data-setor="Imobiliário" data-categoria="Small Caps" data-score="65">
+<td><strong>TRIS3</strong></td>
+<td>Imobiliário</td>
+<td><span class="badge">Small Caps</span></td>
+<td>7.76</td>
+<td>1.05</td>
+<td>14.35%</td>
+<td>14.76%</td>
+<td>65</td>
+<td>48.26%</td>
+</tr>
+
+<tr data-setor="Saúde" data-categoria="Small Caps" data-score="65">
+<td><strong>BALM4</strong></td>
+<td>Saúde</td>
+<td><span class="badge">Small Caps</span></td>
+<td>7.76</td>
+<td>1.04</td>
+<td>14.22%</td>
+<td>27.32%</td>
+<td>65</td>
+<td>48.23%</td>
+</tr>
+
+<tr data-setor="Serviços Financeiros" data-categoria="Blue Chips" data-score="100">
+<td><strong>BPAC5</strong></td>
+<td>Serviços Financeiros</td>
+<td><span class="badge">Blue Chips</span></td>
+<td>7.8</td>
+<td>0.75</td>
+<td>23.87%</td>
+<td>4.05%</td>
+<td>100</td>
+<td>48.0%</td>
+</tr>
+
+<tr data-setor="Consumo Cíclico" data-categoria="Small Caps" data-score="65">
+<td><strong>WLMM4</strong></td>
+<td>Consumo Cíclico</td>
+<td><span class="badge">Small Caps</span></td>
+<td>7.82</td>
+<td>1.06</td>
+<td>14.85%</td>
+<td>9.42%</td>
+<td>65</td>
+<td>47.88%</td>
+</tr>
+
+<tr data-setor="Utilidades Públicas" data-categoria="Mid Caps" data-score="80">
+<td><strong>NEOE3</strong></td>
+<td>Utilidades Públicas</td>
+<td><span class="badge">Mid Caps</span></td>
+<td>7.9</td>
+<td>1.09</td>
+<td>14.59%</td>
+<td>4.45%</td>
+<td>80</td>
+<td>47.33%</td>
+</tr>
+
+<tr data-setor="Serviços Financeiros" data-categoria="Small Caps" data-score="60">
+<td><strong>BGIP3</strong></td>
+<td>Serviços Financeiros</td>
+<td><span class="badge">Small Caps</span></td>
+<td>8.06</td>
+<td>1.54</td>
+<td>15.68%</td>
+<td>9.25%</td>
+<td>60</td>
+<td>46.29%</td>
 </tr>
 
 <tr data-setor="Energia" data-categoria="Blue Chips" data-score="100">
@@ -441,76 +1543,688 @@ Atualizado em 03/03/2026
 <td>45.87%</td>
 </tr>
 
+<tr data-setor="Utilidades Públicas" data-categoria="Mid Caps" data-score="80">
+<td><strong>ALUP11</strong></td>
+<td>Utilidades Públicas</td>
+<td><span class="badge">Mid Caps</span></td>
+<td>8.12</td>
+<td>1.24</td>
+<td>14.23%</td>
+<td>2.74%</td>
+<td>80</td>
+<td>45.87%</td>
+</tr>
+
+<tr data-setor="Consumo Cíclico" data-categoria="Small Caps" data-score="85">
+<td><strong>TECN3</strong></td>
+<td>Consumo Cíclico</td>
+<td><span class="badge">Small Caps</span></td>
+<td>8.16</td>
+<td>1.14</td>
+<td>16.26%</td>
+<td>4.93%</td>
+<td>85</td>
+<td>45.6%</td>
+</tr>
+
+<tr data-setor="Serviços Financeiros" data-categoria="Blue Chips" data-score="80">
+<td><strong>BBDC3</strong></td>
+<td>Serviços Financeiros</td>
+<td><span class="badge">Blue Chips</span></td>
+<td>8.16</td>
+<td>1.03</td>
+<td>13.75%</td>
+<td>1.13%</td>
+<td>80</td>
+<td>45.6%</td>
+</tr>
+
+<tr data-setor="Consumo Cíclico" data-categoria="Small Caps" data-score="60">
+<td><strong>LEVE3</strong></td>
+<td>Consumo Cíclico</td>
+<td><span class="badge">Small Caps</span></td>
+<td>8.23</td>
+<td>5.47</td>
+<td>58.61%</td>
+<td>3.41%</td>
+<td>60</td>
+<td>45.15%</td>
+</tr>
+
+<tr data-setor="Imobiliário" data-categoria="Small Caps" data-score="60">
+<td><strong>TEND3</strong></td>
+<td>Imobiliário</td>
+<td><span class="badge">Small Caps</span></td>
+<td>8.29</td>
+<td>2.85</td>
+<td>37.2%</td>
+<td>4.13%</td>
+<td>60</td>
+<td>44.75%</td>
+</tr>
+
+<tr data-setor="Utilidades Públicas" data-categoria="Small Caps" data-score="60">
+<td><strong>EKTR4</strong></td>
+<td>Utilidades Públicas</td>
+<td><span class="badge">Small Caps</span></td>
+<td>8.3</td>
+<td>3.7</td>
+<td>47.26%</td>
+<td>9.5%</td>
+<td>60</td>
+<td>44.68%</td>
+</tr>
+
+<tr data-setor="Tecnologia" data-categoria="Small Caps" data-score="60">
+<td><strong>CSUD3</strong></td>
+<td>Tecnologia</td>
+<td><span class="badge">Small Caps</span></td>
+<td>8.34</td>
+<td>1.55</td>
+<td>19.41%</td>
+<td>13.55%</td>
+<td>60</td>
+<td>44.43%</td>
+</tr>
+
+<tr data-setor="Utilidades Públicas" data-categoria="Mid Caps" data-score="100">
+<td><strong>TAEE3</strong></td>
+<td>Utilidades Públicas</td>
+<td><span class="badge">Mid Caps</span></td>
+<td>8.34</td>
+<td>0.63</td>
+<td>23.59%</td>
+<td>7.39%</td>
+<td>100</td>
+<td>44.43%</td>
+</tr>
+
+<tr data-setor="Imobiliário" data-categoria="Small Caps" data-score="65">
+<td><strong>EVEN3</strong></td>
+<td>Imobiliário</td>
+<td><span class="badge">Small Caps</span></td>
+<td>8.41</td>
+<td>0.77</td>
+<td>10.41%</td>
+<td>9.3%</td>
+<td>65</td>
+<td>43.94%</td>
+</tr>
+
+<tr data-setor="Consumo Cíclico" data-categoria="Small Caps" data-score="65">
+<td><strong>SBFG3</strong></td>
+<td>Consumo Cíclico</td>
+<td><span class="badge">Small Caps</span></td>
+<td>8.43</td>
+<td>0.86</td>
+<td>11.22%</td>
+<td>4.34%</td>
+<td>65</td>
+<td>43.81%</td>
+</tr>
+
+<tr data-setor="Utilidades Públicas" data-categoria="Mid Caps" data-score="100">
+<td><strong>TAEE4</strong></td>
+<td>Utilidades Públicas</td>
+<td><span class="badge">Mid Caps</span></td>
+<td>8.45</td>
+<td>0.64</td>
+<td>23.59%</td>
+<td>7.36%</td>
+<td>100</td>
+<td>43.67%</td>
+</tr>
+
+<tr data-setor="Imobiliário" data-categoria="Small Caps" data-score="65">
+<td><strong>MTRE3</strong></td>
+<td>Imobiliário</td>
+<td><span class="badge">Small Caps</span></td>
+<td>8.46</td>
+<td>0.42</td>
+<td>7.13%</td>
+<td>12.62%</td>
+<td>65</td>
+<td>43.62%</td>
+</tr>
+
+<tr data-setor="Utilidades Públicas" data-categoria="Mid Caps" data-score="75">
+<td><strong>EQPA3</strong></td>
+<td>Utilidades Públicas</td>
+<td><span class="badge">Mid Caps</span></td>
+<td>8.53</td>
+<td>2.79</td>
+<td>33.18%</td>
+<td>10.31%</td>
+<td>75</td>
+<td>43.11%</td>
+</tr>
+
+<tr data-setor="Utilidades Públicas" data-categoria="Small Caps" data-score="85">
+<td><strong>CLSC4</strong></td>
+<td>Utilidades Públicas</td>
+<td><span class="badge">Small Caps</span></td>
+<td>8.6</td>
+<td>1.44</td>
+<td>19.13%</td>
+<td>5.39%</td>
+<td>85</td>
+<td>42.7%</td>
+</tr>
+
 <tr data-setor="Serviços Financeiros" data-categoria="Small Caps" data-score="65">
 <td><strong>BRAP4</strong></td>
 <td>Serviços Financeiros</td>
 <td><span class="badge">Small Caps</span></td>
-<td>8.69</td>
-<td>1.01</td>
+<td>8.64</td>
+<td>1.0</td>
 <td>12.6%</td>
 <td>14.04%</td>
 <td>65</td>
-<td>42.07%</td>
+<td>42.42%</td>
+</tr>
+
+<tr data-setor="Indústria" data-categoria="Small Caps" data-score="65">
+<td><strong>ROMI3</strong></td>
+<td>Indústria</td>
+<td><span class="badge">Small Caps</span></td>
+<td>8.8</td>
+<td>0.61</td>
+<td>6.96%</td>
+<td>8.77%</td>
+<td>65</td>
+<td>41.3%</td>
+</tr>
+
+<tr data-setor="Imobiliário" data-categoria="Small Caps" data-score="60">
+<td><strong>PLPL3</strong></td>
+<td>Imobiliário</td>
+<td><span class="badge">Small Caps</span></td>
+<td>9.02</td>
+<td>2.88</td>
+<td>38.39%</td>
+<td>9.99%</td>
+<td>60</td>
+<td>39.87%</td>
+</tr>
+
+<tr data-setor="Consumo Defensivo" data-categoria="Small Caps" data-score="85">
+<td><strong>CSED3</strong></td>
+<td>Consumo Defensivo</td>
+<td><span class="badge">Small Caps</span></td>
+<td>9.17</td>
+<td>1.39</td>
+<td>16.1%</td>
+<td>4.13%</td>
+<td>85</td>
+<td>38.84%</td>
+</tr>
+
+<tr data-setor="Tecnologia" data-categoria="Small Caps" data-score="85">
+<td><strong>INTB3</strong></td>
+<td>Tecnologia</td>
+<td><span class="badge">Small Caps</span></td>
+<td>9.19</td>
+<td>1.38</td>
+<td>15.66%</td>
+<td>10.21%</td>
+<td>85</td>
+<td>38.75%</td>
+</tr>
+
+<tr data-setor="Imobiliário" data-categoria="Small Caps" data-score="65">
+<td><strong>HBOR3</strong></td>
+<td>Imobiliário</td>
+<td><span class="badge">Small Caps</span></td>
+<td>9.19</td>
+<td>0.26</td>
+<td>4.9%</td>
+<td>4.37%</td>
+<td>65</td>
+<td>38.71%</td>
+</tr>
+
+<tr data-setor="Saúde" data-categoria="Small Caps" data-score="60">
+<td><strong>OFSA3</strong></td>
+<td>Saúde</td>
+<td><span class="badge">Small Caps</span></td>
+<td>9.21</td>
+<td>1.86</td>
+<td>19.98%</td>
+<td>4.14%</td>
+<td>60</td>
+<td>38.58%</td>
+</tr>
+
+<tr data-setor="Saúde" data-categoria="Small Caps" data-score="65">
+<td><strong>PFRM3</strong></td>
+<td>Saúde</td>
+<td><span class="badge">Small Caps</span></td>
+<td>9.26</td>
+<td>0.77</td>
+<td>7.34%</td>
+<td>10.21%</td>
+<td>65</td>
+<td>38.3%</td>
+</tr>
+
+<tr data-setor="Serviços Financeiros" data-categoria="Small Caps" data-score="65">
+<td><strong>BMGB4</strong></td>
+<td>Serviços Financeiros</td>
+<td><span class="badge">Small Caps</span></td>
+<td>9.31</td>
+<td>0.67</td>
+<td>9.04%</td>
+<td>8.86%</td>
+<td>65</td>
+<td>37.9%</td>
+</tr>
+
+<tr data-setor="Consumo Cíclico" data-categoria="Small Caps" data-score="60">
+<td><strong>WHRL3</strong></td>
+<td>Consumo Cíclico</td>
+<td><span class="badge">Small Caps</span></td>
+<td>9.34</td>
+<td>3.08</td>
+<td>30.25%</td>
+<td>10.89%</td>
+<td>60</td>
+<td>37.73%</td>
+</tr>
+
+<tr data-setor="Indústria" data-categoria="Mid Caps" data-score="75">
+<td><strong>MRSA5B</strong></td>
+<td>Indústria</td>
+<td><span class="badge">Mid Caps</span></td>
+<td>9.34</td>
+<td>1.55</td>
+<td>18.65%</td>
+<td>2.62%</td>
+<td>75</td>
+<td>37.73%</td>
+</tr>
+
+<tr data-setor="Utilidades Públicas" data-categoria="Mid Caps" data-score="80">
+<td><strong>ALUP4</strong></td>
+<td>Utilidades Públicas</td>
+<td><span class="badge">Mid Caps</span></td>
+<td>9.36</td>
+<td>0.39</td>
+<td>14.23%</td>
+<td>2.9%</td>
+<td>80</td>
+<td>37.62%</td>
+</tr>
+
+<tr data-setor="Utilidades Públicas" data-categoria="Mid Caps" data-score="100">
+<td><strong>ENGI3</strong></td>
+<td>Utilidades Públicas</td>
+<td><span class="badge">Mid Caps</span></td>
+<td>9.37</td>
+<td>0.25</td>
+<td>19.87%</td>
+<td>5.24%</td>
+<td>100</td>
+<td>37.56%</td>
+</tr>
+
+<tr data-setor="Indústria" data-categoria="Small Caps" data-score="60">
+<td><strong>TGMA3</strong></td>
+<td>Indústria</td>
+<td><span class="badge">Small Caps</span></td>
+<td>9.4</td>
+<td>2.63</td>
+<td>29.38%</td>
+<td>11.03%</td>
+<td>60</td>
+<td>37.32%</td>
 </tr>
 
 <tr data-setor="Energia" data-categoria="Mid Caps" data-score="75">
 <td><strong>UGPA3</strong></td>
 <td>Energia</td>
 <td><span class="badge">Mid Caps</span></td>
-<td>9.34</td>
-<td>1.63</td>
+<td>9.41</td>
+<td>1.64</td>
 <td>18.76%</td>
 <td>6.75%</td>
 <td>75</td>
-<td>37.76%</td>
+<td>37.29%</td>
 </tr>
 
 <tr data-setor="Serviços Financeiros" data-categoria="Blue Chips" data-score="80">
 <td><strong>BBDC4</strong></td>
 <td>Serviços Financeiros</td>
 <td><span class="badge">Blue Chips</span></td>
-<td>9.48</td>
+<td>9.5</td>
 <td>1.2</td>
 <td>13.75%</td>
 <td>1.07%</td>
 <td>80</td>
-<td>36.78%</td>
+<td>36.65%</td>
+</tr>
+
+<tr data-setor="Serviços Financeiros" data-categoria="Small Caps" data-score="65">
+<td><strong>BEES3</strong></td>
+<td>Serviços Financeiros</td>
+<td><span class="badge">Small Caps</span></td>
+<td>9.52</td>
+<td>1.23</td>
+<td>14.35%</td>
+<td>3.92%</td>
+<td>65</td>
+<td>36.52%</td>
+</tr>
+
+<tr data-setor="Consumo Cíclico" data-categoria="Small Caps" data-score="60">
+<td><strong>VIVA3</strong></td>
+<td>Consumo Cíclico</td>
+<td><span class="badge">Small Caps</span></td>
+<td>9.55</td>
+<td>2.41</td>
+<td>28.42%</td>
+<td>4.4%</td>
+<td>60</td>
+<td>36.34%</td>
+</tr>
+
+<tr data-setor="Serviços Financeiros" data-categoria="Mid Caps" data-score="75">
+<td><strong>PSSA3</strong></td>
+<td>Serviços Financeiros</td>
+<td><span class="badge">Mid Caps</span></td>
+<td>9.6</td>
+<td>2.03</td>
+<td>22.82%</td>
+<td>4.71%</td>
+<td>75</td>
+<td>35.99%</td>
+</tr>
+
+<tr data-setor="Materiais Básicos" data-categoria="Small Caps" data-score="60">
+<td><strong>UNIP3</strong></td>
+<td>Materiais Básicos</td>
+<td><span class="badge">Small Caps</span></td>
+<td>9.61</td>
+<td>2.87</td>
+<td>29.68%</td>
+<td>14.47%</td>
+<td>60</td>
+<td>35.96%</td>
+</tr>
+
+<tr data-setor="Materiais Básicos" data-categoria="Small Caps" data-score="65">
+<td><strong>VITT3</strong></td>
+<td>Materiais Básicos</td>
+<td><span class="badge">Small Caps</span></td>
+<td>9.69</td>
+<td>0.97</td>
+<td>10.2%</td>
+<td>6.73%</td>
+<td>65</td>
+<td>35.4%</td>
+</tr>
+
+<tr data-setor="Utilidades Públicas" data-categoria="Mid Caps" data-score="75">
+<td><strong>REDE3</strong></td>
+<td>Utilidades Públicas</td>
+<td><span class="badge">Mid Caps</span></td>
+<td>9.71</td>
+<td>3.2</td>
+<td>30.8%</td>
+<td>9.38%</td>
+<td>75</td>
+<td>35.28%</td>
+</tr>
+
+<tr data-setor="Materiais Básicos" data-categoria="Small Caps" data-score="60">
+<td><strong>TTEN3</strong></td>
+<td>Materiais Básicos</td>
+<td><span class="badge">Small Caps</span></td>
+<td>9.76</td>
+<td>1.79</td>
+<td>19.98%</td>
+<td>2.15%</td>
+<td>60</td>
+<td>34.92%</td>
 </tr>
 
 <tr data-setor="Indústria" data-categoria="Blue Chips" data-score="75">
 <td><strong>ITSA4</strong></td>
 <td>Indústria</td>
 <td><span class="badge">Blue Chips</span></td>
-<td>9.78</td>
+<td>9.79</td>
 <td>1.64</td>
 <td>17.06%</td>
 <td>0.69%</td>
 <td>75</td>
-<td>34.78%</td>
+<td>34.73%</td>
+</tr>
+
+<tr data-setor="Serviços Financeiros" data-categoria="Blue Chips" data-score="80">
+<td><strong>SANB3</strong></td>
+<td>Serviços Financeiros</td>
+<td><span class="badge">Blue Chips</span></td>
+<td>9.84</td>
+<td>0.63</td>
+<td>12.75%</td>
+<td>5.05%</td>
+<td>80</td>
+<td>34.4%</td>
+</tr>
+
+<tr data-setor="Indústria" data-categoria="Blue Chips" data-score="75">
+<td><strong>ITSA3</strong></td>
+<td>Indústria</td>
+<td><span class="badge">Blue Chips</span></td>
+<td>9.85</td>
+<td>1.65</td>
+<td>17.06%</td>
+<td>0.68%</td>
+<td>75</td>
+<td>34.35%</td>
 </tr>
 
 <tr data-setor="Utilidades Públicas" data-categoria="Blue Chips" data-score="75">
 <td><strong>CPFE3</strong></td>
 <td>Utilidades Públicas</td>
 <td><span class="badge">Blue Chips</span></td>
-<td>9.91</td>
+<td>9.92</td>
 <td>2.39</td>
 <td>25.48%</td>
 <td>5.65%</td>
 <td>75</td>
-<td>33.94%</td>
+<td>33.88%</td>
+</tr>
+
+<tr data-setor="Serviços Financeiros" data-categoria="Small Caps" data-score="65">
+<td><strong>BEES4</strong></td>
+<td>Serviços Financeiros</td>
+<td><span class="badge">Small Caps</span></td>
+<td>9.94</td>
+<td>1.28</td>
+<td>14.35%</td>
+<td>3.88%</td>
+<td>65</td>
+<td>33.7%</td>
+</tr>
+
+<tr data-setor="Consumo Cíclico" data-categoria="Small Caps" data-score="60">
+<td><strong>WHRL4</strong></td>
+<td>Consumo Cíclico</td>
+<td><span class="badge">Small Caps</span></td>
+<td>9.96</td>
+<td>3.28</td>
+<td>30.25%</td>
+<td>10.72%</td>
+<td>60</td>
+<td>33.62%</td>
+</tr>
+
+<tr data-setor="Serviços Financeiros" data-categoria="Small Caps" data-score="40">
+<td><strong>BMIN4</strong></td>
+<td>Serviços Financeiros</td>
+<td><span class="badge">Small Caps</span></td>
+<td>10.0</td>
+<td>0.62</td>
+<td>5.64%</td>
+<td>6.73%</td>
+<td>40</td>
+<td>33.33%</td>
+</tr>
+
+<tr data-setor="Materiais Básicos" data-categoria="Small Caps" data-score="35">
+<td><strong>UNIP5</strong></td>
+<td>Materiais Básicos</td>
+<td><span class="badge">Small Caps</span></td>
+<td>10.08</td>
+<td>3.01</td>
+<td>29.68%</td>
+<td>15.27%</td>
+<td>35</td>
+<td>32.77%</td>
+</tr>
+
+<tr data-setor="Serviços Financeiros" data-categoria="Blue Chips" data-score="55">
+<td><strong>SANB4</strong></td>
+<td>Serviços Financeiros</td>
+<td><span class="badge">Blue Chips</span></td>
+<td>10.13</td>
+<td>0.65</td>
+<td>12.75%</td>
+<td>5.47%</td>
+<td>55</td>
+<td>32.43%</td>
+</tr>
+
+<tr data-setor="Indústria" data-categoria="Small Caps" data-score="35">
+<td><strong>KEPL3</strong></td>
+<td>Indústria</td>
+<td><span class="badge">Small Caps</span></td>
+<td>10.27</td>
+<td>1.95</td>
+<td>18.79%</td>
+<td>5.56%</td>
+<td>35</td>
+<td>31.52%</td>
+</tr>
+
+<tr data-setor="Materiais Básicos" data-categoria="Small Caps" data-score="35">
+<td><strong>UNIP6</strong></td>
+<td>Materiais Básicos</td>
+<td><span class="badge">Small Caps</span></td>
+<td>10.32</td>
+<td>3.08</td>
+<td>29.68%</td>
+<td>14.79%</td>
+<td>35</td>
+<td>31.2%</td>
+</tr>
+
+<tr data-setor="Serviços Financeiros" data-categoria="Blue Chips" data-score="50">
+<td><strong>ITUB3</strong></td>
+<td>Serviços Financeiros</td>
+<td><span class="badge">Blue Chips</span></td>
+<td>10.33</td>
+<td>2.23</td>
+<td>21.01%</td>
+<td>0.51%</td>
+<td>50</td>
+<td>31.12%</td>
+</tr>
+
+<tr data-setor="Indústria" data-categoria="Small Caps" data-score="15">
+<td><strong>VAMO3</strong></td>
+<td>Indústria</td>
+<td><span class="badge">Small Caps</span></td>
+<td>10.46</td>
+<td>1.65</td>
+<td>10.6%</td>
+<td>3.21%</td>
+<td>15</td>
+<td>30.26%</td>
+</tr>
+
+<tr data-setor="Utilidades Públicas" data-categoria="Mid Caps" data-score="50">
+<td><strong>EQPA5</strong></td>
+<td>Utilidades Públicas</td>
+<td><span class="badge">Mid Caps</span></td>
+<td>10.6</td>
+<td>3.46</td>
+<td>33.18%</td>
+<td>8.29%</td>
+<td>50</td>
+<td>29.33%</td>
+</tr>
+
+<tr data-setor="Consumo Defensivo" data-categoria="Small Caps" data-score="40">
+<td><strong>ANIM3</strong></td>
+<td>Consumo Defensivo</td>
+<td><span class="badge">Small Caps</span></td>
+<td>10.65</td>
+<td>0.74</td>
+<td>10.38%</td>
+<td>1.09%</td>
+<td>40</td>
+<td>28.99%</td>
+</tr>
+
+<tr data-setor="Comunicação" data-categoria="Small Caps" data-score="35">
+<td><strong>FIQE3</strong></td>
+<td>Comunicação</td>
+<td><span class="badge">Small Caps</span></td>
+<td>10.7</td>
+<td>1.64</td>
+<td>16.12%</td>
+<td>15.96%</td>
+<td>35</td>
+<td>28.67%</td>
+</tr>
+
+<tr data-setor="Utilidades Públicas" data-categoria="Mid Caps" data-score="50">
+<td><strong>CGAS3</strong></td>
+<td>Utilidades Públicas</td>
+<td><span class="badge">Mid Caps</span></td>
+<td>10.72</td>
+<td>8.38</td>
+<td>107.08%</td>
+<td>6.84%</td>
+<td>50</td>
+<td>28.56%</td>
 </tr>
 
 <tr data-setor="Serviços Financeiros" data-categoria="Blue Chips" data-score="55">
 <td><strong>BBAS3</strong></td>
 <td>Serviços Financeiros</td>
 <td><span class="badge">Blue Chips</span></td>
-<td>10.71</td>
+<td>10.72</td>
 <td>0.79</td>
 <td>8.88%</td>
 <td>1.04%</td>
 <td>55</td>
-<td>28.58%</td>
+<td>28.5%</td>
+</tr>
+
+<tr data-setor="Utilidades Públicas" data-categoria="Mid Caps" data-score="55">
+<td><strong>ALUP3</strong></td>
+<td>Utilidades Públicas</td>
+<td><span class="badge">Mid Caps</span></td>
+<td>10.73</td>
+<td>0.46</td>
+<td>14.23%</td>
+<td>2.46%</td>
+<td>55</td>
+<td>28.45%</td>
+</tr>
+
+<tr data-setor="Materiais Básicos" data-categoria="Small Caps" data-score="40">
+<td><strong>SOJA3</strong></td>
+<td>Materiais Básicos</td>
+<td><span class="badge">Small Caps</span></td>
+<td>10.82</td>
+<td>0.81</td>
+<td>9.67%</td>
+<td>5.37%</td>
+<td>40</td>
+<td>27.84%</td>
 </tr>
 
 <tr data-setor="Consumo Cíclico" data-categoria="Mid Caps" data-score="55">
@@ -525,64 +2239,412 @@ Atualizado em 03/03/2026
 <td>26.97%</td>
 </tr>
 
+<tr data-setor="Indústria" data-categoria="Mid Caps" data-score="50">
+<td><strong>MOTV3</strong></td>
+<td>Indústria</td>
+<td><span class="badge">Mid Caps</span></td>
+<td>10.97</td>
+<td>2.02</td>
+<td>20.78%</td>
+<td>1.97%</td>
+<td>50</td>
+<td>26.9%</td>
+</tr>
+
+<tr data-setor="Serviços Financeiros" data-categoria="Blue Chips" data-score="50">
+<td><strong>ITUB4</strong></td>
+<td>Serviços Financeiros</td>
+<td><span class="badge">Blue Chips</span></td>
+<td>11.0</td>
+<td>2.38</td>
+<td>21.01%</td>
+<td>1.2%</td>
+<td>50</td>
+<td>26.7%</td>
+</tr>
+
+<tr data-setor="Utilidades Públicas" data-categoria="Mid Caps" data-score="50">
+<td><strong>CGAS5</strong></td>
+<td>Utilidades Públicas</td>
+<td><span class="badge">Mid Caps</span></td>
+<td>11.13</td>
+<td>8.69</td>
+<td>107.08%</td>
+<td>7.19%</td>
+<td>50</td>
+<td>25.8%</td>
+</tr>
+
+<tr data-setor="Consumo Defensivo" data-categoria="Small Caps" data-score="40">
+<td><strong>MDIA3</strong></td>
+<td>Consumo Defensivo</td>
+<td><span class="badge">Small Caps</span></td>
+<td>11.4</td>
+<td>0.96</td>
+<td>8.4%</td>
+<td>1.54%</td>
+<td>40</td>
+<td>23.97%</td>
+</tr>
+
+<tr data-setor="Materiais Básicos" data-categoria="Mid Caps" data-score="55">
+<td><strong>GGBR3</strong></td>
+<td>Materiais Básicos</td>
+<td><span class="badge">Mid Caps</span></td>
+<td>11.48</td>
+<td>0.63</td>
+<td>2.53%</td>
+<td>2.25%</td>
+<td>55</td>
+<td>23.45%</td>
+</tr>
+
+<tr data-setor="Materiais Básicos" data-categoria="Small Caps" data-score="25">
+<td><strong>NUTR3</strong></td>
+<td>Materiais Básicos</td>
+<td><span class="badge">Small Caps</span></td>
+<td>11.7</td>
+<td>0.72</td>
+<td>6.43%</td>
+<td>0%</td>
+<td>25</td>
+<td>22.0%</td>
+</tr>
+
 <tr data-setor="Materiais Básicos" data-categoria="Mid Caps" data-score="50">
 <td><strong>CMIN3</strong></td>
 <td>Materiais Básicos</td>
 <td><span class="badge">Mid Caps</span></td>
-<td>11.69</td>
-<td>2.83</td>
+<td>11.73</td>
+<td>2.84</td>
 <td>25.95%</td>
 <td>9.57%</td>
 <td>50</td>
-<td>22.07%</td>
+<td>21.78%</td>
 </tr>
 
-<tr data-setor="Utilidades Públicas" data-categoria="Mid Caps" data-score="50">
-<td><strong>EGIE3</strong></td>
-<td>Utilidades Públicas</td>
-<td><span class="badge">Mid Caps</span></td>
-<td>12.03</td>
-<td>2.86</td>
-<td>21.82%</td>
-<td>4.69%</td>
+<tr data-setor="Indústria" data-categoria="Small Caps" data-score="35">
+<td><strong>MILS3</strong></td>
+<td>Indústria</td>
+<td><span class="badge">Small Caps</span></td>
+<td>11.84</td>
+<td>2.0</td>
+<td>18.96%</td>
+<td>4.95%</td>
+<td>35</td>
+<td>21.07%</td>
+</tr>
+
+<tr data-setor="Serviços Financeiros" data-categoria="Blue Chips" data-score="50">
+<td><strong>CXSE3</strong></td>
+<td>Serviços Financeiros</td>
+<td><span class="badge">Blue Chips</span></td>
+<td>11.95</td>
+<td>3.86</td>
+<td>32.46%</td>
+<td>7.3%</td>
 <td>50</td>
-<td>19.78%</td>
+<td>20.37%</td>
+</tr>
+
+<tr data-setor="Consumo Defensivo" data-categoria="Mid Caps" data-score="30">
+<td><strong>MBRF3</strong></td>
+<td>Consumo Defensivo</td>
+<td><span class="badge">Mid Caps</span></td>
+<td>12.02</td>
+<td>2.35</td>
+<td>11.4%</td>
+<td>27.51%</td>
+<td>30</td>
+<td>19.84%</td>
+</tr>
+
+<tr data-setor="Comunicação" data-categoria="Small Caps" data-score="25">
+<td><strong>TELB4</strong></td>
+<td>Comunicação</td>
+<td><span class="badge">Small Caps</span></td>
+<td>12.04</td>
+<td>0.55</td>
+<td>4.08%</td>
+<td>0%</td>
+<td>25</td>
+<td>19.71%</td>
 </tr>
 
 <tr data-setor="Serviços Financeiros" data-categoria="Small Caps" data-score="25">
 <td><strong>IRBR3</strong></td>
 <td>Serviços Financeiros</td>
 <td><span class="badge">Small Caps</span></td>
-<td>12.09</td>
+<td>12.06</td>
 <td>0.89</td>
 <td>10.59%</td>
 <td>0%</td>
 <td>25</td>
-<td>19.43%</td>
+<td>19.62%</td>
+</tr>
+
+<tr data-setor="Utilidades Públicas" data-categoria="Mid Caps" data-score="50">
+<td><strong>EGIE3</strong></td>
+<td>Utilidades Públicas</td>
+<td><span class="badge">Mid Caps</span></td>
+<td>12.07</td>
+<td>2.86</td>
+<td>21.82%</td>
+<td>4.69%</td>
+<td>50</td>
+<td>19.55%</td>
+</tr>
+
+<tr data-setor="Utilidades Públicas" data-categoria="Small Caps" data-score="35">
+<td><strong>CEBR6</strong></td>
+<td>Utilidades Públicas</td>
+<td><span class="badge">Small Caps</span></td>
+<td>12.19</td>
+<td>2.17</td>
+<td>18.87%</td>
+<td>16.0%</td>
+<td>35</td>
+<td>18.73%</td>
+</tr>
+
+<tr data-setor="Utilidades Públicas" data-categoria="Small Caps" data-score="35">
+<td><strong>CEBR5</strong></td>
+<td>Utilidades Públicas</td>
+<td><span class="badge">Small Caps</span></td>
+<td>12.24</td>
+<td>2.18</td>
+<td>18.87%</td>
+<td>15.09%</td>
+<td>35</td>
+<td>18.43%</td>
+</tr>
+
+<tr data-setor="Utilidades Públicas" data-categoria="Mid Caps" data-score="50">
+<td><strong>ENMT4</strong></td>
+<td>Utilidades Públicas</td>
+<td><span class="badge">Mid Caps</span></td>
+<td>12.32</td>
+<td>2.87</td>
+<td>25.21%</td>
+<td>10.58%</td>
+<td>50</td>
+<td>17.85%</td>
+</tr>
+
+<tr data-setor="Utilidades Públicas" data-categoria="Mid Caps" data-score="50">
+<td><strong>ENMT3</strong></td>
+<td>Utilidades Públicas</td>
+<td><span class="badge">Mid Caps</span></td>
+<td>12.32</td>
+<td>2.87</td>
+<td>25.21%</td>
+<td>10.58%</td>
+<td>50</td>
+<td>17.85%</td>
+</tr>
+
+<tr data-setor="Imobiliário" data-categoria="Mid Caps" data-score="50">
+<td><strong>CURY3</strong></td>
+<td>Imobiliário</td>
+<td><span class="badge">Mid Caps</span></td>
+<td>12.34</td>
+<td>7.75</td>
+<td>67.67%</td>
+<td>12.93%</td>
+<td>50</td>
+<td>17.72%</td>
+</tr>
+
+<tr data-setor="Utilidades Públicas" data-categoria="Small Caps" data-score="35">
+<td><strong>CEBR3</strong></td>
+<td>Utilidades Públicas</td>
+<td><span class="badge">Small Caps</span></td>
+<td>12.44</td>
+<td>2.22</td>
+<td>18.87%</td>
+<td>14.25%</td>
+<td>35</td>
+<td>17.07%</td>
+</tr>
+
+<tr data-setor="Saúde" data-categoria="Small Caps" data-score="35">
+<td><strong>ODPV3</strong></td>
+<td>Saúde</td>
+<td><span class="badge">Small Caps</span></td>
+<td>12.45</td>
+<td>5.63</td>
+<td>44.7%</td>
+<td>7.3%</td>
+<td>35</td>
+<td>17.01%</td>
+</tr>
+
+<tr data-setor="Consumo Defensivo" data-categoria="Mid Caps" data-score="30">
+<td><strong>ASAI3</strong></td>
+<td>Consumo Defensivo</td>
+<td><span class="badge">Mid Caps</span></td>
+<td>12.93</td>
+<td>2.13</td>
+<td>9.2%</td>
+<td>1.29%</td>
+<td>30</td>
+<td>13.82%</td>
+</tr>
+
+<tr data-setor="Consumo Cíclico" data-categoria="Small Caps" data-score="40">
+<td><strong>PTNT4</strong></td>
+<td>Consumo Cíclico</td>
+<td><span class="badge">Small Caps</span></td>
+<td>12.95</td>
+<td>0.96</td>
+<td>12.01%</td>
+<td>3.16%</td>
+<td>40</td>
+<td>13.64%</td>
+</tr>
+
+<tr data-setor="Comunicação" data-categoria="Small Caps" data-score="15">
+<td><strong>BMOB3</strong></td>
+<td>Comunicação</td>
+<td><span class="badge">Small Caps</span></td>
+<td>12.95</td>
+<td>1.69</td>
+<td>13.07%</td>
+<td>9.12%</td>
+<td>15</td>
+<td>13.64%</td>
 </tr>
 
 <tr data-setor="Materiais Básicos" data-categoria="Mid Caps" data-score="55">
 <td><strong>GGBR4</strong></td>
 <td>Materiais Básicos</td>
 <td><span class="badge">Mid Caps</span></td>
-<td>13.23</td>
+<td>13.21</td>
 <td>0.73</td>
 <td>2.53%</td>
 <td>1.92%</td>
 <td>55</td>
-<td>11.81%</td>
+<td>11.9%</td>
+</tr>
+
+<tr data-setor="Utilidades Públicas" data-categoria="Small Caps" data-score="40">
+<td><strong>COCE5</strong></td>
+<td>Utilidades Públicas</td>
+<td><span class="badge">Small Caps</span></td>
+<td>13.28</td>
+<td>0.52</td>
+<td>5.74%</td>
+<td>4.2%</td>
+<td>40</td>
+<td>11.48%</td>
+</tr>
+
+<tr data-setor="Consumo Cíclico" data-categoria="Small Caps" data-score="40">
+<td><strong>PTNT3</strong></td>
+<td>Consumo Cíclico</td>
+<td><span class="badge">Small Caps</span></td>
+<td>13.29</td>
+<td>0.99</td>
+<td>12.01%</td>
+<td>3.13%</td>
+<td>40</td>
+<td>11.38%</td>
+</tr>
+
+<tr data-setor="Consumo Defensivo" data-categoria="Small Caps" data-score="40">
+<td><strong>SEER3</strong></td>
+<td>Consumo Defensivo</td>
+<td><span class="badge">Small Caps</span></td>
+<td>13.42</td>
+<td>1.11</td>
+<td>8.58%</td>
+<td>1.27%</td>
+<td>40</td>
+<td>10.54%</td>
+</tr>
+
+<tr data-setor="Materiais Básicos" data-categoria="Small Caps" data-score="40">
+<td><strong>FESA4</strong></td>
+<td>Materiais Básicos</td>
+<td><span class="badge">Small Caps</span></td>
+<td>13.47</td>
+<td>0.8</td>
+<td>6.35%</td>
+<td>13.88%</td>
+<td>40</td>
+<td>10.17%</td>
+</tr>
+
+<tr data-setor="Indústria" data-categoria="Small Caps" data-score="40">
+<td><strong>MTSA4</strong></td>
+<td>Indústria</td>
+<td><span class="badge">Small Caps</span></td>
+<td>13.51</td>
+<td>1.12</td>
+<td>8.83%</td>
+<td>6.85%</td>
+<td>40</td>
+<td>9.96%</td>
+</tr>
+
+<tr data-setor="Serviços Financeiros" data-categoria="Small Caps" data-score="35">
+<td><strong>BMEB3</strong></td>
+<td>Serviços Financeiros</td>
+<td><span class="badge">Small Caps</span></td>
+<td>13.6</td>
+<td>3.29</td>
+<td>40.6%</td>
+<td>2.34%</td>
+<td>35</td>
+<td>9.31%</td>
+</tr>
+
+<tr data-setor="Consumo Defensivo" data-categoria="Small Caps" data-score="40">
+<td><strong>YDUQ3</strong></td>
+<td>Consumo Defensivo</td>
+<td><span class="badge">Small Caps</span></td>
+<td>13.81</td>
+<td>1.02</td>
+<td>7.62%</td>
+<td>8.76%</td>
+<td>40</td>
+<td>7.95%</td>
+</tr>
+
+<tr data-setor="Consumo Defensivo" data-categoria="Small Caps" data-score="15">
+<td><strong>SLCE3</strong></td>
+<td>Consumo Defensivo</td>
+<td><span class="badge">Small Caps</span></td>
+<td>13.97</td>
+<td>1.53</td>
+<td>11.08%</td>
+<td>7.76%</td>
+<td>15</td>
+<td>6.9%</td>
+</tr>
+
+<tr data-setor="Imobiliário" data-categoria="Small Caps" data-score="40">
+<td><strong>HBTS5</strong></td>
+<td>Imobiliário</td>
+<td><span class="badge">Small Caps</span></td>
+<td>14.17</td>
+<td>0.51</td>
+<td>6.1%</td>
+<td>16.07%</td>
+<td>40</td>
+<td>5.53%</td>
 </tr>
 
 <tr data-setor="Imobiliário" data-categoria="Mid Caps" data-score="50">
 <td><strong>MULT3</strong></td>
 <td>Imobiliário</td>
 <td><span class="badge">Mid Caps</span></td>
-<td>14.23</td>
-<td>2.54</td>
+<td>14.27</td>
+<td>2.55</td>
 <td>19.11%</td>
 <td>3.59%</td>
 <td>50</td>
-<td>5.13%</td>
+<td>4.84%</td>
 </tr>
 
 <tr data-setor="Consumo Defensivo" data-categoria="Small Caps" data-score="40">
@@ -597,64 +2659,1732 @@ Atualizado em 03/03/2026
 <td>4.35%</td>
 </tr>
 
+<tr data-setor="Utilidades Públicas" data-categoria="Blue Chips" data-score="50">
+<td><strong>SBSP3</strong></td>
+<td>Utilidades Públicas</td>
+<td><span class="badge">Blue Chips</span></td>
+<td>14.43</td>
+<td>2.43</td>
+<td>17.89%</td>
+<td>4.1%</td>
+<td>50</td>
+<td>3.82%</td>
+</tr>
+
+<tr data-setor="Consumo Cíclico" data-categoria="Small Caps" data-score="0">
+<td><strong>AMAR3</strong></td>
+<td>Consumo Cíclico</td>
+<td><span class="badge">Small Caps</span></td>
+<td>14.67</td>
+<td>1.53</td>
+<td>10.79%</td>
+<td>0%</td>
+<td>0</td>
+<td>2.22%</td>
+</tr>
+
+<tr data-setor="Utilidades Públicas" data-categoria="Mid Caps" data-score="50">
+<td><strong>CSMG3</strong></td>
+<td>Utilidades Públicas</td>
+<td><span class="badge">Mid Caps</span></td>
+<td>14.86</td>
+<td>2.34</td>
+<td>16.39%</td>
+<td>1.75%</td>
+<td>50</td>
+<td>0.93%</td>
+</tr>
+
+<tr data-setor="Comunicação" data-categoria="Blue Chips" data-score="50">
+<td><strong>TIMS3</strong></td>
+<td>Comunicação</td>
+<td><span class="badge">Blue Chips</span></td>
+<td>14.88</td>
+<td>2.65</td>
+<td>17.12%</td>
+<td>10.19%</td>
+<td>50</td>
+<td>0.78%</td>
+</tr>
+
 <tr data-setor="Saúde" data-categoria="Small Caps" data-score="15">
 <td><strong>FLRY3</strong></td>
 <td>Saúde</td>
 <td><span class="badge">Small Caps</span></td>
-<td>15.1</td>
-<td>1.68</td>
+<td>14.99</td>
+<td>1.67</td>
 <td>10.62%</td>
 <td>11.18%</td>
 <td>15</td>
-<td>-0.67%</td>
+<td>0.06%</td>
+</tr>
+
+<tr data-setor="Indústria" data-categoria="Small Caps" data-score="25">
+<td><strong>AZEV4</strong></td>
+<td>Indústria</td>
+<td><span class="badge">Small Caps</span></td>
+<td>0.0</td>
+<td>0.78</td>
+<td>-324.35%</td>
+<td>0%</td>
+<td>25</td>
+<td>0.0%</td>
+</tr>
+
+<tr data-setor="Energia" data-categoria="Mid Caps" data-score="15">
+<td><strong>CSAN3</strong></td>
+<td>Energia</td>
+<td><span class="badge">Mid Caps</span></td>
+<td>0.0</td>
+<td>1.86</td>
+<td>-29.68%</td>
+<td>0%</td>
+<td>15</td>
+<td>0.0%</td>
+</tr>
+
+<tr data-setor="Utilidades Públicas" data-categoria="Small Caps" data-score="25">
+<td><strong>RNEW4</strong></td>
+<td>Utilidades Públicas</td>
+<td><span class="badge">Small Caps</span></td>
+<td>0.0</td>
+<td>0.4</td>
+<td>-15.93%</td>
+<td>0%</td>
+<td>25</td>
+<td>0.0%</td>
+</tr>
+
+<tr data-setor="Consumo Defensivo" data-categoria="Small Caps" data-score="40">
+<td><strong>AGRO3</strong></td>
+<td>Consumo Defensivo</td>
+<td><span class="badge">Small Caps</span></td>
+<td>0.0</td>
+<td>1.02</td>
+<td>-0.07%</td>
+<td>3.52%</td>
+<td>40</td>
+<td>0.0%</td>
+</tr>
+
+<tr data-setor="Consumo Cíclico" data-categoria="Small Caps" data-score="25">
+<td><strong>MEAL3</strong></td>
+<td>Consumo Cíclico</td>
+<td><span class="badge">Small Caps</span></td>
+<td>0.0</td>
+<td>0.36</td>
+<td>-17.13%</td>
+<td>0%</td>
+<td>25</td>
+<td>0.0%</td>
+</tr>
+
+<tr data-setor="Indústria" data-categoria="Small Caps" data-score="0">
+<td><strong>PTBL3</strong></td>
+<td>Indústria</td>
+<td><span class="badge">Small Caps</span></td>
+<td>0.0</td>
+<td>2.29</td>
+<td>-64.6%</td>
+<td>0%</td>
+<td>0</td>
+<td>0.0%</td>
+</tr>
+
+<tr data-setor="Materiais Básicos" data-categoria="Small Caps" data-score="0">
+<td><strong>FHER3</strong></td>
+<td>Materiais Básicos</td>
+<td><span class="badge">Small Caps</span></td>
+<td>0.0</td>
+<td>-0.2</td>
+<td>0%</td>
+<td>0%</td>
+<td>0</td>
+<td>0.0%</td>
+</tr>
+
+<tr data-setor="Consumo Cíclico" data-categoria="Small Caps" data-score="25">
+<td><strong>SHOW3</strong></td>
+<td>Consumo Cíclico</td>
+<td><span class="badge">Small Caps</span></td>
+<td>0.0</td>
+<td>0.29</td>
+<td>-47.87%</td>
+<td>0%</td>
+<td>25</td>
+<td>0.0%</td>
+</tr>
+
+<tr data-setor="Saúde" data-categoria="Small Caps" data-score="0">
+<td><strong>BIOM3</strong></td>
+<td>Saúde</td>
+<td><span class="badge">Small Caps</span></td>
+<td>0.0</td>
+<td>3.01</td>
+<td>-21.54%</td>
+<td>0%</td>
+<td>0</td>
+<td>0.0%</td>
+</tr>
+
+<tr data-setor="Tecnologia" data-categoria="Small Caps" data-score="40">
+<td><strong>MLAS3</strong></td>
+<td>Tecnologia</td>
+<td><span class="badge">Small Caps</span></td>
+<td>0.0</td>
+<td>0.33</td>
+<td>-1.68%</td>
+<td>3.82%</td>
+<td>40</td>
+<td>0.0%</td>
+</tr>
+
+<tr data-setor="Consumo Cíclico" data-categoria="Small Caps" data-score="0">
+<td><strong>SNSY3</strong></td>
+<td>Consumo Cíclico</td>
+<td><span class="badge">Small Caps</span></td>
+<td>0.0</td>
+<td>-0.04</td>
+<td>0%</td>
+<td>0%</td>
+<td>0</td>
+<td>0.0%</td>
+</tr>
+
+<tr data-setor="Indústria" data-categoria="Small Caps" data-score="25">
+<td><strong>AMBP3</strong></td>
+<td>Indústria</td>
+<td><span class="badge">Small Caps</span></td>
+<td>0.0</td>
+<td>0.35</td>
+<td>-1.34%</td>
+<td>0%</td>
+<td>25</td>
+<td>0.0%</td>
+</tr>
+
+<tr data-setor="Materiais Básicos" data-categoria="Small Caps" data-score="25">
+<td><strong>USIM5</strong></td>
+<td>Materiais Básicos</td>
+<td><span class="badge">Small Caps</span></td>
+<td>0.0</td>
+<td>0.39</td>
+<td>-11.55%</td>
+<td>0%</td>
+<td>25</td>
+<td>0.0%</td>
+</tr>
+
+<tr data-setor="Materiais Básicos" data-categoria="Small Caps" data-score="25">
+<td><strong>USIM3</strong></td>
+<td>Materiais Básicos</td>
+<td><span class="badge">Small Caps</span></td>
+<td>0.0</td>
+<td>0.39</td>
+<td>-11.55%</td>
+<td>0%</td>
+<td>25</td>
+<td>0.0%</td>
+</tr>
+
+<tr data-setor="Imobiliário" data-categoria="Small Caps" data-score="25">
+<td><strong>VIVR3</strong></td>
+<td>Imobiliário</td>
+<td><span class="badge">Small Caps</span></td>
+<td>0.0</td>
+<td>0.23</td>
+<td>-16.11%</td>
+<td>0%</td>
+<td>25</td>
+<td>0.0%</td>
+</tr>
+
+<tr data-setor="Materiais Básicos" data-categoria="Small Caps" data-score="25">
+<td><strong>CRPG6</strong></td>
+<td>Materiais Básicos</td>
+<td><span class="badge">Small Caps</span></td>
+<td>0.0</td>
+<td>0.93</td>
+<td>-4.3%</td>
+<td>0%</td>
+<td>25</td>
+<td>0.0%</td>
+</tr>
+
+<tr data-setor="Utilidades Públicas" data-categoria="Small Caps" data-score="0">
+<td><strong>RAIZ4</strong></td>
+<td>Utilidades Públicas</td>
+<td><span class="badge">Small Caps</span></td>
+<td>0.0</td>
+<td>-4.29</td>
+<td>-231.28%</td>
+<td>0%</td>
+<td>0</td>
+<td>0.0%</td>
+</tr>
+
+<tr data-setor="Consumo Cíclico" data-categoria="Small Caps" data-score="25">
+<td><strong>PCAR3</strong></td>
+<td>Consumo Cíclico</td>
+<td><span class="badge">Small Caps</span></td>
+<td>0.0</td>
+<td>0.63</td>
+<td>-25.47%</td>
+<td>0%</td>
+<td>25</td>
+<td>0.0%</td>
+</tr>
+
+<tr data-setor="Saúde" data-categoria="Small Caps" data-score="25">
+<td><strong>DASA3</strong></td>
+<td>Saúde</td>
+<td><span class="badge">Small Caps</span></td>
+<td>0.0</td>
+<td>0.59</td>
+<td>-12.35%</td>
+<td>0%</td>
+<td>25</td>
+<td>0.0%</td>
+</tr>
+
+<tr data-setor="Indústria" data-categoria="Small Caps" data-score="0">
+<td><strong>SEQL3</strong></td>
+<td>Indústria</td>
+<td><span class="badge">Small Caps</span></td>
+<td>0.0</td>
+<td>-0.0</td>
+<td>0%</td>
+<td>0%</td>
+<td>0</td>
+<td>0.0%</td>
+</tr>
+
+<tr data-setor="Indústria" data-categoria="Small Caps" data-score="40">
+<td><strong>TUPY3</strong></td>
+<td>Indústria</td>
+<td><span class="badge">Small Caps</span></td>
+<td>0.0</td>
+<td>0.53</td>
+<td>-3.69%</td>
+<td>14.66%</td>
+<td>40</td>
+<td>0.0%</td>
+</tr>
+
+<tr data-setor="Comunicação" data-categoria="Small Caps" data-score="0">
+<td><strong>OIBR3</strong></td>
+<td>Comunicação</td>
+<td><span class="badge">Small Caps</span></td>
+<td>0.0</td>
+<td>-0.0</td>
+<td>0%</td>
+<td>0%</td>
+<td>0</td>
+<td>0.0%</td>
+</tr>
+
+<tr data-setor="Consumo Cíclico" data-categoria="Small Caps" data-score="25">
+<td><strong>AMER3</strong></td>
+<td>Consumo Cíclico</td>
+<td><span class="badge">Small Caps</span></td>
+<td>0.0</td>
+<td>0.22</td>
+<td>-15.06%</td>
+<td>0%</td>
+<td>25</td>
+<td>0.0%</td>
+</tr>
+
+<tr data-setor="Saúde" data-categoria="Small Caps" data-score="25">
+<td><strong>AALR3</strong></td>
+<td>Saúde</td>
+<td><span class="badge">Small Caps</span></td>
+<td>0.0</td>
+<td>0.7</td>
+<td>-6.19%</td>
+<td>0%</td>
+<td>25</td>
+<td>0.0%</td>
+</tr>
+
+<tr data-setor="Tecnologia" data-categoria="Small Caps" data-score="25">
+<td><strong>TRAD3</strong></td>
+<td>Tecnologia</td>
+<td><span class="badge">Small Caps</span></td>
+<td>0.0</td>
+<td>0.5</td>
+<td>-21.95%</td>
+<td>0%</td>
+<td>25</td>
+<td>0.0%</td>
+</tr>
+
+<tr data-setor="Indústria" data-categoria="Small Caps" data-score="0">
+<td><strong>RCSL3</strong></td>
+<td>Indústria</td>
+<td><span class="badge">Small Caps</span></td>
+<td>0.0</td>
+<td>-4.02</td>
+<td>0%</td>
+<td>0%</td>
+<td>0</td>
+<td>0.0%</td>
+</tr>
+
+<tr data-setor="Imobiliário" data-categoria="Small Caps" data-score="0">
+<td><strong>PDGR3</strong></td>
+<td>Imobiliário</td>
+<td><span class="badge">Small Caps</span></td>
+<td>0.0</td>
+<td>-0.0</td>
+<td>0%</td>
+<td>0%</td>
+<td>0</td>
+<td>0.0%</td>
+</tr>
+
+<tr data-setor="Indústria" data-categoria="Small Caps" data-score="25">
+<td><strong>CTAX3</strong></td>
+<td>Indústria</td>
+<td><span class="badge">Small Caps</span></td>
+<td>0.0</td>
+<td>0.25</td>
+<td>-122.26%</td>
+<td>0%</td>
+<td>25</td>
+<td>0.0%</td>
+</tr>
+
+<tr data-setor="Saúde" data-categoria="Small Caps" data-score="0">
+<td><strong>ONCO3</strong></td>
+<td>Saúde</td>
+<td><span class="badge">Small Caps</span></td>
+<td>0.0</td>
+<td>1.52</td>
+<td>-108.85%</td>
+<td>0%</td>
+<td>0</td>
+<td>0.0%</td>
+</tr>
+
+<tr data-setor="Materiais Básicos" data-categoria="Small Caps" data-score="0">
+<td><strong>BRKM5</strong></td>
+<td>Materiais Básicos</td>
+<td><span class="badge">Small Caps</span></td>
+<td>0.0</td>
+<td>-2.07</td>
+<td>0%</td>
+<td>0%</td>
+<td>0</td>
+<td>0.0%</td>
+</tr>
+
+<tr data-setor="Indústria" data-categoria="Small Caps" data-score="0">
+<td><strong>INEP4</strong></td>
+<td>Indústria</td>
+<td><span class="badge">Small Caps</span></td>
+<td>0.0</td>
+<td>-0.03</td>
+<td>0%</td>
+<td>0%</td>
+<td>0</td>
+<td>0.0%</td>
+</tr>
+
+<tr data-setor="Comunicação" data-categoria="Small Caps" data-score="40">
+<td><strong>WDCN3</strong></td>
+<td>Comunicação</td>
+<td><span class="badge">Small Caps</span></td>
+<td>0.0</td>
+<td>0.24</td>
+<td>-0.08%</td>
+<td>7.57%</td>
+<td>40</td>
+<td>0.0%</td>
+</tr>
+
+<tr data-setor="Materiais Básicos" data-categoria="Small Caps" data-score="0">
+<td><strong>BRKM3</strong></td>
+<td>Materiais Básicos</td>
+<td><span class="badge">Small Caps</span></td>
+<td>0.0</td>
+<td>-1.95</td>
+<td>0%</td>
+<td>0%</td>
+<td>0</td>
+<td>0.0%</td>
+</tr>
+
+<tr data-setor="Saúde" data-categoria="Small Caps" data-score="25">
+<td><strong>VVEO3</strong></td>
+<td>Saúde</td>
+<td><span class="badge">Small Caps</span></td>
+<td>0.0</td>
+<td>0.22</td>
+<td>-39.62%</td>
+<td>0%</td>
+<td>25</td>
+<td>0.0%</td>
+</tr>
+
+<tr data-setor="Indústria" data-categoria="Small Caps" data-score="0">
+<td><strong>AERI3</strong></td>
+<td>Indústria</td>
+<td><span class="badge">Small Caps</span></td>
+<td>0.0</td>
+<td>-0.82</td>
+<td>-300.45%</td>
+<td>0%</td>
+<td>0</td>
+<td>0.0%</td>
+</tr>
+
+<tr data-setor="Indústria" data-categoria="Small Caps" data-score="40">
+<td><strong>TPIS3</strong></td>
+<td>Indústria</td>
+<td><span class="badge">Small Caps</span></td>
+<td>0.0</td>
+<td>0.33</td>
+<td>-11.75%</td>
+<td>8.2%</td>
+<td>40</td>
+<td>0.0%</td>
+</tr>
+
+<tr data-setor="Consumo Defensivo" data-categoria="Small Caps" data-score="40">
+<td><strong>LAND3</strong></td>
+<td>Consumo Defensivo</td>
+<td><span class="badge">Small Caps</span></td>
+<td>0.0</td>
+<td>1.29</td>
+<td>-1.36%</td>
+<td>0.8%</td>
+<td>40</td>
+<td>0.0%</td>
+</tr>
+
+<tr data-setor="Materiais Básicos" data-categoria="Small Caps" data-score="0">
+<td><strong>AGXY3</strong></td>
+<td>Materiais Básicos</td>
+<td><span class="badge">Small Caps</span></td>
+<td>0.0</td>
+<td>-0.19</td>
+<td>0%</td>
+<td>0%</td>
+<td>0</td>
+<td>0.0%</td>
+</tr>
+
+<tr data-setor="Imobiliário" data-categoria="Small Caps" data-score="0">
+<td><strong>AVLL3</strong></td>
+<td>Imobiliário</td>
+<td><span class="badge">Small Caps</span></td>
+<td>0.0</td>
+<td>-0.83</td>
+<td>0%</td>
+<td>0%</td>
+<td>0</td>
+<td>0.0%</td>
+</tr>
+
+<tr data-setor="Tecnologia" data-categoria="Small Caps" data-score="25">
+<td><strong>PDTC3</strong></td>
+<td>Tecnologia</td>
+<td><span class="badge">Small Caps</span></td>
+<td>0.0</td>
+<td>0.95</td>
+<td>-8.05%</td>
+<td>0%</td>
+<td>25</td>
+<td>0.0%</td>
+</tr>
+
+<tr data-setor="Energia" data-categoria="Small Caps" data-score="25">
+<td><strong>AZTE3</strong></td>
+<td>Energia</td>
+<td><span class="badge">Small Caps</span></td>
+<td>0.0</td>
+<td>0.39</td>
+<td>0%</td>
+<td>0%</td>
+<td>25</td>
+<td>0.0%</td>
+</tr>
+
+<tr data-setor="Materiais Básicos" data-categoria="Small Caps" data-score="0">
+<td><strong>PMAM3</strong></td>
+<td>Materiais Básicos</td>
+<td><span class="badge">Small Caps</span></td>
+<td>0.0</td>
+<td>-0.01</td>
+<td>0%</td>
+<td>0%</td>
+<td>0</td>
+<td>0.0%</td>
+</tr>
+
+<tr data-setor="Utilidades Públicas" data-categoria="Small Caps" data-score="25">
+<td><strong>RNEW3</strong></td>
+<td>Utilidades Públicas</td>
+<td><span class="badge">Small Caps</span></td>
+<td>0.0</td>
+<td>0.39</td>
+<td>-15.93%</td>
+<td>0%</td>
+<td>25</td>
+<td>0.0%</td>
+</tr>
+
+<tr data-setor="Energia" data-categoria="Small Caps" data-score="25">
+<td><strong>LUPA3</strong></td>
+<td>Energia</td>
+<td><span class="badge">Small Caps</span></td>
+<td>0.0</td>
+<td>0.49</td>
+<td>-8.74%</td>
+<td>0%</td>
+<td>25</td>
+<td>0.0%</td>
+</tr>
+
+<tr data-setor="Indústria" data-categoria="Small Caps" data-score="45">
+<td><strong>IFCM3</strong></td>
+<td>Indústria</td>
+<td><span class="badge">Small Caps</span></td>
+<td>0.0</td>
+<td>0.28</td>
+<td>89.28%</td>
+<td>0%</td>
+<td>45</td>
+<td>0.0%</td>
+</tr>
+
+<tr data-setor="Imobiliário" data-categoria="Small Caps" data-score="0">
+<td><strong>JFEN3</strong></td>
+<td>Imobiliário</td>
+<td><span class="badge">Small Caps</span></td>
+<td>0.0</td>
+<td>-0.14</td>
+<td>0%</td>
+<td>0%</td>
+<td>0</td>
+<td>0.0%</td>
+</tr>
+
+<tr data-setor="Imobiliário" data-categoria="Small Caps" data-score="25">
+<td><strong>TCSA3</strong></td>
+<td>Imobiliário</td>
+<td><span class="badge">Small Caps</span></td>
+<td>0.0</td>
+<td>0.36</td>
+<td>-34.37%</td>
+<td>0%</td>
+<td>25</td>
+<td>0.0%</td>
+</tr>
+
+<tr data-setor="Consumo Cíclico" data-categoria="Small Caps" data-score="25">
+<td><strong>ENJU3</strong></td>
+<td>Consumo Cíclico</td>
+<td><span class="badge">Small Caps</span></td>
+<td>0.0</td>
+<td>0.74</td>
+<td>-6.53%</td>
+<td>0%</td>
+<td>25</td>
+<td>0.0%</td>
+</tr>
+
+<tr data-setor="Materiais Básicos" data-categoria="Mid Caps" data-score="15">
+<td><strong>BRKM6</strong></td>
+<td>Materiais Básicos</td>
+<td><span class="badge">Mid Caps</span></td>
+<td>0.0</td>
+<td>-1.99</td>
+<td>0%</td>
+<td>0%</td>
+<td>15</td>
+<td>0.0%</td>
+</tr>
+
+<tr data-setor="Utilidades Públicas" data-categoria="Small Caps" data-score="0">
+<td><strong>GPAR3</strong></td>
+<td>Utilidades Públicas</td>
+<td><span class="badge">Small Caps</span></td>
+<td>0.0</td>
+<td>1.51</td>
+<td>-3.92%</td>
+<td>0%</td>
+<td>0</td>
+<td>0.0%</td>
+</tr>
+
+<tr data-setor="Serviços Financeiros" data-categoria="Small Caps" data-score="25">
+<td><strong>HAPV3</strong></td>
+<td>Serviços Financeiros</td>
+<td><span class="badge">Small Caps</span></td>
+<td>0.0</td>
+<td>0.1</td>
+<td>-0.64%</td>
+<td>0%</td>
+<td>25</td>
+<td>0.0%</td>
+</tr>
+
+<tr data-setor="Comunicação" data-categoria="Small Caps" data-score="0">
+<td><strong>OIBR4</strong></td>
+<td>Comunicação</td>
+<td><span class="badge">Small Caps</span></td>
+<td>0.0</td>
+<td>-0.03</td>
+<td>0%</td>
+<td>0%</td>
+<td>0</td>
+<td>0.0%</td>
+</tr>
+
+<tr data-setor="Consumo Cíclico" data-categoria="Small Caps" data-score="25">
+<td><strong>CTSA3</strong></td>
+<td>Consumo Cíclico</td>
+<td><span class="badge">Small Caps</span></td>
+<td>0.0</td>
+<td>0.17</td>
+<td>-102.17%</td>
+<td>0%</td>
+<td>25</td>
+<td>0.0%</td>
+</tr>
+
+<tr data-setor="Imobiliário" data-categoria="Small Caps" data-score="35">
+<td><strong>DIRR3</strong></td>
+<td>Imobiliário</td>
+<td><span class="badge">Small Caps</span></td>
+<td>0.0</td>
+<td>3.19</td>
+<td>36.21%</td>
+<td>16.5%</td>
+<td>35</td>
+<td>0.0%</td>
+</tr>
+
+<tr data-setor="Materiais Básicos" data-categoria="Small Caps" data-score="25">
+<td><strong>CRPG5</strong></td>
+<td>Materiais Básicos</td>
+<td><span class="badge">Small Caps</span></td>
+<td>0.0</td>
+<td>0.91</td>
+<td>-4.3%</td>
+<td>0%</td>
+<td>25</td>
+<td>0.0%</td>
+</tr>
+
+<tr data-setor="Consumo Defensivo" data-categoria="Small Caps" data-score="25">
+<td><strong>MNDL3</strong></td>
+<td>Consumo Defensivo</td>
+<td><span class="badge">Small Caps</span></td>
+<td>0.0</td>
+<td>1.31</td>
+<td>-16.55%</td>
+<td>0%</td>
+<td>25</td>
+<td>0.0%</td>
+</tr>
+
+<tr data-setor="Comunicação" data-categoria="Small Caps" data-score="0">
+<td><strong>DOTZ3</strong></td>
+<td>Comunicação</td>
+<td><span class="badge">Small Caps</span></td>
+<td>0.0</td>
+<td>-0.16</td>
+<td>0%</td>
+<td>0%</td>
+<td>0</td>
+<td>0.0%</td>
+</tr>
+
+<tr data-setor="Tecnologia" data-categoria="Small Caps" data-score="25">
+<td><strong>NGRD3</strong></td>
+<td>Tecnologia</td>
+<td><span class="badge">Small Caps</span></td>
+<td>0.0</td>
+<td>0.53</td>
+<td>-4.47%</td>
+<td>0%</td>
+<td>25</td>
+<td>0.0%</td>
+</tr>
+
+<tr data-setor="Indústria" data-categoria="Small Caps" data-score="25">
+<td><strong>AZEV3</strong></td>
+<td>Indústria</td>
+<td><span class="badge">Small Caps</span></td>
+<td>0.0</td>
+<td>1.0</td>
+<td>-324.35%</td>
+<td>0%</td>
+<td>25</td>
+<td>0.0%</td>
+</tr>
+
+<tr data-setor="Consumo Defensivo" data-categoria="Small Caps" data-score="15">
+<td><strong>BEEF3</strong></td>
+<td>Consumo Defensivo</td>
+<td><span class="badge">Small Caps</span></td>
+<td>0.0</td>
+<td>3.76</td>
+<td>-50.41%</td>
+<td>12.91%</td>
+<td>15</td>
+<td>0.0%</td>
+</tr>
+
+<tr data-setor="Materiais Básicos" data-categoria="Mid Caps" data-score="55">
+<td><strong>CSNA3</strong></td>
+<td>Materiais Básicos</td>
+<td><span class="badge">Mid Caps</span></td>
+<td>0.0</td>
+<td>0.74</td>
+<td>-5.34%</td>
+<td>15.64%</td>
+<td>55</td>
+<td>0.0%</td>
+</tr>
+
+<tr data-setor="Consumo Defensivo" data-categoria="Small Caps" data-score="0">
+<td><strong>BOBR4</strong></td>
+<td>Consumo Defensivo</td>
+<td><span class="badge">Small Caps</span></td>
+<td>0.0</td>
+<td>-0.2</td>
+<td>0%</td>
+<td>0%</td>
+<td>0</td>
+<td>0.0%</td>
+</tr>
+
+<tr data-setor="Consumo Cíclico" data-categoria="Small Caps" data-score="0">
+<td><strong>CVCB3</strong></td>
+<td>Consumo Cíclico</td>
+<td><span class="badge">Small Caps</span></td>
+<td>0.0</td>
+<td>2.15</td>
+<td>-13.72%</td>
+<td>0%</td>
+<td>0</td>
+<td>0.0%</td>
+</tr>
+
+<tr data-setor="Utilidades Públicas" data-categoria="Small Caps" data-score="0">
+<td><strong>CEED3</strong></td>
+<td>Utilidades Públicas</td>
+<td><span class="badge">Small Caps</span></td>
+<td>0.0</td>
+<td>-0.17</td>
+<td>0%</td>
+<td>0%</td>
+<td>0</td>
+<td>0.0%</td>
+</tr>
+
+<tr data-setor="Materiais Básicos" data-categoria="Small Caps" data-score="25">
+<td><strong>CRPG3</strong></td>
+<td>Materiais Básicos</td>
+<td><span class="badge">Small Caps</span></td>
+<td>0.0</td>
+<td>1.02</td>
+<td>-4.3%</td>
+<td>0%</td>
+<td>25</td>
+<td>0.0%</td>
+</tr>
+
+<tr data-setor="Serviços Financeiros" data-categoria="Small Caps" data-score="25">
+<td><strong>ARND3</strong></td>
+<td>Serviços Financeiros</td>
+<td><span class="badge">Small Caps</span></td>
+<td>0.0</td>
+<td>0.16</td>
+<td>-13.88%</td>
+<td>0%</td>
+<td>25</td>
+<td>0.0%</td>
+</tr>
+
+<tr data-setor="Consumo Cíclico" data-categoria="Small Caps" data-score="0">
+<td><strong>SNSY5</strong></td>
+<td>Consumo Cíclico</td>
+<td><span class="badge">Small Caps</span></td>
+<td>0.0</td>
+<td>-0.01</td>
+<td>0%</td>
+<td>0%</td>
+<td>0</td>
+<td>0.0%</td>
+</tr>
+
+<tr data-setor="Imobiliário" data-categoria="Small Caps" data-score="25">
+<td><strong>MRVE3</strong></td>
+<td>Imobiliário</td>
+<td><span class="badge">Small Caps</span></td>
+<td>0.0</td>
+<td>1.02</td>
+<td>-19.69%</td>
+<td>0%</td>
+<td>25</td>
+<td>0.0%</td>
+</tr>
+
+<tr data-setor="Comunicação" data-categoria="Small Caps" data-score="0">
+<td><strong>ATED3</strong></td>
+<td>Comunicação</td>
+<td><span class="badge">Small Caps</span></td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0%</td>
+<td>0%</td>
+<td>0</td>
+<td>0.0%</td>
+</tr>
+
+<tr data-setor="Energia" data-categoria="Small Caps" data-score="0">
+<td><strong>RPMG3</strong></td>
+<td>Energia</td>
+<td><span class="badge">Small Caps</span></td>
+<td>0.0</td>
+<td>-0.02</td>
+<td>0%</td>
+<td>0%</td>
+<td>0</td>
+<td>0.0%</td>
+</tr>
+
+<tr data-setor="Imobiliário" data-categoria="Small Caps" data-score="0">
+<td><strong>GSHP3</strong></td>
+<td>Imobiliário</td>
+<td><span class="badge">Small Caps</span></td>
+<td>0.0</td>
+<td>-0.0</td>
+<td>0%</td>
+<td>0%</td>
+<td>0</td>
+<td>0.0%</td>
+</tr>
+
+<tr data-setor="Consumo Cíclico" data-categoria="Small Caps" data-score="25">
+<td><strong>CTSA4</strong></td>
+<td>Consumo Cíclico</td>
+<td><span class="badge">Small Caps</span></td>
+<td>0.0</td>
+<td>0.13</td>
+<td>-102.17%</td>
+<td>0%</td>
+<td>25</td>
+<td>0.0%</td>
+</tr>
+
+<tr data-setor="Consumo Cíclico" data-categoria="Small Caps" data-score="0">
+<td><strong>PLAS3</strong></td>
+<td>Consumo Cíclico</td>
+<td><span class="badge">Small Caps</span></td>
+<td>0.0</td>
+<td>-0.08</td>
+<td>0%</td>
+<td>0%</td>
+<td>0</td>
+<td>0.0%</td>
+</tr>
+
+<tr data-setor="Indústria" data-categoria="Small Caps" data-score="0">
+<td><strong>INEP3</strong></td>
+<td>Indústria</td>
+<td><span class="badge">Small Caps</span></td>
+<td>0.0</td>
+<td>-0.03</td>
+<td>0%</td>
+<td>0%</td>
+<td>0</td>
+<td>0.0%</td>
+</tr>
+
+<tr data-setor="Materiais Básicos" data-categoria="Small Caps" data-score="40">
+<td><strong>EPAR3</strong></td>
+<td>Materiais Básicos</td>
+<td><span class="badge">Small Caps</span></td>
+<td>0.0</td>
+<td>1.22</td>
+<td>-13.05%</td>
+<td>60.64%</td>
+<td>40</td>
+<td>0.0%</td>
+</tr>
+
+<tr data-setor="Consumo Cíclico" data-categoria="Small Caps" data-score="60">
+<td><strong>AUAU3</strong></td>
+<td>Consumo Cíclico</td>
+<td><span class="badge">Small Caps</span></td>
+<td>0.0</td>
+<td>1.15</td>
+<td>17.24%</td>
+<td>0.99%</td>
+<td>60</td>
+<td>0.0%</td>
+</tr>
+
+<tr data-setor="Indústria" data-categoria="Small Caps" data-score="0">
+<td><strong>HBSA3</strong></td>
+<td>Indústria</td>
+<td><span class="badge">Small Caps</span></td>
+<td>0.0</td>
+<td>2.49</td>
+<td>-9.33%</td>
+<td>0%</td>
+<td>0</td>
+<td>0.0%</td>
+</tr>
+
+<tr data-setor="Consumo Defensivo" data-categoria="Small Caps" data-score="0">
+<td><strong>BIED3</strong></td>
+<td>Consumo Defensivo</td>
+<td><span class="badge">Small Caps</span></td>
+<td>0.0</td>
+<td>3.02</td>
+<td>-44.57%</td>
+<td>0%</td>
+<td>0</td>
+<td>0.0%</td>
+</tr>
+
+<tr data-setor="Consumo Cíclico" data-categoria="Small Caps" data-score="25">
+<td><strong>WEST3</strong></td>
+<td>Consumo Cíclico</td>
+<td><span class="badge">Small Caps</span></td>
+<td>0.0</td>
+<td>0.3</td>
+<td>-5.06%</td>
+<td>0%</td>
+<td>25</td>
+<td>0.0%</td>
+</tr>
+
+<tr data-setor="Consumo Cíclico" data-categoria="Small Caps" data-score="40">
+<td><strong>UCAS3</strong></td>
+<td>Consumo Cíclico</td>
+<td><span class="badge">Small Caps</span></td>
+<td>0.0</td>
+<td>0.54</td>
+<td>-1.23%</td>
+<td>12.61%</td>
+<td>40</td>
+<td>0.0%</td>
+</tr>
+
+<tr data-setor="Imobiliário" data-categoria="Small Caps" data-score="40">
+<td><strong>SCAR3</strong></td>
+<td>Imobiliário</td>
+<td><span class="badge">Small Caps</span></td>
+<td>0.0</td>
+<td>0.54</td>
+<td>-3.74%</td>
+<td>48.6%</td>
+<td>40</td>
+<td>0.0%</td>
+</tr>
+
+<tr data-setor="Consumo Cíclico" data-categoria="Small Caps" data-score="25">
+<td><strong>AMOB3</strong></td>
+<td>Consumo Cíclico</td>
+<td><span class="badge">Small Caps</span></td>
+<td>0.0</td>
+<td>0.17</td>
+<td>0%</td>
+<td>0%</td>
+<td>25</td>
+<td>0.0%</td>
+</tr>
+
+<tr data-setor="Consumo Cíclico" data-categoria="Small Caps" data-score="25">
+<td><strong>GFSA3</strong></td>
+<td>Consumo Cíclico</td>
+<td><span class="badge">Small Caps</span></td>
+<td>0.0</td>
+<td>0.01</td>
+<td>-3.17%</td>
+<td>0%</td>
+<td>25</td>
+<td>0.0%</td>
+</tr>
+
+<tr data-setor="Utilidades Públicas" data-categoria="Mid Caps" data-score="55">
+<td><strong>AURE3</strong></td>
+<td>Utilidades Públicas</td>
+<td><span class="badge">Mid Caps</span></td>
+<td>0.0</td>
+<td>0.96</td>
+<td>-9.61%</td>
+<td>0.49%</td>
+<td>55</td>
+<td>0.0%</td>
+</tr>
+
+<tr data-setor="Consumo Cíclico" data-categoria="Small Caps" data-score="25">
+<td><strong>BHIA3</strong></td>
+<td>Consumo Cíclico</td>
+<td><span class="badge">Small Caps</span></td>
+<td>0.0</td>
+<td>0.71</td>
+<td>-69.33%</td>
+<td>0%</td>
+<td>25</td>
+<td>0.0%</td>
+</tr>
+
+<tr data-setor="Serviços Financeiros" data-categoria="Small Caps" data-score="0">
+<td><strong>ADMF3</strong></td>
+<td>Serviços Financeiros</td>
+<td><span class="badge">Small Caps</span></td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0%</td>
+<td>0%</td>
+<td>0</td>
+<td>0.0%</td>
+</tr>
+
+<tr data-setor="Consumo Cíclico" data-categoria="Small Caps" data-score="40">
+<td><strong>LJQQ3</strong></td>
+<td>Consumo Cíclico</td>
+<td><span class="badge">Small Caps</span></td>
+<td>0.0</td>
+<td>0.96</td>
+<td>-22.33%</td>
+<td>5.57%</td>
+<td>40</td>
+<td>0.0%</td>
+</tr>
+
+<tr data-setor="Indústria" data-categoria="Small Caps" data-score="0">
+<td><strong>RCSL4</strong></td>
+<td>Indústria</td>
+<td><span class="badge">Small Caps</span></td>
+<td>0.0</td>
+<td>-8.88</td>
+<td>0%</td>
+<td>0%</td>
+<td>0</td>
+<td>0.0%</td>
+</tr>
+
+<tr data-setor="Tecnologia" data-categoria="Small Caps" data-score="40">
+<td><strong>POSI3</strong></td>
+<td>Tecnologia</td>
+<td><span class="badge">Small Caps</span></td>
+<td>0.0</td>
+<td>0.34</td>
+<td>0.3%</td>
+<td>10.95%</td>
+<td>40</td>
+<td>0.0%</td>
+</tr>
+
+<tr data-setor="Tecnologia" data-categoria="Small Caps" data-score="40">
+<td><strong>LWSA3</strong></td>
+<td>Tecnologia</td>
+<td><span class="badge">Small Caps</span></td>
+<td>0.0</td>
+<td>0.76</td>
+<td>-10.49%</td>
+<td>7.22%</td>
+<td>40</td>
+<td>0.0%</td>
+</tr>
+
+<tr data-setor="Indústria" data-categoria="Small Caps" data-score="15">
+<td><strong>SIMH3</strong></td>
+<td>Indústria</td>
+<td><span class="badge">Small Caps</span></td>
+<td>0.0</td>
+<td>1.55</td>
+<td>-8.3%</td>
+<td>1.09%</td>
+<td>15</td>
+<td>0.0%</td>
+</tr>
+
+<tr data-setor="Energia" data-categoria="Small Caps" data-score="0">
+<td><strong>OSXB3</strong></td>
+<td>Energia</td>
+<td><span class="badge">Small Caps</span></td>
+<td>0.0</td>
+<td>-0.0</td>
+<td>0%</td>
+<td>0%</td>
+<td>0</td>
+<td>0.0%</td>
+</tr>
+
+<tr data-setor="Imobiliário" data-categoria="Small Caps" data-score="0">
+<td><strong>NEXP3</strong></td>
+<td>Imobiliário</td>
+<td><span class="badge">Small Caps</span></td>
+<td>0.0</td>
+<td>-0.09</td>
+<td>0%</td>
+<td>0%</td>
+<td>0</td>
+<td>0.0%</td>
+</tr>
+
+<tr data-setor="Consumo Cíclico" data-categoria="Small Caps" data-score="25">
+<td><strong>TOKY3</strong></td>
+<td>Consumo Cíclico</td>
+<td><span class="badge">Small Caps</span></td>
+<td>0.0</td>
+<td>0.25</td>
+<td>-111.32%</td>
+<td>0%</td>
+<td>25</td>
+<td>0.0%</td>
+</tr>
+
+<tr data-setor="Serviços Financeiros" data-categoria="Small Caps" data-score="35">
+<td><strong>BMEB4</strong></td>
+<td>Serviços Financeiros</td>
+<td><span class="badge">Small Caps</span></td>
+<td>15.31</td>
+<td>3.7</td>
+<td>40.6%</td>
+<td>2.19%</td>
+<td>35</td>
+<td>-2.07%</td>
+</tr>
+
+<tr data-setor="Utilidades Públicas" data-categoria="Blue Chips" data-score="30">
+<td><strong>EQTL3</strong></td>
+<td>Utilidades Públicas</td>
+<td><span class="badge">Blue Chips</span></td>
+<td>15.59</td>
+<td>1.78</td>
+<td>13.13%</td>
+<td>5.69%</td>
+<td>30</td>
+<td>-3.96%</td>
+</tr>
+
+<tr data-setor="Indústria" data-categoria="Small Caps" data-score="0">
+<td><strong>LOGN3</strong></td>
+<td>Indústria</td>
+<td><span class="badge">Small Caps</span></td>
+<td>15.77</td>
+<td>3.19</td>
+<td>12.17%</td>
+<td>0%</td>
+<td>0</td>
+<td>-5.16%</td>
+</tr>
+
+<tr data-setor="Serviços Financeiros" data-categoria="Blue Chips" data-score="55">
+<td><strong>SANB11</strong></td>
+<td>Serviços Financeiros</td>
+<td><span class="badge">Blue Chips</span></td>
+<td>15.89</td>
+<td>1.27</td>
+<td>12.75%</td>
+<td>5.29%</td>
+<td>55</td>
+<td>-5.93%</td>
+</tr>
+
+<tr data-setor="Utilidades Públicas" data-categoria="Small Caps" data-score="40">
+<td><strong>COCE3</strong></td>
+<td>Utilidades Públicas</td>
+<td><span class="badge">Small Caps</span></td>
+<td>15.97</td>
+<td>0.63</td>
+<td>5.74%</td>
+<td>3.56%</td>
+<td>40</td>
+<td>-6.44%</td>
+</tr>
+
+<tr data-setor="Indústria" data-categoria="Small Caps" data-score="0">
+<td><strong>HAGA4</strong></td>
+<td>Indústria</td>
+<td><span class="badge">Small Caps</span></td>
+<td>16.33</td>
+<td>-0.35</td>
+<td>0%</td>
+<td>0%</td>
+<td>0</td>
+<td>-8.89%</td>
 </tr>
 
 <tr data-setor="Consumo Defensivo" data-categoria="Blue Chips" data-score="50">
 <td><strong>ABEV3</strong></td>
 <td>Consumo Defensivo</td>
 <td><span class="badge">Blue Chips</span></td>
-<td>16.6</td>
-<td>2.74</td>
+<td>16.63</td>
+<td>2.75</td>
 <td>16.98%</td>
 <td>15.0%</td>
 <td>50</td>
-<td>-10.68%</td>
+<td>-10.9%</td>
+</tr>
+
+<tr data-setor="Energia" data-categoria="Small Caps" data-score="25">
+<td><strong>BRAV3</strong></td>
+<td>Energia</td>
+<td><span class="badge">Small Caps</span></td>
+<td>16.64</td>
+<td>0.72</td>
+<td>8.21%</td>
+<td>0%</td>
+<td>25</td>
+<td>-10.96%</td>
+</tr>
+
+<tr data-setor="Saúde" data-categoria="Mid Caps" data-score="55">
+<td><strong>HYPE3</strong></td>
+<td>Saúde</td>
+<td><span class="badge">Mid Caps</span></td>
+<td>17.11</td>
+<td>1.13</td>
+<td>6.71%</td>
+<td>6.36%</td>
+<td>55</td>
+<td>-14.06%</td>
+</tr>
+
+<tr data-setor="Materiais Básicos" data-categoria="Small Caps" data-score="40">
+<td><strong>PATI3</strong></td>
+<td>Materiais Básicos</td>
+<td><span class="badge">Small Caps</span></td>
+<td>17.2</td>
+<td>1.03</td>
+<td>5.26%</td>
+<td>18.28%</td>
+<td>40</td>
+<td>-14.7%</td>
+</tr>
+
+<tr data-setor="Materiais Básicos" data-categoria="Mid Caps" data-score="55">
+<td><strong>KLBN4</strong></td>
+<td>Materiais Básicos</td>
+<td><span class="badge">Mid Caps</span></td>
+<td>17.3</td>
+<td>0.62</td>
+<td>14.57%</td>
+<td>8.0%</td>
+<td>55</td>
+<td>-15.36%</td>
+</tr>
+
+<tr data-setor="Materiais Básicos" data-categoria="Mid Caps" data-score="55">
+<td><strong>KLBN3</strong></td>
+<td>Materiais Básicos</td>
+<td><span class="badge">Mid Caps</span></td>
+<td>17.3</td>
+<td>0.62</td>
+<td>14.57%</td>
+<td>7.96%</td>
+<td>55</td>
+<td>-15.36%</td>
+</tr>
+
+<tr data-setor="Materiais Básicos" data-categoria="Small Caps" data-score="15">
+<td><strong>TKNO3</strong></td>
+<td>Materiais Básicos</td>
+<td><span class="badge">Small Caps</span></td>
+<td>17.83</td>
+<td>1.89</td>
+<td>11.02%</td>
+<td>10.05%</td>
+<td>15</td>
+<td>-18.84%</td>
+</tr>
+
+<tr data-setor="Materiais Básicos" data-categoria="Small Caps" data-score="15">
+<td><strong>TKNO4</strong></td>
+<td>Materiais Básicos</td>
+<td><span class="badge">Small Caps</span></td>
+<td>18.13</td>
+<td>1.93</td>
+<td>11.02%</td>
+<td>10.15%</td>
+<td>15</td>
+<td>-20.86%</td>
+</tr>
+
+<tr data-setor="Consumo Defensivo" data-categoria="Small Caps" data-score="35">
+<td><strong>BAUH4</strong></td>
+<td>Consumo Defensivo</td>
+<td><span class="badge">Small Caps</span></td>
+<td>18.16</td>
+<td>3.43</td>
+<td>21.4%</td>
+<td>1.33%</td>
+<td>35</td>
+<td>-21.08%</td>
+</tr>
+
+<tr data-setor="Indústria" data-categoria="Small Caps" data-score="40">
+<td><strong>RAPT4</strong></td>
+<td>Indústria</td>
+<td><span class="badge">Small Caps</span></td>
+<td>18.2</td>
+<td>0.68</td>
+<td>7.4%</td>
+<td>0.71%</td>
+<td>40</td>
+<td>-21.33%</td>
+</tr>
+
+<tr data-setor="Consumo Cíclico" data-categoria="Small Caps" data-score="35">
+<td><strong>FRAS3</strong></td>
+<td>Consumo Cíclico</td>
+<td><span class="badge">Small Caps</span></td>
+<td>18.22</td>
+<td>2.77</td>
+<td>16.08%</td>
+<td>3.0%</td>
+<td>35</td>
+<td>-21.46%</td>
+</tr>
+
+<tr data-setor="Indústria" data-categoria="Small Caps" data-score="40">
+<td><strong>RAPT3</strong></td>
+<td>Indústria</td>
+<td><span class="badge">Small Caps</span></td>
+<td>18.31</td>
+<td>0.68</td>
+<td>7.4%</td>
+<td>0.7%</td>
+<td>40</td>
+<td>-22.1%</td>
 </tr>
 
 <tr data-setor="Consumo Cíclico" data-categoria="Small Caps" data-score="40">
 <td><strong>MGLU3</strong></td>
 <td>Consumo Cíclico</td>
 <td><span class="badge">Small Caps</span></td>
-<td>18.17</td>
+<td>18.4</td>
 <td>0.61</td>
 <td>3.31%</td>
 <td>3.16%</td>
 <td>40</td>
-<td>-21.11%</td>
+<td>-22.64%</td>
 </tr>
 
 <tr data-setor="Serviços Financeiros" data-categoria="Blue Chips" data-score="50">
 <td><strong>B3SA3</strong></td>
 <td>Serviços Financeiros</td>
 <td><span class="badge">Blue Chips</span></td>
-<td>18.89</td>
-<td>5.02</td>
+<td>18.95</td>
+<td>5.03</td>
 <td>25.59%</td>
 <td>3.21%</td>
 <td>50</td>
-<td>-25.94%</td>
+<td>-26.3%</td>
+</tr>
+
+<tr data-setor="Saúde" data-categoria="Blue Chips" data-score="50">
+<td><strong>RDOR3</strong></td>
+<td>Saúde</td>
+<td><span class="badge">Blue Chips</span></td>
+<td>18.97</td>
+<td>4.37</td>
+<td>20.05%</td>
+<td>8.42%</td>
+<td>50</td>
+<td>-26.44%</td>
+</tr>
+
+<tr data-setor="Comunicação" data-categoria="Small Caps" data-score="40">
+<td><strong>BRST3</strong></td>
+<td>Comunicação</td>
+<td><span class="badge">Small Caps</span></td>
+<td>19.0</td>
+<td>0.84</td>
+<td>4.45%</td>
+<td>1.32%</td>
+<td>40</td>
+<td>-26.67%</td>
+</tr>
+
+<tr data-setor="Saúde" data-categoria="Small Caps" data-score="40">
+<td><strong>PGMN3</strong></td>
+<td>Saúde</td>
+<td><span class="badge">Small Caps</span></td>
+<td>19.0</td>
+<td>1.45</td>
+<td>7.16%</td>
+<td>7.47%</td>
+<td>40</td>
+<td>-26.67%</td>
+</tr>
+
+<tr data-setor="Utilidades Públicas" data-categoria="Small Caps" data-score="15">
+<td><strong>AFLT3</strong></td>
+<td>Utilidades Públicas</td>
+<td><span class="badge">Small Caps</span></td>
+<td>19.24</td>
+<td>1.86</td>
+<td>9.53%</td>
+<td>1.95%</td>
+<td>15</td>
+<td>-28.25%</td>
+</tr>
+
+<tr data-setor="Consumo Cíclico" data-categoria="Mid Caps" data-score="30">
+<td><strong>VBBR3</strong></td>
+<td>Consumo Cíclico</td>
+<td><span class="badge">Mid Caps</span></td>
+<td>19.35</td>
+<td>1.66</td>
+<td>8.67%</td>
+<td>5.85%</td>
+<td>30</td>
+<td>-28.96%</td>
+</tr>
+
+<tr data-setor="Comunicação" data-categoria="Small Caps" data-score="25">
+<td><strong>TELB3</strong></td>
+<td>Comunicação</td>
+<td><span class="badge">Small Caps</span></td>
+<td>20.03</td>
+<td>0.91</td>
+<td>4.08%</td>
+<td>0%</td>
+<td>25</td>
+<td>-33.53%</td>
+</tr>
+
+<tr data-setor="Saúde" data-categoria="Small Caps" data-score="15">
+<td><strong>PNVL3</strong></td>
+<td>Saúde</td>
+<td><span class="badge">Small Caps</span></td>
+<td>20.07</td>
+<td>1.78</td>
+<td>9.17%</td>
+<td>2.15%</td>
+<td>15</td>
+<td>-33.78%</td>
+</tr>
+
+<tr data-setor="Consumo Cíclico" data-categoria="Mid Caps" data-score="30">
+<td><strong>SMFT3</strong></td>
+<td>Consumo Cíclico</td>
+<td><span class="badge">Mid Caps</span></td>
+<td>20.11</td>
+<td>1.99</td>
+<td>10.75%</td>
+<td>7.39%</td>
+<td>30</td>
+<td>-34.04%</td>
+</tr>
+
+<tr data-setor="Indústria" data-categoria="Mid Caps" data-score="50">
+<td><strong>GGPS3</strong></td>
+<td>Indústria</td>
+<td><span class="badge">Mid Caps</span></td>
+<td>20.19</td>
+<td>3.42</td>
+<td>18.18%</td>
+<td>2.91%</td>
+<td>50</td>
+<td>-34.62%</td>
+</tr>
+
+<tr data-setor="Consumo Defensivo" data-categoria="Small Caps" data-score="25">
+<td><strong>JALL3</strong></td>
+<td>Consumo Defensivo</td>
+<td><span class="badge">Small Caps</span></td>
+<td>20.2</td>
+<td>0.44</td>
+<td>2.28%</td>
+<td>0%</td>
+<td>25</td>
+<td>-34.67%</td>
+</tr>
+
+<tr data-setor="Utilidades Públicas" data-categoria="Mid Caps" data-score="30">
+<td><strong>CPLE3</strong></td>
+<td>Utilidades Públicas</td>
+<td><span class="badge">Mid Caps</span></td>
+<td>20.36</td>
+<td>1.83</td>
+<td>10.96%</td>
+<td>8.31%</td>
+<td>30</td>
+<td>-35.71%</td>
+</tr>
+
+<tr data-setor="Saúde" data-categoria="Small Caps" data-score="25">
+<td><strong>DMVF3</strong></td>
+<td>Saúde</td>
+<td><span class="badge">Small Caps</span></td>
+<td>20.58</td>
+<td>0.38</td>
+<td>1.85%</td>
+<td>0%</td>
+<td>25</td>
+<td>-37.17%</td>
+</tr>
+
+<tr data-setor="Materiais Básicos" data-categoria="Small Caps" data-score="40">
+<td><strong>FESA3</strong></td>
+<td>Materiais Básicos</td>
+<td><span class="badge">Small Caps</span></td>
+<td>20.59</td>
+<td>1.22</td>
+<td>6.35%</td>
+<td>8.59%</td>
+<td>40</td>
+<td>-37.29%</td>
+</tr>
+
+<tr data-setor="Consumo Cíclico" data-categoria="Small Caps" data-score="35">
+<td><strong>TFCO4</strong></td>
+<td>Consumo Cíclico</td>
+<td><span class="badge">Small Caps</span></td>
+<td>21.03</td>
+<td>4.69</td>
+<td>28.27%</td>
+<td>1.6%</td>
+<td>35</td>
+<td>-40.17%</td>
+</tr>
+
+<tr data-setor="Imobiliário" data-categoria="Mid Caps" data-score="55">
+<td><strong>ALOS3</strong></td>
+<td>Imobiliário</td>
+<td><span class="badge">Mid Caps</span></td>
+<td>21.38</td>
+<td>1.16</td>
+<td>5.99%</td>
+<td>6.45%</td>
+<td>55</td>
+<td>-42.51%</td>
+</tr>
+
+<tr data-setor="Indústria" data-categoria="Small Caps" data-score="15">
+<td><strong>MOVI3</strong></td>
+<td>Indústria</td>
+<td><span class="badge">Small Caps</span></td>
+<td>21.67</td>
+<td>1.66</td>
+<td>10.21%</td>
+<td>6.2%</td>
+<td>15</td>
+<td>-44.44%</td>
 </tr>
 
 <tr data-setor="Comunicação" data-categoria="Blue Chips" data-score="30">
 <td><strong>VIVT3</strong></td>
 <td>Comunicação</td>
 <td><span class="badge">Blue Chips</span></td>
-<td>21.65</td>
-<td>1.92</td>
+<td>21.73</td>
+<td>1.93</td>
 <td>8.9%</td>
 <td>2.63%</td>
 <td>30</td>
-<td>-44.36%</td>
+<td>-44.89%</td>
+</tr>
+
+<tr data-setor="Não informado" data-categoria="Small Caps" data-score="25">
+<td><strong>VSTE3</strong></td>
+<td>Não informado</td>
+<td><span class="badge">Small Caps</span></td>
+<td>22.06</td>
+<td>0.43</td>
+<td>0%</td>
+<td>0%</td>
+<td>25</td>
+<td>-47.04%</td>
+</tr>
+
+<tr data-setor="Serviços Financeiros" data-categoria="Small Caps" data-score="40">
+<td><strong>PEAB4</strong></td>
+<td>Serviços Financeiros</td>
+<td><span class="badge">Small Caps</span></td>
+<td>22.14</td>
+<td>0.81</td>
+<td>3.63%</td>
+<td>4.82%</td>
+<td>40</td>
+<td>-47.62%</td>
+</tr>
+
+<tr data-setor="Comunicação" data-categoria="Small Caps" data-score="40">
+<td><strong>DESK3</strong></td>
+<td>Comunicação</td>
+<td><span class="badge">Small Caps</span></td>
+<td>22.18</td>
+<td>1.12</td>
+<td>5.85%</td>
+<td>1.0%</td>
+<td>40</td>
+<td>-47.87%</td>
+</tr>
+
+<tr data-setor="Serviços Financeiros" data-categoria="Small Caps" data-score="40">
+<td><strong>PEAB3</strong></td>
+<td>Serviços Financeiros</td>
+<td><span class="badge">Small Caps</span></td>
+<td>22.46</td>
+<td>0.82</td>
+<td>3.63%</td>
+<td>4.12%</td>
+<td>40</td>
+<td>-49.71%</td>
+</tr>
+
+<tr data-setor="Consumo Cíclico" data-categoria="Small Caps" data-score="15">
+<td><strong>ALPA3</strong></td>
+<td>Consumo Cíclico</td>
+<td><span class="badge">Small Caps</span></td>
+<td>23.14</td>
+<td>1.86</td>
+<td>9.03%</td>
+<td>3.86%</td>
+<td>15</td>
+<td>-54.25%</td>
+</tr>
+
+<tr data-setor="Indústria" data-categoria="Small Caps" data-score="40">
+<td><strong>JSLG3</strong></td>
+<td>Indústria</td>
+<td><span class="badge">Small Caps</span></td>
+<td>23.64</td>
+<td>1.21</td>
+<td>5.1%</td>
+<td>23.43%</td>
+<td>40</td>
+<td>-57.58%</td>
+</tr>
+
+<tr data-setor="Saúde" data-categoria="Small Caps" data-score="40">
+<td><strong>MATD3</strong></td>
+<td>Saúde</td>
+<td><span class="badge">Small Caps</span></td>
+<td>23.72</td>
+<td>1.35</td>
+<td>5.54%</td>
+<td>3.74%</td>
+<td>40</td>
+<td>-58.13%</td>
+</tr>
+
+<tr data-setor="Materiais Básicos" data-categoria="Mid Caps" data-score="55">
+<td><strong>GOAU3</strong></td>
+<td>Materiais Básicos</td>
+<td><span class="badge">Mid Caps</span></td>
+<td>23.94</td>
+<td>0.6</td>
+<td>2.52%</td>
+<td>2.23%</td>
+<td>55</td>
+<td>-59.63%</td>
 </tr>
 
 <tr data-setor="Materiais Básicos" data-categoria="Mid Caps" data-score="55">
@@ -669,124 +4399,388 @@ Atualizado em 03/03/2026
 <td>-63.15%</td>
 </tr>
 
+<tr data-setor="Indústria" data-categoria="Small Caps" data-score="0">
+<td><strong>HAGA3</strong></td>
+<td>Indústria</td>
+<td><span class="badge">Small Caps</span></td>
+<td>25.0</td>
+<td>-0.53</td>
+<td>0%</td>
+<td>0%</td>
+<td>0</td>
+<td>-66.67%</td>
+</tr>
+
 <tr data-setor="Tecnologia" data-categoria="Mid Caps" data-score="50">
 <td><strong>TOTS3</strong></td>
 <td>Tecnologia</td>
 <td><span class="badge">Mid Caps</span></td>
-<td>25.49</td>
-<td>4.14</td>
+<td>25.56</td>
+<td>4.15</td>
 <td>16.14%</td>
 <td>1.63%</td>
 <td>50</td>
-<td>-69.93%</td>
+<td>-70.4%</td>
+</tr>
+
+<tr data-setor="Indústria" data-categoria="Small Caps" data-score="40">
+<td><strong>RPAD6</strong></td>
+<td>Indústria</td>
+<td><span class="badge">Small Caps</span></td>
+<td>26.11</td>
+<td>0.4</td>
+<td>1.6%</td>
+<td>0.88%</td>
+<td>40</td>
+<td>-74.07%</td>
+</tr>
+
+<tr data-setor="Imobiliário" data-categoria="Mid Caps" data-score="55">
+<td><strong>IGTI4</strong></td>
+<td>Imobiliário</td>
+<td><span class="badge">Mid Caps</span></td>
+<td>26.21</td>
+<td>0.85</td>
+<td>13.0%</td>
+<td>2.27%</td>
+<td>55</td>
+<td>-74.75%</td>
+</tr>
+
+<tr data-setor="Utilidades Públicas" data-categoria="Blue Chips" data-score="55">
+<td><strong>AXIA3</strong></td>
+<td>Utilidades Públicas</td>
+<td><span class="badge">Blue Chips</span></td>
+<td>26.28</td>
+<td>1.13</td>
+<td>5.46%</td>
+<td>5.85%</td>
+<td>55</td>
+<td>-75.18%</td>
+</tr>
+
+<tr data-setor="Consumo Cíclico" data-categoria="Small Caps" data-score="15">
+<td><strong>ALPA4</strong></td>
+<td>Consumo Cíclico</td>
+<td><span class="badge">Small Caps</span></td>
+<td>26.96</td>
+<td>2.17</td>
+<td>9.03%</td>
+<td>4.33%</td>
+<td>15</td>
+<td>-79.74%</td>
+</tr>
+
+<tr data-setor="Materiais Básicos" data-categoria="Small Caps" data-score="25">
+<td><strong>CBAV3</strong></td>
+<td>Materiais Básicos</td>
+<td><span class="badge">Small Caps</span></td>
+<td>28.14</td>
+<td>1.46</td>
+<td>7.51%</td>
+<td>0%</td>
+<td>25</td>
+<td>-87.59%</td>
+</tr>
+
+<tr data-setor="Utilidades Públicas" data-categoria="Blue Chips" data-score="55">
+<td><strong>AXIA5</strong></td>
+<td>Utilidades Públicas</td>
+<td><span class="badge">Blue Chips</span></td>
+<td>28.47</td>
+<td>1.23</td>
+<td>5.46%</td>
+<td>9.97%</td>
+<td>55</td>
+<td>-89.81%</td>
+</tr>
+
+<tr data-setor="Utilidades Públicas" data-categoria="Blue Chips" data-score="55">
+<td><strong>AXIA6</strong></td>
+<td>Utilidades Públicas</td>
+<td><span class="badge">Blue Chips</span></td>
+<td>28.61</td>
+<td>1.23</td>
+<td>5.46%</td>
+<td>5.9%</td>
+<td>55</td>
+<td>-90.72%</td>
 </tr>
 
 <tr data-setor="Indústria" data-categoria="Blue Chips" data-score="30">
 <td><strong>RENT3</strong></td>
 <td>Indústria</td>
 <td><span class="badge">Blue Chips</span></td>
-<td>28.89</td>
+<td>28.92</td>
 <td>2.07</td>
 <td>7.21%</td>
 <td>3.99%</td>
 <td>30</td>
-<td>-92.57%</td>
+<td>-92.77%</td>
+</tr>
+
+<tr data-setor="Serviços Financeiros" data-categoria="Blue Chips" data-score="50">
+<td><strong>BPAC3</strong></td>
+<td>Serviços Financeiros</td>
+<td><span class="badge">Blue Chips</span></td>
+<td>29.49</td>
+<td>2.84</td>
+<td>23.87%</td>
+<td>1.05%</td>
+<td>50</td>
+<td>-96.57%</td>
 </tr>
 
 <tr data-setor="Materiais Básicos" data-categoria="Blue Chips" data-score="30">
 <td><strong>VALE3</strong></td>
 <td>Materiais Básicos</td>
 <td><span class="badge">Blue Chips</span></td>
-<td>29.79</td>
+<td>29.84</td>
 <td>1.95</td>
 <td>5.87%</td>
 <td>7.82%</td>
 <td>30</td>
-<td>-98.63%</td>
+<td>-98.91%</td>
 </tr>
 
 <tr data-setor="Saúde" data-categoria="Mid Caps" data-score="50">
 <td><strong>RADL3</strong></td>
 <td>Saúde</td>
 <td><span class="badge">Mid Caps</span></td>
-<td>30.04</td>
-<td>5.93</td>
+<td>29.85</td>
+<td>5.89</td>
 <td>20.38%</td>
 <td>1.56%</td>
 <td>50</td>
-<td>-100.25%</td>
+<td>-98.99%</td>
 </tr>
 
 <tr data-setor="Materiais Básicos" data-categoria="Blue Chips" data-score="30">
 <td><strong>KLBN11</strong></td>
 <td>Materiais Básicos</td>
 <td><span class="badge">Blue Chips</span></td>
-<td>30.11</td>
-<td>3.1</td>
+<td>30.08</td>
+<td>3.09</td>
 <td>14.57%</td>
 <td>7.94%</td>
 <td>30</td>
-<td>-100.6%</td>
+<td>-100.4%</td>
 </tr>
 
 <tr data-setor="Indústria" data-categoria="Blue Chips" data-score="50">
 <td><strong>WEGE3</strong></td>
 <td>Indústria</td>
 <td><span class="badge">Blue Chips</span></td>
-<td>30.73</td>
-<td>11.4</td>
+<td>30.82</td>
+<td>11.44</td>
 <td>32.51%</td>
 <td>3.35%</td>
 <td>50</td>
-<td>-104.85%</td>
+<td>-105.5%</td>
+</tr>
+
+<tr data-setor="Indústria" data-categoria="Small Caps" data-score="0">
+<td><strong>OPCT3</strong></td>
+<td>Indústria</td>
+<td><span class="badge">Small Caps</span></td>
+<td>31.2</td>
+<td>1.93</td>
+<td>6.4%</td>
+<td>0%</td>
+<td>0</td>
+<td>-108.0%</td>
+</tr>
+
+<tr data-setor="Imobiliário" data-categoria="Small Caps" data-score="40">
+<td><strong>HBRE3</strong></td>
+<td>Imobiliário</td>
+<td><span class="badge">Small Caps</span></td>
+<td>33.33</td>
+<td>0.16</td>
+<td>3.33%</td>
+<td>36.42%</td>
+<td>40</td>
+<td>-122.22%</td>
+</tr>
+
+<tr data-setor="Consumo Defensivo" data-categoria="Mid Caps" data-score="40">
+<td><strong>NATU3</strong></td>
+<td>Consumo Defensivo</td>
+<td><span class="badge">Mid Caps</span></td>
+<td>34.48</td>
+<td>0.91</td>
+<td>-9.62%</td>
+<td>0%</td>
+<td>40</td>
+<td>-129.87%</td>
+</tr>
+
+<tr data-setor="Indústria" data-categoria="Small Caps" data-score="40">
+<td><strong>RPAD5</strong></td>
+<td>Indústria</td>
+<td><span class="badge">Small Caps</span></td>
+<td>35.0</td>
+<td>0.53</td>
+<td>1.6%</td>
+<td>17.61%</td>
+<td>40</td>
+<td>-133.33%</td>
+</tr>
+
+<tr data-setor="Consumo Cíclico" data-categoria="Small Caps" data-score="40">
+<td><strong>ESPA3</strong></td>
+<td>Consumo Cíclico</td>
+<td><span class="badge">Small Caps</span></td>
+<td>36.33</td>
+<td>0.46</td>
+<td>1.15%</td>
+<td>2.68%</td>
+<td>40</td>
+<td>-142.22%</td>
 </tr>
 
 <tr data-setor="Utilidades Públicas" data-categoria="Mid Caps" data-score="75">
 <td><strong>ENGI11</strong></td>
 <td>Utilidades Públicas</td>
 <td><span class="badge">Mid Caps</span></td>
-<td>37.48</td>
+<td>37.57</td>
 <td>1.07</td>
 <td>19.87%</td>
 <td>6.11%</td>
 <td>75</td>
-<td>-149.86%</td>
+<td>-150.48%</td>
 </tr>
 
 <tr data-setor="Utilidades Públicas" data-categoria="Mid Caps" data-score="50">
 <td><strong>TAEE11</strong></td>
 <td>Utilidades Públicas</td>
 <td><span class="badge">Mid Caps</span></td>
-<td>37.82</td>
-<td>1.89</td>
+<td>37.91</td>
+<td>1.9</td>
 <td>23.59%</td>
 <td>7.41%</td>
 <td>50</td>
-<td>-152.13%</td>
+<td>-152.73%</td>
+</tr>
+
+<tr data-setor="Serviços Financeiros" data-categoria="Small Caps" data-score="40">
+<td><strong>MERC4</strong></td>
+<td>Serviços Financeiros</td>
+<td><span class="badge">Small Caps</span></td>
+<td>38.46</td>
+<td>1.02</td>
+<td>6.57%</td>
+<td>3.58%</td>
+<td>40</td>
+<td>-156.41%</td>
+</tr>
+
+<tr data-setor="Indústria" data-categoria="Small Caps" data-score="15">
+<td><strong>ARML3</strong></td>
+<td>Indústria</td>
+<td><span class="badge">Small Caps</span></td>
+<td>41.0</td>
+<td>1.56</td>
+<td>4.25%</td>
+<td>10.19%</td>
+<td>15</td>
+<td>-173.33%</td>
+</tr>
+
+<tr data-setor="Indústria" data-categoria="Blue Chips" data-score="30">
+<td><strong>EMBJ3</strong></td>
+<td>Indústria</td>
+<td><span class="badge">Blue Chips</span></td>
+<td>41.95</td>
+<td>3.42</td>
+<td>8.95%</td>
+<td>0.85%</td>
+<td>30</td>
+<td>-179.67%</td>
 </tr>
 
 <tr data-setor="Materiais Básicos" data-categoria="Small Caps" data-score="40">
 <td><strong>DXCO3</strong></td>
 <td>Materiais Básicos</td>
 <td><span class="badge">Small Caps</span></td>
-<td>42.67</td>
+<td>42.58</td>
 <td>0.69</td>
 <td>1.95%</td>
 <td>0.9%</td>
 <td>40</td>
-<td>-184.44%</td>
+<td>-183.89%</td>
+</tr>
+
+<tr data-setor="Utilidades Públicas" data-categoria="Mid Caps" data-score="75">
+<td><strong>SAPR11</strong></td>
+<td>Utilidades Públicas</td>
+<td><span class="badge">Mid Caps</span></td>
+<td>52.76</td>
+<td>1.19</td>
+<td>18.87%</td>
+<td>2.45%</td>
+<td>75</td>
+<td>-251.85%</td>
+</tr>
+
+<tr data-setor="Consumo Cíclico" data-categoria="Small Caps" data-score="40">
+<td><strong>DOHL4</strong></td>
+<td>Consumo Cíclico</td>
+<td><span class="badge">Small Caps</span></td>
+<td>65.5</td>
+<td>0.43</td>
+<td>0.8%</td>
+<td>0.28%</td>
+<td>40</td>
+<td>-336.67%</td>
+</tr>
+
+<tr data-setor="Indústria" data-categoria="Mid Caps" data-score="30">
+<td><strong>RAIL3</strong></td>
+<td>Indústria</td>
+<td><span class="badge">Mid Caps</span></td>
+<td>75.9</td>
+<td>2.04</td>
+<td>2.69%</td>
+<td>5.15%</td>
+<td>30</td>
+<td>-406.0%</td>
 </tr>
 
 <tr data-setor="Serviços Financeiros" data-categoria="Blue Chips" data-score="50">
 <td><strong>BPAC11</strong></td>
 <td>Serviços Financeiros</td>
 <td><span class="badge">Blue Chips</span></td>
-<td>92.79</td>
-<td>3.92</td>
+<td>92.7</td>
+<td>3.91</td>
 <td>23.87%</td>
 <td>2.28%</td>
 <td>50</td>
-<td>-518.57%</td>
+<td>-518.02%</td>
+</tr>
+
+<tr data-setor="Serviços Financeiros" data-categoria="Small Caps" data-score="0">
+<td><strong>PPLA11</strong></td>
+<td>Serviços Financeiros</td>
+<td><span class="badge">Small Caps</span></td>
+<td>96.0</td>
+<td>43.64</td>
+<td>10.53%</td>
+<td>0%</td>
+<td>0</td>
+<td>-585.71%</td>
+</tr>
+
+<tr data-setor="Indústria" data-categoria="Small Caps" data-score="15">
+<td><strong>PRNR3</strong></td>
+<td>Indústria</td>
+<td><span class="badge">Small Caps</span></td>
+<td>114.78</td>
+<td>2.39</td>
+<td>6.71%</td>
+<td>0.56%</td>
+<td>15</td>
+<td>-665.19%</td>
 </tr>
 
 <tr data-setor="Utilidades Públicas" data-categoria="Mid Caps" data-score="15">
@@ -801,160 +4795,64 @@ Atualizado em 03/03/2026
 <td>-870.95%</td>
 </tr>
 
-<tr data-setor="Indústria" data-categoria="Small Caps" data-score="0">
-<td><strong>AERI3</strong></td>
-<td>Indústria</td>
-<td><span class="badge">Small Caps</span></td>
-<td>0.0</td>
-<td>-0.81</td>
-<td>-300.45%</td>
-<td>0%</td>
-<td>0</td>
-<td>-inf%</td>
-</tr>
-
-<tr data-setor="Consumo Cíclico" data-categoria="Small Caps" data-score="25">
-<td><strong>AMER3</strong></td>
-<td>Consumo Cíclico</td>
-<td><span class="badge">Small Caps</span></td>
-<td>0.0</td>
-<td>0.22</td>
-<td>-15.06%</td>
-<td>0%</td>
-<td>25</td>
-<td>-inf%</td>
-</tr>
-
-<tr data-setor="Serviços Financeiros" data-categoria="Small Caps" data-score="0">
-<td><strong>ADMF3</strong></td>
-<td>Serviços Financeiros</td>
-<td><span class="badge">Small Caps</span></td>
-<td>0.0</td>
-<td>0.0</td>
-<td>0%</td>
-<td>0%</td>
-<td>0</td>
-<td>-inf%</td>
-</tr>
-
-<tr data-setor="Saúde" data-categoria="Small Caps" data-score="25">
-<td><strong>AALR3</strong></td>
+<tr data-setor="Saúde" data-categoria="Small Caps" data-score="40">
+<td><strong>QUAL3</strong></td>
 <td>Saúde</td>
 <td><span class="badge">Small Caps</span></td>
-<td>0.0</td>
-<td>0.7</td>
-<td>-6.19%</td>
-<td>0%</td>
-<td>25</td>
-<td>-inf%</td>
-</tr>
-
-<tr data-setor="Consumo Defensivo" data-categoria="Small Caps" data-score="40">
-<td><strong>AGRO3</strong></td>
-<td>Consumo Defensivo</td>
-<td><span class="badge">Small Caps</span></td>
-<td>0.0</td>
-<td>1.02</td>
-<td>-0.07%</td>
-<td>3.52%</td>
+<td>192.0</td>
+<td>0.42</td>
+<td>0.65%</td>
+<td>0.26%</td>
 <td>40</td>
-<td>-inf%</td>
+<td>-1180.0%</td>
 </tr>
 
-<tr data-setor="Materiais Básicos" data-categoria="Small Caps" data-score="0">
-<td><strong>BRKM5</strong></td>
-<td>Materiais Básicos</td>
-<td><span class="badge">Small Caps</span></td>
-<td>0.0</td>
-<td>-2.09</td>
-<td>0%</td>
-<td>0%</td>
-<td>0</td>
-<td>-inf%</td>
-</tr>
-
-<tr data-setor="Consumo Defensivo" data-categoria="Small Caps" data-score="15">
-<td><strong>BEEF3</strong></td>
-<td>Consumo Defensivo</td>
-<td><span class="badge">Small Caps</span></td>
-<td>0.0</td>
-<td>3.77</td>
-<td>-50.41%</td>
-<td>12.91%</td>
-<td>15</td>
-<td>-inf%</td>
-</tr>
-
-<tr data-setor="Energia" data-categoria="Mid Caps" data-score="15">
-<td><strong>CSAN3</strong></td>
-<td>Energia</td>
-<td><span class="badge">Mid Caps</span></td>
-<td>0.0</td>
-<td>1.85</td>
-<td>-29.68%</td>
-<td>0%</td>
-<td>15</td>
-<td>-inf%</td>
-</tr>
-
-<tr data-setor="Serviços Financeiros" data-categoria="Small Caps" data-score="25">
-<td><strong>HAPV3</strong></td>
-<td>Serviços Financeiros</td>
-<td><span class="badge">Small Caps</span></td>
-<td>0.0</td>
-<td>0.1</td>
-<td>-0.64%</td>
-<td>0%</td>
-<td>25</td>
-<td>-inf%</td>
-</tr>
-
-<tr data-setor="Imobiliário" data-categoria="Small Caps" data-score="25">
-<td><strong>MRVE3</strong></td>
-<td>Imobiliário</td>
-<td><span class="badge">Small Caps</span></td>
-<td>0.0</td>
-<td>1.02</td>
-<td>-19.69%</td>
-<td>0%</td>
-<td>25</td>
-<td>-inf%</td>
-</tr>
-
-<tr data-setor="Consumo Cíclico" data-categoria="Small Caps" data-score="25">
-<td><strong>PCAR3</strong></td>
-<td>Consumo Cíclico</td>
-<td><span class="badge">Small Caps</span></td>
-<td>0.0</td>
-<td>0.63</td>
-<td>-25.47%</td>
-<td>0%</td>
-<td>25</td>
-<td>-inf%</td>
-</tr>
-
-<tr data-setor="Utilidades Públicas" data-categoria="Small Caps" data-score="0">
-<td><strong>RAIZ4</strong></td>
+<tr data-setor="Utilidades Públicas" data-categoria="Small Caps" data-score="35">
+<td><strong>GEPA3</strong></td>
 <td>Utilidades Públicas</td>
 <td><span class="badge">Small Caps</span></td>
-<td>0.0</td>
-<td>-4.16</td>
-<td>-231.28%</td>
-<td>0%</td>
-<td>0</td>
-<td>-inf%</td>
+<td>220.0</td>
+<td>1.74</td>
+<td>23.51%</td>
+<td>18.12%</td>
+<td>35</td>
+<td>-1366.67%</td>
 </tr>
 
-<tr data-setor="Materiais Básicos" data-categoria="Small Caps" data-score="25">
-<td><strong>USIM5</strong></td>
-<td>Materiais Básicos</td>
+<tr data-setor="Utilidades Públicas" data-categoria="Small Caps" data-score="35">
+<td><strong>GEPA4</strong></td>
+<td>Utilidades Públicas</td>
 <td><span class="badge">Small Caps</span></td>
-<td>0.0</td>
-<td>0.39</td>
-<td>-11.55%</td>
+<td>228.93</td>
+<td>1.81</td>
+<td>23.51%</td>
+<td>17.47%</td>
+<td>35</td>
+<td>-1426.22%</td>
+</tr>
+
+<tr data-setor="Indústria" data-categoria="Small Caps" data-score="0">
+<td><strong>ORVR3</strong></td>
+<td>Indústria</td>
+<td><span class="badge">Small Caps</span></td>
+<td>275.81</td>
+<td>4.84</td>
+<td>3.52%</td>
 <td>0%</td>
-<td>25</td>
-<td>-inf%</td>
+<td>0</td>
+<td>-1738.72%</td>
+</tr>
+
+<tr data-setor="Indústria" data-categoria="Small Caps" data-score="0">
+<td><strong>ALPK3</strong></td>
+<td>Indústria</td>
+<td><span class="badge">Small Caps</span></td>
+<td>497.0</td>
+<td>3.03</td>
+<td>2.26%</td>
+<td>0%</td>
+<td>0</td>
+<td>-3213.33%</td>
 </tr>
 
 </tbody>

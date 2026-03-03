@@ -24,9 +24,52 @@ traducao_setores = {
 
 def get_ibov_tickers():
   return [
-        "AALR3","ABCB4","ABEV3","ADMF3","AERI3","AGRO3","ALUP11","AMER3","AZUL4","B3SA3","BBAS3","BBSE3","BBDC4","BPAC11","BRAP4","BRFS3","BRKM5","BEEF3","CAML3","CCRO3","CIEL3","CMIN3","COGN3","CPFE3","CPLE6","CSAN3","CYRE3","DXCO3","ELET3","ELET6","EMBR3","ENGI11","ENEV3","EGIE3","FLRY3","GGBR4","GOAU4","HAPV3","IGTA3","IRBR3","ITAU4","ITSA4","JBSS3", "KLBN11", "LAME4", "LREN3", "MGLU3", "MRVE3", "MULT3", "PARD3", "PCAR3", "PETR3", "PETR4", "PRIO3", "RADL3", "RAIZ4", "RENT3", "SULA11", "SUZB3", "TAEE11", "TOTS3", "TRPL4", "UGPA3", "USIM5", "VALE3", "VIVT3", "WEGE3", "YDUQ2"
+    "CPLE3","BBDC4","B3SA3","ITUB4","ODPV3","PETR4","ITSA4","ABEV3","PCAR3","QUAL3",
+    "CSAN3","COGN3","BBAS3","AZEV4","RAIZ4","PRIO3","AMBP3","USIM5","VALE3","RENT3",
+    "VBBR3","CVCB3","GGBR4","VAMO3","RDOR3","RAIL3","CMIG4","CXSE3","AXIA3","PETR3",
+    "BBDC3","NATU3","MOTV3","TIMS3","POMO4","BEEF3","MGLU3","ASAI3","VIVT3","CSNA3",
+    "MBRF3","JHSF3","BPAC11","HAPV3","GOAU4","CBAV3","LREN3","GMAT3","RADL3","ENEV3",
+    "UGPA3","LWSA3","CEAB3","BBSE3","TOTS3","SMFT3","EQTL3","WEGE3","ECOR3","VIVA3",
+    "CMIN3","MOVI3","BRAV3","MRVE3","KLBN11","ANIM3","MULT3","GFSA3","GRND3","SUZB3",
+    "CYRE3","PGMN3","DIRR3","ALOS3","BHIA3","SBSP3","EMBJ3","MDIA3","LJQQ3","KEPL3",
+    "SIMH3","RCSL4","SANB11","RAPT4","AURE3","GGPS3","HBSA3","CPFE3","CSMG3","PLPL3",
+    "FLRY3","ITUB3","IGTI11","AZEV3","BMGB4","INTB3","DXCO3","HYPE3","RECV3","ENGI11",
+    "ONCO3","HBRE3","VVEO3","SMTO3","CURY3","BRAP4","PSSA3","YDUQ3","SLCE3","EGIE3",
+    "CASH3","ISAE4","BRKM5","AXIA6","AUAU3","AXIA7","JSLG3","AZZA3","KLBN4","TOKY3",
+    "POSI3","EZTC3","PMAM3","BRSR6","TAEE11","LIGT3","SBFG3","VULC3","SAPR11","ALPA4",
+    "SAPR4","AZTE3","PINE4","TEND3","AMER3","IRBR3","MDNE3","SOJA3","SEQL3","PNVL3",
+    "DESK3","MYPK3","OIBR3","ARML3","TUPY3","DASA3","HBOR3","TTEN3","ALUP11","RANI3",
+    "ORVR3","ALLD3","NEOE3","CSED3","IFCM3","FESA4","CAML3","SEER3","LOGG3","JALL3",
+    "POMO3","LAVV3","MLAS3","MILS3","TASA4","ABCB4","USIM3","WIZC3","TFCO4","FIQE3",
+    "UNIP6","MTRE3","ESPA3","TGMA3","VTRU3","EVEN3","RNEW4","BMOB3","MELK3","SYNE3",
+    "OBTC3","AMAR3","KLBN3","PRNR3","LEVE3","OPCT3","SHUL4","VIVR3","TRIS3","PTBL3",
+    "CYRE4","MEAL3","RENT4","VLID3","AGRO3","SAPR3","FICT3","ROMI3","BRST3","BLAU3",
+    "BRBI11","PFRM3","VITT3","TCSA3","ENJU3","ALPK3","MATD3","GOAU3","LPSB3","ITSA3",
+    "FRAS3","RNEW3","TAEE4","DMVF3","SANB4","LUPA3","JFEN3","RCSL3","CMIG3","ETER3",
+    "DEXP3","BRAP3","SANB3","TAEE3","TRAD3","AALR3","PDGR3","FHER3","BEES3","SHOW3",
+    "HAGA4","GGBR3","BIOM3","TECN3","TPIS3","ALPA3","BSLI4","BSLI3","AERI3","CSUD3",
+    "IGTI3","SCAR3","BMEB4","CAMB3","TASA3","AMOB3","LAND3","AGXY3","EALT4","UCAS3",
+    "WEST3","EUCA4","CTAX3","INEP3","AVLL3","PDTC3","HAGA3","CGRA4","CTKA4","BRKM3",
+    "WDCN3","ENGI4","BEES4","BPAC5","INEP4","MNPR3","EPAR3","UNIP3","ALUP3","AZEV11",
+    "NGRD3","PINE3","DOTZ3","ALUP4","WHRL3","BRSR3","ISAE3","BIED3","WHRL4","PTNT4",
+    "BAZA3","ENGI3","TKNO4","BMEB3","LOGN3","VSTE3","COCE5","CRPG5","DOHL4","MTSA4",
+    "EQPA3","OFSA3","DEXP4","CEBR6","EMAE4","MNDL3","RAPT3","CLSC4","SNSY5","BPAC3",
+    "CTKA3","REDE3","NEXP3","NUTR3","RVEE3","CEBR3","ADMF3","MGEL4","OIBR4","HOOT4",
+    "OSXB3","WLMM4","ENMT3","EALT3","RPMG3","ATED3","BMIN4","MWET4","TELB3","TELB4",
+    "CEEB3","GSHP3","CEBR5","LUXM4","PATI3","BALM4","CEDO4","BGIP4","CGRA3","PPLA11",
+    "UNIP5","FESA3","AFLT3","CTSA4","ARND3","CGAS5","BGIP3","EKTR4","GEPA4","PLAS3",
+    "TKNO3","BNBR3","EQMA3B","RPAD6","RSID3","BOBR4","BMKS3","RSUL4","BDLL3","SOND6",
+    "PEAB4","PEAB3","CRPG3","EUCA3","BRSR5","CBEE3","AXIA5","ENMT4","CTSA3","BAUH4",
+    "CEEB5","SOND5","GEPA3","SNSY3","PTNT3","CLSC3","COCE3","HBTS5","WLMM3","EQPA5",
+    "PSVM11","RPAD5","PINE11","GPAR3","NORD3","CGAS3","BRKM6","MRSA5B","BDLL4","CRPG6",
+    "ESTR4","CALI3","MERC4","IGTI4","CEED3","BIOM11"
+]
 
-    ]
+cores_categoria = {
+    "Blue Chips": "#3b82f6",   # azul
+    "Mid Caps": "#22c55e",     # verde
+    "Small Caps": "#facc15"    # amarelo
+}
 
 # =========================
 # CLASSIFICAÇÃO MARKET CAP
@@ -141,9 +184,14 @@ df["Score"] = df.apply(value_score, axis=1)
 df["PrecoJusto"] = df.apply(calcular_preco_justo, axis=1)
 
 # Desconto %
-df["Desconto_%"] = (
-    (df["PrecoJusto"] - df["Preco"]) / df["PrecoJusto"]
-) * 100
+df["Desconto_%"] = df.apply(
+    lambda row: (
+        ((row["PrecoJusto"] - row["Preco"]) / row["PrecoJusto"]) * 100
+        if row["PrecoJusto"] > 0
+        else 0
+    ),
+    axis=1
+)
 
 df["Desconto_%"] = df["Desconto_%"].round(2)
 
@@ -372,43 +420,53 @@ function ordenarTabela(coluna) {{
     linhas.forEach(l => tabela.appendChild(l));
 }}
 
-function criarGrafico(id, labels, data) {{
+function criarGrafico(id, labels, data, cor) {{
     new Chart(document.getElementById(id), {{
         type: 'bar',
         data: {{
             labels: labels,
             datasets: [{{
-                data: data
+                data: data,
+                backgroundColor: cor,
+                borderRadius: 6
             }}]
         }},
         options: {{
             responsive: true,
-            plugins: {{ legend: {{ display: false }} }},
-            scales: {{ y: {{ beginAtZero: true }} }}
+            plugins: {{ 
+                legend: {{ display: false }} 
+            }},
+            scales: {{ 
+                y: {{ beginAtZero: true }} 
+            }}
         }}
     }});
 }}
 
 window.onload = function() {{
     criarGrafico("graficoTop10",
-        {list(top10["Ticker"])},
-        {list(top10["Desconto_%"])}
-    );
+    {list(top10["Ticker"])},
+    {list(top10["Desconto_%"])},
+    "#ef4444"   // vermelho destaque
+);
 
-    criarGrafico("graficoBlue",
-        {list(top_blue["Ticker"])},
-        {list(top_blue["Desconto_%"])}
-    );
+criarGrafico("graficoBlue",
+    {list(top_blue["Ticker"])},
+    {list(top_blue["Desconto_%"])},
+    "#3b82f6"
+);
 
-    criarGrafico("graficoMid",
-        {list(top_mid["Ticker"])},
-        {list(top_mid["Desconto_%"])}
-    );
+criarGrafico("graficoMid",
+    {list(top_mid["Ticker"])},
+    {list(top_mid["Desconto_%"])},
+    "#22c55e"
+);
 
-    criarGrafico("graficoSmall",
-        {list(top_small["Ticker"])},
-        {list(top_small["Desconto_%"])}
-    );
+criarGrafico("graficoSmall",
+    {list(top_small["Ticker"])},
+    {list(top_small["Desconto_%"])},
+    "#facc15"
+);
 
     aplicarFiltros();
 }};
@@ -532,7 +590,13 @@ for _, row in df.iterrows():
 <tr data-setor="{row['Setor']}" data-categoria="{row['Categoria']}" data-score="{row['Score']}">
 <td><strong>{row['Ticker']}</strong></td>
 <td>{row['Setor']}</td>
-<td><span class="badge">{row['Categoria']}</span></td>
+<td>
+<span class="badge" style="background:{cores_categoria.get(row['Categoria'], '#3b82f6')}20;
+color:{cores_categoria.get(row['Categoria'], '#3b82f6')};
+border:1px solid {cores_categoria.get(row['Categoria'], '#3b82f6')}">
+{row['Categoria']}
+</span>
+</td>
 <td>{round(row['PL'],2)}</td>
 <td>{round(row['PVP'],2)}</td>
 <td>{roe}%</td>
