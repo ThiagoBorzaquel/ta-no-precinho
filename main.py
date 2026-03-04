@@ -3,6 +3,7 @@ import pandas as pd
 import time
 import os
 import datetime
+from tqdm import tqdm
 
 traducao_setores = {
     "Energy": "Energia",
@@ -129,40 +130,63 @@ def calcular_preco_justo(row):
 # COLETA FUNDAMENTALISTA
 # =========================
 
+from concurrent.futures import ThreadPoolExecutor, as_completed
+import random
+
+
 def get_stock_data(tickers):
+
+    def buscar_ticker(ticker):
+
+        for tentativa in range(3):
+
+            try:
+                acao = yf.Ticker(f"{ticker}.SA")
+                info = acao.info
+
+                market_cap = info.get("marketCap")
+                preco = info.get("currentPrice")
+
+                if not market_cap or not preco:
+                    return None
+
+                setor_original = info.get("sector", "Não informado")
+
+                return {
+                    "Ticker": ticker,
+                    "setor_original": setor_original,
+                    "Setor": traducao_setores.get(setor_original, setor_original),
+                    "PL": info.get("trailingPE") or 0,
+                    "PVP": info.get("priceToBook") or 0,
+                    "ROE": info.get("returnOnEquity") or 0,
+                    "DivYield": info.get("dividendYield") or 0,
+                    "MarketCap": market_cap,
+                    "Preco": preco,
+                    "Categoria": classificar_cap(market_cap)
+                }
+
+            except Exception:
+                time.sleep(random.uniform(0.3, 0.8))
+
+        return None
+
 
     dados = []
 
-    for ticker in tickers:
-        try:
-            acao = yf.Ticker(f"{ticker}.SA")
-            info = acao.info
+    with ThreadPoolExecutor(max_workers=8) as executor:
 
-            market_cap = info.get("marketCap")
-            preco = info.get("currentPrice")
+        futures = [executor.submit(buscar_ticker, t) for t in tickers]
 
-            if not market_cap or not preco:
+        for future in tqdm(as_completed(futures), total=len(futures), desc="Buscando dados"):
+            try:
+                resultado = future.result(timeout=10)
+                if resultado:
+                    dados.append(resultado)
+            except:
                 continue
 
-            dados.append({
-                "Ticker": ticker,
-                "setor_original": info.get("sector", "Não informado"),
-                "Setor": traducao_setores.get(info.get("sector", "Não informado"), info.get("sector", "Não informado")),
-                "PL": info.get("trailingPE") or 0,
-                "PVP": info.get("priceToBook") or 0,
-                "ROE": info.get("returnOnEquity") or 0,
-                "DivYield": info.get("dividendYield") or 0,
-                "MarketCap": market_cap,
-                "Preco": preco,
-                "Categoria": classificar_cap(market_cap)
-            })
-
-            time.sleep(0.3)
-
-        except Exception:
-            continue
-
     return pd.DataFrame(dados)
+print(f"{len(df)} empresas válidas encontradas.")
 
 # =========================
 # EXECUÇÃO PRINCIPAL
@@ -205,10 +229,12 @@ df["Desconto_%"] = df.apply(
     axis=1
 )
 
-df["Desconto_%"] = df["Desconto_%"].round(2)
+df["Desconto_%"] = df["Desconto_%"].clip(-100, 100)
 
 # Ordenar por maior desconto
-df = df.sort_values("Desconto_%", ascending=False)
+df["Ranking"] = df["Score"] + (df["Desconto_%"] / 2)
+
+df = df.sort_values("Ranking", ascending=False)
 
 top10 = df.sort_values("Desconto_%", ascending=False).head(10)
 
@@ -216,6 +242,8 @@ top_blue = df[df["Categoria"] == "Blue Chips"].sort_values("Desconto_%", ascendi
 top_mid = df[df["Categoria"] == "Mid Caps"].sort_values("Desconto_%", ascending=False).head(5)
 top_small = df[df["Categoria"] == "Small Caps"].sort_values("Desconto_%", ascending=False).head(5)
 
+
+print("Empresas após filtros:", len(df))
 # =========================
 # GERAR SITE
 # =========================
