@@ -274,6 +274,8 @@ df.to_csv(f"docs/ranking_{hoje}.csv", index=False)
 setores = sorted(df["Setor"].unique())
 categorias = sorted(df["Categoria"].unique())
 
+top3 = df.head(3)
+
 # =========================
 # HTML SaaS Moderno
 # =========================
@@ -561,7 +563,8 @@ criarGrafico("graficoSmall",
 <h1>📉 Tá no Precinho?</h1>
 
 <div class="subtitle">
-Ações do IBOV negociadas com desconto segundo métricas fundamentalistas.<br>
+Screener de ações brasileiras negociadas com desconto fundamentalista.
+<br>
 Atualizado em {data_br}
 </div>
 
@@ -663,6 +666,34 @@ html += """
 <div class="card">
 <h2>📋 Ranking</h2>
 
+<div class="card">
+
+<h3>📊 Como funciona o ranking?</h3>
+
+<p style="font-size:13px;color:#94a3b8;line-height:1.6">
+
+O ranking utiliza um score fundamentalista baseado em métricas de valor:
+
+<br><br>
+
+• P/L abaixo de 10<br>
+• P/VP abaixo de 1.5<br>
+• ROE acima de 15%<br>
+• Dividend Yield acima de 5%<br>
+• Market Cap acima de 10 bilhões
+
+<br><br>
+
+O preço justo é estimado utilizando um múltiplo conservador de <strong>P/L = 15</strong>.
+
+<br>
+
+O desconto mostra quanto a ação está negociando abaixo desse preço estimado.
+
+</p>
+
+</div>
+
 <table>
 <thead>
 <tr>
@@ -674,6 +705,7 @@ html += """
 <th onclick="ordenarTabela(5)">ROE</th>
 <th onclick="ordenarTabela(6)">DY</th>
 <th onclick="ordenarTabela(7)">Score</th>
+<th onclick="ordenarTabela(9)">Preço Justo</th>
 <th onclick="ordenarTabela(8)">Desconto %</th>
 </tr>
 </thead>
@@ -702,6 +734,7 @@ border:1px solid {cores_categoria.get(row['Categoria'], '#3b82f6')}">
 <td>{dy}%</td>
 <td>{row['Score']}</td>
 <td>{desconto}%</td>
+<td>{round(row['PrecoJusto'],2)}</td>
 </tr>
 """
 
@@ -713,6 +746,12 @@ html += f"""
 ⚠️ Este ranking utiliza dados públicos do Yahoo Finance e aplica critérios quantitativos próprios. Não constitui recomendação de investimento.<br>
 <a href="ranking_{hoje}.csv" style="color:#3b82f6;">Baixar CSV</a>
 </div>
+<div class="footer">
+<footer>
+        <span>
+            &copy; Tá no precinho?, 2026 - Todos os direitos reservados.
+        </span>
+    </footer>
 
 </div>
 
