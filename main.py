@@ -186,7 +186,6 @@ def get_stock_data(tickers):
                 continue
 
     return pd.DataFrame(dados)
-print(f"{len(df)} empresas válidas encontradas.")
 
 # =========================
 # EXECUÇÃO PRINCIPAL
@@ -216,6 +215,16 @@ df = df[
 # Score
 df["Score"] = df.apply(value_score, axis=1)
 
+# =========================
+# ESTATÍSTICAS
+# =========================
+
+total_acoes = len(df)
+
+pagadoras_div = len(df[df["DivYield"] > 0])
+
+score_alto = len(df[df["Score"] >= 70])
+
 # Preço justo
 df["PrecoJusto"] = df.apply(calcular_preco_justo, axis=1)
 
@@ -244,6 +253,13 @@ top_small = df[df["Categoria"] == "Small Caps"].sort_values("Desconto_%", ascend
 
 
 print("Empresas após filtros:", len(df))
+
+total_acoes = len(df)
+pagadoras_div = len(df[df["DivYield"] > 0])
+score_alto = len(df[df["Score"] >= 70])
+
+print(f"{len(df)} empresas válidas encontradas.")
+
 # =========================
 # GERAR SITE
 # =========================
@@ -409,6 +425,30 @@ tr:nth-child(even) {{
     }}
 }}
 
+.stats {{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px,1fr));
+    gap: 15px;
+    margin-bottom: 25px;
+}}
+
+.stat-box {{
+    background: var(--card);
+    padding: 16px;
+    border-radius: 12px;
+    text-align: center;
+}}
+
+.stat-num {{
+    font-size: 22px;
+    font-weight: bold;
+}}
+
+.stat-label {{
+    font-size: 12px;
+    color: var(--muted);
+}}
+
 </style>
 
 <script>
@@ -523,6 +563,25 @@ criarGrafico("graficoSmall",
 <div class="subtitle">
 Ações do IBOV negociadas com desconto segundo métricas fundamentalistas.<br>
 Atualizado em {data_br}
+</div>
+
+<div class="stats">
+
+<div class="stat-box">
+<div class="stat-num">{total_acoes}</div>
+<div class="stat-label">📊 Ações analisadas</div>
+</div>
+
+<div class="stat-box">
+<div class="stat-num">{pagadoras_div}</div>
+<div class="stat-label">💰 Pagadoras de dividendos</div>
+</div>
+
+<div class="stat-box">
+<div class="stat-num">{score_alto}</div>
+<div class="stat-label">🏆 Score ≥ 70</div>
+</div>
+
 </div>
 
 <div class="card">
@@ -651,7 +710,7 @@ html += f"""
 </table>
 
 <div class="footer">
-⚠️ Não constitui recomendação de investimento.<br>
+⚠️ Este ranking utiliza dados públicos do Yahoo Finance e aplica critérios quantitativos próprios. Não constitui recomendação de investimento.<br>
 <a href="ranking_{hoje}.csv" style="color:#3b82f6;">Baixar CSV</a>
 </div>
 
