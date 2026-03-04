@@ -71,32 +71,6 @@ cores_categoria = {
     "Small Caps": "#facc15"    # amarelo
 }
 
-cor = cores_categoria.get(row["Categoria"], "#3b82f6")
-
-html += f"""
-<tr data-setor="{row['Setor']}" data-categoria="{row['Categoria']}" data-score="{row['Score']}">
-<td><strong>{row['Ticker']}</strong></td>
-<td>{row['Setor']}</td>
-<td>
-<span class="badge"
-style="
-background:{cor}20;
-color:{cor};
-border:1px solid {cor};
-font-weight:600;
-">
-{row['Categoria']}
-</span>
-</td>
-<td>{round(row['PL'],2)}</td>
-<td>{round(row['PVP'],2)}</td>
-<td>{roe}%</td>
-<td>{dy}%</td>
-<td>{row['Score']}</td>
-<td>{desconto}%</td>
-</tr>
-"""
-
 # =========================
 # CLASSIFICAÇÃO MARKET CAP
 # =========================
@@ -202,6 +176,18 @@ df = get_stock_data(tickers)
 if df.empty:
     print("Nenhum dado válido encontrado.")
     exit()
+
+# =========================
+# FILTRO DE QUALIDADE
+# =========================
+
+df = df[
+    (df["PL"] > 0) &
+    (df["PL"] < 30) &
+    (df["ROE"] > 0.10) &
+    (df["DivYield"] > 0.02)
+]
+
 
 # Score
 df["Score"] = df.apply(value_score, axis=1)
