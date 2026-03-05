@@ -120,7 +120,7 @@ def calcular_preco_justo(row):
     if preco <= 0 or pl <= 0:
         return 0
 
-    pl_justo = 15  # múltiplo conservador
+    pl_justo = 15
 
     preco_justo = preco * (pl_justo / pl)
 
@@ -134,6 +134,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 import random
 
 
+
 def get_stock_data(tickers):
 
     def buscar_ticker(ticker):
@@ -144,26 +145,40 @@ def get_stock_data(tickers):
                 acao = yf.Ticker(f"{ticker}.SA")
                 info = acao.info
 
+                nome = info.get("shortName", ticker)
+
                 market_cap = info.get("marketCap")
                 preco = info.get("currentPrice")
 
+                dy = info.get("dividendYield") or 0
+
+                # normalizar dividend yield
+                if dy > 1:
+                    dy = dy / 100
+
                 if not market_cap or not preco:
                     return None
+                
+                roe = info.get("returnOnEquity") or 0
+
+                if roe > 1:
+                    roe = roe / 100
 
                 setor_original = info.get("sector", "Não informado")
 
                 return {
-                    "Ticker": ticker,
-                    "setor_original": setor_original,
-                    "Setor": traducao_setores.get(setor_original, setor_original),
-                    "PL": info.get("trailingPE") or 0,
-                    "PVP": info.get("priceToBook") or 0,
-                    "ROE": info.get("returnOnEquity") or 0,
-                    "DivYield": info.get("dividendYield") or 0,
-                    "MarketCap": market_cap,
-                    "Preco": preco,
-                    "Categoria": classificar_cap(market_cap)
-                }
+                        "Ticker": ticker,
+                        "Empresa": nome,
+                        "setor_original": setor_original,
+                        "Setor": traducao_setores.get(setor_original, setor_original),
+                        "PL": info.get("trailingPE") or 0,
+                        "PVP": info.get("priceToBook") or 0,
+                        "ROE": roe,
+                        "DivYield": dy,
+                        "MarketCap": market_cap,
+                        "Preco": preco,
+                        "Categoria": classificar_cap(market_cap)
+                    }
 
             except Exception:
                 time.sleep(random.uniform(0.3, 0.8))
@@ -173,7 +188,7 @@ def get_stock_data(tickers):
 
     dados = []
 
-    with ThreadPoolExecutor(max_workers=8) as executor:
+    with ThreadPoolExecutor(max_workers=6) as executor:
 
         futures = [executor.submit(buscar_ticker, t) for t in tickers]
 
@@ -207,13 +222,22 @@ if df.empty:
 df = df[
     (df["PL"] > 0) &
     (df["PL"] < 30) &
+    (df["PVP"] > 0) &
+    (df["PVP"] < 10) &
     (df["ROE"] > 0.10) &
-    (df["DivYield"] > 0.02)
+    (df["ROE"] < 1) &
+    (df["DivYield"] > 0.02) &
+    (df["DivYield"] < 0.20) 
 ]
 
 
+if df.empty:
+    print("Nenhuma empresa passou no filtro.")
+    exit()
+
 # Score
 df["Score"] = df.apply(value_score, axis=1)
+
 
 # =========================
 # ESTATÍSTICAS
@@ -241,11 +265,13 @@ df["Desconto_%"] = df.apply(
 df["Desconto_%"] = df["Desconto_%"].clip(-100, 100)
 
 # Ordenar por maior desconto
-df["Ranking"] = df["Score"] + (df["Desconto_%"] / 2)
+df["Ranking"] = (df["Score"] * 0.7) + (df["Desconto_%"] * 0.3)
 
 df = df.sort_values("Ranking", ascending=False)
 
-top10 = df.sort_values("Desconto_%", ascending=False).head(10)
+
+
+top10 = df.nlargest(10, "Desconto_%")
 
 top_blue = df[df["Categoria"] == "Blue Chips"].sort_values("Desconto_%", ascending=False).head(5)
 top_mid = df[df["Categoria"] == "Mid Caps"].sort_values("Desconto_%", ascending=False).head(5)
@@ -260,6 +286,35 @@ score_alto = len(df[df["Score"] >= 70])
 
 print(f"{len(df)} empresas válidas encontradas.")
 
+# =========================
+# RISCO
+# =========================
+
+def calcular_risco(row):
+
+    risco = 0
+
+    if row["PL"] > 20:
+        risco += 1
+
+    if row["PVP"] > 2:
+        risco += 1
+
+    if row["DivYield"] < 0.03:
+        risco += 1
+
+    if row["ROE"] < 0.12:
+        risco += 1
+
+    if risco <= 1:
+        return "Baixo"
+
+    if risco <= 3:
+        return "Médio"
+
+    return "Alto"
+
+df["Risco"] = df.apply(calcular_risco, axis=1)
 # =========================
 # GERAR SITE
 # =========================
@@ -705,36 +760,49 @@ O desconto mostra quanto a ação está negociando abaixo desse preço estimado.
 <th onclick="ordenarTabela(5)">ROE</th>
 <th onclick="ordenarTabela(6)">DY</th>
 <th onclick="ordenarTabela(7)">Score</th>
-<th onclick="ordenarTabela(9)">Preço Justo</th>
 <th onclick="ordenarTabela(8)">Desconto %</th>
+<th onclick="ordenarTabela(9)">Preço Justo</th>
+<th onclick="ordenarTabela(10)">Ranking</th>
 </tr>
 </thead>
 <tbody>
 """
 
 for _, row in df.iterrows():
+
     roe = round((row["ROE"] or 0) * 100, 2)
-    dy = round(row["DivYield"] or 0, 2)
+    dy = round((row["DivYield"] or 0) * 100, 2)
     desconto = round(row["Desconto_%"], 2)
 
     html += f"""
+    
 <tr data-setor="{row['Setor']}" data-categoria="{row['Categoria']}" data-score="{row['Score']}">
-<td><strong>{row['Ticker']}</strong></td>
-<td>{row['Setor']}</td>
+
 <td>
-<span class="badge" style="background:{cores_categoria.get(row['Categoria'], '#3b82f6')}20;
+<strong>{row['Ticker']}</strong><br>
+<span style="font-size:11px;color:#94a3b8">{row['Empresa']}</span>
+</td>
+
+<td>{row['Setor']}</td>
+
+<td>
+<span class="badge" style="
+background:{cores_categoria.get(row['Categoria'], '#3b82f6')}20;
 color:{cores_categoria.get(row['Categoria'], '#3b82f6')};
 border:1px solid {cores_categoria.get(row['Categoria'], '#3b82f6')}">
 {row['Categoria']}
 </span>
 </td>
+
 <td>{round(row['PL'],2)}</td>
 <td>{round(row['PVP'],2)}</td>
 <td>{roe}%</td>
 <td>{dy}%</td>
 <td>{row['Score']}</td>
-<td>{desconto}%</td>
-<td>{round(row['PrecoJusto'],2)}</td>
+<td style="color:{'#22c55e' if desconto > 0 else '#ef4444'}">{desconto}%</td>
+<td>R$ {round(row["PrecoJusto"],2)}</td>
+<td>{round(row["Ranking"],2)}</td>
+
 </tr>
 """
 
