@@ -373,9 +373,16 @@ body {{
     padding: 25px 16px;
 }}
 
+@media(max-width:768px){{
+
 h1 {{
-    font-size: 26px;
-    margin-bottom: 5px;
+    font-size: 22px;
+}}
+
+.subtitle {{
+    font-size: 13px;
+}}
+
 }}
 
 .subtitle {{
@@ -411,7 +418,18 @@ select, input {{
 table {{
     width: 100%;
     border-collapse: collapse;
-    min-width: 900px;
+}}
+
+@media(max-width: 768px) {{
+
+table {{
+    font-size: 12px;
+}}
+
+th, td {{
+    padding: 6px;
+}}
+
 }}
 
 th {{
@@ -469,18 +487,50 @@ tr:nth-child(even) {{
     text-align: center;
 }}
 
-@media(max-width: 600px) {{
-    h1 {{
-        font-size: 22px;
-    }}
+@media(max-width: 768px){{
 
-    .filters {{
-        flex-direction: column;
-    }}
+.filters {{
+    flex-direction: column;
+    gap: 10px;
+}}
 
-    select, input {{
-        width: 100%;
-    }}
+select,
+input {{
+    width: 100%;
+    padding: 10px;
+}}
+
+}}
+
+@media(max-width: 768px){{
+
+thead {{
+    display: none;
+}}
+
+table, tbody, tr, td {{
+    display: block;
+    width: 100%;
+}}
+
+tr {{
+    background: var(--card);
+    margin-bottom: 12px;
+    padding: 10px;
+    border-radius: 12px;
+}}
+
+td {{
+    text-align: left;
+    padding: 4px 0;
+}}
+
+td:before {{
+    font-weight: bold;
+    color: var(--muted);
+    display: block;
+}}
+
 }}
 
 .stats {{
@@ -505,6 +555,121 @@ tr:nth-child(even) {{
 .stat-label {{
     font-size: 12px;
     color: var(--muted);
+}}
+
+canvas {{
+    max-height: 250px;
+}}
+
+@media(max-width:768px){{
+
+thead{{
+display:none;
+}}
+
+table,tbody,tr,td{{
+display:block;
+width:100%;
+}}
+
+tr{{
+background:var(--card);
+margin-bottom:12px;
+padding:14px;
+border-radius:14px;
+box-shadow:0 2px 10px rgba(0,0,0,0.3);
+}}
+
+td{{
+display:flex;
+justify-content:space-between;
+padding:4px 0;
+font-size:13px;
+}}
+
+td:first-child{{
+display:block;
+font-size:16px;
+font-weight:bold;
+margin-bottom:6px;
+}}
+
+}}
+
+@media(max-width:768px){{
+
+thead{{
+display:none;
+}}
+
+table,tbody,tr,td{{
+display:block;
+width:100%;
+}}
+
+tr{{
+background:var(--card);
+margin-bottom:14px;
+padding:14px;
+border-radius:14px;
+}}
+
+td{{
+display:flex;
+justify-content:space-between;
+padding:6px 0;
+font-size:13px;
+}}
+
+td:nth-child(4)::before{{content:"P/L";}}
+td:nth-child(5)::before{{content:"P/VP";}}
+td:nth-child(6)::before{{content:"ROE";}}
+td:nth-child(7)::before{{content:"Dividend Yield";}}
+td:nth-child(8)::before{{content:"Score";}}
+td:nth-child(9)::before{{content:"Desconto";}}
+td:nth-child(10)::before{{content:"Preço justo";}}
+
+td::before{{
+font-weight:600;
+color:var(--muted);
+}}
+
+}}
+
+.metric-grid{{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:6px;
+margin-top:6px;
+}}
+
+tr{{
+background:var(--card);
+margin-bottom:14px;
+padding:14px;
+border-radius:14px;
+box-shadow:0 4px 14px rgba(0,0,0,0.35);
+}}
+
+.secondary{{
+font-size:11px;
+color:var(--muted);
+}}
+
+@media(max-width:768px){{
+
+td{{
+display:flex;
+justify-content:space-between;
+padding:6px 0;
+}}
+
+td::before{{
+content:attr(data-label);
+font-weight:600;
+color:var(--muted);
+}}
+
 }}
 
 </style>
@@ -765,6 +930,13 @@ O desconto mostra quanto a ação está negociando abaixo desse preço estimado.
 
 </p>
 
+<div class="metric-grid">
+<div>P/L: {round(row['PL'],2)}</div>
+<div>P/VP: {round(row['PVP'],2)}</div>
+<div>ROE: {roe}%</div>
+<div>DY: {dy}%</div>
+</div>
+
 </div>
 
 <table>
@@ -786,7 +958,7 @@ O desconto mostra quanto a ação está negociando abaixo desse preço estimado.
 <tbody>
 """
 
-for _, row in df.iterrows():
+for i, (_, row) in enumerate(df.iterrows(), start=1):
 
     roe = round((row["ROE"] or 0) * 100, 2)
     dy = round((row["DivYield"] or 0) * 100, 2)
@@ -797,7 +969,8 @@ for _, row in df.iterrows():
 <tr data-setor="{row['Setor']}" data-categoria="{row['Categoria']}" data-score="{row['Score']}">
 
 <td>
-<strong>{row['Ticker']}</strong><br>
+<span style="color:#94a3b8;font-size:12px">#{i}</span>
+<strong>{row['Ticker']}</strong>
 <span style="font-size:11px;color:#94a3b8">{row['Empresa']}</span>
 </td>
 
@@ -820,6 +993,8 @@ border:1px solid {cores_categoria.get(row['Categoria'], '#3b82f6')}">
 <td style="color:{'#22c55e' if desconto > 0 else '#ef4444'}">{desconto}%</td>
 <td>R$ {round(row["PrecoJusto"],2)}</td>
 <td>{round(row["Ranking"],2)}</td>
+<td data-label="Score">{row['Score']}</td>
+
 
 </tr>
 """

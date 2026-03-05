@@ -32,9 +32,16 @@ body {
     padding: 25px 16px;
 }
 
+@media(max-width:768px){
+
 h1 {
-    font-size: 26px;
-    margin-bottom: 5px;
+    font-size: 22px;
+}
+
+.subtitle {
+    font-size: 13px;
+}
+
 }
 
 .subtitle {
@@ -70,7 +77,18 @@ select, input {
 table {
     width: 100%;
     border-collapse: collapse;
-    min-width: 900px;
+}
+
+@media(max-width: 768px) {
+
+table {
+    font-size: 12px;
+}
+
+th, td {
+    padding: 6px;
+}
+
 }
 
 th {
@@ -128,18 +146,50 @@ tr:nth-child(even) {
     text-align: center;
 }
 
-@media(max-width: 600px) {
-    h1 {
-        font-size: 22px;
-    }
+@media(max-width: 768px){
 
-    .filters {
-        flex-direction: column;
-    }
+.filters {
+    flex-direction: column;
+    gap: 10px;
+}
 
-    select, input {
-        width: 100%;
-    }
+select,
+input {
+    width: 100%;
+    padding: 10px;
+}
+
+}
+
+@media(max-width: 768px){
+
+thead {
+    display: none;
+}
+
+table, tbody, tr, td {
+    display: block;
+    width: 100%;
+}
+
+tr {
+    background: var(--card);
+    margin-bottom: 12px;
+    padding: 10px;
+    border-radius: 12px;
+}
+
+td {
+    text-align: left;
+    padding: 4px 0;
+}
+
+td:before {
+    font-weight: bold;
+    color: var(--muted);
+    display: block;
+}
+
 }
 
 .stats {
@@ -164,6 +214,121 @@ tr:nth-child(even) {
 .stat-label {
     font-size: 12px;
     color: var(--muted);
+}
+
+canvas {
+    max-height: 250px;
+}
+
+@media(max-width:768px){
+
+thead{
+display:none;
+}
+
+table,tbody,tr,td{
+display:block;
+width:100%;
+}
+
+tr{
+background:var(--card);
+margin-bottom:12px;
+padding:14px;
+border-radius:14px;
+box-shadow:0 2px 10px rgba(0,0,0,0.3);
+}
+
+td{
+display:flex;
+justify-content:space-between;
+padding:4px 0;
+font-size:13px;
+}
+
+td:first-child{
+display:block;
+font-size:16px;
+font-weight:bold;
+margin-bottom:6px;
+}
+
+}
+
+@media(max-width:768px){
+
+thead{
+display:none;
+}
+
+table,tbody,tr,td{
+display:block;
+width:100%;
+}
+
+tr{
+background:var(--card);
+margin-bottom:14px;
+padding:14px;
+border-radius:14px;
+}
+
+td{
+display:flex;
+justify-content:space-between;
+padding:6px 0;
+font-size:13px;
+}
+
+td:nth-child(4)::before{content:"P/L";}
+td:nth-child(5)::before{content:"P/VP";}
+td:nth-child(6)::before{content:"ROE";}
+td:nth-child(7)::before{content:"Dividend Yield";}
+td:nth-child(8)::before{content:"Score";}
+td:nth-child(9)::before{content:"Desconto";}
+td:nth-child(10)::before{content:"Preço justo";}
+
+td::before{
+font-weight:600;
+color:var(--muted);
+}
+
+}
+
+.metric-grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:6px;
+margin-top:6px;
+}
+
+tr{
+background:var(--card);
+margin-bottom:14px;
+padding:14px;
+border-radius:14px;
+box-shadow:0 4px 14px rgba(0,0,0,0.35);
+}
+
+.secondary{
+font-size:11px;
+color:var(--muted);
+}
+
+@media(max-width:768px){
+
+td{
+display:flex;
+justify-content:space-between;
+padding:6px 0;
+}
+
+td::before{
+content:attr(data-label);
+font-weight:600;
+color:var(--muted);
+}
+
 }
 
 </style>
@@ -243,25 +408,25 @@ function criarGrafico(id, labels, data, cor) {
 window.onload = function() {
     criarGrafico("graficoTop10",
     ['BSLI4', 'BSLI3', 'BAZA3', 'BNBR3', 'BRSR6', 'BRSR5', 'BRSR3', 'JHSF3', 'ABCB4', 'COGN3'],
-    [85.14851485148515, 83.82838283828382, 71.9484240687679, 71.5418707721017, 71.08989657915672, 70.10342084327765, 69.83293556085918, 67.78947368421053, 67.28971962616822, 66.66666666666666],
+    [85.24752475247526, 84.35643564356437, 72.26361031518624, 71.5418707721017, 71.36038186157518, 70.10342084327765, 69.59427207637232, 68.3157894736842, 67.56386292834891, 66.77083333333333],
     "#ef4444"   // vermelho destaque
 );
 
 criarGrafico("graficoBlue",
     ['PETR4', 'BBSE3', 'PETR3', 'BPAC5', 'SANB3'],
-    [52.84124194493263, 50.967741935483865, 48.658465143526655, 47.57142857142857, 33.8241308793456],
+    [52.74944307656232, 51.26881720430107, 48.86936145284124, 47.66666666666667, 34.601226993865026],
     "#3b82f6"
 );
 
 criarGrafico("graficoMid",
-    ['BNBR3', 'CMIG4', 'CYRE3', 'SAPR4', 'GMAT3'],
-    [71.5418707721017, 66.05263157894737, 61.69312169312169, 58.29457364341085, 58.25396825396826],
+    ['BNBR3', 'CMIG4', 'CYRE3', 'GMAT3', 'SAPR4'],
+    [71.5418707721017, 66.28654970760233, 62.52645502645503, 58.88888888888889, 58.75968992248062],
     "#22c55e"
 );
 
 criarGrafico("graficoSmall",
     ['BSLI4', 'BSLI3', 'BAZA3', 'BRSR6', 'BRSR5'],
-    [85.14851485148515, 83.82838283828382, 71.9484240687679, 71.08989657915672, 70.10342084327765],
+    [85.24752475247526, 84.35643564356437, 72.26361031518624, 71.36038186157518, 70.10342084327765],
     "#facc15"
 );
 
@@ -313,7 +478,7 @@ Atualizado em 05/03/2026
 </div>
 
 <div class="stat-box">
-<div class="stat-num">41</div>
+<div class="stat-num">43</div>
 <div class="stat-label">🏆 Score ≥ 70</div>
 </div>
 
@@ -402,7 +567,7 @@ O ranking utiliza um score fundamentalista baseado em métricas de valor:
 • P/VP abaixo de 1.5<br>
 • ROE acima de 15%<br>
 • Dividend Yield acima de 5%<br>
-• Market Cap acima de 10 bilhões
+• Market Cap acima de 1 bilhão
 
 <br><br>
 
@@ -413,6 +578,13 @@ O preço justo é estimado utilizando um múltiplo conservador de <strong>P/L = 
 O desconto mostra quanto a ação está negociando abaixo desse preço estimado.
 
 </p>
+
+<div class="metric-grid">
+<div>P/L: {round(row['PL'],2)}</div>
+<div>P/VP: {round(row['PVP'],2)}</div>
+<div>ROE: {roe}%</div>
+<div>DY: {dy}%</div>
+</div>
 
 </div>
 
@@ -438,7 +610,8 @@ O desconto mostra quanto a ação está negociando abaixo desse preço estimado.
 <tr data-setor="Consumo Cíclico" data-categoria="Mid Caps" data-score="100">
 
 <td>
-<strong>CYRE3</strong><br>
+<span style="color:#94a3b8;font-size:12px">#1</span>
+<strong>CYRE3</strong>
 <span style="font-size:11px;color:#94a3b8">CYRELA REALTON      NM</span>
 </td>
 
@@ -453,14 +626,16 @@ Mid Caps
 </span>
 </td>
 
-<td>5.75</td>
-<td>1.02</td>
+<td>5.62</td>
+<td>0.99</td>
 <td>20.09%</td>
 <td>12.79%</td>
 <td>100</td>
-<td style="color:#22c55e">61.69%</td>
+<td style="color:#22c55e">62.53%</td>
 <td>R$ 75.6</td>
-<td>88.51</td>
+<td>88.76</td>
+<td data-label="Score">100</td>
+
 
 </tr>
 
@@ -468,7 +643,8 @@ Mid Caps
 <tr data-setor="Energia" data-categoria="Blue Chips" data-score="100">
 
 <td>
-<strong>PETR4</strong><br>
+<span style="color:#94a3b8;font-size:12px">#2</span>
+<strong>PETR4</strong>
 <span style="font-size:11px;color:#94a3b8">PETROBRAS   PN  ATZ N2</span>
 </td>
 
@@ -483,14 +659,16 @@ Blue Chips
 </span>
 </td>
 
-<td>7.07</td>
+<td>7.09</td>
 <td>1.23</td>
 <td>19.02%</td>
 <td>11.45%</td>
 <td>100</td>
-<td style="color:#22c55e">52.84%</td>
-<td>R$ 85.35</td>
-<td>85.85</td>
+<td style="color:#22c55e">52.75%</td>
+<td>R$ 85.29</td>
+<td>85.82</td>
+<td data-label="Score">100</td>
+
 
 </tr>
 
@@ -498,7 +676,8 @@ Blue Chips
 <tr data-setor="Serviços Financeiros" data-categoria="Small Caps" data-score="85">
 
 <td>
-<strong>BSLI4</strong><br>
+<span style="color:#94a3b8;font-size:12px">#3</span>
+<strong>BSLI4</strong>
 <span style="font-size:11px;color:#94a3b8">BRB BANCO   PN</span>
 </td>
 
@@ -513,14 +692,16 @@ Small Caps
 </span>
 </td>
 
-<td>2.23</td>
+<td>2.21</td>
 <td>0.55</td>
 <td>25.13%</td>
 <td>14.36%</td>
 <td>85</td>
-<td style="color:#22c55e">85.15%</td>
+<td style="color:#22c55e">85.25%</td>
 <td>R$ 30.3</td>
-<td>85.04</td>
+<td>85.07</td>
+<td data-label="Score">85</td>
+
 
 </tr>
 
@@ -528,7 +709,8 @@ Small Caps
 <tr data-setor="Serviços Financeiros" data-categoria="Small Caps" data-score="85">
 
 <td>
-<strong>BSLI3</strong><br>
+<span style="color:#94a3b8;font-size:12px">#4</span>
+<strong>BSLI3</strong>
 <span style="font-size:11px;color:#94a3b8">BRB BANCO   ON</span>
 </td>
 
@@ -543,44 +725,16 @@ Small Caps
 </span>
 </td>
 
-<td>2.43</td>
-<td>0.6</td>
+<td>2.35</td>
+<td>0.58</td>
 <td>25.13%</td>
 <td>11.86%</td>
 <td>85</td>
-<td style="color:#22c55e">83.83%</td>
+<td style="color:#22c55e">84.36%</td>
 <td>R$ 30.3</td>
-<td>84.65</td>
+<td>84.81</td>
+<td data-label="Score">85</td>
 
-</tr>
-
-    
-<tr data-setor="Energia" data-categoria="Blue Chips" data-score="100">
-
-<td>
-<strong>PETR3</strong><br>
-<span style="font-size:11px;color:#94a3b8">PETROBRAS   ON      N2</span>
-</td>
-
-<td>Energia</td>
-
-<td>
-<span class="badge" style="
-background:#3b82f620;
-color:#3b82f6;
-border:1px solid #3b82f6">
-Blue Chips
-</span>
-</td>
-
-<td>7.7</td>
-<td>1.34</td>
-<td>19.02%</td>
-<td>10.53%</td>
-<td>100</td>
-<td style="color:#22c55e">48.66%</td>
-<td>R$ 85.35</td>
-<td>84.6</td>
 
 </tr>
 
@@ -588,7 +742,8 @@ Blue Chips
 <tr data-setor="Utilidades Públicas" data-categoria="Mid Caps" data-score="100">
 
 <td>
-<strong>ENGI4</strong><br>
+<span style="color:#94a3b8;font-size:12px">#5</span>
+<strong>ENGI4</strong>
 <span style="font-size:11px;color:#94a3b8">ENERGISA    PN      N2</span>
 </td>
 
@@ -603,14 +758,49 @@ Mid Caps
 </span>
 </td>
 
-<td>7.77</td>
+<td>7.66</td>
 <td>0.21</td>
 <td>19.87%</td>
 <td>6.36%</td>
 <td>100</td>
-<td style="color:#22c55e">48.19%</td>
+<td style="color:#22c55e">48.91%</td>
 <td>R$ 19.65</td>
-<td>84.46</td>
+<td>84.67</td>
+<td data-label="Score">100</td>
+
+
+</tr>
+
+    
+<tr data-setor="Energia" data-categoria="Blue Chips" data-score="100">
+
+<td>
+<span style="color:#94a3b8;font-size:12px">#6</span>
+<strong>PETR3</strong>
+<span style="font-size:11px;color:#94a3b8">PETROBRAS   ON      N2</span>
+</td>
+
+<td>Energia</td>
+
+<td>
+<span class="badge" style="
+background:#3b82f620;
+color:#3b82f6;
+border:1px solid #3b82f6">
+Blue Chips
+</span>
+</td>
+
+<td>7.67</td>
+<td>1.33</td>
+<td>19.02%</td>
+<td>10.53%</td>
+<td>100</td>
+<td style="color:#22c55e">48.87%</td>
+<td>R$ 85.35</td>
+<td>84.66</td>
+<td data-label="Score">100</td>
+
 
 </tr>
 
@@ -618,7 +808,8 @@ Mid Caps
 <tr data-setor="Utilidades Públicas" data-categoria="Mid Caps" data-score="100">
 
 <td>
-<strong>TAEE3</strong><br>
+<span style="color:#94a3b8;font-size:12px">#7</span>
+<strong>TAEE3</strong>
 <span style="font-size:11px;color:#94a3b8">TAESA       ON      N2</span>
 </td>
 
@@ -633,14 +824,16 @@ Mid Caps
 </span>
 </td>
 
-<td>8.4</td>
+<td>8.41</td>
 <td>0.63</td>
 <td>23.59%</td>
 <td>7.58%</td>
 <td>100</td>
-<td style="color:#22c55e">43.99%</td>
+<td style="color:#22c55e">43.95%</td>
 <td>R$ 25.05</td>
-<td>83.2</td>
+<td>83.19</td>
+<td data-label="Score">100</td>
+
 
 </tr>
 
@@ -648,7 +841,8 @@ Mid Caps
 <tr data-setor="Utilidades Públicas" data-categoria="Mid Caps" data-score="100">
 
 <td>
-<strong>TAEE4</strong><br>
+<span style="color:#94a3b8;font-size:12px">#8</span>
+<strong>TAEE4</strong>
 <span style="font-size:11px;color:#94a3b8">TAESA       PN      N2</span>
 </td>
 
@@ -663,14 +857,16 @@ Mid Caps
 </span>
 </td>
 
-<td>8.5</td>
+<td>8.49</td>
 <td>0.64</td>
 <td>23.59%</td>
 <td>7.47%</td>
 <td>100</td>
-<td style="color:#22c55e">43.31%</td>
+<td style="color:#22c55e">43.39%</td>
 <td>R$ 25.05</td>
-<td>82.99</td>
+<td>83.02</td>
+<td data-label="Score">100</td>
+
 
 </tr>
 
@@ -678,7 +874,8 @@ Mid Caps
 <tr data-setor="Serviços Financeiros" data-categoria="Small Caps" data-score="85">
 
 <td>
-<strong>BAZA3</strong><br>
+<span style="color:#94a3b8;font-size:12px">#9</span>
+<strong>BAZA3</strong>
 <span style="font-size:11px;color:#94a3b8">AMAZONIA    ON</span>
 </td>
 
@@ -693,14 +890,16 @@ Small Caps
 </span>
 </td>
 
-<td>4.21</td>
-<td>0.68</td>
+<td>4.16</td>
+<td>0.67</td>
 <td>15.24%</td>
 <td>9.15%</td>
 <td>85</td>
-<td style="color:#22c55e">71.95%</td>
+<td style="color:#22c55e">72.26%</td>
 <td>R$ 314.1</td>
-<td>81.08</td>
+<td>81.18</td>
+<td data-label="Score">85</td>
+
 
 </tr>
 
@@ -708,7 +907,8 @@ Small Caps
 <tr data-setor="Serviços Financeiros" data-categoria="Mid Caps" data-score="85">
 
 <td>
-<strong>BNBR3</strong><br>
+<span style="color:#94a3b8;font-size:12px">#10</span>
+<strong>BNBR3</strong>
 <span style="font-size:11px;color:#94a3b8">NORD BRASIL ON</span>
 </td>
 
@@ -731,6 +931,8 @@ Mid Caps
 <td style="color:#22c55e">71.54%</td>
 <td>R$ 428.7</td>
 <td>80.96</td>
+<td data-label="Score">85</td>
+
 
 </tr>
 
@@ -738,7 +940,8 @@ Mid Caps
 <tr data-setor="Serviços Financeiros" data-categoria="Small Caps" data-score="85">
 
 <td>
-<strong>BRSR6</strong><br>
+<span style="color:#94a3b8;font-size:12px">#11</span>
+<strong>BRSR6</strong>
 <span style="font-size:11px;color:#94a3b8">BANRISUL    PNB     N1</span>
 </td>
 
@@ -753,14 +956,49 @@ Small Caps
 </span>
 </td>
 
-<td>4.34</td>
-<td>0.65</td>
+<td>4.3</td>
+<td>0.64</td>
 <td>15.67%</td>
 <td>7.92%</td>
 <td>85</td>
-<td style="color:#22c55e">71.09%</td>
+<td style="color:#22c55e">71.36%</td>
 <td>R$ 62.85</td>
-<td>80.83</td>
+<td>80.91</td>
+<td data-label="Score">85</td>
+
+
+</tr>
+
+    
+<tr data-setor="Utilidades Públicas" data-categoria="Mid Caps" data-score="100">
+
+<td>
+<span style="color:#94a3b8;font-size:12px">#12</span>
+<strong>ENGI3</strong>
+<span style="font-size:11px;color:#94a3b8">ENERGISA    ON      N2</span>
+</td>
+
+<td>Utilidades Públicas</td>
+
+<td>
+<span class="badge" style="
+background:#22c55e20;
+color:#22c55e;
+border:1px solid #22c55e">
+Mid Caps
+</span>
+</td>
+
+<td>9.73</td>
+<td>0.26</td>
+<td>19.87%</td>
+<td>5.02%</td>
+<td>100</td>
+<td style="color:#22c55e">35.11%</td>
+<td>R$ 19.65</td>
+<td>80.53</td>
+<td data-label="Score">100</td>
+
 
 </tr>
 
@@ -768,7 +1006,8 @@ Small Caps
 <tr data-setor="Serviços Financeiros" data-categoria="Small Caps" data-score="85">
 
 <td>
-<strong>BRSR5</strong><br>
+<span style="color:#94a3b8;font-size:12px">#13</span>
+<strong>BRSR5</strong>
 <span style="font-size:11px;color:#94a3b8">BANRISUL    PNA     N1</span>
 </td>
 
@@ -791,36 +1030,8 @@ Small Caps
 <td style="color:#22c55e">70.1%</td>
 <td>R$ 62.85</td>
 <td>80.53</td>
+<td data-label="Score">85</td>
 
-</tr>
-
-    
-<tr data-setor="Utilidades Públicas" data-categoria="Mid Caps" data-score="100">
-
-<td>
-<strong>ENGI3</strong><br>
-<span style="font-size:11px;color:#94a3b8">ENERGISA    ON      N2</span>
-</td>
-
-<td>Utilidades Públicas</td>
-
-<td>
-<span class="badge" style="
-background:#22c55e20;
-color:#22c55e;
-border:1px solid #22c55e">
-Mid Caps
-</span>
-</td>
-
-<td>9.74</td>
-<td>0.26</td>
-<td>19.87%</td>
-<td>5.02%</td>
-<td>100</td>
-<td style="color:#22c55e">35.06%</td>
-<td>R$ 19.65</td>
-<td>80.52</td>
 
 </tr>
 
@@ -828,7 +1039,8 @@ Mid Caps
 <tr data-setor="Serviços Financeiros" data-categoria="Small Caps" data-score="85">
 
 <td>
-<strong>BRSR3</strong><br>
+<span style="color:#94a3b8;font-size:12px">#14</span>
+<strong>BRSR3</strong>
 <span style="font-size:11px;color:#94a3b8">BANRISUL    ON      N1</span>
 </td>
 
@@ -843,14 +1055,16 @@ Small Caps
 </span>
 </td>
 
-<td>4.53</td>
+<td>4.56</td>
 <td>0.68</td>
 <td>15.67%</td>
 <td>6.63%</td>
 <td>85</td>
-<td style="color:#22c55e">69.83%</td>
+<td style="color:#22c55e">69.59%</td>
 <td>R$ 62.85</td>
-<td>80.45</td>
+<td>80.38</td>
+<td data-label="Score">85</td>
+
 
 </tr>
 
@@ -858,7 +1072,8 @@ Small Caps
 <tr data-setor="Imobiliário" data-categoria="Small Caps" data-score="85">
 
 <td>
-<strong>JHSF3</strong><br>
+<span style="color:#94a3b8;font-size:12px">#15</span>
+<strong>JHSF3</strong>
 <span style="font-size:11px;color:#94a3b8">JHSF PART   ON  ED  NM</span>
 </td>
 
@@ -873,14 +1088,16 @@ Small Caps
 </span>
 </td>
 
-<td>4.83</td>
-<td>0.97</td>
+<td>4.75</td>
+<td>0.96</td>
 <td>20.97%</td>
 <td>8.7%</td>
 <td>85</td>
-<td style="color:#22c55e">67.79%</td>
+<td style="color:#22c55e">68.32%</td>
 <td>R$ 28.5</td>
-<td>79.84</td>
+<td>79.99</td>
+<td data-label="Score">85</td>
+
 
 </tr>
 
@@ -888,7 +1105,8 @@ Small Caps
 <tr data-setor="Serviços Financeiros" data-categoria="Small Caps" data-score="85">
 
 <td>
-<strong>ABCB4</strong><br>
+<span style="color:#94a3b8;font-size:12px">#16</span>
+<strong>ABCB4</strong>
 <span style="font-size:11px;color:#94a3b8">ABC BRASIL  PN      N2</span>
 </td>
 
@@ -903,14 +1121,16 @@ Small Caps
 </span>
 </td>
 
-<td>4.91</td>
-<td>0.94</td>
+<td>4.87</td>
+<td>0.93</td>
 <td>15.46%</td>
 <td>11.46%</td>
 <td>85</td>
-<td style="color:#22c55e">67.29%</td>
+<td style="color:#22c55e">67.56%</td>
 <td>R$ 80.25</td>
-<td>79.69</td>
+<td>79.77</td>
+<td data-label="Score">85</td>
+
 
 </tr>
 
@@ -918,7 +1138,8 @@ Small Caps
 <tr data-setor="Utilidades Públicas" data-categoria="Small Caps" data-score="85">
 
 <td>
-<strong>CEEB5</strong><br>
+<span style="color:#94a3b8;font-size:12px">#17</span>
+<strong>CEEB5</strong>
 <span style="font-size:11px;color:#94a3b8">COELBA      PNA</span>
 </td>
 
@@ -941,6 +1162,8 @@ Small Caps
 <td style="color:#22c55e">64.96%</td>
 <td>R$ 108.45</td>
 <td>78.99</td>
+<td data-label="Score">85</td>
+
 
 </tr>
 
@@ -948,7 +1171,8 @@ Small Caps
 <tr data-setor="Utilidades Públicas" data-categoria="Small Caps" data-score="85">
 
 <td>
-<strong>EMAE4</strong><br>
+<span style="color:#94a3b8;font-size:12px">#18</span>
+<strong>EMAE4</strong>
 <span style="font-size:11px;color:#94a3b8">EMAE        PN</span>
 </td>
 
@@ -963,44 +1187,16 @@ Small Caps
 </span>
 </td>
 
-<td>5.75</td>
-<td>1.13</td>
+<td>5.8</td>
+<td>1.14</td>
 <td>23.44%</td>
 <td>9.78%</td>
 <td>85</td>
-<td style="color:#22c55e">61.7%</td>
+<td style="color:#22c55e">61.31%</td>
 <td>R$ 123.3</td>
-<td>78.01</td>
+<td>77.89</td>
+<td data-label="Score">85</td>
 
-</tr>
-
-    
-<tr data-setor="Utilidades Públicas" data-categoria="Mid Caps" data-score="85">
-
-<td>
-<strong>SAPR4</strong><br>
-<span style="font-size:11px;color:#94a3b8">SANEPAR     PN      N2</span>
-</td>
-
-<td>Utilidades Públicas</td>
-
-<td>
-<span class="badge" style="
-background:#22c55e20;
-color:#22c55e;
-border:1px solid #22c55e">
-Mid Caps
-</span>
-</td>
-
-<td>6.26</td>
-<td>0.2</td>
-<td>18.87%</td>
-<td>2.75%</td>
-<td>85</td>
-<td style="color:#22c55e">58.29%</td>
-<td>R$ 19.35</td>
-<td>76.99</td>
 
 </tr>
 
@@ -1008,7 +1204,8 @@ Mid Caps
 <tr data-setor="Consumo Cíclico" data-categoria="Mid Caps" data-score="85">
 
 <td>
-<strong>GMAT3</strong><br>
+<span style="color:#94a3b8;font-size:12px">#19</span>
+<strong>GMAT3</strong>
 <span style="font-size:11px;color:#94a3b8">GRUPO MATEUSON      NM</span>
 </td>
 
@@ -1023,14 +1220,82 @@ Mid Caps
 </span>
 </td>
 
-<td>6.26</td>
-<td>1.16</td>
+<td>6.17</td>
+<td>1.14</td>
 <td>18.4%</td>
 <td>4.61%</td>
 <td>85</td>
-<td style="color:#22c55e">58.25%</td>
+<td style="color:#22c55e">58.89%</td>
 <td>R$ 12.6</td>
-<td>76.98</td>
+<td>77.17</td>
+<td data-label="Score">85</td>
+
+
+</tr>
+
+    
+<tr data-setor="Utilidades Públicas" data-categoria="Mid Caps" data-score="85">
+
+<td>
+<span style="color:#94a3b8;font-size:12px">#20</span>
+<strong>SAPR4</strong>
+<span style="font-size:11px;color:#94a3b8">SANEPAR     PN      N2</span>
+</td>
+
+<td>Utilidades Públicas</td>
+
+<td>
+<span class="badge" style="
+background:#22c55e20;
+color:#22c55e;
+border:1px solid #22c55e">
+Mid Caps
+</span>
+</td>
+
+<td>6.19</td>
+<td>0.2</td>
+<td>18.87%</td>
+<td>2.75%</td>
+<td>85</td>
+<td style="color:#22c55e">58.76%</td>
+<td>R$ 19.35</td>
+<td>77.13</td>
+<td data-label="Score">85</td>
+
+
+</tr>
+
+    
+<tr data-setor="Consumo Cíclico" data-categoria="Small Caps" data-score="85">
+
+<td>
+<span style="color:#94a3b8;font-size:12px">#21</span>
+<strong>CEAB3</strong>
+<span style="font-size:11px;color:#94a3b8">CEA MODAS   ON      NM</span>
+</td>
+
+<td>Consumo Cíclico</td>
+
+<td>
+<span class="badge" style="
+background:#facc1520;
+color:#facc15;
+border:1px solid #facc15">
+Small Caps
+</span>
+</td>
+
+<td>6.27</td>
+<td>0.97</td>
+<td>16.74%</td>
+<td>7.45%</td>
+<td>85</td>
+<td style="color:#22c55e">58.2%</td>
+<td>R$ 28.35</td>
+<td>76.96</td>
+<td data-label="Score">85</td>
+
 
 </tr>
 
@@ -1038,7 +1303,8 @@ Mid Caps
 <tr data-setor="Consumo Defensivo" data-categoria="Small Caps" data-score="85">
 
 <td>
-<strong>VTRU3</strong><br>
+<span style="color:#94a3b8;font-size:12px">#22</span>
+<strong>VTRU3</strong>
 <span style="font-size:11px;color:#94a3b8">VITRUEDUCA  ON      NM</span>
 </td>
 
@@ -1054,43 +1320,15 @@ Small Caps
 </td>
 
 <td>6.28</td>
-<td>0.64</td>
+<td>0.65</td>
 <td>18.06%</td>
 <td>16.0%</td>
 <td>85</td>
-<td style="color:#22c55e">58.17%</td>
+<td style="color:#22c55e">58.13%</td>
 <td>R$ 32.7</td>
-<td>76.95</td>
+<td>76.94</td>
+<td data-label="Score">85</td>
 
-</tr>
-
-    
-<tr data-setor="Consumo Cíclico" data-categoria="Small Caps" data-score="85">
-
-<td>
-<strong>CEAB3</strong><br>
-<span style="font-size:11px;color:#94a3b8">CEA MODAS   ON      NM</span>
-</td>
-
-<td>Consumo Cíclico</td>
-
-<td>
-<span class="badge" style="
-background:#facc1520;
-color:#facc15;
-border:1px solid #facc15">
-Small Caps
-</span>
-</td>
-
-<td>6.35</td>
-<td>0.98</td>
-<td>16.74%</td>
-<td>7.45%</td>
-<td>85</td>
-<td style="color:#22c55e">57.67%</td>
-<td>R$ 28.35</td>
-<td>76.8</td>
 
 </tr>
 
@@ -1098,7 +1336,8 @@ Small Caps
 <tr data-setor="Utilidades Públicas" data-categoria="Mid Caps" data-score="80">
 
 <td>
-<strong>CMIG4</strong><br>
+<span style="color:#94a3b8;font-size:12px">#23</span>
+<strong>CMIG4</strong>
 <span style="font-size:11px;color:#94a3b8">CEMIG       PN      N1</span>
 </td>
 
@@ -1113,14 +1352,82 @@ Mid Caps
 </span>
 </td>
 
-<td>5.09</td>
-<td>1.16</td>
+<td>5.06</td>
+<td>1.15</td>
 <td>14.16%</td>
 <td>13.98%</td>
 <td>80</td>
-<td style="color:#22c55e">66.05%</td>
+<td style="color:#22c55e">66.29%</td>
 <td>R$ 34.2</td>
-<td>75.82</td>
+<td>75.89</td>
+<td data-label="Score">80</td>
+
+
+</tr>
+
+    
+<tr data-setor="Utilidades Públicas" data-categoria="Mid Caps" data-score="85">
+
+<td>
+<span style="color:#94a3b8;font-size:12px">#24</span>
+<strong>SAPR3</strong>
+<span style="font-size:11px;color:#94a3b8">SANEPAR     ON      N2</span>
+</td>
+
+<td>Utilidades Públicas</td>
+
+<td>
+<span class="badge" style="
+background:#22c55e20;
+color:#22c55e;
+border:1px solid #22c55e">
+Mid Caps
+</span>
+</td>
+
+<td>7.14</td>
+<td>0.23</td>
+<td>18.87%</td>
+<td>2.12%</td>
+<td>85</td>
+<td style="color:#22c55e">52.4%</td>
+<td>R$ 19.35</td>
+<td>75.22</td>
+<td data-label="Score">85</td>
+
+
+</tr>
+
+    
+<tr data-setor="Consumo Cíclico" data-categoria="Small Caps" data-score="85">
+
+<td>
+<span style="color:#94a3b8;font-size:12px">#25</span>
+<strong>SHUL4</strong>
+<span style="font-size:11px;color:#94a3b8">SCHULZ      PN</span>
+</td>
+
+<td>Consumo Cíclico</td>
+
+<td>
+<span class="badge" style="
+background:#facc1520;
+color:#facc15;
+border:1px solid #facc15">
+Small Caps
+</span>
+</td>
+
+<td>7.22</td>
+<td>1.21</td>
+<td>17.66%</td>
+<td>7.83%</td>
+<td>85</td>
+<td style="color:#22c55e">51.87%</td>
+<td>R$ 10.95</td>
+<td>75.06</td>
+<td data-label="Score">85</td>
+
 
 </tr>
 
@@ -1128,7 +1435,8 @@ Mid Caps
 <tr data-setor="Utilidades Públicas" data-categoria="Small Caps" data-score="85">
 
 <td>
-<strong>CLSC3</strong><br>
+<span style="color:#94a3b8;font-size:12px">#26</span>
+<strong>CLSC3</strong>
 <span style="font-size:11px;color:#94a3b8">CELESC      ON      N2</span>
 </td>
 
@@ -1151,66 +1459,8 @@ Small Caps
 <td style="color:#22c55e">51.82%</td>
 <td>R$ 257.4</td>
 <td>75.05</td>
+<td data-label="Score">85</td>
 
-</tr>
-
-    
-<tr data-setor="Utilidades Públicas" data-categoria="Mid Caps" data-score="85">
-
-<td>
-<strong>SAPR3</strong><br>
-<span style="font-size:11px;color:#94a3b8">SANEPAR     ON      N2</span>
-</td>
-
-<td>Utilidades Públicas</td>
-
-<td>
-<span class="badge" style="
-background:#22c55e20;
-color:#22c55e;
-border:1px solid #22c55e">
-Mid Caps
-</span>
-</td>
-
-<td>7.24</td>
-<td>0.23</td>
-<td>18.87%</td>
-<td>2.12%</td>
-<td>85</td>
-<td style="color:#22c55e">51.73%</td>
-<td>R$ 19.35</td>
-<td>75.02</td>
-
-</tr>
-
-    
-<tr data-setor="Consumo Cíclico" data-categoria="Small Caps" data-score="85">
-
-<td>
-<strong>SHUL4</strong><br>
-<span style="font-size:11px;color:#94a3b8">SCHULZ      PN</span>
-</td>
-
-<td>Consumo Cíclico</td>
-
-<td>
-<span class="badge" style="
-background:#facc1520;
-color:#facc15;
-border:1px solid #facc15">
-Small Caps
-</span>
-</td>
-
-<td>7.26</td>
-<td>1.22</td>
-<td>17.66%</td>
-<td>7.83%</td>
-<td>85</td>
-<td style="color:#22c55e">51.6%</td>
-<td>R$ 10.95</td>
-<td>74.98</td>
 
 </tr>
 
@@ -1218,7 +1468,8 @@ Small Caps
 <tr data-setor="Utilidades Públicas" data-categoria="Small Caps" data-score="85">
 
 <td>
-<strong>EQMA3B</strong><br>
+<span style="color:#94a3b8;font-size:12px">#27</span>
+<strong>EQMA3B</strong>
 <span style="font-size:11px;color:#94a3b8">EQUATORIAL MARANHA</span>
 </td>
 
@@ -1241,6 +1492,41 @@ Small Caps
 <td style="color:#22c55e">50.21%</td>
 <td>R$ 68.25</td>
 <td>74.56</td>
+<td data-label="Score">85</td>
+
+
+</tr>
+
+    
+<tr data-setor="Imobiliário" data-categoria="Small Caps" data-score="85">
+
+<td>
+<span style="color:#94a3b8;font-size:12px">#28</span>
+<strong>MDNE3</strong>
+<span style="font-size:11px;color:#94a3b8">MOURA DUBEUXON      NM</span>
+</td>
+
+<td>Imobiliário</td>
+
+<td>
+<span class="badge" style="
+background:#facc1520;
+color:#facc15;
+border:1px solid #facc15">
+Small Caps
+</span>
+</td>
+
+<td>7.7</td>
+<td>1.5</td>
+<td>20.98%</td>
+<td>14.46%</td>
+<td>85</td>
+<td style="color:#22c55e">48.67%</td>
+<td>R$ 62.55</td>
+<td>74.1</td>
+<td data-label="Score">85</td>
+
 
 </tr>
 
@@ -1248,7 +1534,8 @@ Small Caps
 <tr data-setor="Serviços Financeiros" data-categoria="Small Caps" data-score="85">
 
 <td>
-<strong>BGIP3</strong><br>
+<span style="color:#94a3b8;font-size:12px">#29</span>
+<strong>BGIP3</strong>
 <span style="font-size:11px;color:#94a3b8">BANESE      ON</span>
 </td>
 
@@ -1271,6 +1558,8 @@ Small Caps
 <td style="color:#22c55e">48.23%</td>
 <td>R$ 116.4</td>
 <td>73.97</td>
+<td data-label="Score">85</td>
+
 
 </tr>
 
@@ -1278,7 +1567,8 @@ Small Caps
 <tr data-setor="Serviços Financeiros" data-categoria="Blue Chips" data-score="85">
 
 <td>
-<strong>BPAC5</strong><br>
+<span style="color:#94a3b8;font-size:12px">#30</span>
+<strong>BPAC5</strong>
 <span style="font-size:11px;color:#94a3b8">BTGP BANCO  PNA     N2</span>
 </td>
 
@@ -1293,14 +1583,49 @@ Blue Chips
 </span>
 </td>
 
-<td>7.86</td>
+<td>7.85</td>
 <td>0.76</td>
 <td>23.87%</td>
 <td>4.07%</td>
 <td>85</td>
-<td style="color:#22c55e">47.57%</td>
+<td style="color:#22c55e">47.67%</td>
 <td>R$ 21.0</td>
-<td>73.77</td>
+<td>73.8</td>
+<td data-label="Score">85</td>
+
+
+</tr>
+
+    
+<tr data-setor="Utilidades Públicas" data-categoria="Mid Caps" data-score="80">
+
+<td>
+<span style="color:#94a3b8;font-size:12px">#31</span>
+<strong>CMIG3</strong>
+<span style="font-size:11px;color:#94a3b8">CEMIG       ON      N1</span>
+</td>
+
+<td>Utilidades Públicas</td>
+
+<td>
+<span class="badge" style="
+background:#22c55e20;
+color:#22c55e;
+border:1px solid #22c55e">
+Mid Caps
+</span>
+</td>
+
+<td>6.59</td>
+<td>1.5</td>
+<td>14.16%</td>
+<td>10.79%</td>
+<td>80</td>
+<td style="color:#22c55e">56.08%</td>
+<td>R$ 34.2</td>
+<td>72.82</td>
+<td data-label="Score">80</td>
+
 
 </tr>
 
@@ -1308,7 +1633,8 @@ Blue Chips
 <tr data-setor="Utilidades Públicas" data-categoria="Small Caps" data-score="85">
 
 <td>
-<strong>CLSC4</strong><br>
+<span style="color:#94a3b8;font-size:12px">#32</span>
+<strong>CLSC4</strong>
 <span style="font-size:11px;color:#94a3b8">CELESC      PN      N2</span>
 </td>
 
@@ -1323,14 +1649,16 @@ Small Caps
 </span>
 </td>
 
-<td>8.65</td>
-<td>1.45</td>
+<td>8.59</td>
+<td>1.44</td>
 <td>19.13%</td>
 <td>5.45%</td>
 <td>85</td>
-<td style="color:#22c55e">42.33%</td>
+<td style="color:#22c55e">42.75%</td>
 <td>R$ 257.4</td>
-<td>72.2</td>
+<td>72.33</td>
+<td data-label="Score">85</td>
+
 
 </tr>
 
@@ -1338,7 +1666,8 @@ Small Caps
 <tr data-setor="Utilidades Públicas" data-categoria="Mid Caps" data-score="80">
 
 <td>
-<strong>ISAE4</strong><br>
+<span style="color:#94a3b8;font-size:12px">#33</span>
+<strong>ISAE4</strong>
 <span style="font-size:11px;color:#94a3b8">ISA ENERGIA PN  EJ  N1</span>
 </td>
 
@@ -1358,9 +1687,11 @@ Mid Caps
 <td>14.34%</td>
 <td>9.27%</td>
 <td>80</td>
-<td style="color:#22c55e">50.03%</td>
+<td style="color:#22c55e">49.97%</td>
 <td>R$ 55.65</td>
-<td>71.01</td>
+<td>70.99</td>
+<td data-label="Score">80</td>
+
 
 </tr>
 
@@ -1368,7 +1699,8 @@ Mid Caps
 <tr data-setor="Tecnologia" data-categoria="Small Caps" data-score="85">
 
 <td>
-<strong>INTB3</strong><br>
+<span style="color:#94a3b8;font-size:12px">#34</span>
+<strong>INTB3</strong>
 <span style="font-size:11px;color:#94a3b8">INTELBRAS   ON      NM</span>
 </td>
 
@@ -1383,14 +1715,16 @@ Small Caps
 </span>
 </td>
 
-<td>9.49</td>
-<td>1.47</td>
+<td>9.48</td>
+<td>1.46</td>
 <td>15.66%</td>
 <td>10.19%</td>
 <td>85</td>
-<td style="color:#22c55e">36.71%</td>
+<td style="color:#22c55e">36.8%</td>
 <td>R$ 22.2</td>
-<td>70.51</td>
+<td>70.54</td>
+<td data-label="Score">85</td>
+
 
 </tr>
 
@@ -1398,7 +1732,8 @@ Small Caps
 <tr data-setor="Utilidades Públicas" data-categoria="Mid Caps" data-score="75">
 
 <td>
-<strong>CEEB3</strong><br>
+<span style="color:#94a3b8;font-size:12px">#35</span>
+<strong>CEEB3</strong>
 <span style="font-size:11px;color:#94a3b8">COELBA      ON</span>
 </td>
 
@@ -1413,14 +1748,16 @@ Mid Caps
 </span>
 </td>
 
-<td>6.64</td>
-<td>1.6</td>
+<td>6.5</td>
+<td>1.57</td>
 <td>25.59%</td>
 <td>12.67%</td>
 <td>75</td>
-<td style="color:#22c55e">55.74%</td>
+<td style="color:#22c55e">56.65%</td>
 <td>R$ 108.45</td>
-<td>69.22</td>
+<td>69.5</td>
+<td data-label="Score">75</td>
+
 
 </tr>
 
@@ -1428,7 +1765,8 @@ Mid Caps
 <tr data-setor="Utilidades Públicas" data-categoria="Mid Caps" data-score="80">
 
 <td>
-<strong>ISAE3</strong><br>
+<span style="color:#94a3b8;font-size:12px">#36</span>
+<strong>ISAE3</strong>
 <span style="font-size:11px;color:#94a3b8">ISA ENERGIA ON      N1</span>
 </td>
 
@@ -1443,14 +1781,16 @@ Mid Caps
 </span>
 </td>
 
-<td>8.82</td>
+<td>8.8</td>
 <td>1.02</td>
 <td>14.34%</td>
 <td>7.97%</td>
 <td>80</td>
-<td style="color:#22c55e">41.19%</td>
+<td style="color:#22c55e">41.31%</td>
 <td>R$ 55.65</td>
-<td>68.36</td>
+<td>68.39</td>
+<td data-label="Score">80</td>
+
 
 </tr>
 
@@ -1458,7 +1798,8 @@ Mid Caps
 <tr data-setor="Serviços Financeiros" data-categoria="Blue Chips" data-score="75">
 
 <td>
-<strong>BBSE3</strong><br>
+<span style="color:#94a3b8;font-size:12px">#37</span>
+<strong>BBSE3</strong>
 <span style="font-size:11px;color:#94a3b8">BBSEGURIDADEON      NM</span>
 </td>
 
@@ -1473,14 +1814,16 @@ Blue Chips
 </span>
 </td>
 
-<td>7.35</td>
-<td>6.39</td>
+<td>7.31</td>
+<td>6.35</td>
 <td>89.81%</td>
 <td>15.17%</td>
 <td>75</td>
-<td style="color:#22c55e">50.97%</td>
+<td style="color:#22c55e">51.27%</td>
 <td>R$ 69.75</td>
-<td>67.79</td>
+<td>67.88</td>
+<td data-label="Score">75</td>
+
 
 </tr>
 
@@ -1488,7 +1831,8 @@ Blue Chips
 <tr data-setor="Serviços Financeiros" data-categoria="Blue Chips" data-score="80">
 
 <td>
-<strong>SANB3</strong><br>
+<span style="color:#94a3b8;font-size:12px">#38</span>
+<strong>SANB3</strong>
 <span style="font-size:11px;color:#94a3b8">SANTANDER BRON</span>
 </td>
 
@@ -1503,14 +1847,16 @@ Blue Chips
 </span>
 </td>
 
-<td>9.93</td>
-<td>0.63</td>
+<td>9.81</td>
+<td>0.62</td>
 <td>12.75%</td>
 <td>5.15%</td>
 <td>80</td>
-<td style="color:#22c55e">33.82%</td>
+<td style="color:#22c55e">34.6%</td>
 <td>R$ 24.45</td>
-<td>66.15</td>
+<td>66.38</td>
+<td data-label="Score">80</td>
+
 
 </tr>
 
@@ -1518,7 +1864,8 @@ Blue Chips
 <tr data-setor="Utilidades Públicas" data-categoria="Mid Caps" data-score="75">
 
 <td>
-<strong>EQPA3</strong><br>
+<span style="color:#94a3b8;font-size:12px">#39</span>
+<strong>EQPA3</strong>
 <span style="font-size:11px;color:#94a3b8">EQTL PARA   ON</span>
 </td>
 
@@ -1541,6 +1888,8 @@ Mid Caps
 <td style="color:#22c55e">43.47%</td>
 <td>R$ 11.25</td>
 <td>65.54</td>
+<td data-label="Score">75</td>
+
 
 </tr>
 
@@ -1548,7 +1897,8 @@ Mid Caps
 <tr data-setor="Consumo Defensivo" data-categoria="Small Caps" data-score="65">
 
 <td>
-<strong>COGN3</strong><br>
+<span style="color:#94a3b8;font-size:12px">#40</span>
+<strong>COGN3</strong>
 <span style="font-size:11px;color:#94a3b8">COGNA ON    ON      NM</span>
 </td>
 
@@ -1563,14 +1913,16 @@ Small Caps
 </span>
 </td>
 
-<td>5.0</td>
+<td>4.98</td>
 <td>0.5</td>
 <td>10.89%</td>
 <td>5.31%</td>
 <td>65</td>
-<td style="color:#22c55e">66.67%</td>
+<td style="color:#22c55e">66.77%</td>
 <td>R$ 9.6</td>
-<td>65.5</td>
+<td>65.53</td>
+<td data-label="Score">65</td>
+
 
 </tr>
 
@@ -1578,7 +1930,8 @@ Small Caps
 <tr data-setor="Energia" data-categoria="Small Caps" data-score="65">
 
 <td>
-<strong>RECV3</strong><br>
+<span style="color:#94a3b8;font-size:12px">#41</span>
+<strong>RECV3</strong>
 <span style="font-size:11px;color:#94a3b8">PETRORECSA  ON      NM</span>
 </td>
 
@@ -1598,9 +1951,11 @@ Small Caps
 <td>13.57%</td>
 <td>15.39%</td>
 <td>65</td>
-<td style="color:#22c55e">59.99%</td>
-<td>R$ 31.82</td>
+<td style="color:#22c55e">60.0%</td>
+<td>R$ 31.8</td>
 <td>63.5</td>
+<td data-label="Score">65</td>
+
 
 </tr>
 
@@ -1608,7 +1963,8 @@ Small Caps
 <tr data-setor="Utilidades Públicas" data-categoria="Mid Caps" data-score="75">
 
 <td>
-<strong>REDE3</strong><br>
+<span style="color:#94a3b8;font-size:12px">#42</span>
+<strong>REDE3</strong>
 <span style="font-size:11px;color:#94a3b8">REDE ENERGIAON</span>
 </td>
 
@@ -1631,6 +1987,8 @@ Mid Caps
 <td style="color:#22c55e">35.59%</td>
 <td>R$ 9.75</td>
 <td>63.18</td>
+<td data-label="Score">75</td>
+
 
 </tr>
 
@@ -1638,7 +1996,8 @@ Mid Caps
 <tr data-setor="Energia" data-categoria="Mid Caps" data-score="75">
 
 <td>
-<strong>UGPA3</strong><br>
+<span style="color:#94a3b8;font-size:12px">#43</span>
+<strong>UGPA3</strong>
 <span style="font-size:11px;color:#94a3b8">ULTRAPAR    ON      NM</span>
 </td>
 
@@ -1653,14 +2012,16 @@ Mid Caps
 </span>
 </td>
 
-<td>9.84</td>
-<td>1.71</td>
+<td>9.72</td>
+<td>1.69</td>
 <td>16.38%</td>
 <td>6.77%</td>
 <td>75</td>
-<td style="color:#22c55e">34.4%</td>
+<td style="color:#22c55e">35.22%</td>
 <td>R$ 40.2</td>
-<td>62.82</td>
+<td>63.07</td>
+<td data-label="Score">75</td>
+
 
 </tr>
 
@@ -1668,7 +2029,8 @@ Mid Caps
 <tr data-setor="Saúde" data-categoria="Small Caps" data-score="65">
 
 <td>
-<strong>BLAU3</strong><br>
+<span style="color:#94a3b8;font-size:12px">#44</span>
+<strong>BLAU3</strong>
 <span style="font-size:11px;color:#94a3b8">BLAU        ON      NM</span>
 </td>
 
@@ -1683,14 +2045,16 @@ Small Caps
 </span>
 </td>
 
-<td>6.41</td>
-<td>1.07</td>
+<td>6.36</td>
+<td>1.06</td>
 <td>14.32%</td>
 <td>7.23%</td>
 <td>65</td>
-<td style="color:#22c55e">57.29%</td>
+<td style="color:#22c55e">57.61%</td>
 <td>R$ 25.5</td>
-<td>62.69</td>
+<td>62.78</td>
+<td data-label="Score">65</td>
+
 
 </tr>
 
@@ -1698,7 +2062,8 @@ Small Caps
 <tr data-setor="Utilidades Públicas" data-categoria="Blue Chips" data-score="75">
 
 <td>
-<strong>CPFE3</strong><br>
+<span style="color:#94a3b8;font-size:12px">#45</span>
+<strong>CPFE3</strong>
 <span style="font-size:11px;color:#94a3b8">CPFL ENERGIAON      NM</span>
 </td>
 
@@ -1713,14 +2078,16 @@ Blue Chips
 </span>
 </td>
 
-<td>9.97</td>
-<td>2.4</td>
+<td>9.88</td>
+<td>2.38</td>
 <td>25.48%</td>
 <td>5.79%</td>
 <td>75</td>
-<td style="color:#22c55e">33.53%</td>
+<td style="color:#22c55e">34.16%</td>
 <td>R$ 71.1</td>
-<td>62.56</td>
+<td>62.75</td>
+<td data-label="Score">75</td>
+
 
 </tr>
 
@@ -1728,7 +2095,8 @@ Blue Chips
 <tr data-setor="Indústria" data-categoria="Small Caps" data-score="65">
 
 <td>
-<strong>EUCA4</strong><br>
+<span style="color:#94a3b8;font-size:12px">#46</span>
+<strong>EUCA4</strong>
 <span style="font-size:11px;color:#94a3b8">EUCATEX     PN      N1</span>
 </td>
 
@@ -1743,14 +2111,16 @@ Small Caps
 </span>
 </td>
 
-<td>6.75</td>
+<td>6.78</td>
 <td>0.7</td>
 <td>10.97%</td>
 <td>5.16%</td>
 <td>65</td>
-<td style="color:#22c55e">54.97%</td>
+<td style="color:#22c55e">54.78%</td>
 <td>R$ 47.1</td>
-<td>61.99</td>
+<td>61.93</td>
+<td data-label="Score">65</td>
+
 
 </tr>
 
@@ -1758,7 +2128,8 @@ Small Caps
 <tr data-setor="Imobiliário" data-categoria="Small Caps" data-score="65">
 
 <td>
-<strong>LOGG3</strong><br>
+<span style="color:#94a3b8;font-size:12px">#47</span>
+<strong>LOGG3</strong>
 <span style="font-size:11px;color:#94a3b8">LOG COM PROPON      NM</span>
 </td>
 
@@ -1773,14 +2144,16 @@ Small Caps
 </span>
 </td>
 
-<td>6.91</td>
-<td>0.68</td>
+<td>6.79</td>
+<td>0.67</td>
 <td>10.04%</td>
 <td>14.18%</td>
 <td>65</td>
-<td style="color:#22c55e">53.96%</td>
+<td style="color:#22c55e">54.74%</td>
 <td>R$ 61.05</td>
-<td>61.69</td>
+<td>61.92</td>
+<td data-label="Score">65</td>
+
 
 </tr>
 
@@ -1788,7 +2161,8 @@ Small Caps
 <tr data-setor="Indústria" data-categoria="Small Caps" data-score="65">
 
 <td>
-<strong>VLID3</strong><br>
+<span style="color:#94a3b8;font-size:12px">#48</span>
+<strong>VLID3</strong>
 <span style="font-size:11px;color:#94a3b8">VALID       ON      NM</span>
 </td>
 
@@ -1803,74 +2177,16 @@ Small Caps
 </span>
 </td>
 
-<td>6.96</td>
-<td>0.96</td>
+<td>6.88</td>
+<td>0.95</td>
 <td>14.05%</td>
 <td>15.25%</td>
 <td>65</td>
-<td style="color:#22c55e">53.6%</td>
+<td style="color:#22c55e">54.17%</td>
 <td>R$ 45.6</td>
-<td>61.58</td>
+<td>61.75</td>
+<td data-label="Score">65</td>
 
-</tr>
-
-    
-<tr data-setor="Serviços Financeiros" data-categoria="Small Caps" data-score="60">
-
-<td>
-<strong>PINE4</strong><br>
-<span style="font-size:11px;color:#94a3b8">PINE        PN      N2</span>
-</td>
-
-<td>Serviços Financeiros</td>
-
-<td>
-<span class="badge" style="
-background:#facc1520;
-color:#facc15;
-border:1px solid #facc15">
-Small Caps
-</span>
-</td>
-
-<td>5.61</td>
-<td>1.99</td>
-<td>33.77%</td>
-<td>5.32%</td>
-<td>60</td>
-<td style="color:#22c55e">62.59%</td>
-<td>R$ 29.4</td>
-<td>60.78</td>
-
-</tr>
-
-    
-<tr data-setor="Serviços Financeiros" data-categoria="Small Caps" data-score="60">
-
-<td>
-<strong>PINE3</strong><br>
-<span style="font-size:11px;color:#94a3b8">PINE        ON      N2</span>
-</td>
-
-<td>Serviços Financeiros</td>
-
-<td>
-<span class="badge" style="
-background:#facc1520;
-color:#facc15;
-border:1px solid #facc15">
-Small Caps
-</span>
-</td>
-
-<td>5.61</td>
-<td>1.99</td>
-<td>33.77%</td>
-<td>6.1%</td>
-<td>60</td>
-<td style="color:#22c55e">62.59%</td>
-<td>R$ 29.4</td>
-<td>60.78</td>
 
 </tr>
 
@@ -1878,7 +2194,8 @@ Small Caps
 <tr data-setor="Consumo Defensivo" data-categoria="Small Caps" data-score="70">
 
 <td>
-<strong>CSED3</strong><br>
+<span style="color:#94a3b8;font-size:12px">#49</span>
+<strong>CSED3</strong>
 <span style="font-size:11px;color:#94a3b8">CRUZEIRO EDUON      NM</span>
 </td>
 
@@ -1893,14 +2210,16 @@ Small Caps
 </span>
 </td>
 
-<td>9.19</td>
-<td>1.4</td>
+<td>9.07</td>
+<td>1.38</td>
 <td>16.1%</td>
 <td>4.25%</td>
 <td>70</td>
-<td style="color:#22c55e">38.74%</td>
+<td style="color:#22c55e">39.52%</td>
 <td>R$ 10.35</td>
-<td>60.62</td>
+<td>60.86</td>
+<td data-label="Score">70</td>
+
 
 </tr>
 
@@ -1908,7 +2227,8 @@ Small Caps
 <tr data-setor="Serviços Financeiros" data-categoria="Small Caps" data-score="65">
 
 <td>
-<strong>BRAP3</strong><br>
+<span style="color:#94a3b8;font-size:12px">#50</span>
+<strong>BRAP3</strong>
 <span style="font-size:11px;color:#94a3b8">BRADESPAR   ON      N1</span>
 </td>
 
@@ -1923,14 +2243,82 @@ Small Caps
 </span>
 </td>
 
-<td>7.47</td>
-<td>0.87</td>
+<td>7.41</td>
+<td>0.86</td>
 <td>12.6%</td>
 <td>15.61%</td>
 <td>65</td>
-<td style="color:#22c55e">50.2%</td>
+<td style="color:#22c55e">50.62%</td>
 <td>R$ 40.5</td>
-<td>60.56</td>
+<td>60.69</td>
+<td data-label="Score">65</td>
+
+
+</tr>
+
+    
+<tr data-setor="Serviços Financeiros" data-categoria="Small Caps" data-score="60">
+
+<td>
+<span style="color:#94a3b8;font-size:12px">#51</span>
+<strong>PINE3</strong>
+<span style="font-size:11px;color:#94a3b8">PINE        ON      N2</span>
+</td>
+
+<td>Serviços Financeiros</td>
+
+<td>
+<span class="badge" style="
+background:#facc1520;
+color:#facc15;
+border:1px solid #facc15">
+Small Caps
+</span>
+</td>
+
+<td>5.67</td>
+<td>2.01</td>
+<td>33.77%</td>
+<td>6.1%</td>
+<td>60</td>
+<td style="color:#22c55e">62.21%</td>
+<td>R$ 29.4</td>
+<td>60.66</td>
+<td data-label="Score">60</td>
+
+
+</tr>
+
+    
+<tr data-setor="Serviços Financeiros" data-categoria="Small Caps" data-score="60">
+
+<td>
+<span style="color:#94a3b8;font-size:12px">#52</span>
+<strong>PINE4</strong>
+<span style="font-size:11px;color:#94a3b8">PINE        PN      N2</span>
+</td>
+
+<td>Serviços Financeiros</td>
+
+<td>
+<span class="badge" style="
+background:#facc1520;
+color:#facc15;
+border:1px solid #facc15">
+Small Caps
+</span>
+</td>
+
+<td>5.69</td>
+<td>2.02</td>
+<td>33.77%</td>
+<td>5.32%</td>
+<td>60</td>
+<td style="color:#22c55e">62.04%</td>
+<td>R$ 29.4</td>
+<td>60.61</td>
+<td data-label="Score">60</td>
+
 
 </tr>
 
@@ -1938,7 +2326,8 @@ Small Caps
 <tr data-setor="Imobiliário" data-categoria="Small Caps" data-score="65">
 
 <td>
-<strong>EZTC3</strong><br>
+<span style="color:#94a3b8;font-size:12px">#53</span>
+<strong>EZTC3</strong>
 <span style="font-size:11px;color:#94a3b8">EZTEC       ON      NM</span>
 </td>
 
@@ -1953,14 +2342,16 @@ Small Caps
 </span>
 </td>
 
-<td>7.63</td>
-<td>0.81</td>
+<td>7.57</td>
+<td>0.8</td>
 <td>10.97%</td>
 <td>8.06%</td>
 <td>65</td>
-<td style="color:#22c55e">49.12%</td>
+<td style="color:#22c55e">49.56%</td>
 <td>R$ 29.4</td>
-<td>60.23</td>
+<td>60.37</td>
+<td data-label="Score">65</td>
+
 
 </tr>
 
@@ -1968,7 +2359,8 @@ Small Caps
 <tr data-setor="Imobiliário" data-categoria="Small Caps" data-score="65">
 
 <td>
-<strong>TRIS3</strong><br>
+<span style="color:#94a3b8;font-size:12px">#54</span>
+<strong>TRIS3</strong>
 <span style="font-size:11px;color:#94a3b8">TRISUL      ON      NM</span>
 </td>
 
@@ -1983,14 +2375,16 @@ Small Caps
 </span>
 </td>
 
-<td>7.71</td>
-<td>1.04</td>
+<td>7.58</td>
+<td>1.03</td>
 <td>14.35%</td>
 <td>15.09%</td>
 <td>65</td>
-<td style="color:#22c55e">48.62%</td>
+<td style="color:#22c55e">49.49%</td>
 <td>R$ 13.8</td>
-<td>60.09</td>
+<td>60.35</td>
+<td data-label="Score">65</td>
+
 
 </tr>
 
@@ -1998,7 +2392,8 @@ Small Caps
 <tr data-setor="Materiais Básicos" data-categoria="Small Caps" data-score="65">
 
 <td>
-<strong>SMTO3</strong><br>
+<span style="color:#94a3b8;font-size:12px">#55</span>
+<strong>SMTO3</strong>
 <span style="font-size:11px;color:#94a3b8">SAO MARTINHOON      NM</span>
 </td>
 
@@ -2013,14 +2408,16 @@ Small Caps
 </span>
 </td>
 
-<td>7.76</td>
+<td>7.78</td>
 <td>0.96</td>
 <td>11.12%</td>
 <td>5.13%</td>
 <td>65</td>
-<td style="color:#22c55e">48.25%</td>
+<td style="color:#22c55e">48.13%</td>
 <td>R$ 34.8</td>
-<td>59.97</td>
+<td>59.94</td>
+<td data-label="Score">65</td>
+
 
 </tr>
 
@@ -2028,7 +2425,8 @@ Small Caps
 <tr data-setor="Utilidades Públicas" data-categoria="Mid Caps" data-score="65">
 
 <td>
-<strong>NEOE3</strong><br>
+<span style="color:#94a3b8;font-size:12px">#56</span>
+<strong>NEOE3</strong>
 <span style="font-size:11px;color:#94a3b8">NEOENERGIA  ON      NM</span>
 </td>
 
@@ -2043,14 +2441,16 @@ Mid Caps
 </span>
 </td>
 
-<td>7.92</td>
+<td>7.91</td>
 <td>1.09</td>
 <td>14.59%</td>
 <td>4.45%</td>
 <td>65</td>
-<td style="color:#22c55e">47.21%</td>
+<td style="color:#22c55e">47.25%</td>
 <td>R$ 62.1</td>
-<td>59.66</td>
+<td>59.67</td>
+<td data-label="Score">65</td>
+
 
 </tr>
 
@@ -2058,7 +2458,8 @@ Mid Caps
 <tr data-setor="Utilidades Públicas" data-categoria="Mid Caps" data-score="65">
 
 <td>
-<strong>ALUP11</strong><br>
+<span style="color:#94a3b8;font-size:12px">#57</span>
+<strong>ALUP11</strong>
 <span style="font-size:11px;color:#94a3b8">ALUPAR      UNT     N2</span>
 </td>
 
@@ -2073,44 +2474,16 @@ Mid Caps
 </span>
 </td>
 
-<td>8.19</td>
-<td>1.25</td>
+<td>8.08</td>
+<td>1.24</td>
 <td>14.23%</td>
 <td>2.77%</td>
 <td>65</td>
-<td style="color:#22c55e">45.37%</td>
+<td style="color:#22c55e">46.11%</td>
 <td>R$ 62.59</td>
-<td>59.11</td>
+<td>59.33</td>
+<td data-label="Score">65</td>
 
-</tr>
-
-    
-<tr data-setor="Indústria" data-categoria="Small Caps" data-score="60">
-
-<td>
-<strong>POMO3</strong><br>
-<span style="font-size:11px;color:#94a3b8">MARCOPOLO   ON      N2</span>
-</td>
-
-<td>Indústria</td>
-
-<td>
-<span class="badge" style="
-background:#facc1520;
-color:#facc15;
-border:1px solid #facc15">
-Small Caps
-</span>
-</td>
-
-<td>6.59</td>
-<td>1.79</td>
-<td>29.19%</td>
-<td>18.1%</td>
-<td>60</td>
-<td style="color:#22c55e">56.07%</td>
-<td>R$ 14.25</td>
-<td>58.82</td>
 
 </tr>
 
@@ -2118,7 +2491,8 @@ Small Caps
 <tr data-setor="Imobiliário" data-categoria="Small Caps" data-score="65">
 
 <td>
-<strong>EVEN3</strong><br>
+<span style="color:#94a3b8;font-size:12px">#58</span>
+<strong>EVEN3</strong>
 <span style="font-size:11px;color:#94a3b8">EVEN        ON      NM</span>
 </td>
 
@@ -2133,14 +2507,49 @@ Small Caps
 </span>
 </td>
 
-<td>8.39</td>
-<td>0.78</td>
+<td>8.19</td>
+<td>0.76</td>
 <td>10.41%</td>
 <td>9.69%</td>
 <td>65</td>
-<td style="color:#22c55e">44.04%</td>
+<td style="color:#22c55e">45.39%</td>
 <td>R$ 14.1</td>
-<td>58.71</td>
+<td>59.12</td>
+<td data-label="Score">65</td>
+
+
+</tr>
+
+    
+<tr data-setor="Indústria" data-categoria="Small Caps" data-score="60">
+
+<td>
+<span style="color:#94a3b8;font-size:12px">#59</span>
+<strong>POMO3</strong>
+<span style="font-size:11px;color:#94a3b8">MARCOPOLO   ON      N2</span>
+</td>
+
+<td>Indústria</td>
+
+<td>
+<span class="badge" style="
+background:#facc1520;
+color:#facc15;
+border:1px solid #facc15">
+Small Caps
+</span>
+</td>
+
+<td>6.51</td>
+<td>1.77</td>
+<td>29.19%</td>
+<td>18.1%</td>
+<td>60</td>
+<td style="color:#22c55e">56.63%</td>
+<td>R$ 14.25</td>
+<td>58.99</td>
+<td data-label="Score">60</td>
+
 
 </tr>
 
@@ -2148,7 +2557,8 @@ Small Caps
 <tr data-setor="Serviços Financeiros" data-categoria="Small Caps" data-score="65">
 
 <td>
-<strong>BRAP4</strong><br>
+<span style="color:#94a3b8;font-size:12px">#60</span>
+<strong>BRAP4</strong>
 <span style="font-size:11px;color:#94a3b8">BRADESPAR   PN      N1</span>
 </td>
 
@@ -2163,14 +2573,16 @@ Small Caps
 </span>
 </td>
 
-<td>8.63</td>
+<td>8.56</td>
 <td>1.0</td>
 <td>12.6%</td>
 <td>14.79%</td>
 <td>65</td>
-<td style="color:#22c55e">42.44%</td>
+<td style="color:#22c55e">42.96%</td>
 <td>R$ 40.5</td>
-<td>58.23</td>
+<td>58.39</td>
+<td data-label="Score">65</td>
+
 
 </tr>
 
@@ -2178,7 +2590,8 @@ Small Caps
 <tr data-setor="Indústria" data-categoria="Small Caps" data-score="60">
 
 <td>
-<strong>POMO4</strong><br>
+<span style="color:#94a3b8;font-size:12px">#61</span>
+<strong>POMO4</strong>
 <span style="font-size:11px;color:#94a3b8">MARCOPOLO   PN      N2</span>
 </td>
 
@@ -2193,14 +2606,16 @@ Small Caps
 </span>
 </td>
 
-<td>6.98</td>
-<td>1.9</td>
+<td>6.89</td>
+<td>1.88</td>
 <td>29.19%</td>
 <td>17.12%</td>
 <td>60</td>
-<td style="color:#22c55e">53.47%</td>
+<td style="color:#22c55e">54.04%</td>
 <td>R$ 14.25</td>
-<td>58.04</td>
+<td>58.21</td>
+<td data-label="Score">60</td>
+
 
 </tr>
 
@@ -2208,7 +2623,8 @@ Small Caps
 <tr data-setor="Imobiliário" data-categoria="Small Caps" data-score="60">
 
 <td>
-<strong>LAVV3</strong><br>
+<span style="color:#94a3b8;font-size:12px">#62</span>
+<strong>LAVV3</strong>
 <span style="font-size:11px;color:#94a3b8">LAVVI       ON      NM</span>
 </td>
 
@@ -2223,14 +2639,16 @@ Small Caps
 </span>
 </td>
 
-<td>7.61</td>
-<td>2.27</td>
+<td>7.5</td>
+<td>2.24</td>
 <td>28.97%</td>
 <td>10.46%</td>
 <td>60</td>
-<td style="color:#22c55e">49.29%</td>
+<td style="color:#22c55e">49.97%</td>
 <td>R$ 35.4</td>
-<td>56.79</td>
+<td>56.99</td>
+<td data-label="Score">60</td>
+
 
 </tr>
 
@@ -2238,7 +2656,8 @@ Small Caps
 <tr data-setor="Utilidades Públicas" data-categoria="Mid Caps" data-score="65">
 
 <td>
-<strong>ALUP4</strong><br>
+<span style="color:#94a3b8;font-size:12px">#63</span>
+<strong>ALUP4</strong>
 <span style="font-size:11px;color:#94a3b8">ALUPAR      PN      N2</span>
 </td>
 
@@ -2253,44 +2672,16 @@ Mid Caps
 </span>
 </td>
 
-<td>9.37</td>
+<td>9.3</td>
 <td>0.39</td>
 <td>14.23%</td>
 <td>2.94%</td>
 <td>65</td>
-<td style="color:#22c55e">37.51%</td>
+<td style="color:#22c55e">37.97%</td>
 <td>R$ 17.25</td>
-<td>56.75</td>
+<td>56.89</td>
+<td data-label="Score">65</td>
 
-</tr>
-
-    
-<tr data-setor="Imobiliário" data-categoria="Small Caps" data-score="60">
-
-<td>
-<strong>MDNE3</strong><br>
-<span style="font-size:11px;color:#94a3b8">MOURA DUBEUXON      NM</span>
-</td>
-
-<td>Imobiliário</td>
-
-<td>
-<span class="badge" style="
-background:#facc1520;
-color:#facc15;
-border:1px solid #facc15">
-Small Caps
-</span>
-</td>
-
-<td>7.76</td>
-<td>1.51</td>
-<td>20.98%</td>
-<td>14.46%</td>
-<td>60</td>
-<td style="color:#22c55e">48.25%</td>
-<td>R$ 62.55</td>
-<td>56.47</td>
 
 </tr>
 
@@ -2298,7 +2689,8 @@ Small Caps
 <tr data-setor="Serviços Financeiros" data-categoria="Small Caps" data-score="60">
 
 <td>
-<strong>WIZC3</strong><br>
+<span style="color:#94a3b8;font-size:12px">#64</span>
+<strong>WIZC3</strong>
 <span style="font-size:11px;color:#94a3b8">WIZ CO      ON      NM</span>
 </td>
 
@@ -2313,44 +2705,16 @@ Small Caps
 </span>
 </td>
 
-<td>7.9</td>
+<td>7.88</td>
 <td>2.15</td>
 <td>27.26%</td>
 <td>5.97%</td>
 <td>60</td>
-<td style="color:#22c55e">47.34%</td>
+<td style="color:#22c55e">47.45%</td>
 <td>R$ 17.85</td>
-<td>56.2</td>
+<td>56.24</td>
+<td data-label="Score">60</td>
 
-</tr>
-
-    
-<tr data-setor="Utilidades Públicas" data-categoria="Mid Caps" data-score="55">
-
-<td>
-<strong>CMIG3</strong><br>
-<span style="font-size:11px;color:#94a3b8">CEMIG       ON      N1</span>
-</td>
-
-<td>Utilidades Públicas</td>
-
-<td>
-<span class="badge" style="
-background:#22c55e20;
-color:#22c55e;
-border:1px solid #22c55e">
-Mid Caps
-</span>
-</td>
-
-<td>6.63</td>
-<td>1.51</td>
-<td>14.16%</td>
-<td>10.79%</td>
-<td>55</td>
-<td style="color:#22c55e">55.79%</td>
-<td>R$ 34.2</td>
-<td>55.24</td>
 
 </tr>
 
@@ -2358,7 +2722,8 @@ Mid Caps
 <tr data-setor="Utilidades Públicas" data-categoria="Small Caps" data-score="60">
 
 <td>
-<strong>EKTR4</strong><br>
+<span style="color:#94a3b8;font-size:12px">#65</span>
+<strong>EKTR4</strong>
 <span style="font-size:11px;color:#94a3b8">ELEKTRO     PN</span>
 </td>
 
@@ -2381,6 +2746,8 @@ Small Caps
 <td style="color:#22c55e">43.69%</td>
 <td>R$ 70.5</td>
 <td>55.11</td>
+<td data-label="Score">60</td>
+
 
 </tr>
 
@@ -2388,7 +2755,8 @@ Small Caps
 <tr data-setor="Imobiliário" data-categoria="Small Caps" data-score="60">
 
 <td>
-<strong>PLPL3</strong><br>
+<span style="color:#94a3b8;font-size:12px">#66</span>
+<strong>PLPL3</strong>
 <span style="font-size:11px;color:#94a3b8">PLANOEPLANO ON      NM</span>
 </td>
 
@@ -2403,14 +2771,16 @@ Small Caps
 </span>
 </td>
 
-<td>8.85</td>
-<td>2.83</td>
+<td>8.78</td>
+<td>2.81</td>
 <td>38.39%</td>
 <td>10.56%</td>
 <td>60</td>
-<td style="color:#22c55e">40.98%</td>
+<td style="color:#22c55e">41.45%</td>
 <td>R$ 23.4</td>
-<td>54.29</td>
+<td>54.44</td>
+<td data-label="Score">60</td>
+
 
 </tr>
 
@@ -2418,7 +2788,8 @@ Small Caps
 <tr data-setor="Indústria" data-categoria="Small Caps" data-score="60">
 
 <td>
-<strong>KEPL3</strong><br>
+<span style="color:#94a3b8;font-size:12px">#67</span>
+<strong>KEPL3</strong>
 <span style="font-size:11px;color:#94a3b8">KEPLER WEBERON      NM</span>
 </td>
 
@@ -2433,14 +2804,49 @@ Small Caps
 </span>
 </td>
 
-<td>9.29</td>
-<td>1.87</td>
+<td>9.22</td>
+<td>1.86</td>
 <td>18.79%</td>
 <td>6.49%</td>
 <td>60</td>
-<td style="color:#22c55e">38.07%</td>
+<td style="color:#22c55e">38.52%</td>
 <td>R$ 13.5</td>
-<td>53.42</td>
+<td>53.56</td>
+<td data-label="Score">60</td>
+
+
+</tr>
+
+    
+<tr data-setor="Consumo Cíclico" data-categoria="Small Caps" data-score="60">
+
+<td>
+<span style="color:#94a3b8;font-size:12px">#68</span>
+<strong>WHRL3</strong>
+<span style="font-size:11px;color:#94a3b8">WHIRLPOOL   ON</span>
+</td>
+
+<td>Consumo Cíclico</td>
+
+<td>
+<span class="badge" style="
+background:#facc1520;
+color:#facc15;
+border:1px solid #facc15">
+Small Caps
+</span>
+</td>
+
+<td>9.28</td>
+<td>3.06</td>
+<td>30.25%</td>
+<td>10.84%</td>
+<td>60</td>
+<td style="color:#22c55e">38.16%</td>
+<td>R$ 7.05</td>
+<td>53.45</td>
+<td data-label="Score">60</td>
+
 
 </tr>
 
@@ -2448,7 +2854,8 @@ Small Caps
 <tr data-setor="Indústria" data-categoria="Mid Caps" data-score="60">
 
 <td>
-<strong>MRSA5B</strong><br>
+<span style="color:#94a3b8;font-size:12px">#69</span>
+<strong>MRSA5B</strong>
 <span style="font-size:11px;color:#94a3b8">MRS LOGISTICA</span>
 </td>
 
@@ -2471,36 +2878,8 @@ Mid Caps
 <td style="color:#22c55e">37.73%</td>
 <td>R$ 64.2</td>
 <td>53.32</td>
+<td data-label="Score">60</td>
 
-</tr>
-
-    
-<tr data-setor="Consumo Cíclico" data-categoria="Small Caps" data-score="60">
-
-<td>
-<strong>WHRL3</strong><br>
-<span style="font-size:11px;color:#94a3b8">WHIRLPOOL   ON</span>
-</td>
-
-<td>Consumo Cíclico</td>
-
-<td>
-<span class="badge" style="
-background:#facc1520;
-color:#facc15;
-border:1px solid #facc15">
-Small Caps
-</span>
-</td>
-
-<td>9.36</td>
-<td>3.09</td>
-<td>30.25%</td>
-<td>10.84%</td>
-<td>60</td>
-<td style="color:#22c55e">37.59%</td>
-<td>R$ 7.05</td>
-<td>53.28</td>
 
 </tr>
 
@@ -2508,7 +2887,8 @@ Small Caps
 <tr data-setor="Indústria" data-categoria="Small Caps" data-score="60">
 
 <td>
-<strong>TGMA3</strong><br>
+<span style="color:#94a3b8;font-size:12px">#70</span>
+<strong>TGMA3</strong>
 <span style="font-size:11px;color:#94a3b8">TEGMA       ON      NM</span>
 </td>
 
@@ -2523,14 +2903,16 @@ Small Caps
 </span>
 </td>
 
-<td>9.5</td>
-<td>2.66</td>
+<td>9.4</td>
+<td>2.63</td>
 <td>29.38%</td>
 <td>11.13%</td>
 <td>60</td>
-<td style="color:#22c55e">36.63%</td>
+<td style="color:#22c55e">37.35%</td>
 <td>R$ 62.7</td>
-<td>52.99</td>
+<td>53.21</td>
+<td data-label="Score">60</td>
+
 
 </tr>
 
@@ -2538,7 +2920,8 @@ Small Caps
 <tr data-setor="Serviços Financeiros" data-categoria="Mid Caps" data-score="60">
 
 <td>
-<strong>PSSA3</strong><br>
+<span style="color:#94a3b8;font-size:12px">#71</span>
+<strong>PSSA3</strong>
 <span style="font-size:11px;color:#94a3b8">PORTO SEGUROON      NM</span>
 </td>
 
@@ -2553,14 +2936,16 @@ Mid Caps
 </span>
 </td>
 
-<td>9.68</td>
-<td>2.05</td>
+<td>9.57</td>
+<td>2.03</td>
 <td>22.82%</td>
 <td>4.79%</td>
 <td>60</td>
-<td style="color:#22c55e">35.48%</td>
+<td style="color:#22c55e">36.21%</td>
 <td>R$ 78.15</td>
-<td>52.64</td>
+<td>52.86</td>
+<td data-label="Score">60</td>
+
 
 </tr>
 
@@ -2568,7 +2953,8 @@ Mid Caps
 <tr data-setor="Materiais Básicos" data-categoria="Small Caps" data-score="60">
 
 <td>
-<strong>UNIP3</strong><br>
+<span style="color:#94a3b8;font-size:12px">#72</span>
+<strong>UNIP3</strong>
 <span style="font-size:11px;color:#94a3b8">UNIPAR      ON</span>
 </td>
 
@@ -2583,14 +2969,16 @@ Small Caps
 </span>
 </td>
 
-<td>9.69</td>
-<td>2.89</td>
+<td>9.74</td>
+<td>2.91</td>
 <td>29.68%</td>
 <td>14.28%</td>
 <td>60</td>
-<td style="color:#22c55e">35.39%</td>
+<td style="color:#22c55e">35.05%</td>
 <td>R$ 99.15</td>
-<td>52.62</td>
+<td>52.51</td>
+<td data-label="Score">60</td>
+
 
 </tr>
 
@@ -2598,7 +2986,8 @@ Small Caps
 <tr data-setor="Consumo Cíclico" data-categoria="Small Caps" data-score="60">
 
 <td>
-<strong>WHRL4</strong><br>
+<span style="color:#94a3b8;font-size:12px">#73</span>
+<strong>WHRL4</strong>
 <span style="font-size:11px;color:#94a3b8">WHIRLPOOL   PN</span>
 </td>
 
@@ -2613,44 +3002,16 @@ Small Caps
 </span>
 </td>
 
-<td>9.87</td>
-<td>3.25</td>
+<td>9.96</td>
+<td>3.28</td>
 <td>30.25%</td>
 <td>10.88%</td>
 <td>60</td>
-<td style="color:#22c55e">34.18%</td>
+<td style="color:#22c55e">33.62%</td>
 <td>R$ 7.05</td>
-<td>52.26</td>
+<td>52.09</td>
+<td data-label="Score">60</td>
 
-</tr>
-
-    
-<tr data-setor="Imobiliário" data-categoria="Small Caps" data-score="50">
-
-<td>
-<strong>IGTI3</strong><br>
-<span style="font-size:11px;color:#94a3b8">IGUATEMI S.AON  ED  N1</span>
-</td>
-
-<td>Imobiliário</td>
-
-<td>
-<span class="badge" style="
-background:#facc1520;
-color:#facc15;
-border:1px solid #facc15">
-Small Caps
-</span>
-</td>
-
-<td>6.87</td>
-<td>0.22</td>
-<td>13.0%</td>
-<td>2.93%</td>
-<td>50</td>
-<td style="color:#22c55e">54.18%</td>
-<td>R$ 7.05</td>
-<td>51.26</td>
 
 </tr>
 
@@ -2658,7 +3019,8 @@ Small Caps
 <tr data-setor="Indústria" data-categoria="Small Caps" data-score="50">
 
 <td>
-<strong>EUCA3</strong><br>
+<span style="color:#94a3b8;font-size:12px">#74</span>
+<strong>EUCA3</strong>
 <span style="font-size:11px;color:#94a3b8">EUCATEX     ON      N1</span>
 </td>
 
@@ -2681,36 +3043,41 @@ Small Caps
 <td style="color:#22c55e">54.06%</td>
 <td>R$ 47.1</td>
 <td>51.22</td>
+<td data-label="Score">50</td>
+
 
 </tr>
 
     
-<tr data-setor="Serviços Financeiros" data-categoria="Blue Chips" data-score="55">
+<tr data-setor="Imobiliário" data-categoria="Small Caps" data-score="50">
 
 <td>
-<strong>SANB4</strong><br>
-<span style="font-size:11px;color:#94a3b8">SANTANDER BRPN</span>
+<span style="color:#94a3b8;font-size:12px">#75</span>
+<strong>IGTI3</strong>
+<span style="font-size:11px;color:#94a3b8">IGUATEMI S.AON  ED  N1</span>
 </td>
 
-<td>Serviços Financeiros</td>
+<td>Imobiliário</td>
 
 <td>
 <span class="badge" style="
-background:#3b82f620;
-color:#3b82f6;
-border:1px solid #3b82f6">
-Blue Chips
+background:#facc1520;
+color:#facc15;
+border:1px solid #facc15">
+Small Caps
 </span>
 </td>
 
-<td>10.21</td>
-<td>0.65</td>
-<td>12.75%</td>
-<td>5.47%</td>
-<td>55</td>
-<td style="color:#22c55e">31.9%</td>
-<td>R$ 24.45</td>
-<td>48.07</td>
+<td>6.91</td>
+<td>0.22</td>
+<td>13.0%</td>
+<td>2.93%</td>
+<td>50</td>
+<td style="color:#22c55e">53.9%</td>
+<td>R$ 7.05</td>
+<td>51.17</td>
+<td data-label="Score">50</td>
+
 
 </tr>
 
@@ -2718,7 +3085,8 @@ Blue Chips
 <tr data-setor="Consumo Cíclico" data-categoria="Small Caps" data-score="50">
 
 <td>
-<strong>SBFG3</strong><br>
+<span style="color:#94a3b8;font-size:12px">#76</span>
+<strong>SBFG3</strong>
 <span style="font-size:11px;color:#94a3b8">GRUPO SBF   ON      NM</span>
 </td>
 
@@ -2733,14 +3101,49 @@ Small Caps
 </span>
 </td>
 
-<td>8.54</td>
-<td>0.87</td>
+<td>8.26</td>
+<td>0.84</td>
 <td>11.22%</td>
 <td>4.56%</td>
 <td>50</td>
-<td style="color:#22c55e">43.05%</td>
+<td style="color:#22c55e">44.95%</td>
 <td>R$ 21.0</td>
-<td>47.91</td>
+<td>48.49</td>
+<td data-label="Score">50</td>
+
+
+</tr>
+
+    
+<tr data-setor="Serviços Financeiros" data-categoria="Blue Chips" data-score="55">
+
+<td>
+<span style="color:#94a3b8;font-size:12px">#77</span>
+<strong>SANB4</strong>
+<span style="font-size:11px;color:#94a3b8">SANTANDER BRPN</span>
+</td>
+
+<td>Serviços Financeiros</td>
+
+<td>
+<span class="badge" style="
+background:#3b82f620;
+color:#3b82f6;
+border:1px solid #3b82f6">
+Blue Chips
+</span>
+</td>
+
+<td>10.05</td>
+<td>0.64</td>
+<td>12.75%</td>
+<td>5.47%</td>
+<td>55</td>
+<td style="color:#22c55e">33.01%</td>
+<td>R$ 24.45</td>
+<td>48.4</td>
+<td data-label="Score">55</td>
+
 
 </tr>
 
@@ -2748,7 +3151,8 @@ Small Caps
 <tr data-setor="Serviços Financeiros" data-categoria="Small Caps" data-score="50">
 
 <td>
-<strong>BEES3</strong><br>
+<span style="color:#94a3b8;font-size:12px">#78</span>
+<strong>BEES3</strong>
 <span style="font-size:11px;color:#94a3b8">BANESTES    ON</span>
 </td>
 
@@ -2763,14 +3167,16 @@ Small Caps
 </span>
 </td>
 
-<td>8.9</td>
-<td>1.25</td>
+<td>8.98</td>
+<td>1.26</td>
 <td>14.35%</td>
 <td>3.95%</td>
 <td>50</td>
-<td style="color:#22c55e">40.68%</td>
+<td style="color:#22c55e">40.14%</td>
 <td>R$ 14.7</td>
-<td>47.2</td>
+<td>47.04</td>
+<td data-label="Score">50</td>
+
 
 </tr>
 
@@ -2778,7 +3184,8 @@ Small Caps
 <tr data-setor="Serviços Financeiros" data-categoria="Small Caps" data-score="50">
 
 <td>
-<strong>BEES4</strong><br>
+<span style="color:#94a3b8;font-size:12px">#79</span>
+<strong>BEES4</strong>
 <span style="font-size:11px;color:#94a3b8">BANESTES    PN</span>
 </td>
 
@@ -2793,14 +3200,16 @@ Small Caps
 </span>
 </td>
 
-<td>9.17</td>
-<td>1.29</td>
+<td>9.08</td>
+<td>1.28</td>
 <td>14.35%</td>
 <td>3.88%</td>
 <td>50</td>
-<td style="color:#22c55e">38.84%</td>
+<td style="color:#22c55e">39.46%</td>
 <td>R$ 14.7</td>
-<td>46.65</td>
+<td>46.84</td>
+<td data-label="Score">50</td>
+
 
 </tr>
 
@@ -2808,7 +3217,8 @@ Small Caps
 <tr data-setor="Indústria" data-categoria="Small Caps" data-score="45">
 
 <td>
-<strong>ECOR3</strong><br>
+<span style="color:#94a3b8;font-size:12px">#80</span>
+<strong>ECOR3</strong>
 <span style="font-size:11px;color:#94a3b8">ECORODOVIAS ON      NM</span>
 </td>
 
@@ -2823,14 +3233,16 @@ Small Caps
 </span>
 </td>
 
-<td>7.62</td>
-<td>1.66</td>
+<td>7.36</td>
+<td>1.61</td>
 <td>22.02%</td>
 <td>3.01%</td>
 <td>45</td>
-<td style="color:#22c55e">49.19%</td>
-<td>R$ 19.78</td>
-<td>46.26</td>
+<td style="color:#22c55e">50.91%</td>
+<td>R$ 19.8</td>
+<td>46.77</td>
+<td data-label="Score">45</td>
+
 
 </tr>
 
@@ -2838,7 +3250,8 @@ Small Caps
 <tr data-setor="Consumo Cíclico" data-categoria="Mid Caps" data-score="55">
 
 <td>
-<strong>LREN3</strong><br>
+<span style="color:#94a3b8;font-size:12px">#81</span>
+<strong>LREN3</strong>
 <span style="font-size:11px;color:#94a3b8">LOJAS RENNERON      NM</span>
 </td>
 
@@ -2853,14 +3266,16 @@ Mid Caps
 </span>
 </td>
 
-<td>11.17</td>
-<td>1.46</td>
+<td>10.93</td>
+<td>1.43</td>
 <td>13.56%</td>
 <td>6.01%</td>
 <td>55</td>
-<td style="color:#22c55e">25.52%</td>
+<td style="color:#22c55e">27.16%</td>
 <td>R$ 20.1</td>
-<td>46.16</td>
+<td>46.65</td>
+<td data-label="Score">55</td>
+
 
 </tr>
 
@@ -2868,7 +3283,8 @@ Mid Caps
 <tr data-setor="Imobiliário" data-categoria="Small Caps" data-score="45">
 
 <td>
-<strong>TEND3</strong><br>
+<span style="color:#94a3b8;font-size:12px">#82</span>
+<strong>TEND3</strong>
 <span style="font-size:11px;color:#94a3b8">TENDA       ON      NM</span>
 </td>
 
@@ -2883,14 +3299,16 @@ Small Caps
 </span>
 </td>
 
-<td>8.18</td>
-<td>2.8</td>
+<td>8.07</td>
+<td>2.77</td>
 <td>37.2%</td>
 <td>4.31%</td>
 <td>45</td>
-<td style="color:#22c55e">45.44%</td>
+<td style="color:#22c55e">46.18%</td>
 <td>R$ 51.45</td>
-<td>45.13</td>
+<td>45.35</td>
+<td data-label="Score">45</td>
+
 
 </tr>
 
@@ -2898,7 +3316,8 @@ Small Caps
 <tr data-setor="Consumo Cíclico" data-categoria="Small Caps" data-score="45">
 
 <td>
-<strong>LEVE3</strong><br>
+<span style="color:#94a3b8;font-size:12px">#83</span>
+<strong>LEVE3</strong>
 <span style="font-size:11px;color:#94a3b8">METAL LEVE  ON      NM</span>
 </td>
 
@@ -2913,14 +3332,16 @@ Small Caps
 </span>
 </td>
 
-<td>8.21</td>
-<td>5.46</td>
+<td>8.14</td>
+<td>5.41</td>
 <td>58.61%</td>
 <td>3.46%</td>
 <td>45</td>
-<td style="color:#22c55e">45.24%</td>
+<td style="color:#22c55e">45.75%</td>
 <td>R$ 64.5</td>
-<td>45.07</td>
+<td>45.23</td>
+<td data-label="Score">45</td>
+
 
 </tr>
 
@@ -2928,7 +3349,8 @@ Small Caps
 <tr data-setor="Utilidades Públicas" data-categoria="Mid Caps" data-score="50">
 
 <td>
-<strong>EQPA5</strong><br>
+<span style="color:#94a3b8;font-size:12px">#84</span>
+<strong>EQPA5</strong>
 <span style="font-size:11px;color:#94a3b8">EQTL PARA   PNA</span>
 </td>
 
@@ -2951,6 +3373,8 @@ Mid Caps
 <td style="color:#22c55e">29.33%</td>
 <td>R$ 11.25</td>
 <td>43.8</td>
+<td data-label="Score">50</td>
+
 
 </tr>
 
@@ -2958,7 +3382,8 @@ Mid Caps
 <tr data-setor="Saúde" data-categoria="Small Caps" data-score="45">
 
 <td>
-<strong>OFSA3</strong><br>
+<span style="color:#94a3b8;font-size:12px">#85</span>
+<strong>OFSA3</strong>
 <span style="font-size:11px;color:#94a3b8">OUROFINO S/AON      NM</span>
 </td>
 
@@ -2973,44 +3398,16 @@ Small Caps
 </span>
 </td>
 
-<td>9.05</td>
-<td>1.83</td>
+<td>9.14</td>
+<td>1.85</td>
 <td>19.98%</td>
 <td>4.22%</td>
 <td>45</td>
-<td style="color:#22c55e">39.65%</td>
+<td style="color:#22c55e">39.05%</td>
 <td>R$ 40.2</td>
-<td>43.4</td>
+<td>43.22</td>
+<td data-label="Score">45</td>
 
-</tr>
-
-    
-<tr data-setor="Consumo Cíclico" data-categoria="Small Caps" data-score="45">
-
-<td>
-<strong>VIVA3</strong><br>
-<span style="font-size:11px;color:#94a3b8">VIVARA S.A. ON      NM</span>
-</td>
-
-<td>Consumo Cíclico</td>
-
-<td>
-<span class="badge" style="
-background:#facc1520;
-color:#facc15;
-border:1px solid #facc15">
-Small Caps
-</span>
-</td>
-
-<td>9.96</td>
-<td>2.51</td>
-<td>28.42%</td>
-<td>4.33%</td>
-<td>45</td>
-<td style="color:#22c55e">33.61%</td>
-<td>R$ 47.25</td>
-<td>41.58</td>
 
 </tr>
 
@@ -3018,7 +3415,8 @@ Small Caps
 <tr data-setor="Materiais Básicos" data-categoria="Mid Caps" data-score="50">
 
 <td>
-<strong>CMIN3</strong><br>
+<span style="color:#94a3b8;font-size:12px">#86</span>
+<strong>CMIN3</strong>
 <span style="font-size:11px;color:#94a3b8">CSNMINERACAOON      N2</span>
 </td>
 
@@ -3033,14 +3431,49 @@ Mid Caps
 </span>
 </td>
 
-<td>11.71</td>
-<td>2.83</td>
+<td>11.53</td>
+<td>2.79</td>
 <td>25.95%</td>
 <td>9.77%</td>
 <td>50</td>
-<td style="color:#22c55e">21.93%</td>
+<td style="color:#22c55e">23.11%</td>
 <td>R$ 6.75</td>
-<td>41.58</td>
+<td>41.93</td>
+<td data-label="Score">50</td>
+
+
+</tr>
+
+    
+<tr data-setor="Consumo Cíclico" data-categoria="Small Caps" data-score="45">
+
+<td>
+<span style="color:#94a3b8;font-size:12px">#87</span>
+<strong>VIVA3</strong>
+<span style="font-size:11px;color:#94a3b8">VIVARA S.A. ON      NM</span>
+</td>
+
+<td>Consumo Cíclico</td>
+
+<td>
+<span class="badge" style="
+background:#facc1520;
+color:#facc15;
+border:1px solid #facc15">
+Small Caps
+</span>
+</td>
+
+<td>9.81</td>
+<td>2.47</td>
+<td>28.42%</td>
+<td>4.33%</td>
+<td>45</td>
+<td style="color:#22c55e">34.58%</td>
+<td>R$ 47.25</td>
+<td>41.87</td>
+<td data-label="Score">45</td>
+
 
 </tr>
 
@@ -3048,7 +3481,8 @@ Mid Caps
 <tr data-setor="Utilidades Públicas" data-categoria="Mid Caps" data-score="50">
 
 <td>
-<strong>ENMT3</strong><br>
+<span style="color:#94a3b8;font-size:12px">#88</span>
+<strong>ENMT3</strong>
 <span style="font-size:11px;color:#94a3b8">ENERGISA MT ON</span>
 </td>
 
@@ -3071,6 +3505,8 @@ Mid Caps
 <td style="color:#22c55e">21.01%</td>
 <td>R$ 63.3</td>
 <td>41.3</td>
+<td data-label="Score">50</td>
+
 
 </tr>
 
@@ -3078,7 +3514,8 @@ Mid Caps
 <tr data-setor="Imobiliário" data-categoria="Mid Caps" data-score="50">
 
 <td>
-<strong>CURY3</strong><br>
+<span style="color:#94a3b8;font-size:12px">#89</span>
+<strong>CURY3</strong>
 <span style="font-size:11px;color:#94a3b8">CURY S/A    ON      NM</span>
 </td>
 
@@ -3093,14 +3530,16 @@ Mid Caps
 </span>
 </td>
 
-<td>12.24</td>
-<td>7.68</td>
+<td>11.97</td>
+<td>7.52</td>
 <td>67.67%</td>
 <td>13.5%</td>
 <td>50</td>
-<td style="color:#22c55e">18.42%</td>
-<td>R$ 44.68</td>
-<td>40.53</td>
+<td style="color:#22c55e">20.18%</td>
+<td>R$ 44.7</td>
+<td>41.05</td>
+<td data-label="Score">50</td>
+
 
 </tr>
 
@@ -3108,7 +3547,8 @@ Mid Caps
 <tr data-setor="Serviços Financeiros" data-categoria="Blue Chips" data-score="50">
 
 <td>
-<strong>CXSE3</strong><br>
+<span style="color:#94a3b8;font-size:12px">#90</span>
+<strong>CXSE3</strong>
 <span style="font-size:11px;color:#94a3b8">CAIXA SEGURION      NM</span>
 </td>
 
@@ -3123,14 +3563,16 @@ Blue Chips
 </span>
 </td>
 
-<td>12.27</td>
-<td>3.89</td>
+<td>12.24</td>
+<td>3.88</td>
 <td>32.46%</td>
 <td>7.42%</td>
 <td>50</td>
-<td style="color:#22c55e">18.18%</td>
+<td style="color:#22c55e">18.37%</td>
 <td>R$ 21.45</td>
-<td>40.45</td>
+<td>40.51</td>
+<td data-label="Score">50</td>
+
 
 </tr>
 
@@ -3138,7 +3580,8 @@ Blue Chips
 <tr data-setor="Utilidades Públicas" data-categoria="Mid Caps" data-score="50">
 
 <td>
-<strong>ENMT4</strong><br>
+<span style="color:#94a3b8;font-size:12px">#91</span>
+<strong>ENMT4</strong>
 <span style="font-size:11px;color:#94a3b8">ENERGISA MT PN</span>
 </td>
 
@@ -3161,6 +3604,8 @@ Mid Caps
 <td style="color:#22c55e">17.85%</td>
 <td>R$ 63.3</td>
 <td>40.36</td>
+<td data-label="Score">50</td>
+
 
 </tr>
 
@@ -3168,7 +3613,8 @@ Mid Caps
 <tr data-setor="Serviços Financeiros" data-categoria="Blue Chips" data-score="55">
 
 <td>
-<strong>SANB11</strong><br>
+<span style="color:#94a3b8;font-size:12px">#92</span>
+<strong>SANB11</strong>
 <span style="font-size:11px;color:#94a3b8">SANTANDER BRUNT</span>
 </td>
 
@@ -3183,14 +3629,16 @@ Blue Chips
 </span>
 </td>
 
-<td>16.08</td>
-<td>1.28</td>
+<td>15.79</td>
+<td>1.26</td>
 <td>12.75%</td>
 <td>5.31%</td>
 <td>55</td>
-<td style="color:#ef4444">-7.2%</td>
+<td style="color:#ef4444">-5.25%</td>
 <td>R$ 30.69</td>
-<td>36.34</td>
+<td>36.93</td>
+<td data-label="Score">55</td>
+
 
 </tr>
 
@@ -3198,7 +3646,8 @@ Blue Chips
 <tr data-setor="Utilidades Públicas" data-categoria="Mid Caps" data-score="40">
 
 <td>
-<strong>ALUP3</strong><br>
+<span style="color:#94a3b8;font-size:12px">#93</span>
+<strong>ALUP3</strong>
 <span style="font-size:11px;color:#94a3b8">ALUPAR      ON      N2</span>
 </td>
 
@@ -3213,14 +3662,16 @@ Mid Caps
 </span>
 </td>
 
-<td>11.05</td>
-<td>0.47</td>
+<td>10.74</td>
+<td>0.45</td>
 <td>14.23%</td>
 <td>2.53%</td>
 <td>40</td>
-<td style="color:#22c55e">26.32%</td>
+<td style="color:#22c55e">28.41%</td>
 <td>R$ 17.25</td>
-<td>35.9</td>
+<td>36.52</td>
+<td data-label="Score">40</td>
+
 
 </tr>
 
@@ -3228,7 +3679,8 @@ Mid Caps
 <tr data-setor="Comunicação" data-categoria="Blue Chips" data-score="50">
 
 <td>
-<strong>TIMS3</strong><br>
+<span style="color:#94a3b8;font-size:12px">#94</span>
+<strong>TIMS3</strong>
 <span style="font-size:11px;color:#94a3b8">TIM         ON      NM</span>
 </td>
 
@@ -3243,14 +3695,16 @@ Blue Chips
 </span>
 </td>
 
-<td>15.0</td>
+<td>14.98</td>
 <td>2.67</td>
 <td>17.12%</td>
 <td>10.14%</td>
 <td>50</td>
-<td style="color:#ef4444">0.0%</td>
-<td>R$ 26.84</td>
-<td>35.0</td>
+<td style="color:#22c55e">0.11%</td>
+<td>R$ 26.85</td>
+<td>35.03</td>
+<td data-label="Score">50</td>
+
 
 </tr>
 
@@ -3258,8 +3712,42 @@ Blue Chips
 <tr data-setor="Materiais Básicos" data-categoria="Mid Caps" data-score="55">
 
 <td>
-<strong>KLBN4</strong><br>
+<span style="color:#94a3b8;font-size:12px">#95</span>
+<strong>KLBN4</strong>
 <span style="font-size:11px;color:#94a3b8">KLABIN S/A  PN      N2</span>
+</td>
+
+<td>Materiais Básicos</td>
+
+<td>
+<span class="badge" style="
+background:#22c55e20;
+color:#22c55e;
+border:1px solid #22c55e">
+Mid Caps
+</span>
+</td>
+
+<td>17.17</td>
+<td>0.61</td>
+<td>14.57%</td>
+<td>8.2%</td>
+<td>55</td>
+<td style="color:#ef4444">-14.49%</td>
+<td>R$ 3.45</td>
+<td>34.15</td>
+<td data-label="Score">55</td>
+
+
+</tr>
+
+    
+<tr data-setor="Materiais Básicos" data-categoria="Mid Caps" data-score="55">
+
+<td>
+<span style="color:#94a3b8;font-size:12px">#96</span>
+<strong>KLBN3</strong>
+<span style="font-size:11px;color:#94a3b8">KLABIN S/A  ON      N2</span>
 </td>
 
 <td>Materiais Básicos</td>
@@ -3276,41 +3764,13 @@ Mid Caps
 <td>17.22</td>
 <td>0.62</td>
 <td>14.57%</td>
-<td>8.2%</td>
+<td>8.18%</td>
 <td>55</td>
 <td style="color:#ef4444">-14.78%</td>
 <td>R$ 3.45</td>
 <td>34.07</td>
+<td data-label="Score">55</td>
 
-</tr>
-
-    
-<tr data-setor="Materiais Básicos" data-categoria="Mid Caps" data-score="55">
-
-<td>
-<strong>KLBN3</strong><br>
-<span style="font-size:11px;color:#94a3b8">KLABIN S/A  ON      N2</span>
-</td>
-
-<td>Materiais Básicos</td>
-
-<td>
-<span class="badge" style="
-background:#22c55e20;
-color:#22c55e;
-border:1px solid #22c55e">
-Mid Caps
-</span>
-</td>
-
-<td>17.26</td>
-<td>0.62</td>
-<td>14.57%</td>
-<td>8.18%</td>
-<td>55</td>
-<td style="color:#ef4444">-15.07%</td>
-<td>R$ 3.45</td>
-<td>33.98</td>
 
 </tr>
 
@@ -3318,7 +3778,8 @@ Mid Caps
 <tr data-setor="Materiais Básicos" data-categoria="Small Caps" data-score="35">
 
 <td>
-<strong>UNIP6</strong><br>
+<span style="color:#94a3b8;font-size:12px">#97</span>
+<strong>UNIP6</strong>
 <span style="font-size:11px;color:#94a3b8">UNIPAR      PNB</span>
 </td>
 
@@ -3333,14 +3794,16 @@ Small Caps
 </span>
 </td>
 
-<td>10.44</td>
-<td>3.12</td>
+<td>10.32</td>
+<td>3.08</td>
 <td>29.68%</td>
 <td>14.59%</td>
 <td>35</td>
-<td style="color:#22c55e">30.43%</td>
+<td style="color:#22c55e">31.21%</td>
 <td>R$ 99.15</td>
-<td>33.63</td>
+<td>33.86</td>
+<td data-label="Score">35</td>
+
 
 </tr>
 
@@ -3348,7 +3811,8 @@ Small Caps
 <tr data-setor="Materiais Básicos" data-categoria="Small Caps" data-score="35">
 
 <td>
-<strong>UNIP5</strong><br>
+<span style="color:#94a3b8;font-size:12px">#98</span>
+<strong>UNIP5</strong>
 <span style="font-size:11px;color:#94a3b8">UNIPAR      PNA</span>
 </td>
 
@@ -3371,6 +3835,8 @@ Small Caps
 <td style="color:#22c55e">29.5%</td>
 <td>R$ 99.15</td>
 <td>33.35</td>
+<td data-label="Score">35</td>
+
 
 </tr>
 
@@ -3378,7 +3844,8 @@ Small Caps
 <tr data-setor="Comunicação" data-categoria="Small Caps" data-score="35">
 
 <td>
-<strong>FIQE3</strong><br>
+<span style="color:#94a3b8;font-size:12px">#99</span>
+<strong>FIQE3</strong>
 <span style="font-size:11px;color:#94a3b8">UNIFIQUE    ON      NM</span>
 </td>
 
@@ -3393,14 +3860,16 @@ Small Caps
 </span>
 </td>
 
-<td>10.58</td>
-<td>1.62</td>
+<td>10.64</td>
+<td>1.63</td>
 <td>16.12%</td>
 <td>15.9%</td>
 <td>35</td>
-<td style="color:#22c55e">29.47%</td>
+<td style="color:#22c55e">29.07%</td>
 <td>R$ 7.5</td>
-<td>33.34</td>
+<td>33.22</td>
+<td data-label="Score">35</td>
+
 
 </tr>
 
@@ -3408,7 +3877,8 @@ Small Caps
 <tr data-setor="Consumo Defensivo" data-categoria="Blue Chips" data-score="50">
 
 <td>
-<strong>ABEV3</strong><br>
+<span style="color:#94a3b8;font-size:12px">#100</span>
+<strong>ABEV3</strong>
 <span style="font-size:11px;color:#94a3b8">AMBEV S/A   ON</span>
 </td>
 
@@ -3423,14 +3893,16 @@ Blue Chips
 </span>
 </td>
 
-<td>16.6</td>
-<td>2.74</td>
+<td>16.47</td>
+<td>2.72</td>
 <td>16.98%</td>
 <td>15.3%</td>
 <td>50</td>
-<td style="color:#ef4444">-10.68%</td>
+<td style="color:#ef4444">-9.82%</td>
 <td>R$ 13.95</td>
-<td>31.8</td>
+<td>32.05</td>
+<td data-label="Score">50</td>
+
 
 </tr>
 
@@ -3438,7 +3910,8 @@ Blue Chips
 <tr data-setor="Utilidades Públicas" data-categoria="Small Caps" data-score="35">
 
 <td>
-<strong>CEBR5</strong><br>
+<span style="color:#94a3b8;font-size:12px">#101</span>
+<strong>CEBR5</strong>
 <span style="font-size:11px;color:#94a3b8">CEB         PNA</span>
 </td>
 
@@ -3461,36 +3934,8 @@ Small Caps
 <td style="color:#22c55e">19.51%</td>
 <td>R$ 36.9</td>
 <td>30.35</td>
+<td data-label="Score">35</td>
 
-</tr>
-
-    
-<tr data-setor="Saúde" data-categoria="Small Caps" data-score="35">
-
-<td>
-<strong>ODPV3</strong><br>
-<span style="font-size:11px;color:#94a3b8">ODONTOPREV  ON      NM</span>
-</td>
-
-<td>Saúde</td>
-
-<td>
-<span class="badge" style="
-background:#facc1520;
-color:#facc15;
-border:1px solid #facc15">
-Small Caps
-</span>
-</td>
-
-<td>12.78</td>
-<td>5.78</td>
-<td>44.7%</td>
-<td>7.28%</td>
-<td>35</td>
-<td style="color:#22c55e">14.81%</td>
-<td>R$ 16.07</td>
-<td>28.94</td>
 
 </tr>
 
@@ -3498,37 +3943,8 @@ Small Caps
 <tr data-setor="Utilidades Públicas" data-categoria="Small Caps" data-score="35">
 
 <td>
-<strong>CEBR3</strong><br>
-<span style="font-size:11px;color:#94a3b8">CEB         ON</span>
-</td>
-
-<td>Utilidades Públicas</td>
-
-<td>
-<span class="badge" style="
-background:#facc1520;
-color:#facc15;
-border:1px solid #facc15">
-Small Caps
-</span>
-</td>
-
-<td>12.78</td>
-<td>2.28</td>
-<td>18.87%</td>
-<td>14.34%</td>
-<td>35</td>
-<td style="color:#22c55e">14.8%</td>
-<td>R$ 36.9</td>
-<td>28.94</td>
-
-</tr>
-
-    
-<tr data-setor="Utilidades Públicas" data-categoria="Small Caps" data-score="35">
-
-<td>
-<strong>CEBR6</strong><br>
+<span style="color:#94a3b8;font-size:12px">#102</span>
+<strong>CEBR6</strong>
 <span style="font-size:11px;color:#94a3b8">CEB         PNB</span>
 </td>
 
@@ -3543,14 +3959,82 @@ Small Caps
 </span>
 </td>
 
-<td>12.83</td>
-<td>2.29</td>
+<td>12.36</td>
+<td>2.2</td>
 <td>18.87%</td>
 <td>16.37%</td>
 <td>35</td>
-<td style="color:#22c55e">14.5%</td>
+<td style="color:#22c55e">17.62%</td>
 <td>R$ 36.9</td>
-<td>28.85</td>
+<td>29.78</td>
+<td data-label="Score">35</td>
+
+
+</tr>
+
+    
+<tr data-setor="Utilidades Públicas" data-categoria="Small Caps" data-score="35">
+
+<td>
+<span style="color:#94a3b8;font-size:12px">#103</span>
+<strong>CEBR3</strong>
+<span style="font-size:11px;color:#94a3b8">CEB         ON</span>
+</td>
+
+<td>Utilidades Públicas</td>
+
+<td>
+<span class="badge" style="
+background:#facc1520;
+color:#facc15;
+border:1px solid #facc15">
+Small Caps
+</span>
+</td>
+
+<td>12.75</td>
+<td>2.27</td>
+<td>18.87%</td>
+<td>14.34%</td>
+<td>35</td>
+<td style="color:#22c55e">15.01%</td>
+<td>R$ 36.9</td>
+<td>29.0</td>
+<td data-label="Score">35</td>
+
+
+</tr>
+
+    
+<tr data-setor="Saúde" data-categoria="Small Caps" data-score="35">
+
+<td>
+<span style="color:#94a3b8;font-size:12px">#104</span>
+<strong>ODPV3</strong>
+<span style="font-size:11px;color:#94a3b8">ODONTOPREV  ON      NM</span>
+</td>
+
+<td>Saúde</td>
+
+<td>
+<span class="badge" style="
+background:#facc1520;
+color:#facc15;
+border:1px solid #facc15">
+Small Caps
+</span>
+</td>
+
+<td>12.92</td>
+<td>5.84</td>
+<td>44.7%</td>
+<td>7.28%</td>
+<td>35</td>
+<td style="color:#22c55e">13.89%</td>
+<td>R$ 16.05</td>
+<td>28.67</td>
+<td data-label="Score">35</td>
+
 
 </tr>
 
@@ -3558,7 +4042,8 @@ Small Caps
 <tr data-setor="Saúde" data-categoria="Blue Chips" data-score="50">
 
 <td>
-<strong>RDOR3</strong><br>
+<span style="color:#94a3b8;font-size:12px">#105</span>
+<strong>RDOR3</strong>
 <span style="font-size:11px;color:#94a3b8">REDE D OR   ON      NM</span>
 </td>
 
@@ -3573,14 +4058,16 @@ Blue Chips
 </span>
 </td>
 
-<td>19.45</td>
-<td>4.48</td>
+<td>18.91</td>
+<td>4.36</td>
 <td>20.05%</td>
 <td>8.5%</td>
 <td>50</td>
-<td style="color:#ef4444">-29.67%</td>
+<td style="color:#ef4444">-26.07%</td>
 <td>R$ 30.3</td>
-<td>26.1</td>
+<td>27.18</td>
+<td data-label="Score">50</td>
+
 
 </tr>
 
@@ -3588,7 +4075,8 @@ Blue Chips
 <tr data-setor="Utilidades Públicas" data-categoria="Mid Caps" data-score="35">
 
 <td>
-<strong>EGIE3</strong><br>
+<span style="color:#94a3b8;font-size:12px">#106</span>
+<strong>EGIE3</strong>
 <span style="font-size:11px;color:#94a3b8">ENGIE BRASILON      NM</span>
 </td>
 
@@ -3603,44 +4091,16 @@ Mid Caps
 </span>
 </td>
 
-<td>14.23</td>
-<td>2.88</td>
+<td>14.16</td>
+<td>2.87</td>
 <td>21.82%</td>
 <td>4.73%</td>
 <td>35</td>
-<td style="color:#22c55e">5.13%</td>
+<td style="color:#22c55e">5.6%</td>
 <td>R$ 33.9</td>
-<td>26.04</td>
+<td>26.18</td>
+<td data-label="Score">35</td>
 
-</tr>
-
-    
-<tr data-setor="Imobiliário" data-categoria="Mid Caps" data-score="35">
-
-<td>
-<strong>MULT3</strong><br>
-<span style="font-size:11px;color:#94a3b8">MULTIPLAN   ON      N2</span>
-</td>
-
-<td>Imobiliário</td>
-
-<td>
-<span class="badge" style="
-background:#22c55e20;
-color:#22c55e;
-border:1px solid #22c55e">
-Mid Caps
-</span>
-</td>
-
-<td>14.41</td>
-<td>2.58</td>
-<td>19.11%</td>
-<td>3.65%</td>
-<td>35</td>
-<td style="color:#22c55e">3.91%</td>
-<td>R$ 34.5</td>
-<td>25.67</td>
 
 </tr>
 
@@ -3648,7 +4108,8 @@ Mid Caps
 <tr data-setor="Utilidades Públicas" data-categoria="Blue Chips" data-score="35">
 
 <td>
-<strong>SBSP3</strong><br>
+<span style="color:#94a3b8;font-size:12px">#107</span>
+<strong>SBSP3</strong>
 <span style="font-size:11px;color:#94a3b8">SABESP      ON      NM</span>
 </td>
 
@@ -3663,14 +4124,49 @@ Blue Chips
 </span>
 </td>
 
-<td>14.47</td>
-<td>2.44</td>
+<td>14.21</td>
+<td>2.4</td>
 <td>17.89%</td>
 <td>4.14%</td>
 <td>35</td>
-<td style="color:#22c55e">3.52%</td>
+<td style="color:#22c55e">5.27%</td>
 <td>R$ 153.75</td>
-<td>25.56</td>
+<td>26.08</td>
+<td data-label="Score">35</td>
+
+
+</tr>
+
+    
+<tr data-setor="Imobiliário" data-categoria="Mid Caps" data-score="35">
+
+<td>
+<span style="color:#94a3b8;font-size:12px">#108</span>
+<strong>MULT3</strong>
+<span style="font-size:11px;color:#94a3b8">MULTIPLAN   ON      N2</span>
+</td>
+
+<td>Imobiliário</td>
+
+<td>
+<span class="badge" style="
+background:#22c55e20;
+color:#22c55e;
+border:1px solid #22c55e">
+Mid Caps
+</span>
+</td>
+
+<td>14.33</td>
+<td>2.56</td>
+<td>19.11%</td>
+<td>3.65%</td>
+<td>35</td>
+<td style="color:#22c55e">4.46%</td>
+<td>R$ 34.5</td>
+<td>25.84</td>
+<td data-label="Score">35</td>
+
 
 </tr>
 
@@ -3678,7 +4174,8 @@ Blue Chips
 <tr data-setor="Materiais Básicos" data-categoria="Small Caps" data-score="20">
 
 <td>
-<strong>TTEN3</strong><br>
+<span style="color:#94a3b8;font-size:12px">#109</span>
+<strong>TTEN3</strong>
 <span style="font-size:11px;color:#94a3b8">3TENTOS     ON      NM</span>
 </td>
 
@@ -3693,14 +4190,16 @@ Small Caps
 </span>
 </td>
 
-<td>10.16</td>
-<td>1.86</td>
+<td>10.08</td>
+<td>1.85</td>
 <td>19.98%</td>
 <td>2.1%</td>
 <td>20</td>
-<td style="color:#22c55e">32.25%</td>
+<td style="color:#22c55e">32.79%</td>
 <td>R$ 25.8</td>
-<td>23.67</td>
+<td>23.84</td>
+<td data-label="Score">20</td>
+
 
 </tr>
 
@@ -3708,7 +4207,8 @@ Small Caps
 <tr data-setor="Indústria" data-categoria="Small Caps" data-score="20">
 
 <td>
-<strong>MILS3</strong><br>
+<span style="color:#94a3b8;font-size:12px">#110</span>
+<strong>MILS3</strong>
 <span style="font-size:11px;color:#94a3b8">MILLS       ON      NM</span>
 </td>
 
@@ -3723,14 +4223,16 @@ Small Caps
 </span>
 </td>
 
-<td>12.0</td>
-<td>2.03</td>
+<td>11.88</td>
+<td>2.01</td>
 <td>18.96%</td>
 <td>4.97%</td>
 <td>20</td>
-<td style="color:#22c55e">20.0%</td>
+<td style="color:#22c55e">20.8%</td>
 <td>R$ 18.75</td>
-<td>20.0</td>
+<td>20.24</td>
+<td data-label="Score">20</td>
+
 
 </tr>
 
@@ -3738,7 +4240,8 @@ Small Caps
 <tr data-setor="Utilidades Públicas" data-categoria="Blue Chips" data-score="30">
 
 <td>
-<strong>EQTL3</strong><br>
+<span style="color:#94a3b8;font-size:12px">#111</span>
+<strong>EQTL3</strong>
 <span style="font-size:11px;color:#94a3b8">EQUATORIAL  ON      NM</span>
 </td>
 
@@ -3753,14 +4256,16 @@ Blue Chips
 </span>
 </td>
 
-<td>15.87</td>
-<td>1.81</td>
+<td>15.67</td>
+<td>1.78</td>
 <td>13.13%</td>
 <td>5.68%</td>
 <td>30</td>
-<td style="color:#ef4444">-5.79%</td>
+<td style="color:#ef4444">-4.48%</td>
 <td>R$ 38.85</td>
-<td>19.26</td>
+<td>19.66</td>
+<td data-label="Score">30</td>
+
 
 </tr>
 
@@ -3768,7 +4273,8 @@ Blue Chips
 <tr data-setor="Utilidades Públicas" data-categoria="Mid Caps" data-score="30">
 
 <td>
-<strong>CPLE3</strong><br>
+<span style="color:#94a3b8;font-size:12px">#112</span>
+<strong>CPLE3</strong>
 <span style="font-size:11px;color:#94a3b8">COPEL       ON      NM</span>
 </td>
 
@@ -3788,39 +4294,11 @@ Mid Caps
 <td>10.96%</td>
 <td>8.18%</td>
 <td>30</td>
-<td style="color:#ef4444">-7.77%</td>
-<td>R$ 13.51</td>
+<td style="color:#ef4444">-7.78%</td>
+<td>R$ 13.5</td>
 <td>18.67</td>
+<td data-label="Score">30</td>
 
-</tr>
-
-    
-<tr data-setor="Serviços Financeiros" data-categoria="Small Caps" data-score="20">
-
-<td>
-<strong>BMEB3</strong><br>
-<span style="font-size:11px;color:#94a3b8">MERCANTIL   ON      N1</span>
-</td>
-
-<td>Serviços Financeiros</td>
-
-<td>
-<span class="badge" style="
-background:#facc1520;
-color:#facc15;
-border:1px solid #facc15">
-Small Caps
-</span>
-</td>
-
-<td>13.79</td>
-<td>3.33</td>
-<td>40.6%</td>
-<td>2.29%</td>
-<td>20</td>
-<td style="color:#22c55e">8.05%</td>
-<td>R$ 78.3</td>
-<td>16.41</td>
 
 </tr>
 
@@ -3828,7 +4306,8 @@ Small Caps
 <tr data-setor="Serviços Financeiros" data-categoria="Blue Chips" data-score="35">
 
 <td>
-<strong>B3SA3</strong><br>
+<span style="color:#94a3b8;font-size:12px">#113</span>
+<strong>B3SA3</strong>
 <span style="font-size:11px;color:#94a3b8">B3          ON      NM</span>
 </td>
 
@@ -3843,14 +4322,16 @@ Blue Chips
 </span>
 </td>
 
-<td>19.51</td>
-<td>5.18</td>
+<td>19.13</td>
+<td>5.08</td>
 <td>25.59%</td>
 <td>3.27%</td>
 <td>35</td>
-<td style="color:#ef4444">-30.05%</td>
-<td>R$ 13.81</td>
-<td>15.48</td>
+<td style="color:#ef4444">-27.54%</td>
+<td>R$ 13.8</td>
+<td>16.24</td>
+<td data-label="Score">35</td>
+
 
 </tr>
 
@@ -3858,8 +4339,9 @@ Blue Chips
 <tr data-setor="Serviços Financeiros" data-categoria="Small Caps" data-score="20">
 
 <td>
-<strong>BMEB4</strong><br>
-<span style="font-size:11px;color:#94a3b8">MERCANTIL   PN      N1</span>
+<span style="color:#94a3b8;font-size:12px">#114</span>
+<strong>BMEB3</strong>
+<span style="font-size:11px;color:#94a3b8">MERCANTIL   ON      N1</span>
 </td>
 
 <td>Serviços Financeiros</td>
@@ -3873,14 +4355,16 @@ Small Caps
 </span>
 </td>
 
-<td>15.21</td>
-<td>3.68</td>
+<td>13.89</td>
+<td>3.36</td>
 <td>40.6%</td>
-<td>2.27%</td>
+<td>2.29%</td>
 <td>20</td>
-<td style="color:#ef4444">-1.42%</td>
+<td style="color:#22c55e">7.42%</td>
 <td>R$ 78.3</td>
-<td>13.57</td>
+<td>16.23</td>
+<td data-label="Score">20</td>
+
 
 </tr>
 
@@ -3888,7 +4372,8 @@ Small Caps
 <tr data-setor="Indústria" data-categoria="Mid Caps" data-score="35">
 
 <td>
-<strong>GGPS3</strong><br>
+<span style="color:#94a3b8;font-size:12px">#115</span>
+<strong>GGPS3</strong>
 <span style="font-size:11px;color:#94a3b8">GPS         ON      NM</span>
 </td>
 
@@ -3903,14 +4388,49 @@ Mid Caps
 </span>
 </td>
 
-<td>20.58</td>
-<td>3.49</td>
+<td>20.38</td>
+<td>3.45</td>
 <td>18.18%</td>
 <td>2.91%</td>
 <td>35</td>
-<td style="color:#ef4444">-37.2%</td>
+<td style="color:#ef4444">-35.83%</td>
 <td>R$ 13.2</td>
-<td>13.34</td>
+<td>13.75</td>
+<td data-label="Score">35</td>
+
+
+</tr>
+
+    
+<tr data-setor="Serviços Financeiros" data-categoria="Small Caps" data-score="20">
+
+<td>
+<span style="color:#94a3b8;font-size:12px">#116</span>
+<strong>BMEB4</strong>
+<span style="font-size:11px;color:#94a3b8">MERCANTIL   PN      N1</span>
+</td>
+
+<td>Serviços Financeiros</td>
+
+<td>
+<span class="badge" style="
+background:#facc1520;
+color:#facc15;
+border:1px solid #facc15">
+Small Caps
+</span>
+</td>
+
+<td>15.15</td>
+<td>3.66</td>
+<td>40.6%</td>
+<td>2.27%</td>
+<td>20</td>
+<td style="color:#ef4444">-1.01%</td>
+<td>R$ 78.3</td>
+<td>13.7</td>
+<td data-label="Score">20</td>
+
 
 </tr>
 
@@ -3918,7 +4438,8 @@ Mid Caps
 <tr data-setor="Comunicação" data-categoria="Small Caps" data-score="15">
 
 <td>
-<strong>BMOB3</strong><br>
+<span style="color:#94a3b8;font-size:12px">#117</span>
+<strong>BMOB3</strong>
 <span style="font-size:11px;color:#94a3b8">BEMOBI TECH ON      NM</span>
 </td>
 
@@ -3933,14 +4454,16 @@ Small Caps
 </span>
 </td>
 
-<td>13.77</td>
-<td>1.8</td>
+<td>13.68</td>
+<td>1.79</td>
 <td>13.07%</td>
 <td>9.12%</td>
 <td>15</td>
-<td style="color:#22c55e">8.22%</td>
+<td style="color:#22c55e">8.83%</td>
 <td>R$ 26.4</td>
-<td>12.97</td>
+<td>13.15</td>
+<td data-label="Score">15</td>
+
 
 </tr>
 
@@ -3948,7 +4471,8 @@ Small Caps
 <tr data-setor="Consumo Defensivo" data-categoria="Small Caps" data-score="15">
 
 <td>
-<strong>SLCE3</strong><br>
+<span style="color:#94a3b8;font-size:12px">#118</span>
+<strong>SLCE3</strong>
 <span style="font-size:11px;color:#94a3b8">SLC AGRICOLAON      NM</span>
 </td>
 
@@ -3963,44 +4487,16 @@ Small Caps
 </span>
 </td>
 
-<td>13.93</td>
-<td>1.52</td>
+<td>13.98</td>
+<td>1.53</td>
 <td>11.08%</td>
 <td>7.91%</td>
 <td>15</td>
-<td style="color:#22c55e">7.13%</td>
+<td style="color:#22c55e">6.78%</td>
 <td>R$ 17.4</td>
-<td>12.64</td>
+<td>12.53</td>
+<td data-label="Score">15</td>
 
-</tr>
-
-    
-<tr data-setor="Saúde" data-categoria="Small Caps" data-score="15">
-
-<td>
-<strong>FLRY3</strong><br>
-<span style="font-size:11px;color:#94a3b8">FLEURY      ON      NM</span>
-</td>
-
-<td>Saúde</td>
-
-<td>
-<span class="badge" style="
-background:#facc1520;
-color:#facc15;
-border:1px solid #facc15">
-Small Caps
-</span>
-</td>
-
-<td>14.91</td>
-<td>1.66</td>
-<td>10.62%</td>
-<td>11.39%</td>
-<td>15</td>
-<td style="color:#22c55e">0.61%</td>
-<td>R$ 16.5</td>
-<td>10.68</td>
 
 </tr>
 
@@ -4008,7 +4504,8 @@ Small Caps
 <tr data-setor="Consumo Cíclico" data-categoria="Mid Caps" data-score="30">
 
 <td>
-<strong>SMFT3</strong><br>
+<span style="color:#94a3b8;font-size:12px">#119</span>
+<strong>SMFT3</strong>
 <span style="font-size:11px;color:#94a3b8">SMART FIT   ON      NM</span>
 </td>
 
@@ -4023,14 +4520,49 @@ Mid Caps
 </span>
 </td>
 
-<td>20.23</td>
-<td>2.01</td>
+<td>19.82</td>
+<td>1.97</td>
 <td>10.75%</td>
 <td>7.61%</td>
 <td>30</td>
-<td style="color:#ef4444">-34.88%</td>
+<td style="color:#ef4444">-32.14%</td>
 <td>R$ 14.25</td>
-<td>10.54</td>
+<td>11.36</td>
+<td data-label="Score">30</td>
+
+
+</tr>
+
+    
+<tr data-setor="Saúde" data-categoria="Small Caps" data-score="15">
+
+<td>
+<span style="color:#94a3b8;font-size:12px">#120</span>
+<strong>FLRY3</strong>
+<span style="font-size:11px;color:#94a3b8">FLEURY      ON      NM</span>
+</td>
+
+<td>Saúde</td>
+
+<td>
+<span class="badge" style="
+background:#facc1520;
+color:#facc15;
+border:1px solid #facc15">
+Small Caps
+</span>
+</td>
+
+<td>14.74</td>
+<td>1.64</td>
+<td>10.62%</td>
+<td>11.39%</td>
+<td>15</td>
+<td style="color:#22c55e">1.76%</td>
+<td>R$ 16.5</td>
+<td>11.03</td>
+<td data-label="Score">15</td>
+
 
 </tr>
 
@@ -4038,7 +4570,8 @@ Mid Caps
 <tr data-setor="Indústria" data-categoria="Small Caps" data-score="0">
 
 <td>
-<strong>VAMO3</strong><br>
+<span style="color:#94a3b8;font-size:12px">#121</span>
+<strong>VAMO3</strong>
 <span style="font-size:11px;color:#94a3b8">VAMOS       ON      NM</span>
 </td>
 
@@ -4053,14 +4586,16 @@ Small Caps
 </span>
 </td>
 
-<td>11.1</td>
-<td>1.75</td>
+<td>10.97</td>
+<td>1.73</td>
 <td>10.6%</td>
 <td>3.23%</td>
 <td>0</td>
-<td style="color:#22c55e">25.98%</td>
+<td style="color:#22c55e">26.84%</td>
 <td>R$ 5.85</td>
-<td>7.79</td>
+<td>8.05</td>
+<td data-label="Score">0</td>
+
 
 </tr>
 
@@ -4068,7 +4603,8 @@ Small Caps
 <tr data-setor="Consumo Cíclico" data-categoria="Small Caps" data-score="20">
 
 <td>
-<strong>FRAS3</strong><br>
+<span style="color:#94a3b8;font-size:12px">#122</span>
+<strong>FRAS3</strong>
 <span style="font-size:11px;color:#94a3b8">FRAS,LE     ON      N1</span>
 </td>
 
@@ -4083,14 +4619,16 @@ Small Caps
 </span>
 </td>
 
-<td>18.3</td>
-<td>2.78</td>
+<td>18.17</td>
+<td>2.76</td>
 <td>16.08%</td>
 <td>3.03%</td>
 <td>20</td>
-<td style="color:#ef4444">-21.97%</td>
+<td style="color:#ef4444">-21.11%</td>
 <td>R$ 19.8</td>
-<td>7.41</td>
+<td>7.67</td>
+<td data-label="Score">20</td>
+
 
 </tr>
 
@@ -4098,7 +4636,8 @@ Small Caps
 <tr data-setor="Imobiliário" data-categoria="Mid Caps" data-score="40">
 
 <td>
-<strong>IGTI4</strong><br>
+<span style="color:#94a3b8;font-size:12px">#123</span>
+<strong>IGTI4</strong>
 <span style="font-size:11px;color:#94a3b8">IGUATEMI S.APN  ED  N1</span>
 </td>
 
@@ -4121,6 +4660,8 @@ Mid Caps
 <td style="color:#ef4444">-80.43%</td>
 <td>R$ 7.05</td>
 <td>3.87</td>
+<td data-label="Score">40</td>
+
 
 </tr>
 
@@ -4128,7 +4669,8 @@ Mid Caps
 <tr data-setor="Indústria" data-categoria="Small Caps" data-score="15">
 
 <td>
-<strong>MOVI3</strong><br>
+<span style="color:#94a3b8;font-size:12px">#124</span>
+<strong>MOVI3</strong>
 <span style="font-size:11px;color:#94a3b8">MOVIDA      ON      NM</span>
 </td>
 
@@ -4143,14 +4685,16 @@ Small Caps
 </span>
 </td>
 
-<td>21.9</td>
-<td>1.68</td>
+<td>21.06</td>
+<td>1.62</td>
 <td>10.21%</td>
 <td>6.56%</td>
 <td>15</td>
-<td style="color:#ef4444">-46.03%</td>
+<td style="color:#ef4444">-40.42%</td>
 <td>R$ 9.45</td>
-<td>-3.31</td>
+<td>-1.63</td>
+<td data-label="Score">15</td>
+
 
 </tr>
 
@@ -4158,7 +4702,8 @@ Small Caps
 <tr data-setor="Materiais Básicos" data-categoria="Blue Chips" data-score="30">
 
 <td>
-<strong>KLBN11</strong><br>
+<span style="color:#94a3b8;font-size:12px">#125</span>
+<strong>KLBN11</strong>
 <span style="font-size:11px;color:#94a3b8">KLABIN S/A  UNT     N2</span>
 </td>
 
@@ -4173,14 +4718,16 @@ Blue Chips
 </span>
 </td>
 
-<td>29.94</td>
+<td>29.92</td>
 <td>3.08</td>
 <td>14.57%</td>
 <td>8.18%</td>
 <td>30</td>
-<td style="color:#ef4444">-99.7%</td>
+<td style="color:#ef4444">-99.6%</td>
 <td>R$ 9.91</td>
-<td>-8.91</td>
+<td>-8.88</td>
+<td data-label="Score">30</td>
+
 
 </tr>
 
