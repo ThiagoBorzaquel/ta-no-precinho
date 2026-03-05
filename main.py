@@ -227,7 +227,8 @@ df = df[
     (df["ROE"] > 0.10) &
     (df["ROE"] < 1) &
     (df["DivYield"] > 0.02) &
-    (df["DivYield"] < 0.20) 
+    (df["DivYield"] < 0.20) &
+    (df["MarketCap"] > 1_000_000_000)
 ]
 
 
@@ -752,7 +753,7 @@ O ranking utiliza um score fundamentalista baseado em métricas de valor:
 • P/VP abaixo de 1.5<br>
 • ROE acima de 15%<br>
 • Dividend Yield acima de 5%<br>
-• Market Cap acima de 10 bilhões
+• Market Cap acima de 1 bilhão
 
 <br><br>
 
