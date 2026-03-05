@@ -2,7 +2,7 @@ name: Atualização diária
 
 on:
   schedule:
-    - cron: '0 8 * * *'  # 09h Brasil (UTC-3)
+    - cron: '0 8 * * *'
   workflow_dispatch:
 
 permissions:
@@ -21,7 +21,9 @@ jobs:
           python-version: '3.11'
 
       - name: Instalar dependências
-        run: pip install -r requirements.txt
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
 
       - name: Rodar script
         run: python main.py
@@ -30,6 +32,7 @@ jobs:
         run: |
           git config user.name "github-actions"
           git config user.email "actions@github.com"
-          git add docs/*
+          git add docs
           git commit -m "Atualização automática diária" || echo "Sem alterações"
+          git pull --rebase
           git push

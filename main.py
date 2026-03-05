@@ -324,7 +324,7 @@ os.makedirs("docs", exist_ok=True)
 hoje = datetime.date.today()
 data_br = hoje.strftime("%d/%m/%Y")
 
-df.to_csv(f"docs/ranking_{hoje}.csv", index=False)
+df.to_csv("docs/ranking.csv", index=False)
 
 setores = sorted(df["Setor"].unique())
 categorias = sorted(df["Categoria"].unique())
@@ -812,7 +812,7 @@ html += f"""
 
 <div class="footer">
 ⚠️ Este ranking utiliza dados públicos do Yahoo Finance e aplica critérios quantitativos próprios. Não constitui recomendação de investimento.<br>
-<a href="ranking_{hoje}.csv" style="color:#3b82f6;">Baixar CSV</a>
+<a href="ranking.csv" style="color:#3b82f6;">Baixar CSV</a>
 </div>
 <div class="footer">
 <footer>
