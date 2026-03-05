@@ -930,12 +930,6 @@ O desconto mostra quanto a ação está negociando abaixo desse preço estimado.
 
 </p>
 
-<div class="metric-grid">
-<div>P/L: {round(row['PL'],2)}</div>
-<div>P/VP: {round(row['PVP'],2)}</div>
-<div>ROE: {roe}%</div>
-<div>DY: {dy}%</div>
-</div>
 
 </div>
 
@@ -993,7 +987,7 @@ border:1px solid {cores_categoria.get(row['Categoria'], '#3b82f6')}">
 <td style="color:{'#22c55e' if desconto > 0 else '#ef4444'}">{desconto}%</td>
 <td>R$ {round(row["PrecoJusto"],2)}</td>
 <td>{round(row["Ranking"],2)}</td>
-<td data-label="Score">{row['Score']}</td>
+
 
 
 </tr>
