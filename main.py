@@ -611,6 +611,15 @@ criarGrafico("graficoSmall",
 </script>
 
 </head>
+
+<meta name="description" content="Ranking automático das ações brasileiras mais baratas baseado em análise fundamentalista. Atualizado diariamente.">
+
+<meta name="keywords" content="ações baratas, bolsa brasileira, value investing, ranking ações, B3">
+
+<meta property="og:title" content="Tá no Precinho? - Ranking de ações brasileiras">
+<meta property="og:description" content="Descubra quais ações podem estar baratas hoje segundo análise fundamentalista.">
+<meta property="og:image" content="https://ta-noprecinho.com/images/og-image.jpg">
+
 <body>
 
 <div class="container">
@@ -618,7 +627,15 @@ criarGrafico("graficoSmall",
 <h1>📉 Tá no Precinho?</h1>
 
 <div class="subtitle">
-Screener de ações brasileiras negociadas com desconto fundamentalista.
+Este site analisa automaticamente centenas de ações da bolsa brasileira e identifica empresas que podem estar sendo negociadas abaixo do valor justo com base em indicadores fundamentalistas.
+O ranking utiliza métricas como:
+• P/L
+• P/VP
+• ROE
+• Dividend Yield
+<br>
+Atualizado automaticamente todos os dias.
+<br>
 <br>
 Atualizado em {data_br}
 </div>
@@ -762,7 +779,7 @@ O desconto mostra quanto a ação está negociando abaixo desse preço estimado.
 <th onclick="ordenarTabela(7)">Score</th>
 <th onclick="ordenarTabela(8)">Desconto %</th>
 <th onclick="ordenarTabela(9)">Preço Justo</th>
-<th onclick="ordenarTabela(10)">Ranking</th>
+<th onclick="ordenarTabela(10)">Ranking Score</th>
 </tr>
 </thead>
 <tbody>
