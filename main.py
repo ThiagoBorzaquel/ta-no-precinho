@@ -214,7 +214,20 @@ random.shuffle(tickers)
 
 print("Ações filtradas:", len(tickers))
 
+tickers = get_b3_tickers()
+
+tickers = [t for t in tickers if t.endswith(("3","4","5","6"))]
+tickers = list(set(tickers))
+
+random.shuffle(tickers)
+
+universo_b3 = len(tickers)
+
+print("Ações filtradas:", universo_b3)
+
 df = get_stock_data(tickers)
+
+acoes_coletadas = len(df)
 
 # garantir tipos numéricos
 colunas_numericas = ["PL", "PVP", "ROE", "DivYield", "MarketCap", "Preco"]
@@ -244,6 +257,7 @@ df = df[
     (df["MarketCap"] > 1_000_000_000)
 ]
 
+acoes_analisadas = len(df)
 
 if df.empty:
     print("Nenhuma empresa passou no filtro.")
@@ -252,6 +266,8 @@ if df.empty:
 # Score
 df["Score"] = df.apply(value_score, axis=1)
 
+pagadoras_div = len(df[df["DivYield"] > 0])
+score_alto = len(df[df["Score"] >= 70])
 
 # =========================
 # ESTATÍSTICAS
@@ -822,8 +838,13 @@ Atualizado em {data_br}
 <div class="stats">
 
 <div class="stat-box">
-<div class="stat-num">{total_acoes}</div>
-<div class="stat-label">📊 Ações analisadas</div>
+<div class="stat-num">{universo_b3}</div>
+<div class="stat-label">📊 Universo B3</div>
+</div>
+
+<div class="stat-box">
+<div class="stat-num">{acoes_analisadas}</div>
+<div class="stat-label">🔎 Ações analisadas</div>
 </div>
 
 <div class="stat-box">
