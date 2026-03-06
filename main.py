@@ -422,9 +422,9 @@ h1 {{
 
 .card {{
     background: var(--card);
-    padding: 18px;
-    border-radius: 14px;
-    margin-bottom: 20px;
+    padding: 14px;
+    border-radius: 12px;
+    margin-bottom: 14px;
 }}
 
 .filters {{
@@ -621,6 +621,7 @@ display:block;
 font-size:16px;
 font-weight:bold;
 margin-bottom:6px;
+text-align:left;
 }}
 
 }}
@@ -657,6 +658,7 @@ td:nth-child(7)::before{{content:"Dividend Yield";}}
 td:nth-child(8)::before{{content:"Score";}}
 td:nth-child(9)::before{{content:"Desconto";}}
 td:nth-child(10)::before{{content:"Preço justo";}}
+td:nth-child(11)::before{{content:"Ranking Score";}}
 
 td::before{{
 font-weight:600;
@@ -697,6 +699,69 @@ td::before{{
 content:attr(data-label);
 font-weight:600;
 color:var(--muted);
+}}
+
+}}
+
+.ranking-card{{
+    max-width: 340px;
+    margin: 12px auto;
+    padding: 14px;
+    border-radius: 12px;
+}}
+
+.ranking-grid{{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:6px;
+    font-size:12px;
+}}
+
+.ranking-title{{
+    font-size:14px;
+    margin-bottom:6px;
+}}
+
+.ranking-company{{
+    font-size:11px;
+    color:#94a3b8;
+}}
+
+@media(max-width: 768px){{
+
+.ranking-card{{
+
+padding:12px;
+margin-bottom:10px;
+
+}}
+
+.ranking-card h3{{
+font-size:16px;
+margin-bottom:4px;
+}}
+
+.ranking-info{{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:6px;
+font-size:12px;
+}}
+
+.ranking-info div{{
+display:flex;
+justify-content:space-between;
+}}
+
+}}
+
+@media(max-width:768px){{
+
+tr{{
+width:100%;
+max-width:100%;
+box-sizing:border-box;
+overflow:hidden;
 }}
 
 }}
@@ -802,6 +867,8 @@ criarGrafico("graficoSmall",
 
     aplicarFiltros();
 }};
+
+
 
 </script>
 
