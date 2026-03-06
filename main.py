@@ -4,6 +4,8 @@ import time
 import os
 import datetime
 from tqdm import tqdm
+import requests
+
 
 traducao_setores = {
     "Energy": "Energia",
@@ -20,51 +22,39 @@ traducao_setores = {
 }
 
 # =========================
-# LISTA IBOV (fixa segura)
+# LISTA IBOV
 # =========================
 
-def get_ibov_tickers():
-  return [
-    "CPLE3","BBDC4","B3SA3","ITUB4","ODPV3","PETR4","ITSA4","ABEV3","PCAR3","QUAL3",
-    "CSAN3","COGN3","BBAS3","AZEV4","RAIZ4","PRIO3","AMBP3","USIM5","VALE3","RENT3",
-    "VBBR3","CVCB3","GGBR4","VAMO3","RDOR3","RAIL3","CMIG4","CXSE3","AXIA3","PETR3",
-    "BBDC3","NATU3","MOTV3","TIMS3","POMO4","BEEF3","MGLU3","ASAI3","VIVT3","CSNA3",
-    "MBRF3","JHSF3","BPAC11","HAPV3","GOAU4","CBAV3","LREN3","GMAT3","RADL3","ENEV3",
-    "UGPA3","LWSA3","CEAB3","BBSE3","TOTS3","SMFT3","EQTL3","WEGE3","ECOR3","VIVA3",
-    "CMIN3","MOVI3","BRAV3","MRVE3","KLBN11","ANIM3","MULT3","GFSA3","GRND3","SUZB3",
-    "CYRE3","PGMN3","DIRR3","ALOS3","BHIA3","SBSP3","EMBJ3","MDIA3","LJQQ3","KEPL3",
-    "SIMH3","RCSL4","SANB11","RAPT4","AURE3","GGPS3","HBSA3","CPFE3","CSMG3","PLPL3",
-    "FLRY3","ITUB3","IGTI11","AZEV3","BMGB4","INTB3","DXCO3","HYPE3","RECV3","ENGI11",
-    "ONCO3","HBRE3","VVEO3","SMTO3","CURY3","BRAP4","PSSA3","YDUQ3","SLCE3","EGIE3",
-    "CASH3","ISAE4","BRKM5","AXIA6","AUAU3","AXIA7","JSLG3","AZZA3","KLBN4","TOKY3",
-    "POSI3","EZTC3","PMAM3","BRSR6","TAEE11","LIGT3","SBFG3","VULC3","SAPR11","ALPA4",
-    "SAPR4","AZTE3","PINE4","TEND3","AMER3","IRBR3","MDNE3","SOJA3","SEQL3","PNVL3",
-    "DESK3","MYPK3","OIBR3","ARML3","TUPY3","DASA3","HBOR3","TTEN3","ALUP11","RANI3",
-    "ORVR3","ALLD3","NEOE3","CSED3","IFCM3","FESA4","CAML3","SEER3","LOGG3","JALL3",
-    "POMO3","LAVV3","MLAS3","MILS3","TASA4","ABCB4","USIM3","WIZC3","TFCO4","FIQE3",
-    "UNIP6","MTRE3","ESPA3","TGMA3","VTRU3","EVEN3","RNEW4","BMOB3","MELK3","SYNE3",
-    "OBTC3","AMAR3","KLBN3","PRNR3","LEVE3","OPCT3","SHUL4","VIVR3","TRIS3","PTBL3",
-    "CYRE4","MEAL3","RENT4","VLID3","AGRO3","SAPR3","FICT3","ROMI3","BRST3","BLAU3",
-    "BRBI11","PFRM3","VITT3","TCSA3","ENJU3","ALPK3","MATD3","GOAU3","LPSB3","ITSA3",
-    "FRAS3","RNEW3","TAEE4","DMVF3","SANB4","LUPA3","JFEN3","RCSL3","CMIG3","ETER3",
-    "DEXP3","BRAP3","SANB3","TAEE3","TRAD3","AALR3","PDGR3","FHER3","BEES3","SHOW3",
-    "HAGA4","GGBR3","BIOM3","TECN3","TPIS3","ALPA3","BSLI4","BSLI3","AERI3","CSUD3",
-    "IGTI3","SCAR3","BMEB4","CAMB3","TASA3","AMOB3","LAND3","AGXY3","EALT4","UCAS3",
-    "WEST3","EUCA4","CTAX3","INEP3","AVLL3","PDTC3","HAGA3","CGRA4","CTKA4","BRKM3",
-    "WDCN3","ENGI4","BEES4","BPAC5","INEP4","MNPR3","EPAR3","UNIP3","ALUP3","AZEV11",
-    "NGRD3","PINE3","DOTZ3","ALUP4","WHRL3","BRSR3","ISAE3","BIED3","WHRL4","PTNT4",
-    "BAZA3","ENGI3","TKNO4","BMEB3","LOGN3","VSTE3","COCE5","CRPG5","DOHL4","MTSA4",
-    "EQPA3","OFSA3","DEXP4","CEBR6","EMAE4","MNDL3","RAPT3","CLSC4","SNSY5","BPAC3",
-    "CTKA3","REDE3","NEXP3","NUTR3","RVEE3","CEBR3","ADMF3","MGEL4","OIBR4","HOOT4",
-    "OSXB3","WLMM4","ENMT3","EALT3","RPMG3","ATED3","BMIN4","MWET4","TELB3","TELB4",
-    "CEEB3","GSHP3","CEBR5","LUXM4","PATI3","BALM4","CEDO4","BGIP4","CGRA3","PPLA11",
-    "UNIP5","FESA3","AFLT3","CTSA4","ARND3","CGAS5","BGIP3","EKTR4","GEPA4","PLAS3",
-    "TKNO3","BNBR3","EQMA3B","RPAD6","RSID3","BOBR4","BMKS3","RSUL4","BDLL3","SOND6",
-    "PEAB4","PEAB3","CRPG3","EUCA3","BRSR5","CBEE3","AXIA5","ENMT4","CTSA3","BAUH4",
-    "CEEB5","SOND5","GEPA3","SNSY3","PTNT3","CLSC3","COCE3","HBTS5","WLMM3","EQPA5",
-    "PSVM11","RPAD5","PINE11","GPAR3","NORD3","CGAS3","BRKM6","MRSA5B","BDLL4","CRPG6",
-    "ESTR4","CALI3","MERC4","IGTI4","CEED3","BIOM11"
-]
+
+import requests
+
+def get_b3_tickers():
+
+    try:
+
+        print("Buscando lista de ativos da B3...")
+
+        url = "https://brapi.dev/api/quote/list"
+        response = requests.get(url, timeout=10)
+
+        data = response.json()
+
+        tickers = [item["stock"] for item in data["stocks"]]
+
+        # manter apenas ações
+        tickers = [t for t in tickers if t.endswith(("3","4","5","6","11"))]
+
+        print(f"{len(tickers)} ativos encontrados.")
+
+        return tickers
+
+    except:
+
+        print("Falha ao buscar API. Usando lista local.")
+
+        return get_b3_tickers()
+
+
 
 cores_categoria = {
     "Blue Chips": "#3b82f6",   # azul
@@ -142,23 +132,25 @@ def get_stock_data(tickers):
         for tentativa in range(3):
 
             try:
+
                 acao = yf.Ticker(f"{ticker}.SA")
+
+                fast = acao.fast_info
                 info = acao.info
 
                 nome = info.get("shortName", ticker)
 
-                market_cap = info.get("marketCap")
-                preco = info.get("currentPrice")
+                preco = fast.get("lastPrice")
+                market_cap = fast.get("marketCap")
 
                 dy = info.get("dividendYield") or 0
 
-                # normalizar dividend yield
                 if dy > 1:
                     dy = dy / 100
 
                 if not market_cap or not preco:
                     return None
-                
+
                 roe = info.get("returnOnEquity") or 0
 
                 if roe > 1:
@@ -167,22 +159,22 @@ def get_stock_data(tickers):
                 setor_original = info.get("sector", "Não informado")
 
                 return {
-                        "Ticker": ticker,
-                        "Empresa": nome,
-                        "setor_original": setor_original,
-                        "Setor": traducao_setores.get(setor_original, setor_original),
-                        "PL": info.get("trailingPE") or 0,
-                        "PVP": info.get("priceToBook") or 0,
-                        "ROE": roe,
-                        "DivYield": dy,
-                        "MarketCap": market_cap,
-                        "Preco": preco,
-                        "Categoria": classificar_cap(market_cap)
-                    }
-
+                    "Ticker": ticker,
+                    "Empresa": nome,
+                    "setor_original": setor_original,
+                    "Setor": traducao_setores.get(setor_original, setor_original),
+                    "PL": info.get("trailingPE") or 0,
+                    "PVP": info.get("priceToBook") or 0,
+                    "ROE": roe,
+                    "DivYield": dy,
+                    "MarketCap": market_cap,
+                    "Preco": preco,
+                    "Categoria": classificar_cap(market_cap)
+                }
+                
             except Exception:
                 time.sleep(random.uniform(0.3, 0.8))
-
+            
         return None
 
 
@@ -208,8 +200,29 @@ def get_stock_data(tickers):
 
 print("Buscando dados do IBOV...")
 
-tickers = get_ibov_tickers()
+tickers = get_b3_tickers()
+
+# manter apenas ações
+tickers = [t for t in tickers if len(t) == 5 and t[-1].isdigit()]
+
+# remover duplicados
+tickers = list(set(tickers))
+
+# embaralhar para evitar bloqueio
+import random
+random.shuffle(tickers)
+
+print("Ações filtradas:", len(tickers))
+
 df = get_stock_data(tickers)
+
+# garantir tipos numéricos
+colunas_numericas = ["PL", "PVP", "ROE", "DivYield", "MarketCap", "Preco"]
+
+for col in colunas_numericas:
+    df[col] = pd.to_numeric(df[col], errors="coerce")
+
+df = df.dropna(subset=["PL", "PVP", "ROE", "DivYield"])
 
 if df.empty:
     print("Nenhum dado válido encontrado.")
