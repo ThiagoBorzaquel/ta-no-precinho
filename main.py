@@ -998,6 +998,7 @@ for i, (_, row) in enumerate(df.iterrows(), start=1):
 <div style="display:flex;align-items:center;gap:8px">
 
 <img src="logos/{row['Ticker']}.png"
+onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
 <strong>{row['Ticker']}</strong>
