@@ -5,6 +5,16 @@ import os
 import datetime
 from tqdm import tqdm
 import requests
+from concurrent.futures import ThreadPoolExecutor, as_completed
+from scripts.collect_data import get_stock_data
+from scripts.validate_data import validar_dados
+from scripts.scoring import value_score
+from scripts.scoring import calcular_preco_justo
+from scripts.scoring import calcular_desconto
+from scripts.scoring import calcular_risco
+from scripts.logger import logger
+from scripts.logo_manager import preparar_logos
+
 
 
 traducao_setores = {
@@ -20,6 +30,8 @@ traducao_setores = {
     "Communication Services": "Comunicação",
     "Technology": "Tecnologia"
 }
+
+
 
 # =========================
 # LISTA IBOV
@@ -116,130 +128,52 @@ def calcular_preco_justo(row):
 
     return round(preco_justo, 2)
 
-# =========================
-# COLETA FUNDAMENTALISTA
-# =========================
-
-from concurrent.futures import ThreadPoolExecutor, as_completed
-import random
-
-
-
-def get_stock_data(tickers):
-
-    def buscar_ticker(ticker):
-
-        for tentativa in range(3):
-
-            try:
-
-                acao = yf.Ticker(f"{ticker}.SA")
-
-                fast = acao.fast_info
-                info = acao.info
-
-                nome = info.get("shortName", ticker)
-
-                preco = fast.get("lastPrice")
-                market_cap = fast.get("marketCap")
-
-                dy = info.get("dividendYield") or 0
-
-                if dy > 1:
-                    dy = dy / 100
-
-                if not market_cap or not preco:
-                    return None
-
-                roe = info.get("returnOnEquity") or 0
-
-                if roe > 1:
-                    roe = roe / 100
-
-                setor_original = info.get("sector", "Não informado")
-
-                return {
-                    "Ticker": ticker,
-                    "Empresa": nome,
-                    "setor_original": setor_original,
-                    "Setor": traducao_setores.get(setor_original, setor_original),
-                    "PL": info.get("trailingPE") or 0,
-                    "PVP": info.get("priceToBook") or 0,
-                    "ROE": roe,
-                    "DivYield": dy,
-                    "MarketCap": market_cap,
-                    "Preco": preco,
-                    "Categoria": classificar_cap(market_cap)
-                }
-                
-            except Exception:
-                time.sleep(random.uniform(0.3, 0.8))
-            
-        return None
-
-
-    dados = []
-
-    with ThreadPoolExecutor(max_workers=6) as executor:
-
-        futures = [executor.submit(buscar_ticker, t) for t in tickers]
-
-        for future in tqdm(as_completed(futures), total=len(futures), desc="Buscando dados"):
-            try:
-                resultado = future.result(timeout=10)
-                if resultado:
-                    dados.append(resultado)
-            except:
-                continue
-
-    return pd.DataFrame(dados)
 
 # =========================
 # EXECUÇÃO PRINCIPAL
 # =========================
 
-print("Buscando dados do IBOV...")
+logger.info("inicando pipeline")
+
+print("Buscando dados da B3...")
 
 tickers = get_b3_tickers()
 
 # manter apenas ações
-tickers = [t for t in tickers if len(t) == 5 and t[-1].isdigit()]
+tickers = [t for t in tickers if t.endswith(("3","4","5","6"))]
 
 # remover duplicados
 tickers = list(set(tickers))
 
-# embaralhar para evitar bloqueio
+# embaralhar
 import random
 random.shuffle(tickers)
 
-print("Ações filtradas:", len(tickers))
-
-tickers = get_b3_tickers()
-
-tickers = [t for t in tickers if t.endswith(("3","4","5","6"))]
-tickers = list(set(tickers))
-
-random.shuffle(tickers)
+logger.info(f"{len(tickers)} Ativos encontrados para análise.")
 
 universo_b3 = len(tickers)
 
 print("Ações filtradas:", universo_b3)
 
-df = get_stock_data(tickers)
+# =========================
+# COLETA FUNDAMENTALISTA
+# =========================
+
+df = get_stock_data(tickers, traducao_setores, classificar_cap)
+
+logger.info(f"{len(df)} empresas coletadas com dados fundamentalistas.")
+
+df = validar_dados(df)
+
+logger.info(f"{len(df)} empresas com dados válidos após validação.")
 
 acoes_coletadas = len(df)
-
-# garantir tipos numéricos
-colunas_numericas = ["PL", "PVP", "ROE", "DivYield", "MarketCap", "Preco"]
-
-for col in colunas_numericas:
-    df[col] = pd.to_numeric(df[col], errors="coerce")
-
-df = df.dropna(subset=["PL", "PVP", "ROE", "DivYield"])
 
 if df.empty:
     print("Nenhum dado válido encontrado.")
     exit()
+
+
 
 # =========================
 # FILTRO DE QUALIDADE
@@ -263,6 +197,8 @@ if df.empty:
     print("Nenhuma empresa passou no filtro.")
     exit()
 
+    logger.info(f"{len(df)} empresas passaram no filtro de qualidade.")
+
 # Score
 df["Score"] = df.apply(value_score, axis=1)
 
@@ -283,23 +219,15 @@ score_alto = len(df[df["Score"] >= 70])
 df["PrecoJusto"] = df.apply(calcular_preco_justo, axis=1)
 
 # Desconto %
-df["Desconto_%"] = df.apply(
-    lambda row: (
-        ((row["PrecoJusto"] - row["Preco"]) / row["PrecoJusto"]) * 100
-        if row["PrecoJusto"] > 0
-        else 0
-    ),
-    axis=1
-)
-
-df["Desconto_%"] = df["Desconto_%"].clip(-100, 100)
+df["Desconto_%"] = df.apply(calcular_desconto, axis=1)
 
 # Ordenar por maior desconto
 df["Ranking"] = (df["Score"] * 0.7) + (df["Desconto_%"] * 0.3)
 
 df = df.sort_values("Ranking", ascending=False)
 
-
+# baixar e preparar logos
+preparar_logos(df)
 
 top10 = df.nlargest(10, "Desconto_%")
 
@@ -360,6 +288,8 @@ setores = sorted(df["Setor"].unique())
 categorias = sorted(df["Categoria"].unique())
 
 top3 = df.head(3)
+
+logger.info("Gerando site...")
 
 # =========================
 # HTML SaaS Moderno
@@ -1065,7 +995,14 @@ for i, (_, row) in enumerate(df.iterrows(), start=1):
 
 <td>
 <span style="color:#94a3b8;font-size:12px">#{i}</span>
+<div style="display:flex;align-items:center;gap:8px">
+
+<img src="logos/{row['Ticker']}.png"
+style="width:20px;height:20px;object-fit:contain">
+
 <strong>{row['Ticker']}</strong>
+
+</div>
 <span style="font-size:11px;color:#94a3b8">{row['Empresa']}</span>
 </td>
 
