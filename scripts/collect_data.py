@@ -5,8 +5,69 @@ import time
 from tqdm import tqdm
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
+# =========================
+# BUSCAR TICKERS DA B3
+# =========================
+
+import requests
+
+def get_b3_tickers():
+
+    try:
+
+        print("Buscando lista de ativos da B3...")
+
+        url = "https://brapi.dev/api/quote/list"
+        response = requests.get(url, timeout=10)
+
+        data = response.json()
+
+        tickers = [item["stock"] for item in data["stocks"]]
+
+        # manter apenas ações
+        tickers = [t for t in tickers if t.endswith(("3","4","5","6","11"))]
+
+        print(f"{len(tickers)} ativos encontrados.")
+
+        return tickers
+
+    except:
+
+        print("Falha ao buscar API. Usando lista fallback.")
+
+        return []
+
+
+    
+# =========================
+# FILTRO DE AÇÕES VÁLIDAS
+# =========================
+
+def filtrar_acoes_validas(tickers):
+
+    tickers_validos = []
+
+    for t in tickers:
+
+        if len(t) != 5:
+            continue
+
+        if not t[-1].isdigit():
+            continue
+
+        if t.endswith(("3","4","5","6")):
+            tickers_validos.append(t)
+
+    return list(set(tickers_validos))
+
+
+# =========================
+# COLETA FUNDAMENTALISTA
+# =========================
 
 def get_stock_data(tickers, traducao_setores, classificar_cap):
+
+    tickers = filtrar_acoes_validas(tickers)
 
     def buscar_ticker(ticker):
 
@@ -28,6 +89,7 @@ def get_stock_data(tickers, traducao_setores, classificar_cap):
                 dy = info.get("dividendYield") or 0
                 roe = info.get("returnOnEquity") or 0
 
+                # normalização
                 if dy > 1:
                     dy = dy / 100
 
@@ -50,21 +112,23 @@ def get_stock_data(tickers, traducao_setores, classificar_cap):
                     "Categoria": classificar_cap(market_cap)
                 }
 
-            except:
-                time.sleep(random.uniform(0.3,0.8))
+            except Exception:
+
+                time.sleep(random.uniform(0.3, 0.8))
 
         return None
 
 
     dados = []
 
-    with ThreadPoolExecutor(max_workers=6) as executor:
+    with ThreadPoolExecutor(max_workers=4) as executor:
 
         futures = [executor.submit(buscar_ticker, t) for t in tickers]
 
         for future in tqdm(as_completed(futures), total=len(futures), desc="Buscando dados"):
 
             try:
+
                 resultado = future.result(timeout=10)
 
                 if resultado:

@@ -11,9 +11,13 @@ from scripts.validate_data import validar_dados
 from scripts.scoring import value_score
 from scripts.scoring import calcular_preco_justo
 from scripts.scoring import calcular_desconto
-from scripts.scoring import calcular_risco
+from scripts.scoring import calcular_risco, farol_risco
+from scripts.scoring import calcular_ranking
 from scripts.logger import logger
 from scripts.logo_manager import preparar_logos
+from scripts.collect_data import get_b3_tickers, get_stock_data,filtrar_acoes_validas
+from scripts.history_manager import salvar_historico
+from scripts.history_analysis import carregar_historico
 
 
 
@@ -38,36 +42,6 @@ traducao_setores = {
 # =========================
 
 
-import requests
-
-def get_b3_tickers():
-
-    try:
-
-        print("Buscando lista de ativos da B3...")
-
-        url = "https://brapi.dev/api/quote/list"
-        response = requests.get(url, timeout=10)
-
-        data = response.json()
-
-        tickers = [item["stock"] for item in data["stocks"]]
-
-        # manter apenas ações
-        tickers = [t for t in tickers if t.endswith(("3","4","5","6","11"))]
-
-        print(f"{len(tickers)} ativos encontrados.")
-
-        return tickers
-
-    except:
-
-        print("Falha ao buscar API. Usando lista local.")
-
-        return get_b3_tickers()
-
-
-
 cores_categoria = {
     "Blue Chips": "#3b82f6",   # azul
     "Mid Caps": "#22c55e",     # verde
@@ -86,68 +60,23 @@ def classificar_cap(market_cap):
     else:
         return "Small Caps"
 
-# =========================
-# SCORE VALUE
-# =========================
-
-def value_score(row):
-    score = 0
-
-    if 0 < row["PL"] < 10:
-        score += 25
-
-    if 0 < row["PVP"] < 1.5:
-        score += 25
-
-    if row["ROE"] > 0.15:
-        score += 20
-
-    if row["DivYield"] > 0.05:
-        score += 15
-
-    if row["MarketCap"] > 10_000_000_000:
-        score += 15
-
-    return score
-
-# =========================
-# PREÇO JUSTO
-# =========================
-
-def calcular_preco_justo(row):
-
-    preco = row["Preco"]
-    pl = row["PL"]
-
-    if preco <= 0 or pl <= 0:
-        return 0
-
-    pl_justo = 15
-
-    preco_justo = preco * (pl_justo / pl)
-
-    return round(preco_justo, 2)
 
 
 # =========================
 # EXECUÇÃO PRINCIPAL
 # =========================
 
-logger.info("inicando pipeline")
+logger.info("iniciando pipeline")
 
 print("Buscando dados da B3...")
 
 tickers = get_b3_tickers()
+tickers = filtrar_acoes_validas(tickers)
 
-# manter apenas ações
-tickers = [t for t in tickers if t.endswith(("3","4","5","6"))]
 
 # remover duplicados
-tickers = list(set(tickers))
+tickers = sorted(set(tickers))
 
-# embaralhar
-import random
-random.shuffle(tickers)
 
 logger.info(f"{len(tickers)} Ativos encontrados para análise.")
 
@@ -195,6 +124,7 @@ acoes_analisadas = len(df)
 
 if df.empty:
     print("Nenhuma empresa passou no filtro.")
+    logger.info("Nenhuma empresa passou no filtro de qualidade.")
     exit()
 
     logger.info(f"{len(df)} empresas passaram no filtro de qualidade.")
@@ -216,20 +146,66 @@ pagadoras_div = len(df[df["DivYield"] > 0])
 score_alto = len(df[df["Score"] >= 70])
 
 # Preço justo
-df["PrecoJusto"] = df.apply(calcular_preco_justo, axis=1)
+df["PrecoJusto"] = df["Preco"] * (15 / df["PL"])
 
 # Desconto %
 df["Desconto_%"] = df.apply(calcular_desconto, axis=1)
 
 # Ordenar por maior desconto
-df["Ranking"] = (df["Score"] * 0.7) + (df["Desconto_%"] * 0.3)
 
-df = df.sort_values("Ranking", ascending=False)
+df["Ranking"] = df.apply(calcular_ranking, axis=1)
+top_n = 100
+df = df.nlargest(top_n, "Desconto_%")
+
+
+# Risco
+df["Risco"] = df.apply(calcular_risco, axis=1)
+
+df["Farol"] = df["Risco"].apply(farol_risco)
+
+def garantir_colunas(df):
+
+    colunas = [
+        "Desconto_%",
+        "Ranking",
+        "Risco",
+        "Farol"
+    ]
+
+    for c in colunas:
+        if c not in df.columns:
+            df[c] = 0
+
+    return df
+
+# Salvar historico
+salvar_historico(df)
+
+historico = carregar_historico(365)
+
+if not historico.empty:
+
+    historico = historico.sort_values("Data")
+
+    preco_antigo = historico.groupby("Ticker")["Preco"].first()
+
+    df["Preco_antigo"] = df["Ticker"].map(preco_antigo)
+
+    df["Variacao_%"] = (
+        (df["Preco"] - df["Preco_antigo"]) / df["Preco_antigo"] * 100
+    ).fillna(0)
+
+else:
+
+    df["Variacao_%"] = 0
 
 # baixar e preparar logos
 preparar_logos(df)
 
-top10 = df.nlargest(10, "Desconto_%")
+# garantir colunas para o site
+df = garantir_colunas(df)
+
+top10 = df.nlargest(5, "Desconto_%")
 
 top_blue = df[df["Categoria"] == "Blue Chips"].sort_values("Desconto_%", ascending=False).head(5)
 top_mid = df[df["Categoria"] == "Mid Caps"].sort_values("Desconto_%", ascending=False).head(5)
@@ -244,38 +220,12 @@ score_alto = len(df[df["Score"] >= 70])
 
 print(f"{len(df)} empresas válidas encontradas.")
 
-# =========================
-# RISCO
-# =========================
 
-def calcular_risco(row):
 
-    risco = 0
-
-    if row["PL"] > 20:
-        risco += 1
-
-    if row["PVP"] > 2:
-        risco += 1
-
-    if row["DivYield"] < 0.03:
-        risco += 1
-
-    if row["ROE"] < 0.12:
-        risco += 1
-
-    if risco <= 1:
-        return "Baixo"
-
-    if risco <= 3:
-        return "Médio"
-
-    return "Alto"
-
-df["Risco"] = df.apply(calcular_risco, axis=1)
 # =========================
 # GERAR SITE
 # =========================
+
 
 os.makedirs("docs", exist_ok=True)
 
@@ -302,6 +252,9 @@ html = f"""
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
+<script async
+src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=SEU_ID"
+crossorigin="anonymous"></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Tá no Precinho?</title>
@@ -358,9 +311,10 @@ h1 {{
 }}
 
 .filters {{
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
     gap: 12px;
-    flex-wrap: wrap;
+    align-items: flex-end;
 }}
 
 select, input {{
@@ -588,7 +542,7 @@ td:nth-child(7)::before{{content:"Dividend Yield";}}
 td:nth-child(8)::before{{content:"Score";}}
 td:nth-child(9)::before{{content:"Desconto";}}
 td:nth-child(10)::before{{content:"Preço justo";}}
-td:nth-child(11)::before{{content:"Ranking Score";}}
+td:nth-child(11)::before{{content:"Risco";}}
 
 td::before{{
 font-weight:600;
@@ -703,7 +657,6 @@ overflow:hidden;
 let ordemAsc = false;
 
 function aplicarFiltros() {{
-    let setor = document.getElementById("filtroSetor").value;
     let categoria = document.getElementById("filtroCategoria").value;
     let scoreMin = parseFloat(document.getElementById("filtroScore").value) || 0;
     let quantidade = parseInt(document.getElementById("filtroQuantidade").value);
@@ -715,9 +668,14 @@ function aplicarFiltros() {{
         let categoriaLinha = linha.dataset.categoria;
         let scoreLinha = parseFloat(linha.dataset.score);
 
-        if (setor !== "Todos" && setorLinha !== setor) return false;
+        let setorFiltro = document.getElementById("filtroSetor").value;
         if (categoria !== "Todos" && categoriaLinha !== categoria) return false;
         if (scoreLinha < scoreMin) return false;
+    
+    let periodo = parseInt(document.getElementById("filtroPeriodo").value);
+    let variacaoLinha = parseFloat(linha.dataset.variacao);
+
+    if (periodo > 0 && variacaoLinha === 0) return false;
 
         return true;
     }});
@@ -769,6 +727,8 @@ function criarGrafico(id, labels, data, cor) {{
         }}
     }});
 }}
+
+
 
 window.onload = function() {{
     criarGrafico("graficoTop10",
@@ -880,6 +840,7 @@ Atualizado em {data_br}
 for s in setores:
     html += f"<option>{s}</option>"
 
+
 html += """
 </select>
 </div>
@@ -890,6 +851,7 @@ html += """
 <option>Todos</option>
 """
 
+
 for c in categorias:
     html += f"<option>{c}</option>"
 
@@ -898,9 +860,27 @@ html += """
 </div>
 
 <div>
+<label>Período</label><br>
+<select id="filtroPeriodo" onchange="aplicarFiltros()">
+<option value="0">Hoje</option>
+<option value="7">1 semana</option>
+<option value="15">15 dias</option>
+<option value="30">1 mês</option>
+<option value="90">3 meses</option>
+<option value="180">6 meses</option>
+<option value="365">1 ano</option>
+</select>
+</div>
+"""
+
+html += """
+
+
+<div>
 <label>Score mínimo</label><br>
 <input type="number" id="filtroScore" onchange="aplicarFiltros()" placeholder="Ex: 50">
 </div>
+
 
 </div>
 </div>
@@ -977,7 +957,9 @@ O desconto mostra quanto a ação está negociando abaixo desse preço estimado.
 <th onclick="ordenarTabela(7)">Score</th>
 <th onclick="ordenarTabela(8)">Desconto %</th>
 <th onclick="ordenarTabela(9)">Preço Justo</th>
-<th onclick="ordenarTabela(10)">Ranking Score</th>
+<th>Risco</th>
+
+
 </tr>
 </thead>
 <tbody>
@@ -989,9 +971,13 @@ for i, (_, row) in enumerate(df.iterrows(), start=1):
     dy = round((row["DivYield"] or 0) * 100, 2)
     desconto = round(row["Desconto_%"], 2)
 
+
     html += f"""
     
-<tr data-setor="{row['Setor']}" data-categoria="{row['Categoria']}" data-score="{row['Score']}">
+<tr data-setor="{row['Setor']}"
+    data-categoria="{row['Categoria']}"
+    data-score="{row['Score']}"
+    data-variacao="{row['Variacao_%']}">
 
 <td>
 <span style="color:#94a3b8;font-size:12px">#{i}</span>
@@ -1022,12 +1008,17 @@ border:1px solid {cores_categoria.get(row['Categoria'], '#3b82f6')}">
 <td>{round(row['PVP'],2)}</td>
 <td>{roe}%</td>
 <td>{dy}%</td>
-<td>{row['Score']}</td>
+<td style="font-weight:600;color:{'#22c55e' if row['Score'] >= 70 else '#eab308'}">
+{row['Score']}
+</td>
 <td style="color:{'#22c55e' if desconto > 0 else '#ef4444'}">{desconto}%</td>
 <td>R$ {round(row["PrecoJusto"],2)}</td>
-<td>{round(row["Ranking"],2)}</td>
-
-
+<td title="{row['Risco']}" style="text-align:center;">
+<span style="font-size:18px;display:inline-block;">
+{row["Farol"]}
+</span>
+</td>
+ 
 
 </tr>
 """
@@ -1052,6 +1043,8 @@ html += f"""
 </body>
 </html>
 """
+
+
 
 with open("docs/index.html", "w", encoding="utf-8") as f:
     f.write(html)
