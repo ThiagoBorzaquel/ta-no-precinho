@@ -21,6 +21,7 @@ from scripts.history_analysis import carregar_historico
 
 
 
+
 traducao_setores = {
     "Energy": "Energia",
     "Basic Materials": "Materiais Básicos",
@@ -162,7 +163,7 @@ df["Ranking"] = df.apply(calcular_ranking, axis=1)
 historico = carregar_historico(365)
 
 # depois filtrar
-top_n = 100
+top_n = 9999
 df = df.nlargest(top_n, "Desconto_%")
 
 
@@ -249,6 +250,73 @@ categorias = sorted(df["Categoria"].unique())
 top3 = df.head(3)
 
 logger.info("Gerando site...")
+
+# =========================
+# GERAR páginas automáticas
+# =========================
+
+def gerar_pagina(nome, titulo, conteudo):
+
+    with open("docs/layout_base.html", "r", encoding="utf-8") as f:
+        template = f.read()
+
+    html = template.replace("{{titulo}}", titulo)
+    html = html.replace("{{conteudo}}", conteudo)
+
+    with open(f"docs/{nome}.html", "w", encoding="utf-8") as f:
+        f.write(html)
+
+
+# =========================
+# CRIAR AS PÁGINAS
+# =========================
+
+gerar_pagina(
+    "privacidade",
+    "Política de Privacidade",
+    """
+<p>Este site coleta informações de navegação para melhorar a experiência do usuário.</p>
+<p>Utilizamos serviços como Google Analytics e Google AdSense que podem utilizar cookies.</p>
+<p>Nenhuma informação pessoal sensível é armazenada.</p>
+"""
+)
+
+gerar_pagina(
+    "termos",
+    "Termos de Uso",
+    """
+<p>As informações apresentadas possuem caráter educacional.</p>
+<p>Não constituem recomendação de investimento.</p>
+<p>O usuário é responsável por suas próprias decisões financeiras.</p>
+"""
+)
+
+gerar_pagina(
+    "cookies",
+    "Política de Cookies",
+    """
+<p>Este site utiliza cookies para melhorar a experiência do usuário.</p>
+<p>Cookies podem ser utilizados para análise de tráfego e anúncios personalizados.</p>
+"""
+)
+
+gerar_pagina(
+    "sobre",
+    "Sobre o Projeto",
+    """
+<p>O Tá no Precinho é um projeto independente que analisa automaticamente ações da bolsa brasileira.</p>
+<p>O objetivo é identificar empresas potencialmente negociadas abaixo do valor justo.</p>
+"""
+)
+
+gerar_pagina(
+    "contato",
+    "Contato",
+    """
+<p>Para contato ou sugestões:</p>
+<p>Email: contato@ta-noprecinho.com</p>
+"""
+)
 
 # =========================
 # HTML SaaS Moderno
@@ -427,6 +495,7 @@ canvas{{
     grid-template-columns:1fr 1fr;
     gap:6px;
     font-size:12px;
+    border-radius:12px;
 }}
 
 .ranking-title{{
@@ -502,6 +571,49 @@ td:first-child{{
     font-weight:bold;
     margin-bottom:6px;
     text-align:left;
+}}
+
+.footer{{
+margin-top:40px;
+padding:20px 10px;
+text-align:center;
+border-top:1px solid #334155;
+}}
+
+.footer-links{{
+display:flex;
+justify-content:center;
+gap:20px;
+flex-wrap:wrap;
+margin-bottom:10px;
+}}
+
+.footer-links a{{
+color:#94a3b8;
+font-size:13px;
+text-decoration:none;
+}}
+
+.footer-links a:hover{{
+color:#3b82f6;
+}}
+
+.footer-copy{{
+font-size:12px;
+color:#64748b;
+}}
+
+@media(max-width:768px){{
+
+.footer-links{{
+flex-direction:column;
+gap:8px;
+}}
+
+.footer-links a{{
+font-size:14px;
+}}
+
 }}
 
 td:nth-child(4)::before{{content:"P/L";}}
@@ -633,6 +745,7 @@ criarGrafico("graficoSmall",
 
 
 
+
 </script>
 
 </head>
@@ -652,12 +765,8 @@ criarGrafico("graficoSmall",
 <h1>📉 Tá no Precinho?</h1>
 
 <div class="subtitle">
-Este site analisa automaticamente centenas de ações da bolsa brasileira e identifica empresas que podem estar sendo negociadas abaixo do valor justo com base em indicadores fundamentalistas.
-O ranking utiliza métricas como:
-• P/L
-• P/VP
-• ROE
-• Dividend Yield
+Criamos este site com um objetivo simples: tornar a análise de ações acessível para qualquer pessoa.
+A informação aqui é gratuita e sempre será.”
 <br>
 Atualizado automaticamente todos os dias.
 <br>
@@ -669,16 +778,16 @@ Atualizado em {data_br}
 
 <div class="stat-box">
 <div class="stat-num">{universo_b3}</div>
-<div class="stat-label">📊 Universo B3</div>
+<div class="stat-label">📊 Ativos B3</div>
 </div>
 
 <div class="stat-box">
-<div class="stat-num">{acoes_analisadas}</div>
+<div class="stat-num">{universo_b3}</div>
 <div class="stat-label">🔎 Ações analisadas</div>
 </div>
 
 <div class="stat-box">
-<div class="stat-num">{pagadoras_div}</div>
+<div class="stat-num">{acoes_analisadas}</div>
 <div class="stat-label">💰 Pagadoras de dividendos</div>
 </div>
 
@@ -904,12 +1013,23 @@ html += f"""
 ⚠️ Este ranking utiliza dados públicos do Yahoo Finance e aplica critérios quantitativos próprios. Não constitui recomendação de investimento.<br>
 <a href="ranking.csv" style="color:#3b82f6;">Baixar CSV</a>
 </div>
-<div class="footer">
-<footer>
-        <span>
-            &copy; Tá no precinho?, 2026 - Todos os direitos reservados.
-        </span>
-    </footer>
+<footer class="footer">
+
+<div class="footer-links">
+
+<a href="privacidade.html">Privacidade</a>
+<a href="termos.html">Termos</a>
+<a href="cookies.html">Cookies</a>
+<a href="sobre.html">Sobre</a>
+<a href="contato.html">Contato</a>
+
+</div>
+
+<div class="footer-copy">
+© Tá no Precinho, 2026 — Todos os direitos reservados.
+</div>
+
+</footer>
 
 </div>
 
