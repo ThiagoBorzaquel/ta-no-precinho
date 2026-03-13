@@ -106,16 +106,12 @@ def calcular_preco_justo(row):
 # =========================
 
 def calcular_desconto(row):
-
-    preco = row["Preco"]
-    preco_justo = row["PrecoJusto"]
-
-    if preco <= 0 or preco_justo <= 0:
+    
+    if row["PrecoJusto"] <= 0:
         return 0
-
-    desconto = ((preco_justo / preco) - 1) * 100
-
-    return max(min(desconto, 100), -80)
+    
+    desconto = (row["PrecoJusto"] - row["Preco"]) / row["PrecoJusto"] * 100
+    return round(desconto, 2)
 
 
 # =========================

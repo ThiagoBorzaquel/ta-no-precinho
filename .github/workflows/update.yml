@@ -2,7 +2,7 @@ name: Atualização diária
 
 on:
   schedule:
-    - cron: '0 3 * * *'
+    - cron: "0 3 * * *"
   workflow_dispatch:
 
 permissions:
@@ -15,24 +15,30 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Configurar Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-
-      - name: Instalar dependências
+      - name: Configurar Git
         run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "actions@github.com"
+          git pull origin main --rebase
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Rodar script
+      - name: Rodar pipeline
         run: python main.py
 
       - name: Commit automático
         run: |
-          git config user.name "github-actions"
-          git config user.email "actions@github.com"
-          git add docs
-          git commit -m "Atualização automática diária" || echo "Sem alterações"
-          git pull --rebase
-          git push
+          git add docs/
+          
+          if git diff --staged --quiet; then
+            echo "Sem alterações"
+          else
+            git commit -m "Atualização automática diária"
+            git push origin main
+          fi

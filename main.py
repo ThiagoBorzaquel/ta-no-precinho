@@ -146,7 +146,9 @@ pagadoras_div = len(df[df["DivYield"] > 0])
 score_alto = len(df[df["Score"] >= 70])
 
 # Preço justo
-df["PrecoJusto"] = df["Preco"] * (15 / df["PL"])
+df["LucroPorAcao"] = df["Preco"] / df["PL"]
+df["PrecoJusto"] = df["LucroPorAcao"] * 15  # múltiplo conservador de P/L = 15
+
 
 # Desconto %
 df["Desconto_%"] = df.apply(calcular_desconto, axis=1)
@@ -154,8 +156,15 @@ df["Desconto_%"] = df.apply(calcular_desconto, axis=1)
 # Ordenar por maior desconto
 
 df["Ranking"] = df.apply(calcular_ranking, axis=1)
+
+# calcular histórico primeiro
+
+historico = carregar_historico(365)
+
+# depois filtrar
 top_n = 100
 df = df.nlargest(top_n, "Desconto_%")
+
 
 
 # Risco
@@ -263,335 +272,154 @@ crossorigin="anonymous"></script>
 
 <style>
 
-:root {{
-    --bg: #0f172a;
-    --card: #1e293b;
-    --card-light: #0f172a;
-    --accent: #3b82f6;
-    --text: #e2e8f0;
-    --muted: #94a3b8;
+:root{{
+    --bg:#0f172a;
+    --card:#1e293b;
+    --card-light:#0f172a;
+    --accent:#3b82f6;
+    --text:#e2e8f0;
+    --muted:#94a3b8;
 }}
 
-body {{
-    margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    background: var(--bg);
-    color: var(--text);
+body{{
+    margin:0;
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+    background:var(--bg);
+    color:var(--text);
 }}
 
-.container {{
-    max-width: 1200px;
-    margin: auto;
-    padding: 25px 16px;
+.container{{
+    max-width:1200px;
+    margin:auto;
+    padding:25px 16px;
 }}
 
-@media(max-width:768px){{
-
-h1 {{
-    font-size: 22px;
+h1{{
+    margin-top:0;
 }}
 
-.subtitle {{
-    font-size: 13px;
+.subtitle{{
+    color:var(--muted);
+    margin-bottom:25px;
+    font-size:14px;
 }}
 
+.card{{
+    background:var(--card);
+    padding:14px;
+    border-radius:12px;
+    margin-bottom:14px;
 }}
 
-.subtitle {{
-    color: var(--muted);
-    margin-bottom: 25px;
-    font-size: 14px;
+.filters{{
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:12px;
+    align-items:flex-end;
 }}
 
-.card {{
-    background: var(--card);
-    padding: 14px;
-    border-radius: 12px;
-    margin-bottom: 14px;
+select,input{{
+    padding:8px;
+    border-radius:8px;
+    border:none;
+    font-size:14px;
 }}
 
-.filters {{
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 12px;
-    align-items: flex-end;
+.table-wrapper{{
+    overflow-x:auto;
 }}
 
-select, input {{
-    padding: 8px;
-    border-radius: 8px;
-    border: none;
-    font-size: 14px;
+table{{
+    width:100%;
+    border-collapse:collapse;
 }}
 
-.table-wrapper {{
-    overflow-x: auto;
-}}
-
-table {{
-    width: 100%;
-    border-collapse: collapse;
-}}
-
-@media(max-width: 768px) {{
-
-table {{
-    font-size: 12px;
-}}
-
-th, td {{
-    padding: 6px;
-}}
-
-}}
-
-th {{
-    background: #334155;
-    padding: 10px;
-    cursor: pointer;
-    position: relative;
-    font-size: 14px;
-}}
-
-th span {{
-    font-size: 10px;
-    margin-left: 5px;
-    opacity: 0.6;
-}}
-
-th.active span {{
-    opacity: 1;
-    color: var(--accent);
-}}
-
-td {{
-    padding: 8px;
-    text-align: center;
-    font-size: 13px;
-}}
-
-tr:nth-child(even) {{
-    background: var(--card-light);
-}}
-
-.badge {{
-    padding: 4px 8px;
-    border-radius: 8px;
-    font-size: 11px;
-    background: var(--accent);
-}}
-
-.grid {{
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 15px;
-}}
-
-.grafico-box {{
-    background: var(--card-light);
-    padding: 12px;
-    border-radius: 12px;
-}}
-
-.footer {{
-    margin-top: 30px;
-    font-size: 12px;
-    color: var(--muted);
-    text-align: center;
-}}
-
-@media(max-width: 768px){{
-
-.filters {{
-    flex-direction: column;
-    gap: 10px;
-}}
-
-select,
-input {{
-    width: 100%;
-    padding: 10px;
-}}
-
-}}
-
-@media(max-width: 768px){{
-
-thead {{
-    display: none;
-}}
-
-table, tbody, tr, td {{
-    display: block;
-    width: 100%;
-}}
-
-tr {{
-    background: var(--card);
-    margin-bottom: 12px;
-    padding: 10px;
-    border-radius: 12px;
-}}
-
-td {{
-    text-align: left;
-    padding: 4px 0;
-}}
-
-td:before {{
-    font-weight: bold;
-    color: var(--muted);
-    display: block;
-}}
-
-}}
-
-.stats {{
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px,1fr));
-    gap: 15px;
-    margin-bottom: 25px;
-}}
-
-.stat-box {{
-    background: var(--card);
-    padding: 16px;
-    border-radius: 12px;
-    text-align: center;
-}}
-
-.stat-num {{
-    font-size: 22px;
-    font-weight: bold;
-}}
-
-.stat-label {{
-    font-size: 12px;
-    color: var(--muted);
-}}
-
-canvas {{
-    max-height: 250px;
-}}
-
-@media(max-width:768px){{
-
-thead{{
-display:none;
-}}
-
-table,tbody,tr,td{{
-display:block;
-width:100%;
-}}
-
-tr{{
-background:var(--card);
-margin-bottom:12px;
-padding:14px;
-border-radius:14px;
-box-shadow:0 2px 10px rgba(0,0,0,0.3);
+th{{
+    background:#334155;
+    padding:10px;
+    cursor:pointer;
+    font-size:14px;
 }}
 
 td{{
-display:flex;
-justify-content:space-between;
-padding:4px 0;
-font-size:13px;
+    padding:8px;
+    text-align:center;
+    font-size:13px;
 }}
 
-td:first-child{{
-display:block;
-font-size:16px;
-font-weight:bold;
-margin-bottom:6px;
-text-align:left;
+tr:nth-child(even){{
+    background:var(--card-light);
 }}
 
+.badge{{
+    padding:4px 8px;
+    border-radius:8px;
+    font-size:11px;
 }}
 
-@media(max-width:768px){{
-
-thead{{
-display:none;
+.grid{{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+    gap:15px;
 }}
 
-table,tbody,tr,td{{
-display:block;
-width:100%;
+.grafico-box{{
+    background:var(--card-light);
+    padding:12px;
+    border-radius:12px;
 }}
 
-tr{{
-background:var(--card);
-margin-bottom:14px;
-padding:14px;
-border-radius:14px;
+.stats{{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+    gap:15px;
+    margin-bottom:25px;
 }}
 
-td{{
-display:flex;
-justify-content:space-between;
-padding:6px 0;
-font-size:13px;
+.stat-box{{
+    background:var(--card);
+    padding:16px;
+    border-radius:12px;
+    text-align:center;
 }}
 
-td:nth-child(4)::before{{content:"P/L";}}
-td:nth-child(5)::before{{content:"P/VP";}}
-td:nth-child(6)::before{{content:"ROE";}}
-td:nth-child(7)::before{{content:"Dividend Yield";}}
-td:nth-child(8)::before{{content:"Score";}}
-td:nth-child(9)::before{{content:"Desconto";}}
-td:nth-child(10)::before{{content:"Preço justo";}}
-td:nth-child(11)::before{{content:"Risco";}}
-
-td::before{{
-font-weight:600;
-color:var(--muted);
+.stat-num{{
+    font-size:22px;
+    font-weight:bold;
 }}
 
+.stat-label{{
+    font-size:12px;
+    color:var(--muted);
+}}
+
+canvas{{
+    max-height:250px;
+}}
+
+.footer{{
+    margin-top:30px;
+    font-size:12px;
+    color:var(--muted);
+    text-align:center;
 }}
 
 .metric-grid{{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:6px;
-margin-top:6px;
-}}
-
-tr{{
-background:var(--card);
-margin-bottom:14px;
-padding:14px;
-border-radius:14px;
-box-shadow:0 4px 14px rgba(0,0,0,0.35);
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:6px;
 }}
 
 .secondary{{
-font-size:11px;
-color:var(--muted);
-}}
-
-@media(max-width:768px){{
-
-td{{
-display:flex;
-justify-content:space-between;
-padding:6px 0;
-}}
-
-td::before{{
-content:attr(data-label);
-font-weight:600;
-color:var(--muted);
-}}
-
+    font-size:11px;
+    color:var(--muted);
 }}
 
 .ranking-card{{
-    max-width: 340px;
-    margin: 12px auto;
-    padding: 14px;
-    border-radius: 12px;
+    max-width:340px;
+    margin:12px auto;
+    padding:14px;
+    border-radius:12px;
 }}
 
 .ranking-grid{{
@@ -611,41 +439,83 @@ color:var(--muted);
     color:#94a3b8;
 }}
 
-@media(max-width: 768px){{
-
-.ranking-card{{
-
-padding:12px;
-margin-bottom:10px;
-
-}}
-
-.ranking-card h3{{
-font-size:16px;
-margin-bottom:4px;
-}}
-
 .ranking-info{{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:6px;
-font-size:12px;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:6px;
+    font-size:12px;
 }}
 
 .ranking-info div{{
-display:flex;
-justify-content:space-between;
+    display:flex;
+    justify-content:space-between;
 }}
 
-}}
+/* MOBILE */
 
 @media(max-width:768px){{
 
+h1{{
+    font-size:22px;
+}}
+
+.subtitle{{
+    font-size:13px;
+}}
+
+.filters{{
+    grid-template-columns:1fr;
+}}
+
+select,input{{
+    width:100%;
+    padding:10px;
+}}
+
+thead{{
+    display:none;
+}}
+
+table,tbody,tr,td{{
+    display:block;
+    width:100%;
+}}
+
 tr{{
-width:100%;
-max-width:100%;
-box-sizing:border-box;
-overflow:hidden;
+    background:var(--card);
+    margin-bottom:14px;
+    padding:14px;
+    border-radius:14px;
+    box-shadow:0 4px 14px rgba(0,0,0,0.35);
+}}
+
+td{{
+    display:flex;
+    justify-content:space-between;
+    padding:6px 0;
+    font-size:13px;
+}}
+
+td:first-child{{
+    display:block;
+    font-size:16px;
+    font-weight:bold;
+    margin-bottom:6px;
+    text-align:left;
+}}
+
+td:nth-child(4)::before{{content:"P/L";}}
+td:nth-child(5)::before{{content:"P/VP";}}
+td:nth-child(6)::before{{content:"ROE";}}
+td:nth-child(7)::before{{content:"Dividend Yield";}}
+td:nth-child(8)::before{{content:"Score";}}
+td:nth-child(9)::before{{content:"Desconto";}}
+td:nth-child(10)::before{{content:"Preço justo";}}
+td:nth-child(11)::before{{content:"Risco";}}
+
+td::before{{
+    font-weight:600;
+    color:var(--muted);
 }}
 
 }}
@@ -657,25 +527,27 @@ overflow:hidden;
 let ordemAsc = false;
 
 function aplicarFiltros() {{
+
     let categoria = document.getElementById("filtroCategoria").value;
+    let setorFiltro = document.getElementById("filtroSetor").value;
     let scoreMin = parseFloat(document.getElementById("filtroScore").value) || 0;
     let quantidade = parseInt(document.getElementById("filtroQuantidade").value);
+    let periodo = parseInt(document.getElementById("filtroPeriodo").value);
 
     let linhas = Array.from(document.querySelectorAll("tbody tr"));
 
     let filtradas = linhas.filter(linha => {{
+
         let setorLinha = linha.dataset.setor;
         let categoriaLinha = linha.dataset.categoria;
         let scoreLinha = parseFloat(linha.dataset.score);
+        let variacaoLinha = parseFloat(linha.dataset.variacao);
 
-        let setorFiltro = document.getElementById("filtroSetor").value;
+        if (setorFiltro !== "Todos" && setorLinha !== setorFiltro) return false;
         if (categoria !== "Todos" && categoriaLinha !== categoria) return false;
         if (scoreLinha < scoreMin) return false;
-    
-    let periodo = parseInt(document.getElementById("filtroPeriodo").value);
-    let variacaoLinha = parseFloat(linha.dataset.variacao);
 
-    if (periodo > 0 && variacaoLinha === 0) return false;
+        if (periodo > 0 && variacaoLinha === 0) return false;
 
         return true;
     }});
@@ -685,6 +557,7 @@ function aplicarFiltros() {{
     filtradas.slice(0, quantidade).forEach(l => {{
         l.style.display = "";
     }});
+
 }}
 
 function ordenarTabela(coluna) {{
