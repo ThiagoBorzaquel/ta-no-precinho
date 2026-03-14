@@ -238,6 +238,7 @@ print(f"{len(df)} empresas válidas encontradas.")
 
 
 os.makedirs("docs", exist_ok=True)
+os.makedirs("docs/acoes", exist_ok=True)
 
 hoje = datetime.date.today()
 data_br = hoje.strftime("%d/%m/%Y")
@@ -250,6 +251,7 @@ categorias = sorted(df["Categoria"].unique())
 top3 = df.head(3)
 
 logger.info("Gerando site...")
+
 
 # =========================
 # GERAR páginas automáticas
@@ -317,6 +319,113 @@ gerar_pagina(
 <p>Email: contato@ta-noprecinho.com</p>
 """
 )
+
+# =========================
+# Gerar pagina tickers
+# =========================
+
+def gerar_pagina_acao(row):
+
+    ticker = row["Ticker"]
+
+    with open("docs/layout_base.html", "r", encoding="utf-8") as f:
+        template = f.read()
+
+    conteudo = f"""
+<a href="../index.html" class="secondary">← Voltar ao ranking</a>
+
+<div class="card" style="max-width:420px;margin:auto">
+
+<div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+
+<img src="../logos/{ticker}.png"
+onerror="this.onerror=null;this.src='../logos/default.svg';"
+style="width:32px;height:32px;object-fit:contain">
+
+<div>
+<h2 style="margin:0">{ticker}</h2>
+<div class="secondary">{row["Empresa"]}</div>
+</div>
+
+</div>
+
+<div class="secondary" style="margin-bottom:6px">{row["Setor"]}</div>
+
+<span class="badge" style="
+background:{cores_categoria.get(row['Categoria'], '#3b82f6')}20;
+color:{cores_categoria.get(row['Categoria'], '#3b82f6')};
+border:1px solid {cores_categoria.get(row['Categoria'], '#3b82f6')};
+display:inline-block;
+margin-bottom:12px">
+{row["Categoria"]}
+</span>
+
+<div class="metric-grid">
+
+<div class="metric">
+<span>P/L</span>
+<span>{round(row["PL"],2)}</span>
+</div>
+
+<div class="metric">
+<span>P/VP</span>
+<span>{round(row["PVP"],2)}</span>
+</div>
+
+<div class="metric">
+<span>ROE</span>
+<span>{round(row["ROE"]*100,2)}%</span>
+</div>
+
+<div class="metric">
+<span>Dividend Yield</span>
+<span>{round(row["DivYield"]*100,2)}%</span>
+</div>
+
+<div class="metric">
+<span>Score</span>
+<span style="color:{'#22c55e' if row['Score']>=70 else '#eab308'}">
+{row["Score"]}
+</span>
+</div>
+
+<div class="metric">
+<span>Desconto</span>
+<span style="color:#22c55e">
+{round(row["Desconto_%"],2)}%
+</span>
+</div>
+
+<div class="metric">
+<span>Preço justo</span>
+<span>R$ {round(row["PrecoJusto"],2)}</span>
+</div>
+
+<div class="metric">
+<span>Risco</span>
+<span style="font-size:20px">
+{row["Farol"]}
+</span>
+</div>
+
+</div>
+
+</div>
+"""
+
+    html = template.replace("{{titulo}}", ticker)
+    html = html.replace("{{conteudo}}", conteudo)
+
+    with open(f"docs/acoes/{ticker}.html", "w", encoding="utf-8") as f:
+        f.write(html)
+
+# =========================
+# GERAR páginas das ações
+# =========================
+
+for _, row in df.iterrows():
+    gerar_pagina_acao(row)
+
 
 # =========================
 # HTML SaaS Moderno
@@ -391,10 +500,6 @@ select,input{{
     border-radius:8px;
     border:none;
     font-size:14px;
-}}
-
-.table-wrapper{{
-    overflow-x:auto;
 }}
 
 table{{
@@ -472,114 +577,6 @@ canvas{{
     text-align:center;
 }}
 
-.metric-grid{{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:6px;
-}}
-
-.secondary{{
-    font-size:11px;
-    color:var(--muted);
-}}
-
-.ranking-card{{
-    max-width:340px;
-    margin:12px auto;
-    padding:14px;
-    border-radius:12px;
-}}
-
-.ranking-grid{{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:6px;
-    font-size:12px;
-    border-radius:12px;
-}}
-
-.ranking-title{{
-    font-size:14px;
-    margin-bottom:6px;
-}}
-
-.ranking-company{{
-    font-size:11px;
-    color:#94a3b8;
-}}
-
-.ranking-info{{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:6px;
-    font-size:12px;
-}}
-
-.ranking-info div{{
-    display:flex;
-    justify-content:space-between;
-}}
-
-/* MOBILE */
-
-@media(max-width:768px){{
-
-h1{{
-    font-size:22px;
-}}
-
-.subtitle{{
-    font-size:13px;
-}}
-
-.filters{{
-    grid-template-columns:1fr;
-}}
-
-select,input{{
-    width:100%;
-    padding:10px;
-}}
-
-thead{{
-    display:none;
-}}
-
-table,tbody,tr,td{{
-    display:block;
-    width:100%;
-}}
-
-tr{{
-    background:var(--card);
-    margin-bottom:14px;
-    padding:14px;
-    border-radius:14px;
-    box-shadow:0 4px 14px rgba(0,0,0,0.35);
-}}
-
-td{{
-    display:flex;
-    justify-content:space-between;
-    padding:6px 0;
-    font-size:13px;
-}}
-
-td:first-child{{
-    display:block;
-    font-size:16px;
-    font-weight:bold;
-    margin-bottom:6px;
-    text-align:left;
-}}
-
-.footer{{
-margin-top:40px;
-padding:20px 10px;
-text-align:center;
-border-top:1px solid #334155;
-}}
-
 .footer-links{{
 display:flex;
 justify-content:center;
@@ -603,17 +600,67 @@ font-size:12px;
 color:#64748b;
 }}
 
+/* MOBILE */
+
 @media(max-width:768px){{
 
-.footer-links{{
-flex-direction:column;
-gap:8px;
+h1{{
+font-size:22px;
 }}
 
-.footer-links a{{
-font-size:14px;
+.subtitle{{
+font-size:13px;
 }}
 
+.filters{{
+grid-template-columns:1fr;
+}}
+
+select,input{{
+width:100%;
+padding:10px;
+}}
+
+thead{{
+display:none;
+}}
+
+table,tbody,tr,td{{
+display:block;
+width:100%;
+}}
+
+tr{{
+background:var(--card);
+max-width:420px;
+margin:auto;
+padding:12px;
+border-radius:12px;
+box-shadow:0 4px 12px rgba(0,0,0,0.25);
+
+max-width:420px;
+width:100%;
+}}
+
+tbody{{
+    display:grid;
+    gap:12px;
+    justify-items:center;
+}}
+
+td{{
+display:flex;
+justify-content:space-between;
+padding:6px 0;
+font-size:13px;
+}}
+
+td:first-child{{
+display:block;
+font-size:16px;
+font-weight:bold;
+margin-bottom:4px;
+text-align:left;
 }}
 
 td:nth-child(4)::before{{content:"P/L";}}
@@ -626,11 +673,52 @@ td:nth-child(10)::before{{content:"Preço justo";}}
 td:nth-child(11)::before{{content:"Risco";}}
 
 td::before{{
+font-weight:600;
+color:var(--muted);
+}}
+
+.footer-links{{
+flex-direction:column;
+gap:8px;
+}}
+
+table a{{
+    color:inherit;
+    text-decoration:none;
     font-weight:600;
-    color:var(--muted);
+}}
+
+table a:hover{{
+    color:#3b82f6;
+
+}}
+
+.ranking-toggle{{
+cursor:pointer;
+user-select:none;
+}}
+
+.ranking-explicacao{{
+display:none;
+margin-top:10px;
+}}
+
+details{{
+cursor:pointer;
+}}
+
+summary{{
+font-weight:600;
+font-size:16px;
+margin-bottom:10px;
+}}
+
+details p{{
+margin-top:10px;
 }}
 
 }}
+
 
 </style>
 
@@ -713,6 +801,19 @@ function criarGrafico(id, labels, data, cor) {{
     }});
 }}
 
+function toggleRanking(){{
+
+let box = document.getElementById("ranking-explicacao");
+
+if(box.style.display === "none" || box.style.display === ""){{
+box.style.display = "block";
+}}
+else{{
+box.style.display = "none";
+}}
+
+}}
+
 
 
 window.onload = function() {{
@@ -766,7 +867,7 @@ criarGrafico("graficoSmall",
 
 <div class="subtitle">
 Criamos este site com um objetivo simples: tornar a análise de ações acessível para qualquer pessoa.
-A informação aqui é gratuita e sempre será.”
+A informação aqui é gratuita e sempre será.
 <br>
 Atualizado automaticamente todos os dias.
 <br>
@@ -895,40 +996,58 @@ html += """
 </div>
 
 <div class="card">
+
 <h2>📋 Ranking</h2>
 
-<div class="card">
+<details class="ranking-explicacao">
 
-<h3>📊 Como funciona o ranking?</h3>
+<summary>📊 Como funciona o ranking?</summary>
 
-<p style="font-size:13px;color:#94a3b8;line-height:1.6">
+<p style="font-size:14px;color:#94a3b8;line-height:1.7">
 
-O ranking utiliza um score fundamentalista baseado em métricas de valor:
-
-<br><br>
-
-• P/L abaixo de 10<br>
-• P/VP abaixo de 1.5<br>
-• ROE acima de 15%<br>
-• Dividend Yield acima de 5%<br>
-• Market Cap acima de 1 bilhão
+Criamos este site com um objetivo simples: tornar a análise de ações mais acessível para qualquer pessoa.
 
 <br><br>
 
-O preço justo é estimado utilizando um múltiplo conservador de <strong>P/L = 15</strong>.
+O mercado financeiro está cheio de informações complexas, planilhas difíceis de entender e ferramentas caras.  
+Aqui tentamos fazer o contrário.
 
-<br>
+<br><br>
 
-O desconto mostra quanto a ação está negociando abaixo desse preço estimado.
+Este site analisa automaticamente centenas de ações da bolsa brasileira e organiza tudo em um ranking simples.
+
+<br><br>
+
+Utilizamos alguns critérios amplamente usados por investidores de longo prazo:
+
+<br><br>
+
+• <strong>P/L</strong> – quanto o mercado paga pelo lucro  
+• <strong>P/VP</strong> – relação preço/patrimônio  
+• <strong>ROE</strong> – eficiência da empresa  
+• <strong>Dividend Yield</strong> – retorno em dividendos  
+
+<br><br>
+
+O preço justo utiliza um múltiplo conservador de <strong>P/L = 15</strong>.
+
+<br><br>
+
+Quanto maior o desconto e melhor o score, maior a posição no ranking.
 
 </p>
 
+<br><br>
 
-</div>
+</details>
 
+<br><br>
 <table>
+
 <thead>
+
 <tr>
+
 <th onclick="ordenarTabela(0)">Ticker</th>
 <th onclick="ordenarTabela(1)">Setor</th>
 <th onclick="ordenarTabela(2)">Categoria</th>
@@ -941,9 +1060,10 @@ O desconto mostra quanto a ação está negociando abaixo desse preço estimado.
 <th onclick="ordenarTabela(9)">Preço Justo</th>
 <th>Risco</th>
 
-
 </tr>
+
 </thead>
+
 <tbody>
 """
 
@@ -969,7 +1089,9 @@ for i, (_, row) in enumerate(df.iterrows(), start=1):
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/{row['Ticker']}.html">
 <strong>{row['Ticker']}</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">{row['Empresa']}</span>

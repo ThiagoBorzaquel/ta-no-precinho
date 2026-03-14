@@ -66,10 +66,6 @@ select,input{
     font-size:14px;
 }
 
-.table-wrapper{
-    overflow-x:auto;
-}
-
 table{
     width:100%;
     border-collapse:collapse;
@@ -145,114 +141,6 @@ canvas{
     text-align:center;
 }
 
-.metric-grid{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:6px;
-}
-
-.secondary{
-    font-size:11px;
-    color:var(--muted);
-}
-
-.ranking-card{
-    max-width:340px;
-    margin:12px auto;
-    padding:14px;
-    border-radius:12px;
-}
-
-.ranking-grid{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:6px;
-    font-size:12px;
-    border-radius:12px;
-}
-
-.ranking-title{
-    font-size:14px;
-    margin-bottom:6px;
-}
-
-.ranking-company{
-    font-size:11px;
-    color:#94a3b8;
-}
-
-.ranking-info{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:6px;
-    font-size:12px;
-}
-
-.ranking-info div{
-    display:flex;
-    justify-content:space-between;
-}
-
-/* MOBILE */
-
-@media(max-width:768px){
-
-h1{
-    font-size:22px;
-}
-
-.subtitle{
-    font-size:13px;
-}
-
-.filters{
-    grid-template-columns:1fr;
-}
-
-select,input{
-    width:100%;
-    padding:10px;
-}
-
-thead{
-    display:none;
-}
-
-table,tbody,tr,td{
-    display:block;
-    width:100%;
-}
-
-tr{
-    background:var(--card);
-    margin-bottom:14px;
-    padding:14px;
-    border-radius:14px;
-    box-shadow:0 4px 14px rgba(0,0,0,0.35);
-}
-
-td{
-    display:flex;
-    justify-content:space-between;
-    padding:6px 0;
-    font-size:13px;
-}
-
-td:first-child{
-    display:block;
-    font-size:16px;
-    font-weight:bold;
-    margin-bottom:6px;
-    text-align:left;
-}
-
-.footer{
-margin-top:40px;
-padding:20px 10px;
-text-align:center;
-border-top:1px solid #334155;
-}
-
 .footer-links{
 display:flex;
 justify-content:center;
@@ -276,17 +164,67 @@ font-size:12px;
 color:#64748b;
 }
 
+/* MOBILE */
+
 @media(max-width:768px){
 
-.footer-links{
-flex-direction:column;
-gap:8px;
+h1{
+font-size:22px;
 }
 
-.footer-links a{
-font-size:14px;
+.subtitle{
+font-size:13px;
 }
 
+.filters{
+grid-template-columns:1fr;
+}
+
+select,input{
+width:100%;
+padding:10px;
+}
+
+thead{
+display:none;
+}
+
+table,tbody,tr,td{
+display:block;
+width:100%;
+}
+
+tr{
+background:var(--card);
+max-width:420px;
+margin:auto;
+padding:12px;
+border-radius:12px;
+box-shadow:0 4px 12px rgba(0,0,0,0.25);
+
+max-width:420px;
+width:100%;
+}
+
+tbody{
+    display:grid;
+    gap:12px;
+    justify-items:center;
+}
+
+td{
+display:flex;
+justify-content:space-between;
+padding:6px 0;
+font-size:13px;
+}
+
+td:first-child{
+display:block;
+font-size:16px;
+font-weight:bold;
+margin-bottom:4px;
+text-align:left;
 }
 
 td:nth-child(4)::before{content:"P/L";}
@@ -299,11 +237,52 @@ td:nth-child(10)::before{content:"Preço justo";}
 td:nth-child(11)::before{content:"Risco";}
 
 td::before{
+font-weight:600;
+color:var(--muted);
+}
+
+.footer-links{
+flex-direction:column;
+gap:8px;
+}
+
+table a{
+    color:inherit;
+    text-decoration:none;
     font-weight:600;
-    color:var(--muted);
+}
+
+table a:hover{
+    color:#3b82f6;
+
+}
+
+.ranking-toggle{
+cursor:pointer;
+user-select:none;
+}
+
+.ranking-explicacao{
+display:none;
+margin-top:10px;
+}
+
+details{
+cursor:pointer;
+}
+
+summary{
+font-weight:600;
+font-size:16px;
+margin-bottom:10px;
+}
+
+details p{
+margin-top:10px;
 }
 
 }
+
 
 </style>
 
@@ -386,6 +365,19 @@ function criarGrafico(id, labels, data, cor) {
     });
 }
 
+function toggleRanking(){
+
+let box = document.getElementById("ranking-explicacao");
+
+if(box.style.display === "none" || box.style.display === ""){
+box.style.display = "block";
+}
+else{
+box.style.display = "none";
+}
+
+}
+
 
 
 window.onload = function() {
@@ -439,12 +431,12 @@ criarGrafico("graficoSmall",
 
 <div class="subtitle">
 Criamos este site com um objetivo simples: tornar a análise de ações acessível para qualquer pessoa.
-A informação aqui é gratuita e sempre será.”
+A informação aqui é gratuita e sempre será.
 <br>
 Atualizado automaticamente todos os dias.
 <br>
 <br>
-Atualizado em 13/03/2026
+Atualizado em 14/03/2026
 </div>
 
 <div class="stats">
@@ -554,40 +546,58 @@ Atualizado em 13/03/2026
 </div>
 
 <div class="card">
+
 <h2>📋 Ranking</h2>
 
-<div class="card">
+<details class="ranking-explicacao">
 
-<h3>📊 Como funciona o ranking?</h3>
+<summary>📊 Como funciona o ranking?</summary>
 
-<p style="font-size:13px;color:#94a3b8;line-height:1.6">
+<p style="font-size:14px;color:#94a3b8;line-height:1.7">
 
-O ranking utiliza um score fundamentalista baseado em métricas de valor:
-
-<br><br>
-
-• P/L abaixo de 10<br>
-• P/VP abaixo de 1.5<br>
-• ROE acima de 15%<br>
-• Dividend Yield acima de 5%<br>
-• Market Cap acima de 1 bilhão
+Criamos este site com um objetivo simples: tornar a análise de ações mais acessível para qualquer pessoa.
 
 <br><br>
 
-O preço justo é estimado utilizando um múltiplo conservador de <strong>P/L = 15</strong>.
+O mercado financeiro está cheio de informações complexas, planilhas difíceis de entender e ferramentas caras.  
+Aqui tentamos fazer o contrário.
 
-<br>
+<br><br>
 
-O desconto mostra quanto a ação está negociando abaixo desse preço estimado.
+Este site analisa automaticamente centenas de ações da bolsa brasileira e organiza tudo em um ranking simples.
+
+<br><br>
+
+Utilizamos alguns critérios amplamente usados por investidores de longo prazo:
+
+<br><br>
+
+• <strong>P/L</strong> – quanto o mercado paga pelo lucro  
+• <strong>P/VP</strong> – relação preço/patrimônio  
+• <strong>ROE</strong> – eficiência da empresa  
+• <strong>Dividend Yield</strong> – retorno em dividendos  
+
+<br><br>
+
+O preço justo utiliza um múltiplo conservador de <strong>P/L = 15</strong>.
+
+<br><br>
+
+Quanto maior o desconto e melhor o score, maior a posição no ranking.
 
 </p>
 
+<br><br>
 
-</div>
+</details>
+
 
 <table>
+
 <thead>
+
 <tr>
+
 <th onclick="ordenarTabela(0)">Ticker</th>
 <th onclick="ordenarTabela(1)">Setor</th>
 <th onclick="ordenarTabela(2)">Categoria</th>
@@ -600,9 +610,10 @@ O desconto mostra quanto a ação está negociando abaixo desse preço estimado.
 <th onclick="ordenarTabela(9)">Preço Justo</th>
 <th>Risco</th>
 
-
 </tr>
+
 </thead>
+
 <tbody>
 
     
@@ -619,7 +630,9 @@ O desconto mostra quanto a ação está negociando abaixo desse preço estimado.
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/BSLI4.html">
 <strong>BSLI4</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">BRB BANCO   PN</span>
@@ -668,7 +681,9 @@ Small Caps
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/BSLI3.html">
 <strong>BSLI3</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">BRB BANCO   ON</span>
@@ -717,7 +732,9 @@ Small Caps
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/BAZA3.html">
 <strong>BAZA3</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">AMAZONIA    ON</span>
@@ -766,7 +783,9 @@ Small Caps
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/BRSR6.html">
 <strong>BRSR6</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">BANRISUL    PNB     N1</span>
@@ -815,7 +834,9 @@ Small Caps
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/BNBR3.html">
 <strong>BNBR3</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">NORD BRASIL ON</span>
@@ -864,7 +885,9 @@ Mid Caps
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/BRSR5.html">
 <strong>BRSR5</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">BANRISUL    PNA     N1</span>
@@ -913,7 +936,9 @@ Small Caps
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/JHSF3.html">
 <strong>JHSF3</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">JHSF PART   ON  ED  NM</span>
@@ -962,7 +987,9 @@ Small Caps
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/BRSR3.html">
 <strong>BRSR3</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">BANRISUL    ON      N1</span>
@@ -1011,7 +1038,9 @@ Small Caps
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/COGN3.html">
 <strong>COGN3</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">COGNA ON    ON      NM</span>
@@ -1060,7 +1089,9 @@ Small Caps
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/ABCB4.html">
 <strong>ABCB4</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">ABC BRASIL  PN      N2</span>
@@ -1109,7 +1140,9 @@ Small Caps
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/SUZB3.html">
 <strong>SUZB3</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">SUZANO S.A. ON      NM</span>
@@ -1158,7 +1191,9 @@ Blue Chips
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/CMIG4.html">
 <strong>CMIG4</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">CEMIG       PN      N1</span>
@@ -1207,7 +1242,9 @@ Mid Caps
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/CYRE3.html">
 <strong>CYRE3</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">CYRELA REALTON      NM</span>
@@ -1256,7 +1293,9 @@ Small Caps
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/EMAE4.html">
 <strong>EMAE4</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">EMAE        PN</span>
@@ -1305,7 +1344,9 @@ Small Caps
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/PETR4.html">
 <strong>PETR4</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">PETROBRAS   PN  ATZ N2</span>
@@ -1354,7 +1395,9 @@ Blue Chips
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/BLAU3.html">
 <strong>BLAU3</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">BLAU        ON      NM</span>
@@ -1403,7 +1446,9 @@ Small Caps
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/CEAB3.html">
 <strong>CEAB3</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">CEA MODAS   ON      NM</span>
@@ -1452,7 +1497,9 @@ Small Caps
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/PINE3.html">
 <strong>PINE3</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">PINE        ON      N2</span>
@@ -1501,7 +1548,9 @@ Small Caps
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/PINE4.html">
 <strong>PINE4</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">PINE        PN      N2</span>
@@ -1550,7 +1599,9 @@ Small Caps
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/SAPR4.html">
 <strong>SAPR4</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">SANEPAR     PN      N2</span>
@@ -1599,7 +1650,9 @@ Mid Caps
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/POMO4.html">
 <strong>POMO4</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">MARCOPOLO   PN      N2</span>
@@ -1648,7 +1701,9 @@ Small Caps
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/VTRU3.html">
 <strong>VTRU3</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">VITRUEDUCA  ON      NM</span>
@@ -1697,7 +1752,9 @@ Small Caps
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/RECV3.html">
 <strong>RECV3</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">PETRORECSA  ON      NM</span>
@@ -1746,7 +1803,9 @@ Small Caps
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/PETR3.html">
 <strong>PETR3</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">PETROBRAS   ON      N2</span>
@@ -1795,7 +1854,9 @@ Blue Chips
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/GMAT3.html">
 <strong>GMAT3</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">GRUPO MATEUSON      NM</span>
@@ -1844,7 +1905,9 @@ Mid Caps
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/EUCA4.html">
 <strong>EUCA4</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">EUCATEX     PN      N1</span>
@@ -1893,7 +1956,9 @@ Small Caps
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/TRIS3.html">
 <strong>TRIS3</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">TRISUL      ON      NM</span>
@@ -1942,7 +2007,9 @@ Small Caps
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/LOGG3.html">
 <strong>LOGG3</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">LOG COM PROPON      NM</span>
@@ -1991,7 +2058,9 @@ Small Caps
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/LAVV3.html">
 <strong>LAVV3</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">LAVVI       ON      NM</span>
@@ -2040,7 +2109,9 @@ Small Caps
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/CEEB3.html">
 <strong>CEEB3</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">COELBA      ON</span>
@@ -2089,7 +2160,9 @@ Mid Caps
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/EUCA3.html">
 <strong>EUCA3</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">EUCATEX     ON      N1</span>
@@ -2138,7 +2211,9 @@ Small Caps
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/VLID3.html">
 <strong>VLID3</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">VALID       ON      NM</span>
@@ -2187,7 +2262,9 @@ Small Caps
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/IGTI3.html">
 <strong>IGTI3</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">IGUATEMI S.AON      N1</span>
@@ -2236,7 +2313,9 @@ Small Caps
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/CMIG3.html">
 <strong>CMIG3</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">CEMIG       ON      N1</span>
@@ -2285,7 +2364,9 @@ Mid Caps
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/ECOR3.html">
 <strong>ECOR3</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">ECORODOVIAS ON      NM</span>
@@ -2334,7 +2415,9 @@ Small Caps
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/SAPR3.html">
 <strong>SAPR3</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">SANEPAR     ON      N2</span>
@@ -2383,7 +2466,9 @@ Mid Caps
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/EZTC3.html">
 <strong>EZTC3</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">EZTEC       ON      NM</span>
@@ -2432,7 +2517,9 @@ Small Caps
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/MDNE3.html">
 <strong>MDNE3</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">MOURA DUBEUXON      NM</span>
@@ -2481,7 +2568,9 @@ Small Caps
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/SHUL4.html">
 <strong>SHUL4</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">SCHULZ      PN</span>
@@ -2530,7 +2619,9 @@ Small Caps
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/BRAP3.html">
 <strong>BRAP3</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">BRADESPAR   ON      N1</span>
@@ -2579,7 +2670,9 @@ Small Caps
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/CLSC3.html">
 <strong>CLSC3</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">CELESC      ON      N2</span>
@@ -2628,7 +2721,9 @@ Small Caps
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/SMTO3.html">
 <strong>SMTO3</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">SAO MARTINHOON      NM</span>
@@ -2677,7 +2772,9 @@ Small Caps
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/ISAE4.html">
 <strong>ISAE4</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">ISA ENERGIA PN  EJ  N1</span>
@@ -2726,7 +2823,9 @@ Mid Caps
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/EVEN3.html">
 <strong>EVEN3</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">EVEN        ON      NM</span>
@@ -2775,7 +2874,9 @@ Small Caps
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/TGMA3.html">
 <strong>TGMA3</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">TEGMA       ON      NM</span>
@@ -2812,68 +2913,21 @@ Small Caps
 
     
 <tr data-setor="Serviços Financeiros"
-    data-categoria="Blue Chips"
-    data-score="75"
-    data-variacao="0.5738903061587497">
-
-<td>
-<span style="color:#94a3b8;font-size:12px">#46</span>
-<div style="display:flex;align-items:center;gap:8px">
-
-<img src="logos/BBSE3.png"
-onerror="this.onerror=null;this.src='logos/default.svg';"
-style="width:20px;height:20px;object-fit:contain">
-
-<strong>BBSE3</strong>
-
-</div>
-<span style="font-size:11px;color:#94a3b8">BBSEGURIDADEON      NM</span>
-</td>
-
-<td>Serviços Financeiros</td>
-
-<td>
-<span class="badge" style="
-background:#3b82f620;
-color:#3b82f6;
-border:1px solid #3b82f6">
-Blue Chips
-</span>
-</td>
-
-<td>7.54</td>
-<td>6.55</td>
-<td>89.81%</td>
-<td>15.17%</td>
-<td style="font-weight:600;color:#22c55e">
-75
-</td>
-<td style="color:#22c55e">49.75%</td>
-<td>R$ 69.75</td>
-<td title="Baixo" style="text-align:center;">
-<span style="font-size:18px;display:inline-block;">
-🟢
-</span>
-</td>
- 
-
-</tr>
-
-    
-<tr data-setor="Serviços Financeiros"
     data-categoria="Small Caps"
     data-score="60"
     data-variacao="-7.430333792914485">
 
 <td>
-<span style="color:#94a3b8;font-size:12px">#47</span>
+<span style="color:#94a3b8;font-size:12px">#46</span>
 <div style="display:flex;align-items:center;gap:8px">
 
 <img src="logos/WIZC3.png"
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/WIZC3.html">
 <strong>WIZC3</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">WIZ CO      ON      NM</span>
@@ -2909,6 +2963,57 @@ Small Caps
 </tr>
 
     
+<tr data-setor="Serviços Financeiros"
+    data-categoria="Blue Chips"
+    data-score="75"
+    data-variacao="0.5738903061587497">
+
+<td>
+<span style="color:#94a3b8;font-size:12px">#47</span>
+<div style="display:flex;align-items:center;gap:8px">
+
+<img src="logos/BBSE3.png"
+onerror="this.onerror=null;this.src='logos/default.svg';"
+style="width:20px;height:20px;object-fit:contain">
+
+<a href="acoes/BBSE3.html">
+<strong>BBSE3</strong>
+</a>
+
+</div>
+<span style="font-size:11px;color:#94a3b8">BBSEGURIDADEON      NM</span>
+</td>
+
+<td>Serviços Financeiros</td>
+
+<td>
+<span class="badge" style="
+background:#3b82f620;
+color:#3b82f6;
+border:1px solid #3b82f6">
+Blue Chips
+</span>
+</td>
+
+<td>7.54</td>
+<td>6.55</td>
+<td>89.81%</td>
+<td>15.17%</td>
+<td style="font-weight:600;color:#22c55e">
+75
+</td>
+<td style="color:#22c55e">49.75%</td>
+<td>R$ 69.75</td>
+<td title="Baixo" style="text-align:center;">
+<span style="font-size:18px;display:inline-block;">
+🟢
+</span>
+</td>
+ 
+
+</tr>
+
+    
 <tr data-setor="Utilidades Públicas"
     data-categoria="Mid Caps"
     data-score="100"
@@ -2922,7 +3027,9 @@ Small Caps
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/ENGI4.html">
 <strong>ENGI4</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">ENERGISA    PN      N2</span>
@@ -2971,7 +3078,9 @@ Mid Caps
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/BPAC5.html">
 <strong>BPAC5</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">BTGP BANCO  PNA     N2</span>
@@ -3020,7 +3129,9 @@ Blue Chips
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/VIVA3.html">
 <strong>VIVA3</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">VIVARA S.A. ON      NM</span>
@@ -3069,7 +3180,9 @@ Small Caps
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/NEOE3.html">
 <strong>NEOE3</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">NEOENERGIA  ON      NM</span>
@@ -3118,7 +3231,9 @@ Mid Caps
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/LEVE3.html">
 <strong>LEVE3</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">METAL LEVE  ON      NM</span>
@@ -3167,7 +3282,9 @@ Small Caps
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/BGIP3.html">
 <strong>BGIP3</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">BANESE      ON</span>
@@ -3216,7 +3333,9 @@ Small Caps
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/SBFG3.html">
 <strong>SBFG3</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">GRUPO SBF   ON      NM</span>
@@ -3265,7 +3384,9 @@ Small Caps
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/BRAP4.html">
 <strong>BRAP4</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">BRADESPAR   PN      N1</span>
@@ -3314,7 +3435,9 @@ Small Caps
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/TAEE3.html">
 <strong>TAEE3</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">TAESA       ON      N2</span>
@@ -3363,7 +3486,9 @@ Mid Caps
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/EKTR4.html">
 <strong>EKTR4</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">ELEKTRO     PN</span>
@@ -3412,7 +3537,9 @@ Small Caps
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/TEND3.html">
 <strong>TEND3</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">TENDA       ON      NM</span>
@@ -3461,7 +3588,9 @@ Small Caps
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/CLSC4.html">
 <strong>CLSC4</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">CELESC      PN      N2</span>
@@ -3510,7 +3639,9 @@ Small Caps
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/AZZA3.html">
 <strong>AZZA3</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">AZZAS 2154  ON      NM</span>
@@ -3559,7 +3690,9 @@ Small Caps
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/TAEE4.html">
 <strong>TAEE4</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">TAESA       PN      N2</span>
@@ -3608,7 +3741,9 @@ Mid Caps
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/KEPL3.html">
 <strong>KEPL3</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">KEPLER WEBERON      NM</span>
@@ -3657,7 +3792,9 @@ Small Caps
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/EQPA3.html">
 <strong>EQPA3</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">EQTL PARA   ON</span>
@@ -3706,7 +3843,9 @@ Mid Caps
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/TTEN3.html">
 <strong>TTEN3</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">3TENTOS     ON      NM</span>
@@ -3755,7 +3894,9 @@ Small Caps
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/CSED3.html">
 <strong>CSED3</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">CRUZEIRO EDUON      NM</span>
@@ -3804,7 +3945,9 @@ Small Caps
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/BEES3.html">
 <strong>BEES3</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">BANESTES    ON  EJ</span>
@@ -3853,7 +3996,9 @@ Small Caps
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/ISAE3.html">
 <strong>ISAE3</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">ISA ENERGIA ON  EJ  N1</span>
@@ -3902,7 +4047,9 @@ Mid Caps
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/ALUP4.html">
 <strong>ALUP4</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">ALUPAR      PN      N2</span>
@@ -3951,7 +4098,9 @@ Mid Caps
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/BEES4.html">
 <strong>BEES4</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">BANESTES    PN  EJ</span>
@@ -4000,7 +4149,9 @@ Small Caps
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/DIRR3.html">
 <strong>DIRR3</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">DIRECIONAL  ON      NM</span>
@@ -4049,7 +4200,9 @@ Small Caps
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/VAMO3.html">
 <strong>VAMO3</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">VAMOS       ON      NM</span>
@@ -4098,7 +4251,9 @@ Small Caps
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/SANB3.html">
 <strong>SANB3</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">SANTANDER BRON</span>
@@ -4147,7 +4302,9 @@ Blue Chips
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/PLPL3.html">
 <strong>PLPL3</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">PLANOEPLANO ON      NM</span>
@@ -4196,7 +4353,9 @@ Small Caps
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/WHRL3.html">
 <strong>WHRL3</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">WHIRLPOOL   ON</span>
@@ -4245,7 +4404,9 @@ Small Caps
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/ENGI3.html">
 <strong>ENGI3</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">ENERGISA    ON      N2</span>
@@ -4294,7 +4455,9 @@ Mid Caps
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/SANB4.html">
 <strong>SANB4</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">SANTANDER BRPN</span>
@@ -4343,7 +4506,9 @@ Blue Chips
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/INTB3.html">
 <strong>INTB3</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">INTELBRAS   ON      NM</span>
@@ -4392,7 +4557,9 @@ Small Caps
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/PSSA3.html">
 <strong>PSSA3</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">PORTO SEGUROON      NM</span>
@@ -4441,7 +4608,9 @@ Mid Caps
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/UNIP3.html">
 <strong>UNIP3</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">UNIPAR      ON</span>
@@ -4490,7 +4659,9 @@ Small Caps
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/WHRL4.html">
 <strong>WHRL4</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">WHIRLPOOL   PN</span>
@@ -4539,7 +4710,9 @@ Small Caps
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/REDE3.html">
 <strong>REDE3</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">REDE ENERGIAON</span>
@@ -4588,7 +4761,9 @@ Mid Caps
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/UNIP6.html">
 <strong>UNIP6</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">UNIPAR      PNB</span>
@@ -4637,7 +4812,9 @@ Small Caps
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/ALUP3.html">
 <strong>ALUP3</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">ALUPAR      ON      N2</span>
@@ -4686,7 +4863,9 @@ Mid Caps
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/OFSA3.html">
 <strong>OFSA3</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">OUROFINO S/AON      NM</span>
@@ -4735,7 +4914,9 @@ Small Caps
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/CPFE3.html">
 <strong>CPFE3</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">CPFL ENERGIAON      NM</span>
@@ -4784,7 +4965,9 @@ Blue Chips
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/MOTV3.html">
 <strong>MOTV3</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">MOTIVA SA   ON      NM</span>
@@ -4833,7 +5016,9 @@ Mid Caps
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/EKTR3.html">
 <strong>EKTR3</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">ELEKTRO     ON</span>
@@ -4882,7 +5067,9 @@ Small Caps
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/UNIP5.html">
 <strong>UNIP5</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">UNIPAR      PNA</span>
@@ -4931,7 +5118,9 @@ Small Caps
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/LREN3.html">
 <strong>LREN3</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">LOJAS RENNERON      NM</span>
@@ -4980,7 +5169,9 @@ Mid Caps
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/EQPA5.html">
 <strong>EQPA5</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">EQTL PARA   PNA</span>
@@ -5029,7 +5220,9 @@ Mid Caps
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/FIQE3.html">
 <strong>FIQE3</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">UNIFIQUE    ON      NM</span>
@@ -5078,7 +5271,9 @@ Small Caps
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/CMIN3.html">
 <strong>CMIN3</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">CSNMINERACAOON      N2</span>
@@ -5127,7 +5322,9 @@ Mid Caps
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/UGPA3.html">
 <strong>UGPA3</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">ULTRAPAR    ON      NM</span>
@@ -5176,7 +5373,9 @@ Mid Caps
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/MILS3.html">
 <strong>MILS3</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">MILLS       ON      NM</span>
@@ -5225,7 +5424,9 @@ Small Caps
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/CEBR5.html">
 <strong>CEBR5</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">CEB         PNA</span>
@@ -5274,7 +5475,9 @@ Small Caps
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/CURY3.html">
 <strong>CURY3</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">CURY S/A    ON      NM</span>
@@ -5323,7 +5526,9 @@ Mid Caps
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/ENMT3.html">
 <strong>ENMT3</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">ENERGISA MT ON</span>
@@ -5372,7 +5577,9 @@ Mid Caps
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/ODPV3.html">
 <strong>ODPV3</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">ODONTOPREV  ON      NM</span>
@@ -5421,7 +5628,9 @@ Small Caps
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/CEBR6.html">
 <strong>CEBR6</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">CEB         PNB</span>
@@ -5470,7 +5679,9 @@ Small Caps
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/CEBR3.html">
 <strong>CEBR3</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">CEB         ON</span>
@@ -5519,7 +5730,9 @@ Small Caps
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/CXSE3.html">
 <strong>CXSE3</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">CAIXA SEGURION      NM</span>
@@ -5568,7 +5781,9 @@ Blue Chips
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/BMOB3.html">
 <strong>BMOB3</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">BEMOBI TECH ON      NM</span>
@@ -5617,7 +5832,9 @@ Small Caps
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/MULT3.html">
 <strong>MULT3</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">MULTIPLAN   ON      N2</span>
@@ -5666,7 +5883,9 @@ Mid Caps
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/BMEB3.html">
 <strong>BMEB3</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">MERCANTIL   ON  ED  N1</span>
@@ -5715,7 +5934,9 @@ Small Caps
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/FLRY3.html">
 <strong>FLRY3</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">FLEURY      ON      NM</span>
@@ -5764,7 +5985,9 @@ Small Caps
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/ALPA3.html">
 <strong>ALPA3</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">ALPARGATAS  ON      N1</span>
@@ -5813,7 +6036,9 @@ Small Caps
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/EGIE3.html">
 <strong>EGIE3</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">ENGIE BRASILON      NM</span>
@@ -5862,7 +6087,9 @@ Mid Caps
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/SBSP3.html">
 <strong>SBSP3</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">SABESP      ON      NM</span>
@@ -5911,7 +6138,9 @@ Blue Chips
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/ALPA4.html">
 <strong>ALPA4</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">ALPARGATAS  PN      N1</span>
@@ -5960,7 +6189,9 @@ Small Caps
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/TIMS3.html">
 <strong>TIMS3</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">TIM         ON      NM</span>
@@ -6009,7 +6240,9 @@ Blue Chips
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/ABEV3.html">
 <strong>ABEV3</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">AMBEV S/A   ON</span>
@@ -6058,7 +6291,9 @@ Blue Chips
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/BMEB4.html">
 <strong>BMEB4</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">MERCANTIL   PN  ED  N1</span>
@@ -6107,7 +6342,9 @@ Small Caps
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/EQTL3.html">
 <strong>EQTL3</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">EQUATORIAL  ON      NM</span>
@@ -6156,7 +6393,9 @@ Blue Chips
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/SLCE3.html">
 <strong>SLCE3</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">SLC AGRICOLAON      NM</span>
@@ -6205,7 +6444,9 @@ Small Caps
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/CPLE3.html">
 <strong>CPLE3</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">COPEL       ON      NM</span>
@@ -6254,7 +6495,9 @@ Mid Caps
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/FRAS3.html">
 <strong>FRAS3</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">FRAS,LE     ON      N1</span>
@@ -6303,7 +6546,9 @@ Small Caps
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/KLBN4.html">
 <strong>KLBN4</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">KLABIN S/A  PN      N2</span>
@@ -6352,7 +6597,9 @@ Mid Caps
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/KLBN3.html">
 <strong>KLBN3</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">KLABIN S/A  ON      N2</span>
@@ -6401,7 +6648,9 @@ Mid Caps
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/RDOR3.html">
 <strong>RDOR3</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">REDE D OR   ON      NM</span>
@@ -6450,7 +6699,9 @@ Blue Chips
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/MOVI3.html">
 <strong>MOVI3</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">MOVIDA      ON      NM</span>
@@ -6499,7 +6750,9 @@ Small Caps
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/SMFT3.html">
 <strong>SMFT3</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">SMART FIT   ON      NM</span>
@@ -6548,7 +6801,9 @@ Mid Caps
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/GGPS3.html">
 <strong>GGPS3</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">GPS         ON      NM</span>
@@ -6597,7 +6852,9 @@ Mid Caps
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/B3SA3.html">
 <strong>B3SA3</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">B3          ON      NM</span>
@@ -6646,7 +6903,9 @@ Blue Chips
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
+<a href="acoes/IGTI4.html">
 <strong>IGTI4</strong>
+</a>
 
 </div>
 <span style="font-size:11px;color:#94a3b8">IGUATEMI S.APN      N1</span>
