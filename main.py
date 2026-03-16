@@ -883,7 +883,7 @@ Atualizado em {data_br}
 </div>
 
 <div class="stat-box">
-<div class="stat-num">{universo_b3}</div>
+<div class="stat-num">{acoes_coletadas}</div>
 <div class="stat-label">🔎 Ações analisadas</div>
 </div>
 
