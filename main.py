@@ -701,9 +701,28 @@ margin-bottom:12px">
     html = html.replace("{{keywords}}", keywords)
     html = html.replace("{{url}}", f"https://tanoprecinho.site/acoes/{ticker}.html")
 
+    # Schema JSON-LD
+    schema = f"""
+<script type="application/ld+json">
+{{
+ "@context": "https://schema.org",
+ "@type": "FinancialProduct",
+ "name": "{ticker}",
+ "description": "{descricao.strip()}",
+ "provider": {{
+   "@type": "Organization",
+   "name": "{row["Empresa"]}"
+ }},
+ "category": "Ação da B3",
+ "url": "https://tanoprecinho.site/acoes/{ticker}.html"
+}}
+</script>
+"""
+
+    html = html.replace("</head>", schema + "\n</head>")
+
     with open(f"docs/acoes/{ticker}.html", "w", encoding="utf-8") as f:
         f.write(html)
-
 
 
 # =========================
