@@ -230,7 +230,66 @@ score_alto = len(df[df["Score"] >= 70])
 
 print(f"{len(df)} empresas válidas encontradas.")
 
+# =========================
+# GERAR sitemap
+# =========================
 
+def gerar_sitemap(df):
+
+    base_url = "https://tanoprecinho.site"
+
+    urls = []
+
+    # página principal
+    urls.append(f"""
+    <url>
+        <loc>{base_url}/</loc>
+        <changefreq>daily</changefreq>
+        <priority>1.0</priority>
+    </url>
+    """)
+
+    # páginas institucionais
+    paginas = [
+        "privacidade.html",
+        "termos.html",
+        "cookies.html",
+        "sobre.html",
+        "contato.html"
+    ]
+
+    for p in paginas:
+        urls.append(f"""
+        <url>
+            <loc>{base_url}/{p}</loc>
+            <changefreq>monthly</changefreq>
+            <priority>0.5</priority>
+        </url>
+        """)
+
+    # páginas das ações
+    for _, row in df.iterrows():
+
+        ticker = row["Ticker"]
+
+        urls.append(f"""
+        <url>
+            <loc>{base_url}/acoes/{ticker}.html</loc>
+            <changefreq>daily</changefreq>
+            <priority>0.8</priority>
+        </url>
+        """)
+
+    sitemap = f"""<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+{''.join(urls)}
+</urlset>
+"""
+
+    with open("docs/sitemap.xml", "w", encoding="utf-8") as f:
+        f.write(sitemap)
+
+    print("Sitemap gerado.")
 
 # =========================
 # GERAR SITE
@@ -252,6 +311,7 @@ top3 = df.head(3)
 
 logger.info("Gerando site...")
 
+gerar_sitemap(df)
 
 # =========================
 # GERAR páginas automáticas
