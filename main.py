@@ -317,11 +317,21 @@ gerar_sitemap(df)
 # GERAR páginas automáticas
 # =========================
 
-def gerar_pagina(nome, titulo, conteudo):
+def gerar_pagina(nome, titulo, conteudo, descricao="", keywords=""):
 
     with open("docs/layout_base.html", "r", encoding="utf-8") as f:
         template = f.read()
 
+    url = f"https://tanoprecinho.site/{nome}.html"
+
+    html = template.replace("{{titulo}}", titulo)
+    html = html.replace("{{conteudo}}", conteudo)
+    html = html.replace("{{descricao}}", descricao)
+    html = html.replace("{{keywords}}", keywords)
+    html = html.replace("{{url}}", url)
+
+    with open(f"docs/{nome}.html", "w", encoding="utf-8") as f:
+        f.write(html)
     html = template.replace("{{titulo}}", titulo)
     html = html.replace("{{conteudo}}", conteudo)
 
@@ -590,6 +600,16 @@ def gerar_pagina_acao(row):
 
     ticker = row["Ticker"]
 
+    descricao = f"""
+Análise da ação {ticker} ({row["Empresa"]}) da B3.
+Veja indicadores como P/L {round(row["PL"],2)},
+ROE {round(row["ROE"]*100,2)}%,
+Dividend Yield {round(row["DivYield"]*100,2)}%
+e estimativa de preço justo.
+"""
+
+    keywords = f"{ticker}, {row['Empresa']}, ação {ticker}, análise fundamentalista, ações B3"
+
     with open("docs/layout_base.html", "r", encoding="utf-8") as f:
         template = f.read()
 
@@ -677,9 +697,14 @@ margin-bottom:12px">
 
     html = template.replace("{{titulo}}", ticker)
     html = html.replace("{{conteudo}}", conteudo)
+    html = html.replace("{{descricao}}", descricao)
+    html = html.replace("{{keywords}}", keywords)
+    html = html.replace("{{url}}", f"https://tanoprecinho.site/acoes/{ticker}.html")
 
     with open(f"docs/acoes/{ticker}.html", "w", encoding="utf-8") as f:
         f.write(html)
+
+
 
 # =========================
 # GERAR páginas das ações
