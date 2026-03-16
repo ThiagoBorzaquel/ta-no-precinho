@@ -380,6 +380,208 @@ gerar_pagina(
 """
 )
 
+gerar_pagina(
+    "investidor",
+    "Mensagem para o Investidor",
+    """
+<div style="max-width:700px;margin:auto">
+
+<h2>📈 Uma mensagem para quem investe</h2>
+
+<p>
+O mercado financeiro não recompensa quem corre mais rápido.
+Ele recompensa quem permanece mais tempo.
+</p>
+
+<p>
+A paciência é uma das maiores vantagens competitivas de um investidor.
+Enquanto muitos tentam prever o próximo movimento do mercado,
+os grandes resultados geralmente vêm de algo muito mais simples:
+tempo + disciplina.
+</p>
+
+<p>
+Empresas crescem.
+Lucros crescem.
+Dividendos crescem.
+</p>
+
+<p>
+Mas isso leva anos.
+</p>
+
+<p>
+Se você está aqui analisando empresas,
+você já está fazendo algo que a maioria das pessoas nunca fará:
+pensando no longo prazo.
+</p>
+
+<p>
+Continue aprendendo. Continue investindo. Continue paciente.
+</p>
+
+<p style="margin-top:30px;font-weight:600">
+O tempo é o melhor amigo do investidor disciplinado.
+</p>
+
+<br>
+
+<a href="/" style="color:#3b82f6">← Voltar ao ranking</a>
+
+</div>
+"""
+)
+
+gerar_pagina(
+    "fundamentalista",
+    "O que é Análise Fundamentalista",
+    """
+<div style="max-width:700px;margin:auto">
+
+<h2>📊 O que é análise fundamentalista?</h2>
+
+<p>
+A análise fundamentalista é um método utilizado por investidores para avaliar o valor real de uma empresa.
+Ela analisa os fundamentos do negócio, como lucros, endividamento, crescimento e geração de caixa.
+</p>
+
+<p>
+O objetivo é descobrir se uma ação está sendo negociada por um preço justo, caro ou barato em relação ao valor da empresa.
+</p>
+
+<h3>Principais indicadores analisados</h3>
+
+<ul>
+<li>P/L (Preço sobre Lucro)</li>
+<li>P/VP (Preço sobre Valor Patrimonial)</li>
+<li>ROE (Retorno sobre patrimônio)</li>
+<li>Dividend Yield</li>
+</ul>
+
+<p>
+Investidores de longo prazo utilizam esses indicadores para encontrar empresas sólidas negociadas abaixo do valor justo.
+</p>
+
+<br>
+
+<a href="javascript:history.back()">← Voltar</a>
+
+</div>
+"""
+)
+
+gerar_pagina(
+    "pl",
+    "O que é P/L",
+    """
+<div style="max-width:700px;margin:auto">
+
+<h2>📈 O que é P/L?</h2>
+
+<p>
+O indicador P/L significa <strong>Preço sobre Lucro</strong>.
+Ele mostra quantos anos levaria para o investidor recuperar o valor pago pela ação considerando o lucro atual da empresa.
+</p>
+
+<h3>Exemplo</h3>
+
+<p>
+Se uma empresa possui P/L = 10, significa que o preço da ação equivale a 10 anos de lucro da empresa.
+</p>
+
+<h3>Como interpretar</h3>
+
+<ul>
+<li>P/L baixo → pode indicar ação barata</li>
+<li>P/L alto → pode indicar ação cara</li>
+</ul>
+
+<p>
+Porém o indicador deve sempre ser analisado junto com crescimento, setor e qualidade da empresa.
+</p>
+
+<br>
+
+<a href="javascript:history.back()">← Voltar</a>
+
+</div>
+"""
+)
+
+gerar_pagina(
+    "roe",
+    "O que é ROE",
+    """
+<div style="max-width:700px;margin:auto">
+
+<h2>📊 O que é ROE?</h2>
+
+<p>
+ROE significa <strong>Return on Equity</strong>, ou retorno sobre o patrimônio líquido.
+</p>
+
+<p>
+Esse indicador mostra quanto lucro a empresa gera utilizando o capital dos acionistas.
+</p>
+
+<h3>Exemplo</h3>
+
+<p>
+Se uma empresa possui ROE de 20%, significa que ela gera R$20 de lucro para cada R$100 de patrimônio.
+</p>
+
+<h3>Como interpretar</h3>
+
+<ul>
+<li>ROE alto → empresa eficiente</li>
+<li>ROE baixo → menor rentabilidade</li>
+</ul>
+
+<br>
+
+<a href="javascript:history.back()">← Voltar</a>
+
+</div>
+"""
+)
+
+gerar_pagina(
+    "dividend-yield",
+    "O que é Dividend Yield",
+    """
+<div style="max-width:700px;margin:auto">
+
+<h2>💰 O que é Dividend Yield?</h2>
+
+<p>
+Dividend Yield é o indicador que mostra quanto uma empresa paga de dividendos em relação ao preço da ação.
+</p>
+
+<h3>Exemplo</h3>
+
+<p>
+Se uma ação custa R$100 e paga R$8 de dividendos por ano, o dividend yield é de 8%.
+</p>
+
+<h3>Como interpretar</h3>
+
+<ul>
+<li>Dividend Yield alto → maior renda de dividendos</li>
+<li>Dividend Yield baixo → foco maior em crescimento</li>
+</ul>
+
+<p>
+Empresas maduras costumam pagar mais dividendos do que empresas em fase de crescimento.
+</p>
+
+<br>
+
+<a href="javascript:history.back()">← Voltar</a>
+
+</div>
+"""
+)
+
 # =========================
 # Gerar pagina tickers
 # =========================
@@ -503,7 +705,17 @@ src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=SEU_I
 crossorigin="anonymous"></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tá no Precinho?</title>
+<title>Tá no Precinho? | Ranking de ações da bolsa brasileira</title>
+
+<div style="margin-bottom:20px" class="menu">
+
+<a href="index.html">Ranking</a> •
+<a href="fundamentalista.html">Análise Fundamentalista</a> •
+<a href="pl.html">O que é P/L</a> •
+<a href="roe.html">O que é ROE</a> •
+<a href="dividend-yield.html">Dividend Yield</a>
+
+</div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
@@ -747,10 +959,6 @@ cursor:pointer;
 user-select:none;
 }}
 
-.ranking-explicacao{{
-display:none;
-margin-top:10px;
-}}
 
 details{{
 cursor:pointer;
@@ -912,6 +1120,27 @@ padding:8px 14px;
 border-radius:8px;
 cursor:pointer;
 color:white;
+}}
+
+.menu{{
+display:flex;
+flex-wrap:wrap;
+gap:14px;
+margin:12px 0 22px 0;
+font-size:14px;
+}}
+
+.menu a{{
+color:#94a3b8;
+text-decoration:none;
+padding:6px 10px;
+border-radius:8px;
+background:#1e293b;
+}}
+
+.menu a:hover{{
+color:#3b82f6;
+background:#243247;
 }}
 
 
@@ -1083,7 +1312,11 @@ window.addEventListener("load", verificarCookies);
 
 <div class="container">
 
-<h1>📉 Tá no Precinho?</h1>
+<h1>
+<a href="investidor.html" style="text-decoration:none;color:inherit">
+📉 Tá no Precinho?
+</a>
+</h1>
 
 <div class="subtitle">
 Criamos este site com um objetivo simples: tornar a análise de ações acessível para qualquer pessoa.
@@ -1351,6 +1584,24 @@ border:1px solid {cores_categoria.get(row['Categoria'], '#3b82f6')}">
 html += f"""
 </tbody>
 </table>
+
+<div class="card">
+
+<h2>📚 Aprenda análise fundamentalista</h2>
+
+<p>
+Se você quer entender melhor como avaliamos as empresas,
+veja nossos guias simples:
+</p>
+
+<ul class="menu">
+<li><a href="fundamentalista.html">O que é análise fundamentalista</a></li>
+<li><a href="pl.html">O que é P/L</a></li>
+<li><a href="roe.html">O que é ROE</a></li>
+<li><a href="dividend-yield.html">O que é Dividend Yield</a></li>
+</ul>
+
+</div>
 
 <div class="footer">
 ⚠️ Este ranking utiliza dados públicos do Yahoo Finance e aplica critérios quantitativos próprios. Não constitui recomendação de investimento.<br>
