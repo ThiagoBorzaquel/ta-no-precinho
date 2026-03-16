@@ -502,23 +502,6 @@ select,input{{
     font-size:14px;
 }}
 
-table{{
-    width:100%;
-    border-collapse:collapse;
-}}
-
-th{{
-    background:#334155;
-    padding:10px;
-    cursor:pointer;
-    font-size:14px;
-}}
-
-td{{
-    padding:8px;
-    text-align:center;
-    font-size:13px;
-}}
 
 tr:nth-child(even){{
     background:var(--card-light);
@@ -630,22 +613,21 @@ display:block;
 width:100%;
 }}
 
+tbody{{
+display:flex;
+flex-direction:column;
+align-items:center;
+gap:14px;
+}}
+
 tr{{
 background:var(--card);
 max-width:420px;
+width:90%;
 margin:auto;
-padding:12px;
-border-radius:12px;
-box-shadow:0 4px 12px rgba(0,0,0,0.25);
-
-max-width:420px;
-width:100%;
-}}
-
-tbody{{
-    display:grid;
-    gap:12px;
-    justify-items:center;
+padding:14px;
+border-radius:14px;
+box-shadow:0 6px 18px rgba(0,0,0,0.35);
 }}
 
 td{{
@@ -671,6 +653,13 @@ td:nth-child(8)::before{{content:"Score";}}
 td:nth-child(9)::before{{content:"Desconto";}}
 td:nth-child(10)::before{{content:"Preço justo";}}
 td:nth-child(11)::before{{content:"Risco";}}
+
+td::before{{
+font-weight:600;
+color:var(--muted);
+}}
+
+}}
 
 td::before{{
 font-weight:600;
@@ -717,6 +706,152 @@ details p{{
 margin-top:10px;
 }}
 
+/* ===== TABELA DESKTOP ===== */
+
+table{{
+width:100%;
+border-collapse:collapse;
+margin-top:10px;
+}}
+
+thead{{
+background:#334155;
+}}
+
+th{{
+padding:12px 10px;
+font-size:13px;
+text-align:center;
+color:#cbd5f5;
+cursor:pointer;
+}}
+
+td{{
+padding:12px 10px;
+font-size:13px;
+text-align:center;
+border-bottom:1px solid #243247;
+}}
+
+/* hover nas linhas */
+
+tbody tr:hover{{
+background:#1f2a3d;
+transition:0.2s;
+}}
+
+/* coluna empresa */
+
+td:first-child{{
+text-align:left;
+}}
+
+/* ticker */
+
+.ticker{{
+font-weight:700;
+font-size:14px;
+color:#e2e8f0;
+text-decoration:none;
+}}
+
+.ticker:hover{{
+color:#3b82f6;
+}}
+
+/* nome empresa */
+
+.empresa{{
+font-size:11px;
+color:#94a3b8;
+}}
+
+/* números */
+
+.numero{{
+font-variant-numeric:tabular-nums;
+}}
+
+/* desconto destaque */
+
+.desconto-positivo{{
+color:#22c55e;
+font-weight:600;
+}}
+
+.desconto-negativo{{
+color:#ef4444;
+}}
+
+/* score */
+
+.score-alto{{
+color:#22c55e;
+font-weight:700;
+}}
+
+.score-medio{{
+color:#eab308;
+}}
+
+/* badge categoria */
+
+.badge{{
+padding:3px 8px;
+border-radius:8px;
+font-size:11px;
+border:1px solid;
+}}
+
+
+
+#cookie-banner{{
+position:fixed;
+bottom:20px;
+left:50%;
+transform:translateX(-50%);
+z-index:9999;
+width:90%;
+max-width:420px;
+display:none;
+}}
+
+.cookie-box{{
+background:#1e293b;
+padding:16px;
+border-radius:12px;
+box-shadow:0 8px 30px rgba(0,0,0,0.4);
+font-size:13px;
+color:#e2e8f0;
+}}
+
+.cookie-box a{{
+color:#3b82f6;
+text-decoration:none;
+}}
+
+.cookie-buttons{{
+display:flex;
+gap:10px;
+margin-top:10px;
+}}
+
+.cookie-accept{{
+background:#22c55e;
+border:none;
+padding:8px 14px;
+border-radius:8px;
+cursor:pointer;
+color:white;
+}}
+
+.cookie-reject{{
+background:#ef4444;
+border:none;
+padding:8px 14px;
+border-radius:8px;
+cursor:pointer;
+color:white;
 }}
 
 
@@ -844,6 +979,31 @@ criarGrafico("graficoSmall",
     aplicarFiltros();
 }};
 
+function aceitarCookies(){{
+
+localStorage.setItem("cookies_consent","accepted");
+document.getElementById("cookie-banner").style.display="none";
+
+}}
+
+function recusarCookies(){{
+
+localStorage.setItem("cookies_consent","rejected");
+document.getElementById("cookie-banner").style.display="none";
+
+}}
+
+function verificarCookies(){{
+
+let consent = localStorage.getItem("cookies_consent");
+
+if(!consent){{
+document.getElementById("cookie-banner").style.display="block";
+}}
+
+}}
+
+window.addEventListener("load", verificarCookies);
 
 
 
@@ -883,7 +1043,7 @@ Atualizado em {data_br}
 </div>
 
 <div class="stat-box">
-<div class="stat-num">{universo_b3}</div>
+<div class="stat-num">{acoes_coletadas}</div>
 <div class="stat-label">🔎 Ações analisadas</div>
 </div>
 
@@ -898,6 +1058,7 @@ Atualizado em {data_br}
 </div>
 
 </div>
+
 
 <div class="card">
 <div class="filters">
@@ -1089,8 +1250,8 @@ for i, (_, row) in enumerate(df.iterrows(), start=1):
 onerror="this.onerror=null;this.src='logos/default.svg';"
 style="width:20px;height:20px;object-fit:contain">
 
-<a href="acoes/{row['Ticker']}.html">
-<strong>{row['Ticker']}</strong>
+<a class="ticker" href="acoes/{row['Ticker']}.html">
+{row['Ticker']}
 </a>
 
 </div>
@@ -1152,6 +1313,32 @@ html += f"""
 </div>
 
 </footer>
+
+</div>
+
+<div id="cookie-banner">
+
+<div class="cookie-box">
+
+<p>
+Utilizamos cookies para melhorar sua experiência, analisar tráfego e exibir anúncios.
+Ao continuar navegando você concorda com nossa
+<a href="/cookies.html">Política de Cookies</a>.
+</p>
+
+<div class="cookie-buttons">
+
+<button onclick="aceitarCookies()" class="cookie-accept">
+Aceitar
+</button>
+
+<button onclick="recusarCookies()" class="cookie-reject">
+Recusar
+</button>
+
+</div>
+
+</div>
 
 </div>
 
