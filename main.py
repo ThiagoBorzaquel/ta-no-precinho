@@ -600,13 +600,40 @@ def gerar_pagina_acao(row):
 
     ticker = row["Ticker"]
 
+    texto_analise = f"""
+    <h3>Análise da ação {ticker}</h3>
+
+    <p>
+    A ação <strong>{ticker}</strong> ({row["Empresa"]}) pertence ao setor
+    <strong>{row["Setor"]}</strong> da bolsa brasileira.
+    </p>
+
+    <p>
+    Atualmente apresenta <strong>P/L {round(row["PL"],2)}</strong>,
+    <strong>P/VP {round(row["PVP"],2)}</strong> e
+    <strong>ROE {round(row["ROE"]*100,2)}%</strong>.
+    </p>
+
+    <p>
+    O dividend yield atual é de
+    <strong>{round(row["DivYield"]*100,2)}%</strong>.
+    </p>
+
+    <p>
+    Segundo nosso modelo baseado em múltiplo conservador de P/L 15,
+    o preço justo estimado seria
+    <strong>R$ {round(row["PrecoJusto"],2)}</strong>.
+    </p>
+    """
+
+
     descricao = f"""
-Análise da ação {ticker} ({row["Empresa"]}) da B3.
-Veja indicadores como P/L {round(row["PL"],2)},
-ROE {round(row["ROE"]*100,2)}%,
-Dividend Yield {round(row["DivYield"]*100,2)}%
-e estimativa de preço justo.
-"""
+    Análise da ação {ticker} ({row["Empresa"]}) da B3.
+    Veja indicadores como P/L {round(row["PL"],2)},
+    ROE {round(row["ROE"]*100,2)}%,
+    Dividend Yield {round(row["DivYield"]*100,2)}%
+    e estimativa de preço justo.
+    """
 
     keywords = f"{ticker}, {row['Empresa']}, ação {ticker}, análise fundamentalista, ações B3"
 
@@ -693,6 +720,11 @@ margin-bottom:12px">
 </div>
 
 </div>
+
+<div class="card" style="max-width:700px;margin:20px auto;">
+{texto_analise}
+</div>
+
 """
 
     html = template.replace("{{titulo}}", ticker)
