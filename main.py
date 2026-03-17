@@ -91,6 +91,14 @@ print("Ações filtradas:", universo_b3)
 
 df = get_stock_data(tickers, traducao_setores, classificar_cap)
 
+cnpj_empresas = {
+    "PETR4": "33.000.167/0001-01",
+    "VALE3": "33.592.510/0001-54",
+    "ITUB4": "60.701.190/0001-04",
+}
+
+df["CNPJ"] = df["Ticker"].map(cnpj_empresas).fillna("Não disponível")
+
 logger.info(f"{len(df)} empresas coletadas com dados fundamentalistas.")
 
 df = validar_dados(df)
@@ -630,6 +638,29 @@ def gerar_pagina_acao(row):
     e estimativa de preço justo.
     """
 
+    info_empresa = f"""
+    <div class="card" style="max-width:700px;margin:20px auto;">
+
+    <h3>🏢 Sobre a empresa</h3>
+
+    <p style="line-height:1.6;color:#94a3b8">
+    {row["Resumo"]}
+    </p>
+
+    <br>
+
+    <p><strong>CNPJ:</strong> {row.get("CNPJ", "Não disponível")}</p>
+
+    <p>
+    <strong>Site oficial:</strong><br>
+    <a href="{row.get("Site", "#")}" target="_blank" style="color:#3b82f6">
+    {row.get("Site", "Não disponível")}
+    </a>
+    </p>
+
+    </div>
+    """
+
     keywords = f"{ticker}, {row['Empresa']}, ação {ticker}, análise fundamentalista, ações B3"
 
     with open("docs/layout_base.html", "r", encoding="utf-8") as f:
@@ -718,6 +749,7 @@ margin-bottom:12px">
 
 <div class="card" style="max-width:700px;margin:20px auto;">
 {texto_analise}
+{info_empresa}
 </div>
 
 """
@@ -772,10 +804,19 @@ html = f"""
 <html lang="pt-br">
 <head>
 <script async
-src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=SEU_ID"
+src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5213961841779335"
 crossorigin="anonymous"></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="description" content="Ranking automático das ações brasileiras mais baratas baseado em análise fundamentalista. Atualizado diariamente.">
+
+<meta name="keywords" content="ações baratas, bolsa brasileira, value investing, ranking ações, B3">
+
+<meta property="og:title" content="Tá no Precinho? - Ranking de ações brasileiras">
+<meta property="og:description" content="Descubra quais ações podem estar baratas hoje segundo análise fundamentalista.">
+<meta property="og:image" content="https://ta-noprecinho.com/images/og-image.jpg">
+
 <title>Tá no Precinho? | Ranking de ações da bolsa brasileira</title>
 
 <div style="margin-bottom:20px" class="menu">
@@ -1371,13 +1412,7 @@ window.addEventListener("load", verificarCookies);
 
 </head>
 
-<meta name="description" content="Ranking automático das ações brasileiras mais baratas baseado em análise fundamentalista. Atualizado diariamente.">
 
-<meta name="keywords" content="ações baratas, bolsa brasileira, value investing, ranking ações, B3">
-
-<meta property="og:title" content="Tá no Precinho? - Ranking de ações brasileiras">
-<meta property="og:description" content="Descubra quais ações podem estar baratas hoje segundo análise fundamentalista.">
-<meta property="og:image" content="https://ta-noprecinho.com/images/og-image.jpg">
 
 <body>
 
