@@ -7,7 +7,6 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from deep_translator import GoogleTranslator
 import time
 import random
-from deep_translator import GoogleTranslator
 
 # =========================
 # BUSCAR TICKERS DA B3
@@ -49,7 +48,8 @@ def get_b3_tickers():
 from deep_translator import GoogleTranslator
 
 # cache simples pra evitar repetir tradução
-cache_traducao = {}
+
+from deep_translator import GoogleTranslator
 
 def get_stock_data(tickers, traducao_setores, classificar_cap):
 
@@ -75,7 +75,6 @@ def get_stock_data(tickers, traducao_setores, classificar_cap):
                 dy = info.get("dividendYield") or 0
                 roe = info.get("returnOnEquity") or 0
 
-                # normalização
                 if dy > 1:
                     dy = dy / 100
 
@@ -84,10 +83,6 @@ def get_stock_data(tickers, traducao_setores, classificar_cap):
 
                 setor_original = info.get("sector", "Não informado")
 
-                # =========================
-                # RESUMO + TRADUÇÃO
-                # =========================
-
                 resumo = info.get("longBusinessSummary", "")
                 site = info.get("website", "")
 
@@ -95,23 +90,22 @@ def get_stock_data(tickers, traducao_setores, classificar_cap):
                 if not resumo:
                     resumo = f"A empresa {info.get('shortName', ticker)} atua no setor de {traducao_setores.get(setor_original, setor_original)}."
 
-                # tradução com cache
-                if resumo in cache_traducao:
-                    resumo_traduzido = cache_traducao[resumo]
-                else:
-                    try:
+                # 🔥 DEBUG (IMPORTANTE)
+                print(f"[{ticker}] resumo original:", resumo[:80])
+
+                # tradução
+                try:
+                    if resumo:
                         resumo_traduzido = GoogleTranslator(source='auto', target='pt').translate(resumo)
-                        cache_traducao[resumo] = resumo_traduzido
-
-                        # evita bloqueio
                         time.sleep(random.uniform(0.2, 0.5))
-
-                    except:
+                    else:
                         resumo_traduzido = resumo
 
-                # =========================
-                # RETURN FINAL
-                # =========================
+                except Exception as e:
+                    print(f"ERRO tradução {ticker}:", e)
+                    resumo_traduzido = resumo
+
+                print(f"[{ticker}] traduzido:", resumo_traduzido[:80])
 
                 return {
                     "Ticker": ticker,
@@ -152,23 +146,10 @@ def get_stock_data(tickers, traducao_setores, classificar_cap):
                 continue
 
     return pd.DataFrame(dados)
+    
 
-    with ThreadPoolExecutor(max_workers=4) as executor:
+    
 
-        futures = [executor.submit(buscar_ticker, t) for t in tickers]
-
-        for future in tqdm(as_completed(futures), total=len(futures), desc="Buscando dados"):
-
-            try:
-                resultado = future.result(timeout=10)
-
-                if resultado:
-                    dados.append(resultado)
-
-            except:
-                continue
-
-    return pd.DataFrame(dados)
 
 
     
@@ -233,6 +214,18 @@ def get_stock_data(tickers, traducao_setores, classificar_cap):
                 
                 resumo = info.get("longBusinessSummary", "")
                 site = info.get("website", "")
+
+                # fallback
+                if not resumo:
+                    resumo = f"A empresa {info.get('shortName', ticker)} atua no setor de {traducao_setores.get(setor_original, setor_original)}."
+
+                # traduzir para português
+                try:
+                    if resumo:
+                        resumo = GoogleTranslator(source='auto', target='pt').translate(resumo)
+                        time.sleep(random.uniform(0.2, 0.5))
+                except:
+                    pass
 
                 # fallback se não tiver resumo
                 if not resumo:
