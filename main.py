@@ -332,11 +332,6 @@ def gerar_pagina(nome, titulo, conteudo, descricao="", keywords=""):
 
     with open(f"docs/{nome}.html", "w", encoding="utf-8") as f:
         f.write(html)
-    html = template.replace("{{titulo}}", titulo)
-    html = html.replace("{{conteudo}}", conteudo)
-
-    with open(f"docs/{nome}.html", "w", encoding="utf-8") as f:
-        f.write(html)
 
 
 # =========================
