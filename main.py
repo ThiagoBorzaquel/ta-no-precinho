@@ -319,7 +319,7 @@ top3 = df.head(3)
 
 logger.info("Gerando site...")
 
-gerar_sitemap(df)
+
 
 # =========================
 # GERAR páginas automáticas
@@ -791,7 +791,7 @@ margin-bottom:12px">
 for _, row in df.iterrows():
     gerar_pagina_acao(row)
 
-
+    gerar_sitemap(df)
 # =========================
 # HTML SaaS Moderno
 # =========================
