@@ -3,8 +3,10 @@ import pandas as pd
 import time
 import os
 import datetime
-from tqdm import tqdm
-import requests
+import tqdm
+import random
+import re
+import unicodedata
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from scripts.collect_data import get_stock_data
 from scripts.validate_data import validar_dados
@@ -107,8 +109,8 @@ logger.info(f"{len(df)} empresas com dados válidos após validação.")
 
 acoes_coletadas = len(df)
 
-if df.empty:
-    print("Nenhum dado válido encontrado.")
+if df.empty or "Ticker" not in df.columns:
+    print("⚠️ Nenhum dado disponível. Abortando execução.")
     exit()
 
 
@@ -277,16 +279,15 @@ def gerar_sitemap(df):
 
     # páginas das ações
     for _, row in df.iterrows():
+        slug = gerar_slug(row["Empresa"], row["Ticker"])
 
-        ticker = row["Ticker"]
+        urls.append(f"<url><loc>{base_url}/vale-a-pena-{slug}.html</loc></url>")
+        urls.append(f"<url><loc>{base_url}/{slug}-ta-barato.html</loc></url>")
+        urls.append(f"<url><loc>{base_url}/{slug}-paga-dividendos.html</loc></url>")
 
-        urls.append(f"""
-        <url>
-            <loc>{base_url}/acoes/{ticker}.html</loc>
-            <changefreq>daily</changefreq>
-            <priority>0.8</priority>
-        </url>
-        """)
+        # páginas globais
+        urls.append(f"<url><loc>{base_url}/melhores-acoes-dividendos.html</loc></url>")
+        urls.append(f"<url><loc>{base_url}/acoes-baratas-2026.html</loc></url>")
 
     sitemap = f"""<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
@@ -300,24 +301,23 @@ def gerar_sitemap(df):
     print("Sitemap gerado.")
 
 # =========================
-# GERAR SITE
+# Gerar matric
 # =========================
 
-
-os.makedirs("docs", exist_ok=True)
-os.makedirs("docs/acoes", exist_ok=True)
-
-hoje = datetime.date.today()
-data_br = hoje.strftime("%d/%m/%Y")
-
-df.to_csv("docs/ranking.csv", index=False)
-
-setores = sorted(df["Setor"].unique())
-categorias = sorted(df["Categoria"].unique())
-
-top3 = df.head(3)
-
-logger.info("Gerando site...")
+def gerar_metric(nome, valor, cor="#e2e8f0"):
+    return f"""
+    <div style="
+    background:#020617;
+    padding:14px;
+    border-radius:14px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    ">
+        <span style="color:#94a3b8">{nome}</span>
+        <strong style="color:#e2e8f0">{valor}</strong>
+    </div>
+    """
 
 
 
@@ -338,7 +338,7 @@ def gerar_pagina(nome, titulo, conteudo, descricao="", keywords=""):
     html = html.replace("{{keywords}}", keywords)
     html = html.replace("{{url}}", url)
 
-    with open(f"docs/{nome}.html", "w", encoding="utf-8") as f:
+    with open(f"docs/seo/{nome}.html", "w", encoding="utf-8") as f:
         f.write(html)
 
 
@@ -595,6 +595,8 @@ Empresas maduras costumam pagar mais dividendos do que empresas em fase de cresc
 """
 )
 
+
+
 # =========================
 # Gerar pagina tickers
 # =========================
@@ -602,157 +604,128 @@ Empresas maduras costumam pagar mais dividendos do que empresas em fase de cresc
 def gerar_pagina_acao(row):
 
     ticker = row["Ticker"]
+    empresa = row["Empresa"]
 
+    # SEO
+    descricao = f"Análise da ação {ticker} ({empresa}) com indicadores atualizados."
+    keywords = f"{ticker}, {empresa}, ação {ticker}, análise fundamentalista"
+
+    slug = gerar_slug(empresa, ticker)
+
+    # -------------------------
+    # TEXTO
+    # -------------------------
     texto_analise = f"""
-    <h3>Análise da ação {ticker}</h3>
+    <h3>📊 Vale a pena investir em {ticker}?</h3>
 
     <p>
-    A ação <strong>{ticker}</strong> ({row["Empresa"]}) pertence ao setor
-    <strong>{row["Setor"]}</strong> da bolsa brasileira.
+    A <strong>{empresa} ({ticker})</strong> atua no setor 
+    <strong>{row["Setor"]}</strong>.
     </p>
 
     <p>
-    Atualmente apresenta <strong>P/L {round(row["PL"],2)}</strong>,
-    <strong>P/VP {round(row["PVP"],2)}</strong> e
-    <strong>ROE {round(row["ROE"]*100,2)}%</strong>.
+    Hoje apresenta P/L de <strong>{round(row["PL"],2)}</strong>, 
+    ROE de <strong>{round(row["ROE"]*100,2)}%</strong> 
+    e dividend yield de <strong>{round(row["DivYield"]*100,2)}%</strong>.
     </p>
 
     <p>
-    O dividend yield atual é de
-    <strong>{round(row["DivYield"]*100,2)}%</strong>.
-    </p>
-
-    <p>
-    Segundo nosso modelo baseado em múltiplo conservador de P/L 15,
-    o preço justo estimado seria
-    <strong>R$ {round(row["PrecoJusto"],2)}</strong>.
+    O preço justo estimado é de <strong>R$ {round(row["PrecoJusto"],2)}</strong>.
     </p>
     """
 
-
-    descricao = f"""
-    Análise da ação {ticker} ({row["Empresa"]}) da B3.
-    Veja indicadores como P/L {round(row["PL"],2)},
-    ROE {round(row["ROE"]*100,2)}%,
-    Dividend Yield {round(row["DivYield"]*100,2)}%
-    e estimativa de preço justo.
-    """
-
+    # -------------------------
+    # SOBRE EMPRESA
+    # -------------------------
     info_empresa = f"""
     <div class="card" style="max-width:700px;margin:20px auto;">
-
-    <h3>🏢 Sobre a empresa</h3>
-
+    <h3>🏢 Sobre a empresa {empresa}</h3>
     <p style="line-height:1.6;color:#94a3b8">
     {row["Resumo"]}
     </p>
+    </div>
+    """
 
-    <br>
+    # -------------------------
+    # LINKS
+    # -------------------------
+    links = f"""
+    <div class="card" style="max-width:700px;margin:20px auto;">
+    <h3>🔗 Explore mais</h3>
 
-    <p><strong>CNPJ:</strong> {row.get("CNPJ", "Não disponível")}</p>
-
-    <p>
-    <strong>Site oficial:</strong><br>
-    <a href="{row.get("Site", "#")}" target="_blank" style="color:#3b82f6">
-    {row.get("Site", "Não disponível")}
-    </a>
-    </p>
+    <a href="../seo/vale-a-pena-{slug}.html">Vale a pena investir?</a><br>
+    <a href="../seo/{slug}-paga-dividendos.html">Dividendos</a><br>
+    <a href="../seo/{slug}-ta-barato.html">Está barato?</a>
 
     </div>
     """
 
-    keywords = f"{ticker}, {row['Empresa']}, ação {ticker}, análise fundamentalista, ações B3"
-
+    # -------------------------
+    # TEMPLATE
+    # -------------------------
     with open("docs/layout_base.html", "r", encoding="utf-8") as f:
         template = f.read()
 
+    # -------------------------
+    # CONTEÚDO FINAL
+    # -------------------------
     conteudo = f"""
-<a href="../index.html" class="secondary">← Voltar ao ranking</a>
 
-<div class="card" style="max-width:420px;margin:auto">
+    <a href="../index.html">← Voltar</a>
 
-<div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+    <div style="text-align:center;margin:15px 0">
+    <h1>{ticker}</h1>
+    <div style="color:#94a3b8">{empresa}</div>
+    </div>
 
-<img src="../logos/{ticker}.png"
-onerror="this.onerror=null;this.src='../logos/default.svg';"
-style="width:32px;height:32px;object-fit:contain">
+    <div style="max-width:420px;margin:auto">
 
-<div>
-<h2 style="margin:0">{ticker}</h2>
-<div class="secondary">{row["Empresa"]}</div>
-</div>
+    <div style="
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:10px;
+    margin-top:15px;
+    ">
 
-</div>
+    {gerar_metric("P/L", round(row["PL"],2))}
+    {gerar_metric("P/VP", round(row["PVP"],2))}
 
-<div class="secondary" style="margin-bottom:6px">{row["Setor"]}</div>
+    {gerar_metric("ROE", f'{round(row["ROE"]*100,2)}%')}
+    {gerar_metric("DY", f'{round(row["DivYield"]*100,2)}%')}
 
-<span class="badge" style="
-background:{cores_categoria.get(row['Categoria'], '#3b82f6')}20;
-color:{cores_categoria.get(row['Categoria'], '#3b82f6')};
-border:1px solid {cores_categoria.get(row['Categoria'], '#3b82f6')};
-display:inline-block;
-margin-bottom:12px">
-{row["Categoria"]}
-</span>
+    {gerar_metric(
+        "Score",
+        row["Score"],
+        "#22c55e" if row["Score"] >= 70 else "#eab308"
+    )}
 
-<div class="metric-grid">
+    {gerar_metric(
+        "Desconto",
+        f'{round(row["Desconto_%"],2)}%',
+        "#22c55e" if row["Desconto_%"] > 0 else "#ef4444"
+    )}
 
-<div class="metric">
-<span>P/L</span>
-<span>{round(row["PL"],2)}</span>
-</div>
+    {gerar_metric(
+        "Preço justo",
+        f'R$ {round(row["PrecoJusto"],2)}'
+    )}
 
-<div class="metric">
-<span>P/VP</span>
-<span>{round(row["PVP"],2)}</span>
-</div>
+    {gerar_metric(
+        "Risco",
+        row["Farol"]
+    )}
 
-<div class="metric">
-<span>ROE</span>
-<span>{round(row["ROE"]*100,2)}%</span>
-</div>
+    </div>
 
-<div class="metric">
-<span>Dividend Yield</span>
-<span>{round(row["DivYield"]*100,2)}%</span>
-</div>
+    </div>
 
-<div class="metric">
-<span>Score</span>
-<span style="color:{'#22c55e' if row['Score']>=70 else '#eab308'}">
-{row["Score"]}
-</span>
-</div>
+    <div class="card" style="max-width:700px;margin:20px auto;">
+    {texto_analise}
+    </div>
 
-<div class="metric">
-<span>Desconto</span>
-<span style="color:#22c55e">
-{round(row["Desconto_%"],2)}%
-</span>
-</div>
-
-<div class="metric">
-<span>Preço justo</span>
-<span>R$ {round(row["PrecoJusto"],2)}</span>
-</div>
-
-<div class="metric">
-<span>Risco</span>
-<span style="font-size:20px">
-{row["Farol"]}
-</span>
-</div>
-
-</div>
-
-</div>
-
-<div class="card" style="max-width:700px;margin:20px auto;">
-{texto_analise}
-{info_empresa}
-</div>
-
-"""
+    {info_empresa}
+    {links}
+    """
 
     html = template.replace("{{titulo}}", ticker)
     html = html.replace("{{conteudo}}", conteudo)
@@ -760,29 +733,191 @@ margin-bottom:12px">
     html = html.replace("{{keywords}}", keywords)
     html = html.replace("{{url}}", f"https://tanoprecinho.site/acoes/{ticker}.html")
 
-    # Schema JSON-LD
-    schema = f"""
-<script type="application/ld+json">
-{{
- "@context": "https://schema.org",
- "@type": "FinancialProduct",
- "name": "{ticker}",
- "description": "{descricao.strip()}",
- "provider": {{
-   "@type": "Organization",
-   "name": "{row["Empresa"]}"
- }},
- "category": "Ação da B3",
- "url": "https://tanoprecinho.site/acoes/{ticker}.html"
-}}
-</script>
-"""
-
-    html = html.replace("</head>", schema + "\n</head>")
-
     with open(f"docs/acoes/{ticker}.html", "w", encoding="utf-8") as f:
         f.write(html)
 
+# =========================
+# GERAR slug
+# =========================
+
+def gerar_slug(nome_empresa, ticker):
+    try:
+        nome = unicodedata.normalize('NFKD', nome_empresa).encode('ascii', 'ignore').decode('utf-8')
+        nome = nome.lower()
+        nome = re.sub(r'[^a-z0-9]+', '-', nome)
+        nome = nome.strip('-')
+        return f"{nome}-{ticker.lower()}"
+    except:
+        return ticker.lower()
+
+# =========================
+# TEXTOS DINÂMICOS
+# =========================
+
+aberturas = [
+    "Muitos investidores se perguntam se vale a pena investir em {empresa}.",
+    "A dúvida sobre investir em {empresa} ({ticker}) é comum.",
+    "Será que a ação {ticker} é uma boa oportunidade hoje?"
+]
+
+fechamentos = [
+    "Tudo depende do seu perfil de investimento.",
+    "O ideal é analisar pensando no longo prazo.",
+    "Cada investidor deve avaliar risco e retorno."
+]
+
+def interpretar_empresa(row):
+
+    if row["Desconto_%"] > 20:
+        return "A ação parece estar significativamente descontada."
+    elif row["Desconto_%"] > 0:
+        return "A ação está levemente abaixo do valor justo."
+    else:
+        return "A ação pode estar negociando acima do valor justo."
+
+
+def gerar_texto_seo(row):
+
+    return f"""
+    <p>{random.choice(aberturas).format(empresa=row["Empresa"], ticker=row["Ticker"])}</p>
+
+    <p>{interpretar_empresa(row)}</p>
+
+    <p>
+    A empresa apresenta ROE de {round(row["ROE"]*100,2)}% 
+    e dividend yield de {round(row["DivYield"]*100,2)}%.
+    </p>
+
+    <p>{random.choice(fechamentos)}</p>
+    """
+    
+
+# =========================
+# GERAR PAGINAS SEO
+# =========================
+
+def gerar_paginas_seo_ticker(row):
+
+    ticker = row["Ticker"]
+    empresa = row["Empresa"]
+
+    # 🔥 LINK CORRETO
+    link_acao = f"../acoes/{ticker}.html"
+
+    slug = gerar_slug(empresa, ticker)
+
+    paginas = [
+        (f"vale-a-pena-{slug}", f"👉 Vale a pena investir em {empresa} ({ticker})?"),
+        (f"{slug}-ta-barato", f"{empresa} ({ticker})📉 está barato?"),
+        (f"{slug}-paga-dividendos", f"{empresa} ({ticker})💰 paga Dividendos")
+    ]
+
+    for nome, titulo in paginas:
+
+        conteudo = f"""
+        <div style="max-width:700px;margin:auto">
+
+        <h1>{titulo}</h1>
+
+        {gerar_texto_seo(row)}
+
+        <div style="
+        background:rgba(34,197,94,0.1);
+        border:1px solid rgba(34,197,94,0.3);
+        padding:12px;
+        border-radius:10px;
+        margin:12px 0;
+        ">
+
+        💰 <strong>Preço atual:</strong> R$ {round(row["Preco"],2)} <br>
+        🎯 <strong>Preço justo:</strong> R$ {round(row["PrecoJusto"],2)} <br>
+        📉 <strong>Desconto:</strong> {round(row["Desconto_%"],2)}%
+
+        </div>
+
+        <a href="{link_acao}" style="
+        display:inline-block;
+        margin-top:15px;
+        padding:10px 16px;
+        background:#22c55e;
+        color:white;
+        border-radius:8px;
+        text-decoration:none;
+        font-weight:600;
+        ">
+        Ver análise completa →
+        </a>
+
+        </div>
+        """
+
+        gerar_pagina(
+            nome,
+            titulo,
+            conteudo,
+            descricao=f"{titulo} com análise fundamentalista atualizada.",
+            keywords=f"{empresa}, {ticker}, ação {ticker}, investir em {ticker}"
+        )
+   
+
+# =========================
+# GERAR PAGINAS RANKING
+# =========================
+
+def gerar_paginas_ranking(df):
+
+    # dividendos
+    top_div = df.sort_values("DivYield", ascending=False).head(20)
+
+    lista_div = "".join([
+        f"<li>{row['Empresa']} ({row['Ticker']}) - {round(row['DivYield']*100,2)}%</li>"
+        for _, row in top_div.iterrows()
+    ])
+
+    gerar_pagina(
+        "melhores-acoes-dividendos",
+        "Melhores ações de dividendos",
+        f"<ul>{lista_div}</ul>",
+        descricao="Ranking atualizado das melhores ações de dividendos da bolsa.",
+        keywords="melhores dividendos, ações dividendos"
+    )
+
+
+    # baratas
+    top_baratas = df.sort_values("Desconto_%", ascending=False).head(20)
+
+    lista_baratas = "".join([
+        f"<li>{row['Empresa']} ({row['Ticker']}) - {round(row['Desconto_%'],2)}%</li>"
+        for _, row in top_baratas.iterrows()
+    ])
+
+    gerar_pagina(
+        "acoes-baratas-2026",
+        "Ações mais baratas da bolsa",
+        f"<ul>{lista_baratas}</ul>",
+        descricao="Veja as ações mais baratas hoje na bolsa.",
+        keywords="ações baratas, ações descontadas"
+    )
+
+# =========================
+# GERAR SITE
+# =========================
+
+
+os.makedirs("docs", exist_ok=True)
+os.makedirs("docs/acoes", exist_ok=True)
+
+hoje = datetime.date.today()
+data_br = hoje.strftime("%d/%m/%Y")
+
+df.to_csv("docs/ranking.csv", index=False)
+
+setores = sorted(df["Setor"].unique())
+categorias = sorted(df["Categoria"].unique())
+
+top3 = df.head(3)
+
+logger.info("Gerando site...")
 
 # =========================
 # GERAR páginas das ações
@@ -790,8 +925,10 @@ margin-bottom:12px">
 
 for _, row in df.iterrows():
     gerar_pagina_acao(row)
+    gerar_paginas_seo_ticker(row)
 
-    gerar_sitemap(df)
+gerar_paginas_ranking(df)
+gerar_sitemap(df)
 # =========================
 # HTML SaaS Moderno
 # =========================
@@ -1254,6 +1391,7 @@ background:#1e293b;
 color:#3b82f6;
 background:#243247;
 }}
+
 
 
 </style>

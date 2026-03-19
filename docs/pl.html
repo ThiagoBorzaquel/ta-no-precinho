@@ -22,6 +22,11 @@
 <link rel="canonical" href="https://tanoprecinho.site/pl.html">
 <link rel="icon" href="/favicon.ico">
 
+html = html.replace("</head>", f"""
+<link rel="canonical" href="https://tanoprecinho.site/{arquivo_seo}.html">
+</head>
+""")
+
 <meta name="robots" content="index, follow">
 <meta name="author" content="Tá no Precinho">
 
@@ -45,11 +50,12 @@
     --accent:#3b82f6;
     --text:#e2e8f0;
     --muted:#94a3b8;
+    --green:#22c55e;
 }
 
 body{
 margin:0;
-background:var(--bg);
+background:linear-gradient(180deg,#0f172a,#020617);
 color:var(--text);
 font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
 }
@@ -57,40 +63,63 @@ font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
 .container{
 max-width:900px;
 margin:auto;
-padding:40px 20px;
+padding:30px 16px;
 }
 
 .card{
-background:var(--card);
+background:rgba(30,41,59,0.85);
+backdrop-filter: blur(8px);
 padding:25px;
-border-radius:12px;
+border-radius:16px;
 margin-bottom:20px;
-box-shadow:0 8px 25px rgba(0,0,0,0.25);
+box-shadow:0 10px 30px rgba(0,0,0,0.4);
+border:1px solid rgba(255,255,255,0.05);
 }
 
 h1{
-margin-bottom:20px;
+margin-bottom:15px;
+font-size:24px;
 }
 
 p{
-line-height:1.6;
+line-height:1.7;
 color:var(--muted);
+font-size:15px;
 }
 
 a{
 color:var(--accent);
 text-decoration:none;
+font-weight:500;
 }
 
 a:hover{
 opacity:0.8;
 }
 
-.footer{
+.metric-box{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:10px;
+margin:15px 0;
+}
+
+.metric{
+background:#020617;
+padding:10px;
+border-radius:10px;
 text-align:center;
-margin-top:40px;
-font-size:12px;
-color:var(--muted);
+}
+
+.metric strong{
+display:block;
+font-size:16px;
+color:var(--text);
+}
+
+.highlight{
+color:var(--green);
+font-weight:600;
 }
 
 </style>
@@ -141,6 +170,22 @@ Porém o indicador deve sempre ser analisado junto com crescimento, setor e qual
 
 
 </div>
+
+
+<div class="card">
+links = f"""
+
+<h3>🔗 Explore mais</h3>
+
+links = f"""
+<ul>
+<li><a href="/vale-a-pena-{slug}.html">Vale a pena investir em {empresa}?</a></li>
+<li><a href="/{slug}-paga-dividendos.html">Dividendos da {empresa}</a></li>
+<li><a href="/{slug}-ta-barato.html">Preço justo da ação</a></li>
+</ul>
+
+</div>
+
 
 <!-- ANÚNCIO -->
 <div style="margin:20px 0;text-align:center;">

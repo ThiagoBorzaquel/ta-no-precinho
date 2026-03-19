@@ -18,6 +18,31 @@ def gerar_pagina(nome, titulo, conteudo, descricao="", keywords=""):
     with open(f"docs/{nome}.html", "w", encoding="utf-8") as f:
         f.write(html)
 
+# =========================
+# GERAR páginas setor
+# =========================
+
+def gerar_paginas_setor(df, gerar_pagina):
+
+    for setor in df["Setor"].unique():
+
+        df_setor = df[df["Setor"] == setor].sort_values("Desconto_%", ascending=False).head(20)
+
+        slug = setor.lower().replace(" ", "-")
+
+        conteudo = f"<h1>Melhores ações do setor {setor}</h1>"
+
+        for _, row in df_setor.iterrows():
+            conteudo += f"""
+            <p>
+            <a href="/{slugify(row['Empresa'])}-{row['Ticker'].lower()}.html">
+            {row['Empresa']} ({row['Ticker']})
+            </a>
+            </p>
+            """
+
+        gerar_pagina(f"melhores-acoes-{slug}", f"Ações do setor {setor}", conteudo)
+
 
 # =========================
 # CRIAR AS PÁGINAS
@@ -457,13 +482,16 @@ margin-bottom:12px">
 
     html = html.replace("</head>", schema + "\n</head>")
 
-    with open(f"docs/acoes/{ticker}.html", "w", encoding="utf-8") as f:
-        f.write(html)
+    nome_slug = slugify(row["Empresa"])
+    ticker_slug = row["Ticker"].lower()
+
+    arquivo_seo = f"{nome_slug}-{ticker_slug}"
+
+    with open(f"docs/{arquivo_seo}.html", "w", encoding="utf-8") as f:
+     f.write(html)
 
 
 # =========================
 # GERAR páginas das ações
 # =========================
 
-for _, row in df.iterrows():
-    gerar_pagina_acao(row)
