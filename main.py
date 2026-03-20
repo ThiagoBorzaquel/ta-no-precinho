@@ -673,9 +673,20 @@ def gerar_pagina_acao(row):
 
     <a href="../index.html">← Voltar</a>
 
-    <div style="text-align:center;margin:15px 0">
-    <h1>{ticker}</h1>
-    <div style="color:#94a3b8">{empresa}</div>
+    <div style="text-align:center;margin:20px 0">
+
+    <img src="../logos/{ticker}.png"
+    onerror="this.onerror=null;this.src='../logos/default.svg';"
+    style="width:50px;height:50px;margin-bottom:10px">
+
+    <h1 style="margin:0">
+    {empresa} ({ticker})
+    </h1>
+
+    <div style="color:#94a3b8;margin-top:5px">
+    {row["Setor"]}
+    </div>
+
     </div>
 
     <div style="max-width:420px;margin:auto">
@@ -755,9 +766,9 @@ def gerar_slug(nome_empresa, ticker):
 # =========================
 
 aberturas = [
-    "Muitos investidores se perguntam se vale a pena investir em {empresa}.",
-    "A dúvida sobre investir em {empresa} ({ticker}) é comum.",
-    "Será que a ação {ticker} é uma boa oportunidade hoje?"
+    "Muitos investidores se perguntam se vale a pena investir nesta {empresa}.",
+    "Essa é uma dúvida comum entre investidores.",
+    "Vamos analisar se essa ação {ticker} pode ser uma oportunidade."
 ]
 
 fechamentos = [
