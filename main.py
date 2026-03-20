@@ -202,6 +202,8 @@ df = df.nlargest(top_n, "Desconto_%")
 # Risco
 df["Risco"] = df.apply(calcular_risco, axis=1)
 
+df["Risco_num"] = pd.to_numeric(df["Risco"], errors="coerce")
+
 df["Farol"] = df["Risco"].apply(farol_risco)
 
 def garantir_colunas(df):
@@ -312,6 +314,18 @@ def gerar_sitemap(df):
         # páginas globais
         urls.append(f"<url><loc>{base_url}/melhores-acoes-dividendos.html</loc></url>")
         urls.append(f"<url><loc>{base_url}/acoes-baratas-2026.html</loc></url>")
+
+        # páginas high intent
+        paginas_high = [
+            "melhores-acoes-para-investir.html",
+            "acoes-maior-dividend-yield.html",
+            "acoes-maior-roe.html",
+            "acoes-mais-seguras.html",
+            "acoes-dividendos-mensais.html"
+        ]
+
+        for p in paginas_high:
+            urls.append(f"<url><loc>{base_url}/seo/{p}</loc></url>")
 
     sitemap = f"""<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
@@ -851,59 +865,85 @@ def gerar_paginas_seo_ticker(row):
     for nome, titulo in paginas:
 
         conteudo = f"""
-        <div style="max-width:700px;margin:auto">
+    <div style="max-width:900px;margin:auto">
 
-        <div style="text-align:center;margin-bottom:15px">
+    <div class="card" style="text-align:center;margin-bottom:15px">
 
-        <img src="../logos/{ticker}.png"
-        onerror="this.onerror=null;this.src='../logos/default.svg';"
-        style="width:50px;height:50px;margin-bottom:10px">
+    <img src="../logos/{ticker}.png"
+    onerror="this.onerror=null;this.src='../logos/default.svg';"
+    style="width:50px;height:50px;margin-bottom:10px">
 
-        <h2 style="margin:0;font-size:20px">
-        {titulo}
-        </h2>
+    <h1 style="margin:0;font-size:22px">
+    {empresa} ({ticker})
+    </h1>
 
-        </div>
+    <p style="color:#22c55e;font-size:13px;margin-bottom:10px">
+    Atualizado hoje • Dados da bolsa
+    </p>
 
-        {gerar_texto_seo(row)}
+    <div style="color:#94a3b8;margin-top:5px">
+    {row["Setor"]}
+    </div>
 
-        <div style="
-        background:rgba(34,197,94,0.1);
-        border:1px solid rgba(34,197,94,0.3);
-        padding:12px;
-        border-radius:10px;
-        margin:12px 0;
-        ">
+    </div>
 
-        💰 <strong>Preço atual:</strong> R$ {round(row["Preco"],2)} <br>
-        🎯 <strong>Preço justo:</strong> R$ {round(row["PrecoJusto"],2)} <br>
-        📉 <strong>Desconto:</strong> {round(row["Desconto_%"],2)}%
 
-        </div>
+    <div class="card">
+    {gerar_texto_seo(row)}
+    </div>
 
-        <a href="{link_acao}" style="
-        display:inline-block;
-        margin-top:15px;
-        padding:10px 16px;
-        background:#22c55e;
-        color:white;
-        border-radius:8px;
-        text-decoration:none;
-        font-weight:600;
-        ">
-        Ver análise completa →
-        </a>
 
-        </div>
-        """
+    <div class="card" style="
+    background:rgba(34,197,94,0.08);
+    border:1px solid rgba(34,197,94,0.2);
+    ">
 
-        gerar_pagina(
-            nome,
-            titulo,
-            conteudo,
-            descricao=f"{titulo} com análise fundamentalista atualizada.",
-            keywords=f"{empresa}, {ticker}, ação {ticker}, investir em {ticker}"
-        )
+    <h3>📊 Indicadores</h3>
+
+    <div style="
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:10px;
+    margin-top:10px;
+    ">
+
+    {gerar_metric("P/L", round(row["PL"],2))}
+    {gerar_metric("ROE", f'{round(row["ROE"]*100,2)}%')}
+    {gerar_metric("DY", f'{round(row["DivYield"]*100,2)}%')}
+    {gerar_metric("Desconto", f'{round(row["Desconto_%"],2)}%')}
+
+    </div>
+
+    </div>
+
+
+    <div class="card">
+
+    <h3>🔗 Continue analisando</h3>
+
+    <a href="../acoes/{ticker}.html" style="
+    display:inline-block;
+    margin-top:10px;
+    padding:10px 16px;
+    background:#22c55e;
+    color:white;
+    border-radius:8px;
+    text-decoration:none;
+    font-weight:600;
+    ">
+    Ver análise completa →
+    </a>
+
+    <br><br>
+
+    <a href="../index.html" style="color:#3b82f6">
+    ← Ver ranking completo
+    </a>
+
+    </div>
+
+    </div>
+    """
    
 
 # =========================
@@ -1028,6 +1068,188 @@ def gerar_paginas_ranking(df):
         descricao="Veja as ações mais baratas hoje na bolsa.",
         keywords="ações baratas, ações descontadas"
     )
+# =========================
+# GERAR PÁGINAS DE TRÁFEGO
+# =========================
+
+def gerar_paginas_high_intent(df):
+
+    def montar_lista(df_base, tipo="geral"):
+        html_lista = ""
+
+        for i, (_, row) in enumerate(df_base.iterrows(), start=1):
+
+            medalhas = ["🥇", "🥈", "🥉"]
+            icone = medalhas[i-1] if i <= 3 else ""
+
+            tag = ""
+            if row["DivYield"] > 0.08:
+                tag = "💰 RENDA"
+            elif row["ROE"] > 0.20:
+                tag = "🏆 ALTA RENT"
+            elif row["Desconto_%"] > 50:
+                tag = "🔥 OPORTUNIDADE"
+
+            html_lista += f"""
+            <a href="../acoes/{row['Ticker']}.html" style="text-decoration:none;color:inherit">
+            <div style="
+            background:rgba(30,41,59,0.6);
+            border:1px solid rgba(255,255,255,0.05);
+            padding:14px;
+            border-radius:12px;
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            margin-bottom:10px;
+            ">
+
+            <div style="display:flex;align-items:center;gap:10px">
+
+            <img src="../logos/{row['Ticker']}.png"
+            onerror="this.onerror=null;this.src='../logos/default.svg';"
+            style="width:28px;height:28px">
+
+            <div>
+
+            <div style="font-weight:600">
+            #{i} {icone} {row['Empresa']}
+            </div>
+
+            <div style="font-size:12px;color:#94a3b8">
+            {row['Ticker']} • {row['Setor']}
+            </div>
+
+            </div>
+
+            </div>
+
+            <div style="text-align:right">
+
+            <div style="color:#22c55e;font-weight:700">
+            {round(row['Score'],0)}
+            </div>
+
+            <div style="font-size:11px;color:#94a3b8">
+            {tag}
+            </div>
+
+            </div>
+
+            </div>
+            </a>
+            """
+
+        return html_lista
+    
+    # Melhores Ações para investir
+    
+    top_score = df.sort_values("Score", ascending=False).head(20)
+
+    gerar_pagina(
+        "melhores-acoes-para-investir",
+        "Melhores ações para investir em 2026",
+        f"""
+        <div class="card">
+        <h2>🏆 Melhores ações para investir</h2>
+
+        <p style="color:#22c55e;font-size:13px">
+        Atualizado hoje • Ranking baseado em Score
+        </p>
+
+        {montar_lista(top_score)}
+        </div>
+        """,
+        descricao="Veja as melhores ações para investir hoje na bolsa brasileira.",
+        keywords="melhores ações 2026, melhores ações para investir hoje"
+    )
+
+# Maior Dividend Yield
+
+    top_dy = df.sort_values("DivYield", ascending=False).head(20)
+
+    gerar_pagina(
+        "acoes-maior-dividend-yield",
+        "Ações com maior dividend yield hoje",
+        f"""
+        <div class="card">
+        <h2>💰 Maiores pagadoras de dividendos</h2>
+
+        <p style="color:#22c55e;font-size:13px">
+        Atualizado hoje • Ranking por Dividend Yield
+        </p>
+
+        {montar_lista(top_dy)}
+        </div>
+        """,
+        descricao="Ranking das ações com maior dividend yield da bolsa.",
+        keywords="ações dividend yield alto, melhores dividendos hoje"
+    )
+
+# Maior ROE
+
+    top_roe = df.sort_values("ROE", ascending=False).head(20)
+
+    gerar_pagina(
+        "acoes-maior-roe",
+        "Ações com maior ROE da bolsa",
+        f"""
+        <div class="card">
+        <h2>📈 Empresas mais rentáveis</h2>
+
+        <p style="color:#22c55e;font-size:13px">
+        Atualizado hoje • Ranking por ROE
+        </p>
+
+        {montar_lista(top_roe)}
+        </div>
+        """,
+        descricao="Veja as empresas mais rentáveis da bolsa com maior ROE.",
+        keywords="ações com maior roe, empresas mais lucrativas"
+    )
+
+# Ações Mais Seguras
+
+    seguras = df[df["Risco_num"] < 0.3].sort_values("Score", ascending=False).head(20)
+
+    gerar_pagina(
+        "acoes-mais-seguras",
+        "Ações mais seguras da bolsa",
+        f"""
+        <div class="card">
+        <h2>🛡️ Ações mais seguras</h2>
+
+        <p style="color:#22c55e;font-size:13px">
+        Baixo risco • Score alto
+        </p>
+
+        {montar_lista(seguras)}
+        </div>
+        """,
+        descricao="Ranking de ações mais seguras da bolsa brasileira.",
+        keywords="ações seguras, ações baixo risco"
+    )
+
+# Dividendos Mensais
+
+    renda = df[df["DivYield"] > 0.06].sort_values("DivYield", ascending=False).head(20)
+
+    gerar_pagina(
+        "acoes-dividendos-mensais",
+        "Ações para renda mensal com dividendos",
+        f"""
+        <div class="card">
+        <h2>💵 Renda mensal com dividendos</h2>
+
+        <p style="color:#94a3b8;font-size:13px">
+        Empresas com alto pagamento de dividendos
+        </p>
+
+        {montar_lista(renda)}
+        </div>
+        """,
+        descricao="Ações que podem gerar renda mensal com dividendos.",
+        keywords="ações dividendos mensais, renda passiva ações"
+    )
 
 # =========================
 # GERAR SITE
@@ -1058,6 +1280,7 @@ for _, row in df.iterrows():
     gerar_paginas_seo_ticker(row)
 
 gerar_paginas_ranking(df)
+gerar_paginas_high_intent(df)
 gerar_sitemap(df)
 # =========================
 # HTML SaaS Moderno
@@ -1093,8 +1316,6 @@ crossorigin="anonymous"></script>
 <a href="pl.html">O que é P/L</a> •
 <a href="roe.html">O que é ROE</a> •
 <a href="dividend-yield.html">Dividend Yield</a> •
-<a href="seo/acoes-baratas-2026.html">Ações mais baratas da bolsa 🔥</a> •
-<a href="seo/melhores-acoes-dividendos.html">Melhores ações de dividendos 2026💰</a> •
 
 </div>
 
@@ -1832,6 +2053,73 @@ html += """
 
 <div class="card">
 
+<h2>🚀 Descubra oportunidades</h2>
+
+<p style="color:#94a3b8;font-size:14px;margin-bottom:15px">
+Explore rankings prontos com as melhores ações da bolsa hoje.
+</p>
+
+<div style="
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:12px;
+">
+
+<a href="seo/melhores-acoes-para-investir.html" class="card" style="text-decoration:none">
+<div>
+<div style="font-weight:600">🏆 Melhores ações</div>
+<div style="font-size:12px;color:#94a3b8">Top empresas hoje</div>
+</div>
+</a>
+
+<a href="seo/acoes-maior-dividend-yield.html" class="card" style="text-decoration:none">
+<div>
+<div style="font-weight:600">💰 Dividendos</div>
+<div style="font-size:12px;color:#94a3b8">Maior DY da bolsa</div>
+</div>
+</a>
+
+<a href="seo/acoes-maior-roe.html" class="card" style="text-decoration:none">
+<div>
+<div style="font-weight:600">📈 Alta rentabilidade</div>
+<div style="font-size:12px;color:#94a3b8">Empresas eficientes</div>
+</div>
+</a>
+
+<a href="seo/acoes-mais-seguras.html" class="card" style="text-decoration:none">
+<div>
+<div style="font-weight:600">🛡️ Mais seguras</div>
+<div style="font-size:12px;color:#94a3b8">Menor risco</div>
+</div>
+</a>
+
+<a href="seo/acoes-dividendos-mensais.html" class="card" style="text-decoration:none">
+<div>
+<div style="font-weight:600">💵 Renda mensal</div>
+<div style="font-size:12px;color:#94a3b8">Foco em dividendos</div>
+</div>
+</a>
+
+<a href="seo/acoes-baratas-2026.html" class="card" style="text-decoration:none">
+<div>
+<div style="font-weight:600">Ações mais baratas da bolsa 🔥</div>
+<div style="font-size:12px;color:#94a3b8">Foco em oportunidade</div>
+</div>
+</a>
+
+<a href="seo/melhores-acoes-dividendos.html" class="card" style="text-decoration:none">
+<div>
+<div style="font-weight:600">Melhores ações de dividendos 2026💰</div>
+<div style="font-size:12px;color:#94a3b8">Foco em renda</div>
+</div>
+</a>
+
+</div>
+
+</div>
+
+<div class="card">
+
 <h2>📋 Ranking</h2>
 
 <p style="color:#22c55e;font-size:13px;margin-bottom:6px">
@@ -2011,10 +2299,6 @@ veja nossos guias simples:
 <li><a href="pl.html">O que é P/L</a></li>
 <li><a href="roe.html">O que é ROE</a></li>
 <li><a href="dividend-yield.html">O que é Dividend Yield</a></li>
-<br>
-<br>
-<li><a href="seo/acoes-baratas-2026.html">Ações mais baratas da bolsa 🔥</a></li>
-<li><a href="seo/melhores-acoes-dividendos.html">Melhores ações de dividendos 2026💰</a></li>
 </ul>
 
 </div>
