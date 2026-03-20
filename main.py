@@ -1385,9 +1385,13 @@ border-bottom:1px solid #243247;
 
 /* hover nas linhas */
 
+tbody tr{{
+    transition: scale; 
+}}
+
 tbody tr:hover{{
 background:#1f2a3d;
-transition:0.2s;
+transition:scale(1.01);
 }}
 
 /* coluna empresa */
@@ -1830,6 +1834,14 @@ html += """
 
 <h2>📋 Ranking</h2>
 
+<p style="color:#22c55e;font-size:13px;margin-bottom:6px">
+Atualizado hoje • Dados em tempo real
+</p>
+
+<p style="color:#94a3b8;font-size:14px;margin-bottom:15px">
+Ranking das ações mais descontadas da bolsa com base em análise fundamentalista.
+</p>
+
 <details class="ranking-explicacao">
 
 <summary>📊 Como funciona o ranking?</summary>
@@ -1903,17 +1915,27 @@ for i, (_, row) in enumerate(df.iterrows(), start=1):
     roe = round((row["ROE"] or 0) * 100, 2)
     dy = round((row["DivYield"] or 0) * 100, 2)
     desconto = round(row["Desconto_%"], 2)
+    medalhas = ["🥇", "🥈", "🥉"]
+    icone = medalhas[i-1] if i <= 3 else ""
+
+    tag = ""
+    if row["DivYield"] > 0.08:
+        tag = '<span style="background:#22c55e20;color:#22c55e;padding:2px 8px;border-radius:6px;font-size:11px;margin-left:6px;">ALTO DY</span>'
 
 
     html += f"""
     
-<tr data-setor="{row['Setor']}"
+<tr onclick="window.location='acoes/{row['Ticker']}.html'" style="cursor:pointer"
+    data-setor="{row['Setor']}"
     data-categoria="{row['Categoria']}"
     data-score="{row['Score']}"
     data-variacao="{row['Variacao_%']}">
 
 <td>
-<span style="color:#94a3b8;font-size:12px">#{i}</span>
+<span style="color:#94a3b8;font-size:12px">
+#{i} {icone}
+</span>
+
 <div style="display:flex;align-items:center;gap:8px">
 
 <img src="logos/{row['Ticker']}.png"
@@ -1925,7 +1947,10 @@ style="width:20px;height:20px;object-fit:contain">
 </a>
 
 </div>
-<span style="font-size:11px;color:#94a3b8">{row['Empresa']}</span>
+<span style="font-size:11px;color:#94a3b8">
+{row['Empresa']} {tag}
+</span>
+
 </td>
 
 <td>{row['Setor']}</td>
@@ -1946,7 +1971,17 @@ border:1px solid {cores_categoria.get(row['Categoria'], '#3b82f6')}">
 <td style="font-weight:600;color:{'#22c55e' if row['Score'] >= 70 else '#eab308'}">
 {row['Score']}
 </td>
-<td style="color:{'#22c55e' if desconto > 0 else '#ef4444'}">{desconto}%</td>
+
+<td>
+<span style="
+font-size:15px;
+font-weight:700;
+color:{'#22c55e' if desconto > 0 else '#ef4444'}
+">
+{desconto}%
+</span>
+</td>
+
 <td>R$ {round(row["PrecoJusto"],2)}</td>
 <td title="{row['Risco']}" style="text-align:center;">
 <span style="font-size:18px;display:inline-block;">
@@ -1976,6 +2011,8 @@ veja nossos guias simples:
 <li><a href="pl.html">O que é P/L</a></li>
 <li><a href="roe.html">O que é ROE</a></li>
 <li><a href="dividend-yield.html">O que é Dividend Yield</a></li>
+<br>
+<br>
 <li><a href="seo/acoes-baratas-2026.html">Ações mais baratas da bolsa 🔥</a></li>
 <li><a href="seo/melhores-acoes-dividendos.html">Melhores ações de dividendos 2026💰</a></li>
 </ul>
