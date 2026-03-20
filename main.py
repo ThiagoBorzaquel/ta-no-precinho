@@ -633,6 +633,116 @@ Empresas maduras costumam pagar mais dividendos do que empresas em fase de cresc
 """
 )
 
+gerar_pagina(
+    "missao",
+    "Nossa missão",
+    """
+<div style="max-width:700px;margin:auto">
+
+<h2>🎯 Nossa missão</h2>
+
+<p>
+Nosso objetivo é tornar a análise de ações mais simples, acessível e transparente para qualquer pessoa.
+</p>
+
+<p>
+O mercado financeiro costuma ser cheio de informações complexas, termos técnicos e ferramentas difíceis de usar. Muitos investidores acabam se sentindo perdidos ou dependentes de opiniões de terceiros para tomar decisões.
+</p>
+
+<p>
+Criamos este site para fazer exatamente o contrário.
+</p>
+
+<p>
+Aqui, organizamos dados de forma clara, direta e visual, permitindo que qualquer pessoa consiga entender rapidamente quais são as ações mais interessantes da bolsa brasileira.
+</p>
+
+<hr style="margin:25px 0;border:1px solid #243247;">
+
+<h2>📊 O que fazemos</h2>
+
+<p>
+Analisamos automaticamente centenas de empresas listadas na B3 utilizando indicadores fundamentalistas amplamente utilizados por investidores de longo prazo, como:
+</p>
+
+<ul>
+<li>P/L (Preço sobre Lucro)</li>
+<li>P/VP (Preço sobre Valor Patrimonial)</li>
+<li>ROE (Retorno sobre Patrimônio)</li>
+<li>Dividend Yield</li>
+</ul>
+
+<p>A partir desses dados, calculamos:</p>
+
+<ul>
+<li>Score de qualidade</li>
+<li>Preço justo estimado</li>
+<li>Nível de risco</li>
+<li>Grau de desconto</li>
+</ul>
+
+<p>
+Tudo isso é organizado em rankings simples e atualizados, facilitando a comparação entre empresas.
+</p>
+
+<hr style="margin:25px 0;border:1px solid #243247;">
+
+<h2>🚀 Nossa proposta</h2>
+
+<p>
+Nosso foco não é dar recomendações ou promessas de ganho.
+</p>
+
+<p>
+A proposta é oferecer uma ferramenta que ajude você a tomar decisões mais informadas, com base em dados objetivos.
+</p>
+
+<p>
+Acreditamos que investir bem não precisa ser complicado.
+</p>
+
+<hr style="margin:25px 0;border:1px solid #243247;">
+
+<h2>🔎 Transparência</h2>
+
+<p>
+Todas as análises apresentadas neste site são baseadas em critérios quantitativos e regras pré-definidas.
+</p>
+
+<p>
+Não há interferência manual nos rankings.
+</p>
+
+<p>
+Isso garante consistência, imparcialidade e clareza nos resultados apresentados.
+</p>
+
+<hr style="margin:25px 0;border:1px solid #243247;">
+
+<h2>⚠️ Aviso importante</h2>
+
+<p>
+Este site tem caráter exclusivamente informativo e educacional.
+</p>
+
+<p>
+Não constitui recomendação de compra ou venda de ativos.
+</p>
+
+<p>
+Cada investidor deve tomar suas próprias decisões, considerando seu perfil de risco e objetivos financeiros.
+</p>
+
+<br>
+
+<a href="/" style="color:#3b82f6">← Voltar ao ranking</a>
+
+</div>
+""",
+    descricao="Conheça a missão do Tá no Precinho e como analisamos ações da bolsa de forma simples e transparente.",
+    keywords="missão, análise de ações, bolsa brasileira, investimentos, educação financeira"
+)
+
 
 
 # =========================
@@ -866,6 +976,22 @@ def gerar_paginas_seo_ticker(row):
 
         conteudo = f"""
     <div style="max-width:900px;margin:auto">
+
+    <div style="max-width:700px;margin:auto;margin-bottom:15px">
+
+    <a href="javascript:history.back()" style="
+    display:inline-block;
+    color:#94a3b8;
+    text-decoration:none;
+    font-size:13px;
+    padding:6px 10px;
+    border-radius:8px;
+    background:#1e293b;
+    ">
+    ← Voltar
+    </a>
+
+    </div>
 
     <div class="card" style="text-align:center;margin-bottom:15px">
 
@@ -1312,6 +1438,7 @@ crossorigin="anonymous"></script>
 <div style="margin-bottom:20px" class="menu">
 
 <a href="index.html">Ranking</a> •
+<a href="missao.html">Nossa missão</a> •
 <a href="fundamentalista.html">Análise Fundamentalista</a> •
 <a href="pl.html">O que é P/L</a> •
 <a href="roe.html">O que é ROE</a> •
@@ -2059,60 +2186,21 @@ html += """
 Explore rankings prontos com as melhores ações da bolsa hoje.
 </p>
 
-<div style="
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-gap:12px;
-">
+<div class="menu">
 
-<a href="seo/melhores-acoes-para-investir.html" class="card" style="text-decoration:none">
-<div>
-<div style="font-weight:600">🏆 Melhores ações</div>
-<div style="font-size:12px;color:#94a3b8">Top empresas hoje</div>
-</div>
-</a>
+<a href="seo/melhores-acoes-para-investir.html">🏆 Melhores ações</a>
 
-<a href="seo/acoes-maior-dividend-yield.html" class="card" style="text-decoration:none">
-<div>
-<div style="font-weight:600">💰 Dividendos</div>
-<div style="font-size:12px;color:#94a3b8">Maior DY da bolsa</div>
-</div>
-</a>
+<a href="seo/acoes-maior-dividend-yield.html">💰 Dividendos</a>
 
-<a href="seo/acoes-maior-roe.html" class="card" style="text-decoration:none">
-<div>
-<div style="font-weight:600">📈 Alta rentabilidade</div>
-<div style="font-size:12px;color:#94a3b8">Empresas eficientes</div>
-</div>
-</a>
+<a href="seo/acoes-maior-roe.html">📈 Alta rentabilidade</a>
 
-<a href="seo/acoes-mais-seguras.html" class="card" style="text-decoration:none">
-<div>
-<div style="font-weight:600">🛡️ Mais seguras</div>
-<div style="font-size:12px;color:#94a3b8">Menor risco</div>
-</div>
-</a>
+<a href="seo/acoes-mais-seguras.html">🛡️ Mais seguras</a>
 
-<a href="seo/acoes-dividendos-mensais.html" class="card" style="text-decoration:none">
-<div>
-<div style="font-weight:600">💵 Renda mensal</div>
-<div style="font-size:12px;color:#94a3b8">Foco em dividendos</div>
-</div>
-</a>
+<a href="seo/acoes-dividendos-mensais.html">💵 Renda mensal</a>
 
-<a href="seo/acoes-baratas-2026.html" class="card" style="text-decoration:none">
-<div>
-<div style="font-weight:600">Ações mais baratas da bolsa 🔥</div>
-<div style="font-size:12px;color:#94a3b8">Foco em oportunidade</div>
-</div>
-</a>
+<a href="seo/acoes-baratas-2026.html">🔥 Ações baratas</a>
 
-<a href="seo/melhores-acoes-dividendos.html" class="card" style="text-decoration:none">
-<div>
-<div style="font-weight:600">Melhores ações de dividendos 2026💰</div>
-<div style="font-size:12px;color:#94a3b8">Foco em renda</div>
-</div>
-</a>
+<a href="seo/melhores-acoes-dividendos.html">💸 Dividendos 2026</a>
 
 </div>
 
@@ -2295,6 +2383,7 @@ veja nossos guias simples:
 </p>
 
 <ul class="menu">
+<li><a href="missao.html">Nossa missão</a></li>
 <li><a href="fundamentalista.html">O que é análise fundamentalista</a></li>
 <li><a href="pl.html">O que é P/L</a></li>
 <li><a href="roe.html">O que é ROE</a></li>
