@@ -8,7 +8,6 @@ import random
 import re
 import unicodedata
 from concurrent.futures import ThreadPoolExecutor, as_completed
-from scripts.collect_data import get_stock_data
 from scripts.validate_data import validar_dados
 from scripts.scoring import value_score
 from scripts.scoring import calcular_preco_justo
@@ -113,7 +112,29 @@ if df.empty or "Ticker" not in df.columns:
     print("⚠️ Nenhum dado disponível. Abortando execução.")
     exit()
 
+# =========================
+# LIMPAR NOMES
+# =========================
 
+def limpar_nome_empresa(nome):
+    if not isinstance(nome, str):
+        return nome
+
+    remover = [
+        " ON", " PN", " N1", " N2", " NM",
+        "ON ", "PN ", "N1 ", "N2 ", "NM ",
+        "ON", "PN", "N1", "N2", "NM"
+    ]
+
+    nome_limpo = nome
+
+    for termo in remover:
+        nome_limpo = nome_limpo.replace(termo, "")
+
+    # remover espaços duplicados
+    nome_limpo = " ".join(nome_limpo.split())
+
+    return nome_limpo.strip()
 
 # =========================
 # FILTRO DE QUALIDADE
@@ -224,6 +245,9 @@ preparar_logos(df)
 
 # garantir colunas para o site
 df = garantir_colunas(df)
+
+# 🔥 LIMPAR NOME DAS EMPRESAS (AQUI)
+df["Empresa"] = df["Empresa"].apply(limpar_nome_empresa)
 
 top10 = df.nlargest(5, "Desconto_%")
 
@@ -604,7 +628,7 @@ Empresas maduras costumam pagar mais dividendos do que empresas em fase de cresc
 def gerar_pagina_acao(row):
 
     ticker = row["Ticker"]
-    empresa = row["Empresa"]
+    empresa = limpar_nome_empresa(row["Empresa"])
 
     # SEO
     descricao = f"Análise da ação {ticker} ({empresa}) com indicadores atualizados."
@@ -760,6 +784,7 @@ def gerar_slug(nome_empresa, ticker):
         return f"{nome}-{ticker.lower()}"
     except:
         return ticker.lower()
+    
 
 # =========================
 # TEXTOS DINÂMICOS
@@ -810,7 +835,7 @@ def gerar_texto_seo(row):
 def gerar_paginas_seo_ticker(row):
 
     ticker = row["Ticker"]
-    empresa = row["Empresa"]
+    empresa = limpar_nome_empresa(row["Empresa"])
 
     # 🔥 LINK CORRETO
     link_acao = f"../acoes/{ticker}.html"
@@ -828,7 +853,17 @@ def gerar_paginas_seo_ticker(row):
         conteudo = f"""
         <div style="max-width:700px;margin:auto">
 
-        <h1>{titulo}</h1>
+        <div style="text-align:center;margin-bottom:15px">
+
+        <img src="../logos/{ticker}.png"
+        onerror="this.onerror=null;this.src='../logos/default.svg';"
+        style="width:50px;height:50px;margin-bottom:10px">
+
+        <h2 style="margin:0;font-size:20px">
+        {titulo}
+        </h2>
+
+        </div>
 
         {gerar_texto_seo(row)}
 
@@ -881,8 +916,50 @@ def gerar_paginas_ranking(df):
     top_div = df.sort_values("DivYield", ascending=False).head(20)
 
     lista_div = "".join([
-        f"<li>{row['Empresa']} ({row['Ticker']}) - {round(row['DivYield']*100,2)}%</li>"
-        for _, row in top_div.iterrows()
+    f"""
+    <div style="
+    background:rgba(30,41,59,0.6);
+    border:1px solid rgba(255,255,255,0.05);
+    padding:14px;
+    border-radius:12px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:10px;
+    ">
+
+    <div style="display:flex;align-items:center;gap:10px">
+
+    <img src="../logos/{row['Ticker']}.png"
+    onerror="this.onerror=null;this.src='../logos/default.svg';"
+    style="width:28px;height:28px">
+
+    <div>
+    <a href="../acoes/{row['Ticker']}.html" style="
+    color:#e2e8f0;
+    text-decoration:none;
+    font-weight:600;
+    ">
+    {row['Empresa']}
+    </a>
+
+    <div style="font-size:12px;color:#94a3b8">
+    {row['Ticker']}
+    </div>
+    </div>
+
+    </div>
+
+    <div style="
+    color:#22c55e;
+    font-weight:700;
+    ">
+    {round(row['DivYield']*100,2)}%
+    </div>
+
+    </div>
+    """
+    for _, row in top_div.iterrows()
     ])
 
     gerar_pagina(
@@ -898,8 +975,50 @@ def gerar_paginas_ranking(df):
     top_baratas = df.sort_values("Desconto_%", ascending=False).head(20)
 
     lista_baratas = "".join([
-        f"<li>{row['Empresa']} ({row['Ticker']}) - {round(row['Desconto_%'],2)}%</li>"
-        for _, row in top_baratas.iterrows()
+    f"""
+    <div style="
+    background:rgba(30,41,59,0.6);
+    border:1px solid rgba(255,255,255,0.05);
+    padding:14px;
+    border-radius:12px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:10px;
+    ">
+
+    <div style="display:flex;align-items:center;gap:10px">
+
+    <img src="../logos/{row['Ticker']}.png"
+    onerror="this.onerror=null;this.src='../logos/default.svg';"
+    style="width:28px;height:28px">
+
+    <div>
+    <a href="../acoes/{row['Ticker']}.html" style="
+    color:#e2e8f0;
+    text-decoration:none;
+    font-weight:600;
+    ">
+    {row['Empresa']}
+    </a>
+
+    <div style="font-size:12px;color:#94a3b8">
+    {row['Ticker']}
+    </div>
+    </div>
+
+    </div>
+
+    <div style="
+    color:#22c55e;
+    font-weight:700;
+    ">
+    {round(row['Desconto_%'],2)}%
+    </div>
+
+    </div>
+    """
+    for _, row in top_baratas.iterrows()
     ])
 
     gerar_pagina(
@@ -973,7 +1092,9 @@ crossorigin="anonymous"></script>
 <a href="fundamentalista.html">Análise Fundamentalista</a> •
 <a href="pl.html">O que é P/L</a> •
 <a href="roe.html">O que é ROE</a> •
-<a href="dividend-yield.html">Dividend Yield</a>
+<a href="dividend-yield.html">Dividend Yield</a> •
+<a href="seo/acoes-baratas-2026.html">Ações mais baratas da bolsa 🔥</a> •
+<a href="seo/melhores-acoes-dividendos.html">Melhores ações de dividendos 2026💰</a> •
 
 </div>
 
@@ -1217,6 +1338,7 @@ table a:hover{{
 .ranking-toggle{{
 cursor:pointer;
 user-select:none;
+border-radius:8px;
 }}
 
 
@@ -1687,17 +1809,17 @@ html += """
 </div>
 
 <div class="grafico-box">
-<h3>Blue Chips</h3>
+<h3>Blue Chips 🏦</h3>
 <canvas id="graficoBlue"></canvas>
 </div>
 
 <div class="grafico-box">
-<h3>Mid Caps</h3>
+<h3>Mid Caps 📈</h3>
 <canvas id="graficoMid"></canvas>
 </div>
 
 <div class="grafico-box">
-<h3>Small Caps</h3>
+<h3>Small Caps 🚀</h3>
 <canvas id="graficoSmall"></canvas>
 </div>
 
@@ -1854,6 +1976,8 @@ veja nossos guias simples:
 <li><a href="pl.html">O que é P/L</a></li>
 <li><a href="roe.html">O que é ROE</a></li>
 <li><a href="dividend-yield.html">O que é Dividend Yield</a></li>
+<li><a href="seo/acoes-baratas-2026.html">Ações mais baratas da bolsa 🔥</a></li>
+<li><a href="seo/melhores-acoes-dividendos.html">Melhores ações de dividendos 2026💰</a></li>
 </ul>
 
 </div>
