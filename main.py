@@ -894,6 +894,9 @@ def gerar_pagina_acao(row):
 
     with open(f"docs/acoes/{ticker}.html", "w", encoding="utf-8") as f:
         f.write(html)
+    
+    with open(f"docs/seo/{slug}.html", "w", encoding="utf-8") as f:
+        f.write(html)
 
 # =========================
 # GERAR slug
@@ -961,15 +964,12 @@ def gerar_paginas_seo_ticker(row):
     ticker = row["Ticker"]
     empresa = limpar_nome_empresa(row["Empresa"])
 
-    # 🔥 LINK CORRETO
-    link_acao = f"../acoes/{ticker}.html"
-
     slug = gerar_slug(empresa, ticker)
 
     paginas = [
         (f"vale-a-pena-{slug}", f"👉 Vale a pena investir em {empresa} ({ticker})?"),
-        (f"{slug}-ta-barato", f"{empresa} ({ticker})📉 está barato?"),
-        (f"{slug}-paga-dividendos", f"{empresa} ({ticker})💰 paga Dividendos")
+        (f"{slug}-ta-barato", f"{empresa} ({ticker}) 📉 está barato?"),
+        (f"{slug}-paga-dividendos", f"{empresa} ({ticker}) 💰 paga dividendos?")
     ]
 
     for nome, titulo in paginas:
@@ -1070,6 +1070,20 @@ def gerar_paginas_seo_ticker(row):
 
     </div>
     """
+
+        with open("docs/layout_base.html", "r", encoding="utf-8") as f:
+            template = f.read()
+
+        html = template.replace("{{titulo}}", titulo)
+        html = html.replace("{{conteudo}}", conteudo)
+        html = html.replace("{{descricao}}", titulo)
+        html = html.replace("{{keywords}}", titulo)
+        html = html.replace("{{url}}", f"https://tanoprecinho.site/seo/{nome}.html")
+
+        with open(f"docs/seo/{nome}.html", "w", encoding="utf-8") as f:
+            f.write(html)
+
+
    
 
 # =========================
@@ -1384,6 +1398,7 @@ def gerar_paginas_high_intent(df):
 
 os.makedirs("docs", exist_ok=True)
 os.makedirs("docs/acoes", exist_ok=True)
+os.makedirs("docs/seo", exist_ok=True)
 
 hoje = datetime.date.today()
 data_br = hoje.strftime("%d/%m/%Y")
