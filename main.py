@@ -218,52 +218,69 @@ print(f"{len(df)} empresas válidas encontradas.")
 # =========================
 
 def gerar_sitemap(df):
+
     base_url = "https://tanoprecinho.site"
+
     urls = []
 
-    urls.append(f"""
-    <url>
-        <loc>{base_url}/</loc>
-        <changefreq>daily</changefreq>
-        <priority>1.0</priority>
-    </url>
-    """)
-
-    paginas = [
-        "privacidade.html",
-        "termos.html",
-        "cookies.html",
-        "sobre.html",
-        "contato.html"
-    ]
-
-    for p in paginas:
+    def add_url(loc, freq="daily", priority="0.7"):
         urls.append(f"""
         <url>
-            <loc>{base_url}/{p}</loc>
-            <changefreq>monthly</changefreq>
-            <priority>0.5</priority>
+            <loc>{loc}</loc>
+            <changefreq>{freq}</changefreq>
+            <priority>{priority}</priority>
         </url>
         """)
 
+    # HOME
+    add_url(f"{base_url}/", "daily", "1.0")
+
+    # PÁGINAS SEO FIXAS (TODAS DENTRO DE /seo)
+    paginas = [
+        "privacidade",
+        "termos",
+        "cookies",
+        "sobre",
+        "contato",
+        "investidor",
+        "fundamentalista",
+        "pl",
+        "roe",
+        "dividend-yield",
+        "missao"
+    ]
+
+    for p in paginas:
+        add_url(f"{base_url}/seo/{p}.html", "monthly", "0.6")
+
+    # PÁGINAS DE AÇÕES
     for _, row in df.iterrows():
-        slug = gerar_slug(row["Empresa"], row["Ticker"])
-        urls.append(f"<url><loc>{base_url}/vale-a-pena-{slug}.html</loc></url>")
-        urls.append(f"<url><loc>{base_url}/{slug}-ta-barato.html</loc></url>")
-        urls.append(f"<url><loc>{base_url}/{slug}-paga-dividendos.html</loc></url>")
-        urls.append(f"<url><loc>{base_url}/melhores-acoes-dividendos.html</loc></url>")
-        urls.append(f"<url><loc>{base_url}/acoes-baratas-2026.html</loc></url>")
+        ticker = row["Ticker"]
+        empresa = row["Empresa"]
+        slug = gerar_slug(empresa, ticker)
 
-        paginas_high = [
-            "melhores-acoes-para-investir.html",
-            "acoes-maior-dividend-yield.html",
-            "acoes-maior-roe.html",
-            "acoes-mais-seguras.html",
-            "acoes-dividendos-mensais.html"
-        ]
+        # página principal da ação
+        add_url(f"{base_url}/acoes/{ticker}.html", "daily", "0.8")
 
-        for p in paginas_high:
-            urls.append(f"<url><loc>{base_url}/seo/{p}</loc></url>")
+        # páginas SEO da ação
+        add_url(f"{base_url}/seo/{slug}.html")
+        add_url(f"{base_url}/seo/vale-a-pena-{slug}.html")
+        add_url(f"{base_url}/seo/{slug}-ta-barato.html")
+        add_url(f"{base_url}/seo/{slug}-paga-dividendos.html")
+
+    # PÁGINAS DE RANKING
+    paginas_rank = [
+        "melhores-acoes-dividendos",
+        "acoes-baratas-2026",
+        "melhores-acoes-para-investir",
+        "acoes-maior-dividend-yield",
+        "acoes-maior-roe",
+        "acoes-mais-seguras",
+        "acoes-dividendos-mensais"
+    ]
+
+    for p in paginas_rank:
+        add_url(f"{base_url}/seo/{p}.html", "daily", "0.9")
 
     sitemap = f"""<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
@@ -274,7 +291,7 @@ def gerar_sitemap(df):
     with open("docs/sitemap.xml", "w", encoding="utf-8") as f:
         f.write(sitemap)
 
-    print("Sitemap gerado.")
+    print("✅ Sitemap gerado corretamente.")
 
 # =========================
 # GERAR MÉTRICA
@@ -951,7 +968,13 @@ html = f"""
 
 <title>Tá no Precinho? | Ranking de ações da bolsa brasileira</title>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+window.addEventListener("load", function() {{
+  let script = document.createElement("script");
+  script.src = "https://cdn.jsdelivr.net/npm/chart.js";
+  document.body.appendChild(script);
+}});
+</script>
 
 <style>
 :root{{
