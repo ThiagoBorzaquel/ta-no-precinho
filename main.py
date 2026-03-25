@@ -387,7 +387,7 @@ gerar_pagina_raiz(
 <p>Se você está aqui analisando empresas, você já está fazendo algo que a maioria das pessoas nunca fará: pensando no longo prazo.</p>
 <p style="margin-top:30px;font-weight:600">O tempo é o melhor amigo do investidor disciplinado.</p>
 <br>
-<a href="/" style="color:#3b82f6">← Voltar ao ranking</a>
+<a href="/docs/index.html" style="color:#3b82f6">← Voltar ao ranking</a>
 </div>
 """
 )
