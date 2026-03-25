@@ -1495,21 +1495,88 @@ Ranking das ações mais descontadas da bolsa com base em análise fundamentalis
   ⚠️ <span><strong>Atenção:</strong> Este ranking é informativo e educacional. <strong>Não constitui recomendação de investimento.</strong> Sempre faça sua própria análise antes de investir.</span>
 </div>
 
-<details>
+<details class="ranking-explicacao">
+
 <summary>📊 Como funciona o ranking?</summary>
-<div style="font-size:14px;color:#cbd5e1;line-height:1.7;padding:10px 0;">
-<p>Este site analisa automaticamente centenas de ações da bolsa brasileira e organiza tudo em um ranking simples.</p>
-<p>Utilizamos critérios amplamente usados por investidores de longo prazo:</p>
+
+<div style="font-size:14px;color:#94a3b8;line-height:1.7">
+
+<p>
+Este ranking foi criado para identificar ações que podem estar negociando abaixo do valor justo,
+utilizando critérios objetivos da análise fundamentalista.
+</p>
+
+<br>
+
+<h3>📊 Critérios analisados</h3>
+
+<p>
+As empresas são avaliadas com base em:
+</p>
+
 <ul>
-<li><strong>P/L</strong> – quanto o mercado paga pelo lucro</li>
-<li><strong>P/VP</strong> – relação preço/patrimônio</li>
+<li><strong>P/L</strong> – relação entre preço e lucro</li>
+<li><strong>P/VP</strong> – relação entre preço e patrimônio</li>
 <li><strong>ROE</strong> – eficiência da empresa</li>
 <li><strong>Dividend Yield</strong> – retorno em dividendos</li>
 </ul>
-<p>O preço justo utiliza um múltiplo conservador de <strong>P/L = 15</strong>, ajustado por setor.</p>
-<p>Quanto maior o desconto e melhor o score, maior a posição no ranking.</p>
-<p><a href="missao.html" style="color:#3b82f6">Ver como o Score é calculado →</a></p>
+
+<p>
+Com base nesses dados, calculamos:
+</p>
+
+<ul>
+<li>Score de qualidade</li>
+<li>Preço justo estimado (P/L = 15)</li>
+<li>Percentual de desconto</li>
+<li>Nível de risco</li>
+</ul>
+
+<br>
+
+<h3>🏆 Como funciona o ranking</h3>
+
+<p>
+As ações são ordenadas principalmente pelo <strong>desconto em relação ao preço justo</strong>.
+</p>
+
+<p>
+Quanto maior o desconto e melhor o score, melhor a posição no ranking.
+</p>
+
+<br>
+
+<h3>🧠 Legenda dos ícones</h3>
+
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px">
+
+<div>🥇 🥈 🥉 → Top 3 do ranking</div>
+<div>💰 → Alto pagamento de dividendos</div>
+<div>🏆 → Alta rentabilidade (ROE elevado)</div>
+<div>🔥 → Grande desconto (oportunidade)</div>
+
 </div>
+
+<br>
+
+<h3>🚦 Risco (farol)</h3>
+
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px">
+
+<div>🟢 Baixo risco</div>
+<div>🟡 Risco moderado</div>
+<div>🔴 Alto risco</div>
+
+</div>
+
+<br>
+
+<p>
+⚠️ Este ranking é apenas informativo e não constitui recomendação de investimento.
+</p>
+
+</div>
+
 </details>
 
 <br>
