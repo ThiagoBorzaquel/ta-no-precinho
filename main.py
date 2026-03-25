@@ -968,13 +968,7 @@ html = f"""
 
 <title>Tá no Precinho? | Ranking de ações da bolsa brasileira</title>
 
-<script>
-window.addEventListener("load", function() {{
-  let script = document.createElement("script");
-  script.src = "https://cdn.jsdelivr.net/npm/chart.js";
-  document.body.appendChild(script);
-}});
-</script>
+<script defer src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
 :root{{
