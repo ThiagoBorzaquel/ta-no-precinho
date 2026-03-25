@@ -299,19 +299,27 @@ def gerar_metric(nome, valor, cor="#e2e8f0"):
 # GERAR PÁGINAS AUTOMÁTICAS
 # =========================
 
-def gerar_pagina(nome, titulo, conteudo, descricao="", keywords=""):
-
+def _aplicar_template(nome, titulo, conteudo, descricao, keywords, url):
     with open("docs/layout_base.html", "r", encoding="utf-8") as f:
         template = f.read()
-
-    url = f"https://tanoprecinho.site/{nome}.html"
-
     html = template.replace("{{titulo}}", titulo)
     html = html.replace("{{conteudo}}", conteudo)
     html = html.replace("{{descricao}}", descricao)
     html = html.replace("{{keywords}}", keywords)
     html = html.replace("{{url}}", url)
+    return html
 
+def gerar_pagina_raiz(nome, titulo, conteudo, descricao="", keywords=""):
+    """Páginas legais e educativas — salvas em docs/ (raiz do site)"""
+    url = f"https://tanoprecinho.site/{nome}.html"
+    html = _aplicar_template(nome, titulo, conteudo, descricao, keywords, url)
+    with open(f"docs/{nome}.html", "w", encoding="utf-8") as f:
+        f.write(html)
+
+def gerar_pagina(nome, titulo, conteudo, descricao="", keywords=""):
+    """Páginas de ranking/SEO — salvas em docs/seo/"""
+    url = f"https://tanoprecinho.site/seo/{nome}.html"
+    html = _aplicar_template(nome, titulo, conteudo, descricao, keywords, url)
     with open(f"docs/seo/{nome}.html", "w", encoding="utf-8") as f:
         f.write(html)
 
@@ -320,7 +328,7 @@ def gerar_pagina(nome, titulo, conteudo, descricao="", keywords=""):
 # PÁGINAS INSTITUCIONAIS
 # =========================
 
-gerar_pagina(
+gerar_pagina_raiz(
     "privacidade",
     "Política de Privacidade",
     """
@@ -330,7 +338,7 @@ gerar_pagina(
 """
 )
 
-gerar_pagina(
+gerar_pagina_raiz(
     "termos",
     "Termos de Uso",
     """
@@ -340,7 +348,7 @@ gerar_pagina(
 """
 )
 
-gerar_pagina(
+gerar_pagina_raiz(
     "cookies",
     "Política de Cookies",
     """
@@ -349,7 +357,7 @@ gerar_pagina(
 """
 )
 
-gerar_pagina(
+gerar_pagina_raiz(
     "sobre",
     "Sobre o Projeto",
     """
@@ -358,7 +366,7 @@ gerar_pagina(
 """
 )
 
-gerar_pagina(
+gerar_pagina_raiz(
     "contato",
     "Contato",
     """
@@ -367,7 +375,7 @@ gerar_pagina(
 """
 )
 
-gerar_pagina(
+gerar_pagina_raiz(
     "investidor",
     "Mensagem para o Investidor",
     """
@@ -384,7 +392,7 @@ gerar_pagina(
 """
 )
 
-gerar_pagina(
+gerar_pagina_raiz(
     "fundamentalista",
     "O que é Análise Fundamentalista",
     """
@@ -400,12 +408,12 @@ gerar_pagina(
 <li>Dividend Yield</li>
 </ul>
 <br>
-<a href="../index.html" style="color:#3b82f6">← Voltar ao ranking</a>
+<a href="index.html" style="color:#3b82f6">← Voltar ao ranking</a>
 </div>
 """
 )
 
-gerar_pagina(
+gerar_pagina_raiz(
     "pl",
     "O que é P/L",
     """
@@ -418,12 +426,12 @@ gerar_pagina(
 <li>P/L alto → pode indicar ação cara</li>
 </ul>
 <br>
-<a href="../index.html" style="color:#3b82f6">← Voltar ao ranking</a>
+<a href="index.html" style="color:#3b82f6">← Voltar ao ranking</a>
 </div>
 """
 )
 
-gerar_pagina(
+gerar_pagina_raiz(
     "roe",
     "O que é ROE",
     """
@@ -437,12 +445,12 @@ gerar_pagina(
 <li>ROE baixo → menor rentabilidade</li>
 </ul>
 <br>
-<a href="../index.html" style="color:#3b82f6">← Voltar ao ranking</a>
+<a href="index.html" style="color:#3b82f6">← Voltar ao ranking</a>
 </div>
 """
 )
 
-gerar_pagina(
+gerar_pagina_raiz(
     "dividend-yield",
     "O que é Dividend Yield",
     """
@@ -455,12 +463,12 @@ gerar_pagina(
 <li>Dividend Yield baixo → foco maior em crescimento</li>
 </ul>
 <br>
-<a href="../index.html" style="color:#3b82f6">← Voltar ao ranking</a>
+<a href="index.html" style="color:#3b82f6">← Voltar ao ranking</a>
 </div>
 """
 )
 
-gerar_pagina(
+gerar_pagina_raiz(
     "missao",
     "Nossa missão",
     """
@@ -498,7 +506,7 @@ gerar_pagina(
 <h2>⚠️ Aviso importante</h2>
 <p>Este site tem caráter exclusivamente informativo e educacional. <strong>Não constitui recomendação de compra ou venda de ativos.</strong> Cada investidor deve tomar suas próprias decisões considerando seu perfil de risco.</p>
 <br>
-<a href="../index.html" style="color:#3b82f6">← Voltar ao ranking</a>
+<a href="index.html" style="color:#3b82f6">← Voltar ao ranking</a>
 </div>
 """,
     descricao="Conheça a missão do Tá no Precinho e como analisamos ações da bolsa de forma simples e transparente.",

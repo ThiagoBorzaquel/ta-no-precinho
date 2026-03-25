@@ -9,7 +9,7 @@
 
 <!-- ADSENSE -->
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5213961841779335"
-     crossorigin="anonymous"></script>
+crossorigin="anonymous"></script>
 
 <meta name="google-adsense-account" content="ca-pub-5213961841779335">
 
@@ -22,16 +22,13 @@
 <link rel="canonical" href="https://tanoprecinho.site/cookies.html">
 <link rel="icon" href="/favicon.ico">
 
-
-<link rel="canonical" href="https://tanoprecinho.site/{arquivo_seo}.html">
-</head>
-
-
 <meta name="robots" content="index, follow">
 <meta name="author" content="Tá no Precinho">
 
 <meta name="description" content="">
 <meta name="keywords" content="">
+
+<meta name="theme-color" content="#0f172a">
 
 <!-- OPEN GRAPH -->
 <meta property="og:title" content="Política de Cookies">
@@ -42,6 +39,23 @@
 <meta property="og:site_name" content="Tá no Precinho">
 <meta property="og:locale" content="pt_BR">
 
+<!-- SCHEMA SEO -->
+<script type="application/ld+json">
+{
+"@context": "https://schema.org",
+"@type": "WebPage",
+"name": "Política de Cookies",
+"description": "",
+"url": "https://tanoprecinho.site/cookies.html",
+"inLanguage": "pt-BR",
+"publisher": {
+  "@type": "Organization",
+  "name": "Tá no Precinho",
+  "url": "https://tanoprecinho.site"
+}
+}
+</script>
+
 <style>
 
 :root {
@@ -49,7 +63,7 @@
     --card:#1e293b;
     --accent:#3b82f6;
     --text:#e2e8f0;
-    --muted:#94a3b8;
+    --muted:#cbd5e1;
     --green:#22c55e;
 }
 
@@ -97,71 +111,100 @@ a:hover{
 opacity:0.8;
 }
 
-.metric-box{
-display:grid;
-grid-template-columns:repeat(2,1fr);
-gap:10px;
-margin:15px 0;
+/* FIX ACESSIBILIDADE: foco visível para navegação por teclado */
+a:focus,
+button:focus,
+select:focus,
+input:focus {
+outline: 2px solid #3b82f6;
+outline-offset: 2px;
 }
 
-.metric{
-background:#020617;
-padding:10px;
-border-radius:10px;
+.footer{
 text-align:center;
+margin-top:30px;
+font-size:12px;
+color:var(--muted);
 }
 
-.metric strong{
-display:block;
-font-size:16px;
-color:var(--text);
+.menu{
+display:flex;
+flex-wrap:wrap;
+gap:14px;
+margin:12px 0 22px 0;
+font-size:14px;
 }
 
-.highlight{
-color:var(--green);
-font-weight:600;
+.menu a{
+color:#cbd5e1;
+text-decoration:none;
+padding:6px 10px;
+border-radius:8px;
+background:#1e293b;
+}
+
+.menu a:hover{
+color:#3b82f6;
+background:#243247;
+}
+
+/* FIX ACESSIBILIDADE: aviso de risco visível */
+.aviso-risco {
+background: rgba(234, 179, 8, 0.1);
+border: 1px solid rgba(234, 179, 8, 0.3);
+border-radius: 10px;
+padding: 12px 16px;
+font-size: 13px;
+color: #fde68a;
+margin-bottom: 16px;
+display: flex;
+align-items: flex-start;
+gap: 8px;
 }
 
 </style>
-<title>Tá no Precinho? | Ranking de ações da bolsa brasileira</title>
 
-<div style="margin-bottom:20px" class="menu">
-
-<a href="../index.html">Ranking</a> •
-<a href="../missao.html">Nossa missão</a> •
-<a href="../fundamentalista.html">Análise Fundamentalista</a> •
-<a href="../pl.html">O que é P/L</a> •
-<a href="../roe.html">O que é ROE</a> •
-<a href="../dividend-yield.html">Dividend Yield</a> •
-
-</div>
-
-<div class="container">
-
-<h1>
-<a href="investidor.html" style="text-decoration:none;color:inherit">
-📉 Tá no Precinho?
-</a>
-</h1>
-
-<div class="subtitle">
-Criamos este site com um objetivo simples: tornar a análise de ações acessível para qualquer pessoa.
-A informação aqui é gratuita e sempre será.
-<br>
-Atualizado automaticamente todos os dias.
-<br>
-<br>
-</div>
 </head>
 
 <body>
 
 <div class="container">
 
+<!-- NAVEGAÇÃO PRINCIPAL - acessível com nav e aria-label -->
+<nav aria-label="Menu principal">
+<div style="margin-bottom:20px" class="menu">
+  <a href="/docs/index.html">Ranking</a>
+  <a href="/docs/missao.html">Nossa missão</a>
+  <a href="/docs/fundamentalista.html">Análise Fundamentalista</a>
+  <a href="/docs/pl.html">O que é P/L</a>
+  <a href="/docs/roe.html">O que é ROE</a>
+  <a href="/docs/dividend-yield.html">Dividend Yield</a>
+</div>
+</nav>
+
+<header>
+<h1>
+  <a href="/index.html" style="text-decoration:none;color:inherit" aria-label="Tá no Precinho - Página inicial">
+    📉 Tá no Precinho?
+  </a>
+</h1>
+
+<p class="subtitle" style="color:var(--muted);font-size:14px;margin-bottom:20px">
+  Tornando a análise de ações acessível para qualquer pessoa. Gratuito e atualizado todos os dias.
+</p>
+</header>
+
+<main>
+
 <!-- CONTEÚDO -->
 <div class="card">
 
 <h1>Política de Cookies</h1>
+
+<!-- FIX ACESSIBILIDADE: aviso de risco próximo ao conteúdo -->
+<div class="aviso-risco" role="note" aria-label="Aviso importante">
+  ⚠️ <span>Conteúdo informativo e educacional. <strong>Não constitui recomendação de investimento.</strong> Cada investidor deve tomar suas próprias decisões.</span>
+</div>
 
 
 <p>Este site utiliza cookies para melhorar a experiência do usuário.</p>
@@ -170,37 +213,8 @@ Atualizado automaticamente todos os dias.
 
 </div>
 
-
-<div class="card">
-
-
-<h3>🔗 Explore mais</h3>
-
-
-<h3>🔗 Explore mais</h3>
-
-
-<ul>
-<li><a href="seo/melhores-acoes-para-investir.html">🏆 Melhores ações</a></li>
-
-<li><a href="seo/acoes-maior-dividend-yield.html">💰 Dividendos</a></li>
-
-<li><a href="seo/acoes-maior-roe.html">📈 Alta rentabilidade</a></li>
-
-<li><a href="seo/acoes-mais-seguras.html">🛡️ Mais seguras</a></li>
-
-<li><a href="seo/acoes-dividendos-mensais.html">💵 Renda mensal</a></li>
-
-<li><a href="seo/acoes-baratas-2026.html">🔥 Ações baratas</a></li>
-
-<li><a href="seo/melhores-acoes-dividendos.html">💸 Dividendos 2026</a></li>
-</ul>
-
-</div>
-
-
 <!-- ANÚNCIO -->
-<div style="margin:20px 0;text-align:center;">
+<div style="margin:20px 0;text-align:center;" aria-label="Publicidade" role="complementary">
     <ins class="adsbygoogle"
         style="display:block"
         data-ad-client="ca-pub-5213961841779335"
@@ -209,31 +223,34 @@ Atualizado automaticamente todos os dias.
         data-full-width-responsive="true"></ins>
 </div>
 
+</main>
+
 <script>
 (adsbygoogle = window.adsbygoogle || []).push({});
 </script>
 
 <!-- RODAPÉ -->
+<footer>
 <div class="footer">
-⚠️ Este ranking utiliza dados públicos do Yahoo Finance e aplica critérios quantitativos próprios. Não constitui recomendação de investimento. 
-Não substitui análise completa ou orientação profissional<br>
-<a href="/ranking.csv" style="color:#3b82f6;">Baixar CSV</a>
+  ⚠️ Este ranking utiliza dados públicos do Yahoo Finance e aplica critérios quantitativos próprios.
+  Não constitui recomendação de investimento.<br>
+  <a href="/ranking.csv" aria-label="Baixar ranking em formato CSV">Baixar CSV</a>
 </div>
 
-<footer class="footer">
-
-<a href="https://tanoprecinho.site/">Home</a> |
-<a href="https://tanoprecinho.site/privacidade.html">Privacidade</a> |
-<a href="https://tanoprecinho.site/termos.html">Termos</a> |
-<a href="https://tanoprecinho.site/cookies.html">Cookies</a> |
-<a href="https://tanoprecinho.site/sobre.html">Sobre</a> |
-<a href="https://tanoprecinho.site/contato.html">Contato</a>
-
-<br><br>
-
-© Tá no Precinho, 2026
-
+<div class="footer" style="margin-top:10px">
+  <nav aria-label="Links do rodapé">
+    <a href="index.html">Home</a> |
+    <a href="/docs/privacidade.html">Privacidade</a> |
+    <a href="/docs/termos.html">Termos</a> |
+    <a href="/docs/cookies.html">Cookies</a> |
+    <a href="/docs/sobre.html">Sobre</a> |
+    <a href="/docs/contato.html">Contato</a>
+  </nav>
+  <br>
+  © Tá no Precinho, 2026
+</div>
 </footer>
+
 </div>
 
 </body>

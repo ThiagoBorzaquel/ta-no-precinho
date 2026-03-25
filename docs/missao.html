@@ -19,7 +19,7 @@ crossorigin="anonymous"></script>
 
 <title>Nossa missão | Tá no Precinho</title>
 
-<link rel="canonical" href="https://tanoprecinho.site/{arquivo_seo}.html">
+<link rel="canonical" href="https://tanoprecinho.site/missao.html">
 <link rel="icon" href="/favicon.ico">
 
 <meta name="robots" content="index, follow">
@@ -63,7 +63,7 @@ crossorigin="anonymous"></script>
     --card:#1e293b;
     --accent:#3b82f6;
     --text:#e2e8f0;
-    --muted:#94a3b8;
+    --muted:#cbd5e1;
     --green:#22c55e;
 }
 
@@ -111,11 +111,55 @@ a:hover{
 opacity:0.8;
 }
 
+/* FIX ACESSIBILIDADE: foco visível para navegação por teclado */
+a:focus,
+button:focus,
+select:focus,
+input:focus {
+outline: 2px solid #3b82f6;
+outline-offset: 2px;
+}
+
 .footer{
 text-align:center;
 margin-top:30px;
 font-size:12px;
 color:var(--muted);
+}
+
+.menu{
+display:flex;
+flex-wrap:wrap;
+gap:14px;
+margin:12px 0 22px 0;
+font-size:14px;
+}
+
+.menu a{
+color:#cbd5e1;
+text-decoration:none;
+padding:6px 10px;
+border-radius:8px;
+background:#1e293b;
+}
+
+.menu a:hover{
+color:#3b82f6;
+background:#243247;
+}
+
+/* FIX ACESSIBILIDADE: aviso de risco visível */
+.aviso-risco {
+background: rgba(234, 179, 8, 0.1);
+border: 1px solid rgba(234, 179, 8, 0.3);
+border-radius: 10px;
+padding: 12px 16px;
+font-size: 13px;
+color: #fde68a;
+margin-bottom: 16px;
+display: flex;
+align-items: flex-start;
+gap: 8px;
 }
 
 </style>
@@ -126,119 +170,85 @@ color:var(--muted);
 
 <div class="container">
 
+<!-- NAVEGAÇÃO PRINCIPAL - acessível com nav e aria-label -->
+<nav aria-label="Menu principal">
+<div style="margin-bottom:20px" class="menu">
+  <a href="/docs/index.html">Ranking</a>
+  <a href="/docs/missao.html">Nossa missão</a>
+  <a href="/docs/fundamentalista.html">Análise Fundamentalista</a>
+  <a href="/docs/pl.html">O que é P/L</a>
+  <a href="/docs/roe.html">O que é ROE</a>
+  <a href="/docs/dividend-yield.html">Dividend Yield</a>
+</div>
+</nav>
+
+<header>
+<h1>
+  <a href="/index.html" style="text-decoration:none;color:inherit" aria-label="Tá no Precinho - Página inicial">
+    📉 Tá no Precinho?
+  </a>
+</h1>
+
+<p class="subtitle" style="color:var(--muted);font-size:14px;margin-bottom:20px">
+  Tornando a análise de ações acessível para qualquer pessoa. Gratuito e atualizado todos os dias.
+</p>
+</header>
+
+<main>
+
 <!-- CONTEÚDO -->
 <div class="card">
 
 <h1>Nossa missão</h1>
 
+<!-- FIX ACESSIBILIDADE: aviso de risco próximo ao conteúdo -->
+<div class="aviso-risco" role="note" aria-label="Aviso importante">
+  ⚠️ <span>Conteúdo informativo e educacional. <strong>Não constitui recomendação de investimento.</strong> Cada investidor deve tomar suas próprias decisões.</span>
+</div>
+
 
 <div style="max-width:700px;margin:auto">
-
 <h2>🎯 Nossa missão</h2>
-
-<p>
-Nosso objetivo é tornar a análise de ações mais simples, acessível e transparente para qualquer pessoa.
-</p>
-
-<p>
-O mercado financeiro costuma ser cheio de informações complexas, termos técnicos e ferramentas difíceis de usar. Muitos investidores acabam se sentindo perdidos ou dependentes de opiniões de terceiros para tomar decisões.
-</p>
-
-<p>
-Criamos este site para fazer exatamente o contrário.
-</p>
-
-<p>
-Aqui, organizamos dados de forma clara, direta e visual, permitindo que qualquer pessoa consiga entender rapidamente quais são as ações mais interessantes da bolsa brasileira.
-</p>
-
+<p>Nosso objetivo é tornar a análise de ações mais simples, acessível e transparente para qualquer pessoa.</p>
+<p>Criamos este site para fazer exatamente o contrário do mercado tradicional: informação clara, direta e visual.</p>
 <hr style="margin:25px 0;border:1px solid #243247;">
-
 <h2>📊 O que fazemos</h2>
-
-<p>
-Analisamos automaticamente centenas de empresas listadas na B3 utilizando indicadores fundamentalistas amplamente utilizados por investidores de longo prazo, como:
-</p>
-
+<p>Analisamos automaticamente centenas de empresas listadas na B3 utilizando:</p>
 <ul>
 <li>P/L (Preço sobre Lucro)</li>
 <li>P/VP (Preço sobre Valor Patrimonial)</li>
 <li>ROE (Retorno sobre Patrimônio)</li>
 <li>Dividend Yield</li>
 </ul>
+<p>A partir desses dados calculamos: Score de qualidade, preço justo estimado, nível de risco e grau de desconto.</p>
+<hr style="margin:25px 0;border:1px solid #243247;">
 
-<p>A partir desses dados, calculamos:</p>
-
+<!-- FIX ACESSIBILIDADE: Transparência do Score explicada na página de missão -->
+<h2>🔢 Como o Score é calculado</h2>
+<p>O Score vai de 0 a 100 e é composto por critérios objetivos:</p>
 <ul>
-<li>Score de qualidade</li>
-<li>Preço justo estimado</li>
-<li>Nível de risco</li>
-<li>Grau de desconto</li>
+<li><strong>P/L baixo</strong> — quanto menor, maior a pontuação (empresa mais barata pelo lucro)</li>
+<li><strong>P/VP baixo</strong> — empresa negociada abaixo do patrimônio recebe mais pontos</li>
+<li><strong>ROE alto</strong> — empresas mais eficientes e rentáveis pontuam mais</li>
+<li><strong>Dividend Yield alto</strong> — bom pagamento de dividendos contribui positivamente</li>
+<li><strong>Desconto em relação ao preço justo</strong> — quanto maior o desconto, maior o Score</li>
 </ul>
-
-<p>
-Tudo isso é organizado em rankings simples e atualizados, facilitando a comparação entre empresas.
-</p>
-
+<p>O Score final combina esses fatores com pesos específicos por setor, pois cada segmento tem características diferentes (bancos, energia, varejo etc.).</p>
 <hr style="margin:25px 0;border:1px solid #243247;">
-
-<h2>🚀 Nossa proposta</h2>
-
-<p>
-Nosso foco não é dar recomendações ou promessas de ganho.
-</p>
-
-<p>
-A proposta é oferecer uma ferramenta que ajude você a tomar decisões mais informadas, com base em dados objetivos.
-</p>
-
-<p>
-Acreditamos que investir bem não precisa ser complicado.
-</p>
-
-<hr style="margin:25px 0;border:1px solid #243247;">
-
 <h2>🔎 Transparência</h2>
-
-<p>
-Todas as análises apresentadas neste site são baseadas em critérios quantitativos e regras pré-definidas.
-</p>
-
-<p>
-Não há interferência manual nos rankings.
-</p>
-
-<p>
-Isso garante consistência, imparcialidade e clareza nos resultados apresentados.
-</p>
-
+<p>Todas as análises são baseadas em critérios quantitativos e regras pré-definidas. Não há interferência manual nos rankings.</p>
 <hr style="margin:25px 0;border:1px solid #243247;">
-
 <h2>⚠️ Aviso importante</h2>
-
-<p>
-Este site tem caráter exclusivamente informativo e educacional.
-</p>
-
-<p>
-Não constitui recomendação de compra ou venda de ativos.
-</p>
-
-<p>
-Cada investidor deve tomar suas próprias decisões, considerando seu perfil de risco e objetivos financeiros.
-</p>
-
+<p>Este site tem caráter exclusivamente informativo e educacional. <strong>Não constitui recomendação de compra ou venda de ativos.</strong> Cada investidor deve tomar suas próprias decisões considerando seu perfil de risco.</p>
 <br>
-
-<a href="/" style="color:#3b82f6">← Voltar ao ranking</a>
-
+<a href="index.html" style="color:#3b82f6">← Voltar ao ranking</a>
 </div>
 
 
 </div>
 
 <!-- ANÚNCIO -->
-<div style="margin:20px 0;text-align:center;">
+<div style="margin:20px 0;text-align:center;" aria-label="Publicidade" role="complementary">
     <ins class="adsbygoogle"
         style="display:block"
         data-ad-client="ca-pub-5213961841779335"
@@ -247,33 +257,35 @@ Cada investidor deve tomar suas próprias decisões, considerando seu perfil de 
         data-full-width-responsive="true"></ins>
 </div>
 
-</div>
+</main>
 
 <script>
 (adsbygoogle = window.adsbygoogle || []).push({});
 </script>
 
 <!-- RODAPÉ -->
+<footer>
 <div class="footer">
-⚠️ Este ranking utiliza dados públicos do Yahoo Finance e aplica critérios quantitativos próprios. 
-Não constitui recomendação de investimento.<br>
-<a href="/ranking.csv">Baixar CSV</a>
+  ⚠️ Este ranking utiliza dados públicos do Yahoo Finance e aplica critérios quantitativos próprios.
+  Não constitui recomendação de investimento.<br>
+  <a href="/ranking.csv" aria-label="Baixar ranking em formato CSV">Baixar CSV</a>
 </div>
 
-<footer class="footer">
-
-<a href="/">Home</a> |
-<a href="/privacidade.html">Privacidade</a> |
-<a href="/termos.html">Termos</a> |
-<a href="/cookies.html">Cookies</a> |
-<a href="/sobre.html">Sobre</a> |
-<a href="/contato.html">Contato</a>
-
-<br><br>
-
-© Tá no Precinho, 2026
-
+<div class="footer" style="margin-top:10px">
+  <nav aria-label="Links do rodapé">
+    <a href="index.html">Home</a> |
+    <a href="/docs/privacidade.html">Privacidade</a> |
+    <a href="/docs/termos.html">Termos</a> |
+    <a href="/docs/cookies.html">Cookies</a> |
+    <a href="/docs/sobre.html">Sobre</a> |
+    <a href="/docs/contato.html">Contato</a>
+  </nav>
+  <br>
+  © Tá no Precinho, 2026
+</div>
 </footer>
+
+</div>
 
 </body>
 </html>
