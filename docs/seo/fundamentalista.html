@@ -19,7 +19,7 @@ crossorigin="anonymous"></script>
 
 <title>O que é Análise Fundamentalista | Tá no Precinho</title>
 
-<link rel="canonical" href="https://tanoprecinho.site/{arquivo_seo}.html">
+<link rel="canonical" href="https://tanoprecinho.site/fundamentalista.html">
 <link rel="icon" href="/favicon.ico">
 
 <meta name="robots" content="index, follow">
@@ -63,7 +63,7 @@ crossorigin="anonymous"></script>
     --card:#1e293b;
     --accent:#3b82f6;
     --text:#e2e8f0;
-    --muted:#94a3b8;
+    --muted:#cbd5e1;
     --green:#22c55e;
 }
 
@@ -111,6 +111,15 @@ a:hover{
 opacity:0.8;
 }
 
+/* FIX ACESSIBILIDADE: foco visível para navegação por teclado */
+a:focus,
+button:focus,
+select:focus,
+input:focus {
+outline: 2px solid #3b82f6;
+outline-offset: 2px;
+}
+
 .footer{
 text-align:center;
 margin-top:30px;
@@ -127,7 +136,7 @@ font-size:14px;
 }
 
 .menu a{
-color:#94a3b8;
+color:#cbd5e1;
 text-decoration:none;
 padding:6px 10px;
 border-radius:8px;
@@ -139,38 +148,21 @@ color:#3b82f6;
 background:#243247;
 }
 
+/* FIX ACESSIBILIDADE: aviso de risco visível */
+.aviso-risco {
+background: rgba(234, 179, 8, 0.1);
+border: 1px solid rgba(234, 179, 8, 0.3);
+border-radius: 10px;
+padding: 12px 16px;
+font-size: 13px;
+color: #fde68a;
+margin-bottom: 16px;
+display: flex;
+align-items: flex-start;
+gap: 8px;
+}
+
 </style>
-
-<title>Tá no Precinho? | Ranking de ações da bolsa brasileira</title>
-
-<div style="margin-bottom:20px" class="menu">
-
-<a href="../index.html">Ranking</a> •
-<a href="../missao.html">Nossa missão</a> •
-<a href="../fundamentalista.html">Análise Fundamentalista</a> •
-<a href="../pl.html">O que é P/L</a> •
-<a href="../roe.html">O que é ROE</a> •
-<a href="../dividend-yield.html">Dividend Yield</a> •
-
-</div>
-
-<div class="container">
-
-<h1>
-<a href="investidor.html" style="text-decoration:none;color:inherit">
-📉 Tá no Precinho?
-</a>
-</h1>
-
-<div class="subtitle">
-Criamos este site com um objetivo simples: tornar a análise de ações acessível para qualquer pessoa.
-A informação aqui é gratuita e sempre será.
-<br>
-Atualizado automaticamente todos os dias.
-<br>
-<br>
-</div>
-
 
 </head>
 
@@ -178,49 +170,63 @@ Atualizado automaticamente todos os dias.
 
 <div class="container">
 
+<!-- NAVEGAÇÃO PRINCIPAL - acessível com nav e aria-label -->
+<nav aria-label="Menu principal">
+<div style="margin-bottom:20px" class="menu">
+  <a href="../index.html">Ranking</a>
+  <a href="../missao.html">Nossa missão</a>
+  <a href="../fundamentalista.html">Análise Fundamentalista</a>
+  <a href="../pl.html">O que é P/L</a>
+  <a href="../roe.html">O que é ROE</a>
+  <a href="../dividend-yield.html">Dividend Yield</a>
+</div>
+</nav>
+
+<header>
+<h1>
+  <a href="../index.html" style="text-decoration:none;color:inherit" aria-label="Tá no Precinho - Página inicial">
+    📉 Tá no Precinho?
+  </a>
+</h1>
+
+<p class="subtitle" style="color:var(--muted);font-size:14px;margin-bottom:20px">
+  Tornando a análise de ações acessível para qualquer pessoa. Gratuito e atualizado todos os dias.
+</p>
+</header>
+
+<main>
+
 <!-- CONTEÚDO -->
 <div class="card">
 
 <h1>O que é Análise Fundamentalista</h1>
 
+<!-- FIX ACESSIBILIDADE: aviso de risco próximo ao conteúdo -->
+<div class="aviso-risco" role="note" aria-label="Aviso importante">
+  ⚠️ <span>Conteúdo informativo e educacional. <strong>Não constitui recomendação de investimento.</strong> Cada investidor deve tomar suas próprias decisões.</span>
+</div>
+
 
 <div style="max-width:700px;margin:auto">
-
 <h2>📊 O que é análise fundamentalista?</h2>
-
-<p>
-A análise fundamentalista é um método utilizado por investidores para avaliar o valor real de uma empresa.
-Ela analisa os fundamentos do negócio, como lucros, endividamento, crescimento e geração de caixa.
-</p>
-
-<p>
-O objetivo é descobrir se uma ação está sendo negociada por um preço justo, caro ou barato em relação ao valor da empresa.
-</p>
-
+<p>A análise fundamentalista é um método utilizado por investidores para avaliar o valor real de uma empresa.</p>
+<p>O objetivo é descobrir se uma ação está sendo negociada por um preço justo, caro ou barato.</p>
 <h3>Principais indicadores analisados</h3>
-
 <ul>
 <li>P/L (Preço sobre Lucro)</li>
 <li>P/VP (Preço sobre Valor Patrimonial)</li>
 <li>ROE (Retorno sobre patrimônio)</li>
 <li>Dividend Yield</li>
 </ul>
-
-<p>
-Investidores de longo prazo utilizam esses indicadores para encontrar empresas sólidas negociadas abaixo do valor justo.
-</p>
-
 <br>
-
-<a href="javascript:history.back()">← Voltar</a>
-
+<a href="../index.html" style="color:#3b82f6">← Voltar ao ranking</a>
 </div>
 
 
 </div>
 
 <!-- ANÚNCIO -->
-<div style="margin:20px 0;text-align:center;">
+<div style="margin:20px 0;text-align:center;" aria-label="Publicidade" role="complementary">
     <ins class="adsbygoogle"
         style="display:block"
         data-ad-client="ca-pub-5213961841779335"
@@ -229,33 +235,35 @@ Investidores de longo prazo utilizam esses indicadores para encontrar empresas s
         data-full-width-responsive="true"></ins>
 </div>
 
-</div>
+</main>
 
 <script>
 (adsbygoogle = window.adsbygoogle || []).push({});
 </script>
 
 <!-- RODAPÉ -->
+<footer>
 <div class="footer">
-⚠️ Este ranking utiliza dados públicos do Yahoo Finance e aplica critérios quantitativos próprios. 
-Não constitui recomendação de investimento.<br>
-<a href="/ranking.csv">Baixar CSV</a>
+  ⚠️ Este ranking utiliza dados públicos do Yahoo Finance e aplica critérios quantitativos próprios.
+  Não constitui recomendação de investimento.<br>
+  <a href="/ranking.csv" aria-label="Baixar ranking em formato CSV">Baixar CSV</a>
 </div>
 
-<footer>
-
-<a href="../index">Home</a> |
-<a href="../privacidade.html">Privacidade</a> |
-<a href="../termos.html">Termos</a> |
-<a href="../cookies.html">Cookies</a> |
-<a href="../sobre.html">Sobre</a> |
-<a href="../contato.html">Contato</a>
-
-<br><br>
-
-© Tá no Precinho, 2026
-
+<div class="footer" style="margin-top:10px">
+  <nav aria-label="Links do rodapé">
+    <a href="../index.html">Home</a> |
+    <a href="../privacidade.html">Privacidade</a> |
+    <a href="../termos.html">Termos</a> |
+    <a href="../cookies.html">Cookies</a> |
+    <a href="../sobre.html">Sobre</a> |
+    <a href="../contato.html">Contato</a>
+  </nav>
+  <br>
+  © Tá no Precinho, 2026
+</div>
 </footer>
+
+</div>
 
 </body>
 </html>

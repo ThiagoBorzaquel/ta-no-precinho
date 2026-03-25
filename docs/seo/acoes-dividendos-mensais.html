@@ -19,7 +19,7 @@ crossorigin="anonymous"></script>
 
 <title>Ações para renda mensal com dividendos | Tá no Precinho</title>
 
-<link rel="canonical" href="https://tanoprecinho.site/{arquivo_seo}.html">
+<link rel="canonical" href="https://tanoprecinho.site/acoes-dividendos-mensais.html">
 <link rel="icon" href="/favicon.ico">
 
 <meta name="robots" content="index, follow">
@@ -63,7 +63,7 @@ crossorigin="anonymous"></script>
     --card:#1e293b;
     --accent:#3b82f6;
     --text:#e2e8f0;
-    --muted:#94a3b8;
+    --muted:#cbd5e1;
     --green:#22c55e;
 }
 
@@ -111,6 +111,15 @@ a:hover{
 opacity:0.8;
 }
 
+/* FIX ACESSIBILIDADE: foco visível para navegação por teclado */
+a:focus,
+button:focus,
+select:focus,
+input:focus {
+outline: 2px solid #3b82f6;
+outline-offset: 2px;
+}
+
 .footer{
 text-align:center;
 margin-top:30px;
@@ -127,7 +136,7 @@ font-size:14px;
 }
 
 .menu a{
-color:#94a3b8;
+color:#cbd5e1;
 text-decoration:none;
 padding:6px 10px;
 border-radius:8px;
@@ -139,38 +148,21 @@ color:#3b82f6;
 background:#243247;
 }
 
+/* FIX ACESSIBILIDADE: aviso de risco visível */
+.aviso-risco {
+background: rgba(234, 179, 8, 0.1);
+border: 1px solid rgba(234, 179, 8, 0.3);
+border-radius: 10px;
+padding: 12px 16px;
+font-size: 13px;
+color: #fde68a;
+margin-bottom: 16px;
+display: flex;
+align-items: flex-start;
+gap: 8px;
+}
+
 </style>
-
-<title>Tá no Precinho? | Ranking de ações da bolsa brasileira</title>
-
-<div style="margin-bottom:20px" class="menu">
-
-<a href="../index.html">Ranking</a> •
-<a href="../missao.html">Nossa missão</a> •
-<a href="../fundamentalista.html">Análise Fundamentalista</a> •
-<a href="../pl.html">O que é P/L</a> •
-<a href="../roe.html">O que é ROE</a> •
-<a href="../dividend-yield.html">Dividend Yield</a> •
-
-</div>
-
-<div class="container">
-
-<h1>
-<a href="investidor.html" style="text-decoration:none;color:inherit">
-📉 Tá no Precinho?
-</a>
-</h1>
-
-<div class="subtitle">
-Criamos este site com um objetivo simples: tornar a análise de ações acessível para qualquer pessoa.
-A informação aqui é gratuita e sempre será.
-<br>
-Atualizado automaticamente todos os dias.
-<br>
-<br>
-</div>
-
 
 </head>
 
@@ -178,967 +170,430 @@ Atualizado automaticamente todos os dias.
 
 <div class="container">
 
+<!-- NAVEGAÇÃO PRINCIPAL - acessível com nav e aria-label -->
+<nav aria-label="Menu principal">
+<div style="margin-bottom:20px" class="menu">
+  <a href="../index.html">Ranking</a>
+  <a href="../missao.html">Nossa missão</a>
+  <a href="../fundamentalista.html">Análise Fundamentalista</a>
+  <a href="../pl.html">O que é P/L</a>
+  <a href="../roe.html">O que é ROE</a>
+  <a href="../dividend-yield.html">Dividend Yield</a>
+</div>
+</nav>
+
+<header>
+<h1>
+  <a href="../index.html" style="text-decoration:none;color:inherit" aria-label="Tá no Precinho - Página inicial">
+    📉 Tá no Precinho?
+  </a>
+</h1>
+
+<p class="subtitle" style="color:var(--muted);font-size:14px;margin-bottom:20px">
+  Tornando a análise de ações acessível para qualquer pessoa. Gratuito e atualizado todos os dias.
+</p>
+</header>
+
+<main>
+
 <!-- CONTEÚDO -->
 <div class="card">
 
 <h1>Ações para renda mensal com dividendos</h1>
 
+<!-- FIX ACESSIBILIDADE: aviso de risco próximo ao conteúdo -->
+<div class="aviso-risco" role="note" aria-label="Aviso importante">
+  ⚠️ <span>Conteúdo informativo e educacional. <strong>Não constitui recomendação de investimento.</strong> Cada investidor deve tomar suas próprias decisões.</span>
+</div>
 
-        <div class="card">
-        <h2>💵 Renda mensal com dividendos</h2>
-
-        <p style="color:#94a3b8;font-size:13px">
-        Empresas com alto pagamento de dividendos
-        </p>
-
+<div class="card"><h2>💵 Renda mensal com dividendos</h2>
+        <p style="color:#cbd5e1;font-size:13px">Empresas com alto pagamento de dividendos</p>
         
-            <a href="../acoes/POMO3.html" style="text-decoration:none;color:inherit">
-            <div style="
-            background:rgba(30,41,59,0.6);
-            border:1px solid rgba(255,255,255,0.05);
-            padding:14px;
-            border-radius:12px;
-            display:flex;
-            align-items:center;
-            justify-content:space-between;
-            margin-bottom:10px;
-            ">
-
+            <a href="../acoes/POMO3.html" style="text-decoration:none;color:inherit" aria-label="Ver análise de MARCOPOLO (POMO3)">
+            <div style="background:rgba(30,41,59,0.6);border:1px solid rgba(255,255,255,0.05);padding:14px;border-radius:12px;display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
             <div style="display:flex;align-items:center;gap:10px">
-
             <img src="../logos/POMO3.png"
-            onerror="this.onerror=null;this.src='../logos/default.svg';"
-            style="width:28px;height:28px">
-
+                 alt="Logo MARCOPOLO"
+                 onerror="this.onerror=null;this.src='../logos/default.svg';"
+                 style="width:28px;height:28px">
             <div>
-
-            <div style="font-weight:600">
-            #1 🥇 MARCOPOLO
+            <div style="font-weight:600">#1 🥇 MARCOPOLO</div>
+            <div style="font-size:12px;color:#cbd5e1">POMO3 • Indústria</div>
             </div>
-
-            <div style="font-size:12px;color:#94a3b8">
-            POMO3 • Indústria
             </div>
-
-            </div>
-
-            </div>
-
             <div style="text-align:right">
-
-            <div style="color:#22c55e;font-weight:700">
-            60
+            <div style="color:#22c55e;font-weight:700">60</div>
+            <div style="font-size:11px;color:#cbd5e1">💰 RENDA</div>
             </div>
-
-            <div style="font-size:11px;color:#94a3b8">
-            💰 RENDA
-            </div>
-
-            </div>
-
             </div>
             </a>
             
-            <a href="../acoes/TRIS3.html" style="text-decoration:none;color:inherit">
-            <div style="
-            background:rgba(30,41,59,0.6);
-            border:1px solid rgba(255,255,255,0.05);
-            padding:14px;
-            border-radius:12px;
-            display:flex;
-            align-items:center;
-            justify-content:space-between;
-            margin-bottom:10px;
-            ">
-
+            <a href="../acoes/TRIS3.html" style="text-decoration:none;color:inherit" aria-label="Ver análise de TRISUL (TRIS3)">
+            <div style="background:rgba(30,41,59,0.6);border:1px solid rgba(255,255,255,0.05);padding:14px;border-radius:12px;display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
             <div style="display:flex;align-items:center;gap:10px">
-
             <img src="../logos/TRIS3.png"
-            onerror="this.onerror=null;this.src='../logos/default.svg';"
-            style="width:28px;height:28px">
-
+                 alt="Logo TRISUL"
+                 onerror="this.onerror=null;this.src='../logos/default.svg';"
+                 style="width:28px;height:28px">
             <div>
-
-            <div style="font-weight:600">
-            #2 🥈 TRISUL
+            <div style="font-weight:600">#2 🥈 TRISUL</div>
+            <div style="font-size:12px;color:#cbd5e1">TRIS3 • Imobiliário</div>
             </div>
-
-            <div style="font-size:12px;color:#94a3b8">
-            TRIS3 • Imobiliário
             </div>
-
-            </div>
-
-            </div>
-
             <div style="text-align:right">
-
-            <div style="color:#22c55e;font-weight:700">
-            65
+            <div style="color:#22c55e;font-weight:700">65</div>
+            <div style="font-size:11px;color:#cbd5e1">💰 RENDA</div>
             </div>
-
-            <div style="font-size:11px;color:#94a3b8">
-            💰 RENDA
-            </div>
-
-            </div>
-
             </div>
             </a>
             
-            <a href="../acoes/DIRR3.html" style="text-decoration:none;color:inherit">
-            <div style="
-            background:rgba(30,41,59,0.6);
-            border:1px solid rgba(255,255,255,0.05);
-            padding:14px;
-            border-radius:12px;
-            display:flex;
-            align-items:center;
-            justify-content:space-between;
-            margin-bottom:10px;
-            ">
-
+            <a href="../acoes/DIRR3.html" style="text-decoration:none;color:inherit" aria-label="Ver análise de DIRECIAL (DIRR3)">
+            <div style="background:rgba(30,41,59,0.6);border:1px solid rgba(255,255,255,0.05);padding:14px;border-radius:12px;display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
             <div style="display:flex;align-items:center;gap:10px">
-
             <img src="../logos/DIRR3.png"
-            onerror="this.onerror=null;this.src='../logos/default.svg';"
-            style="width:28px;height:28px">
-
+                 alt="Logo DIRECIAL"
+                 onerror="this.onerror=null;this.src='../logos/default.svg';"
+                 style="width:28px;height:28px">
             <div>
-
-            <div style="font-weight:600">
-            #3 🥉 DIRECIAL
+            <div style="font-weight:600">#3 🥉 DIRECIAL</div>
+            <div style="font-size:12px;color:#cbd5e1">DIRR3 • Imobiliário</div>
             </div>
-
-            <div style="font-size:12px;color:#94a3b8">
-            DIRR3 • Imobiliário
             </div>
-
-            </div>
-
-            </div>
-
             <div style="text-align:right">
-
-            <div style="color:#22c55e;font-weight:700">
-            60
+            <div style="color:#22c55e;font-weight:700">60</div>
+            <div style="font-size:11px;color:#cbd5e1">💰 RENDA</div>
             </div>
-
-            <div style="font-size:11px;color:#94a3b8">
-            💰 RENDA
-            </div>
-
-            </div>
-
             </div>
             </a>
             
-            <a href="../acoes/POMO4.html" style="text-decoration:none;color:inherit">
-            <div style="
-            background:rgba(30,41,59,0.6);
-            border:1px solid rgba(255,255,255,0.05);
-            padding:14px;
-            border-radius:12px;
-            display:flex;
-            align-items:center;
-            justify-content:space-between;
-            margin-bottom:10px;
-            ">
-
+            <a href="../acoes/POMO4.html" style="text-decoration:none;color:inherit" aria-label="Ver análise de MARCOPOLO (POMO4)">
+            <div style="background:rgba(30,41,59,0.6);border:1px solid rgba(255,255,255,0.05);padding:14px;border-radius:12px;display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
             <div style="display:flex;align-items:center;gap:10px">
-
             <img src="../logos/POMO4.png"
-            onerror="this.onerror=null;this.src='../logos/default.svg';"
-            style="width:28px;height:28px">
-
+                 alt="Logo MARCOPOLO"
+                 onerror="this.onerror=null;this.src='../logos/default.svg';"
+                 style="width:28px;height:28px">
             <div>
-
-            <div style="font-weight:600">
-            #4  MARCOPOLO
+            <div style="font-weight:600">#4  MARCOPOLO</div>
+            <div style="font-size:12px;color:#cbd5e1">POMO4 • Indústria</div>
             </div>
-
-            <div style="font-size:12px;color:#94a3b8">
-            POMO4 • Indústria
             </div>
-
-            </div>
-
-            </div>
-
             <div style="text-align:right">
-
-            <div style="color:#22c55e;font-weight:700">
-            60
+            <div style="color:#22c55e;font-weight:700">60</div>
+            <div style="font-size:11px;color:#cbd5e1">💰 RENDA</div>
             </div>
-
-            <div style="font-size:11px;color:#94a3b8">
-            💰 RENDA
-            </div>
-
-            </div>
-
             </div>
             </a>
             
-            <a href="../acoes/UNIP6.html" style="text-decoration:none;color:inherit">
-            <div style="
-            background:rgba(30,41,59,0.6);
-            border:1px solid rgba(255,255,255,0.05);
-            padding:14px;
-            border-radius:12px;
-            display:flex;
-            align-items:center;
-            justify-content:space-between;
-            margin-bottom:10px;
-            ">
-
+            <a href="../acoes/UNIP6.html" style="text-decoration:none;color:inherit" aria-label="Ver análise de UNIPAR B (UNIP6)">
+            <div style="background:rgba(30,41,59,0.6);border:1px solid rgba(255,255,255,0.05);padding:14px;border-radius:12px;display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
             <div style="display:flex;align-items:center;gap:10px">
-
             <img src="../logos/UNIP6.png"
-            onerror="this.onerror=null;this.src='../logos/default.svg';"
-            style="width:28px;height:28px">
-
+                 alt="Logo UNIPAR B"
+                 onerror="this.onerror=null;this.src='../logos/default.svg';"
+                 style="width:28px;height:28px">
             <div>
-
-            <div style="font-weight:600">
-            #5  UNIPAR B
+            <div style="font-weight:600">#5  UNIPAR B</div>
+            <div style="font-size:12px;color:#cbd5e1">UNIP6 • Materiais Básicos</div>
             </div>
-
-            <div style="font-size:12px;color:#94a3b8">
-            UNIP6 • Materiais Básicos
             </div>
-
-            </div>
-
-            </div>
-
             <div style="text-align:right">
-
-            <div style="color:#22c55e;font-weight:700">
-            35
+            <div style="color:#22c55e;font-weight:700">35</div>
+            <div style="font-size:11px;color:#cbd5e1">💰 RENDA</div>
             </div>
-
-            <div style="font-size:11px;color:#94a3b8">
-            💰 RENDA
-            </div>
-
-            </div>
-
             </div>
             </a>
             
-            <a href="../acoes/BEEF3.html" style="text-decoration:none;color:inherit">
-            <div style="
-            background:rgba(30,41,59,0.6);
-            border:1px solid rgba(255,255,255,0.05);
-            padding:14px;
-            border-radius:12px;
-            display:flex;
-            align-items:center;
-            justify-content:space-between;
-            margin-bottom:10px;
-            ">
-
+            <a href="../acoes/UNIP5.html" style="text-decoration:none;color:inherit" aria-label="Ver análise de UNIPAR A (UNIP5)">
+            <div style="background:rgba(30,41,59,0.6);border:1px solid rgba(255,255,255,0.05);padding:14px;border-radius:12px;display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
             <div style="display:flex;align-items:center;gap:10px">
-
-            <img src="../logos/BEEF3.png"
-            onerror="this.onerror=null;this.src='../logos/default.svg';"
-            style="width:28px;height:28px">
-
-            <div>
-
-            <div style="font-weight:600">
-            #6  MINERVA
-            </div>
-
-            <div style="font-size:12px;color:#94a3b8">
-            BEEF3 • Consumo Defensivo
-            </div>
-
-            </div>
-
-            </div>
-
-            <div style="text-align:right">
-
-            <div style="color:#22c55e;font-weight:700">
-            60
-            </div>
-
-            <div style="font-size:11px;color:#94a3b8">
-            💰 RENDA
-            </div>
-
-            </div>
-
-            </div>
-            </a>
-            
-            <a href="../acoes/BRAP3.html" style="text-decoration:none;color:inherit">
-            <div style="
-            background:rgba(30,41,59,0.6);
-            border:1px solid rgba(255,255,255,0.05);
-            padding:14px;
-            border-radius:12px;
-            display:flex;
-            align-items:center;
-            justify-content:space-between;
-            margin-bottom:10px;
-            ">
-
-            <div style="display:flex;align-items:center;gap:10px">
-
-            <img src="../logos/BRAP3.png"
-            onerror="this.onerror=null;this.src='../logos/default.svg';"
-            style="width:28px;height:28px">
-
-            <div>
-
-            <div style="font-weight:600">
-            #7  BRADESPAR
-            </div>
-
-            <div style="font-size:12px;color:#94a3b8">
-            BRAP3 • Serviços Financeiros
-            </div>
-
-            </div>
-
-            </div>
-
-            <div style="text-align:right">
-
-            <div style="color:#22c55e;font-weight:700">
-            65
-            </div>
-
-            <div style="font-size:11px;color:#94a3b8">
-            💰 RENDA
-            </div>
-
-            </div>
-
-            </div>
-            </a>
-            
-            <a href="../acoes/VLID3.html" style="text-decoration:none;color:inherit">
-            <div style="
-            background:rgba(30,41,59,0.6);
-            border:1px solid rgba(255,255,255,0.05);
-            padding:14px;
-            border-radius:12px;
-            display:flex;
-            align-items:center;
-            justify-content:space-between;
-            margin-bottom:10px;
-            ">
-
-            <div style="display:flex;align-items:center;gap:10px">
-
-            <img src="../logos/VLID3.png"
-            onerror="this.onerror=null;this.src='../logos/default.svg';"
-            style="width:28px;height:28px">
-
-            <div>
-
-            <div style="font-weight:600">
-            #8  VALID
-            </div>
-
-            <div style="font-size:12px;color:#94a3b8">
-            VLID3 • Indústria
-            </div>
-
-            </div>
-
-            </div>
-
-            <div style="text-align:right">
-
-            <div style="color:#22c55e;font-weight:700">
-            65
-            </div>
-
-            <div style="font-size:11px;color:#94a3b8">
-            💰 RENDA
-            </div>
-
-            </div>
-
-            </div>
-            </a>
-            
-            <a href="../acoes/BRAP4.html" style="text-decoration:none;color:inherit">
-            <div style="
-            background:rgba(30,41,59,0.6);
-            border:1px solid rgba(255,255,255,0.05);
-            padding:14px;
-            border-radius:12px;
-            display:flex;
-            align-items:center;
-            justify-content:space-between;
-            margin-bottom:10px;
-            ">
-
-            <div style="display:flex;align-items:center;gap:10px">
-
-            <img src="../logos/BRAP4.png"
-            onerror="this.onerror=null;this.src='../logos/default.svg';"
-            style="width:28px;height:28px">
-
-            <div>
-
-            <div style="font-weight:600">
-            #9  BRADESPAR
-            </div>
-
-            <div style="font-size:12px;color:#94a3b8">
-            BRAP4 • Serviços Financeiros
-            </div>
-
-            </div>
-
-            </div>
-
-            <div style="text-align:right">
-
-            <div style="color:#22c55e;font-weight:700">
-            65
-            </div>
-
-            <div style="font-size:11px;color:#94a3b8">
-            💰 RENDA
-            </div>
-
-            </div>
-
-            </div>
-            </a>
-            
-            <a href="../acoes/ABEV3.html" style="text-decoration:none;color:inherit">
-            <div style="
-            background:rgba(30,41,59,0.6);
-            border:1px solid rgba(255,255,255,0.05);
-            padding:14px;
-            border-radius:12px;
-            display:flex;
-            align-items:center;
-            justify-content:space-between;
-            margin-bottom:10px;
-            ">
-
-            <div style="display:flex;align-items:center;gap:10px">
-
-            <img src="../logos/ABEV3.png"
-            onerror="this.onerror=null;this.src='../logos/default.svg';"
-            style="width:28px;height:28px">
-
-            <div>
-
-            <div style="font-weight:600">
-            #10  AMBEV S/A
-            </div>
-
-            <div style="font-size:12px;color:#94a3b8">
-            ABEV3 • Consumo Defensivo
-            </div>
-
-            </div>
-
-            </div>
-
-            <div style="text-align:right">
-
-            <div style="color:#22c55e;font-weight:700">
-            50
-            </div>
-
-            <div style="font-size:11px;color:#94a3b8">
-            💰 RENDA
-            </div>
-
-            </div>
-
-            </div>
-            </a>
-            
-            <a href="../acoes/UNIP3.html" style="text-decoration:none;color:inherit">
-            <div style="
-            background:rgba(30,41,59,0.6);
-            border:1px solid rgba(255,255,255,0.05);
-            padding:14px;
-            border-radius:12px;
-            display:flex;
-            align-items:center;
-            justify-content:space-between;
-            margin-bottom:10px;
-            ">
-
-            <div style="display:flex;align-items:center;gap:10px">
-
-            <img src="../logos/UNIP3.png"
-            onerror="this.onerror=null;this.src='../logos/default.svg';"
-            style="width:28px;height:28px">
-
-            <div>
-
-            <div style="font-weight:600">
-            #11  UNIPAR
-            </div>
-
-            <div style="font-size:12px;color:#94a3b8">
-            UNIP3 • Materiais Básicos
-            </div>
-
-            </div>
-
-            </div>
-
-            <div style="text-align:right">
-
-            <div style="color:#22c55e;font-weight:700">
-            35
-            </div>
-
-            <div style="font-size:11px;color:#94a3b8">
-            💰 RENDA
-            </div>
-
-            </div>
-
-            </div>
-            </a>
-            
-            <a href="../acoes/UNIP5.html" style="text-decoration:none;color:inherit">
-            <div style="
-            background:rgba(30,41,59,0.6);
-            border:1px solid rgba(255,255,255,0.05);
-            padding:14px;
-            border-radius:12px;
-            display:flex;
-            align-items:center;
-            justify-content:space-between;
-            margin-bottom:10px;
-            ">
-
-            <div style="display:flex;align-items:center;gap:10px">
-
             <img src="../logos/UNIP5.png"
-            onerror="this.onerror=null;this.src='../logos/default.svg';"
-            style="width:28px;height:28px">
-
+                 alt="Logo UNIPAR A"
+                 onerror="this.onerror=null;this.src='../logos/default.svg';"
+                 style="width:28px;height:28px">
             <div>
-
-            <div style="font-weight:600">
-            #12  UNIPAR A
+            <div style="font-weight:600">#6  UNIPAR A</div>
+            <div style="font-size:12px;color:#cbd5e1">UNIP5 • Materiais Básicos</div>
             </div>
-
-            <div style="font-size:12px;color:#94a3b8">
-            UNIP5 • Materiais Básicos
             </div>
-
-            </div>
-
-            </div>
-
             <div style="text-align:right">
-
-            <div style="color:#22c55e;font-weight:700">
-            35
+            <div style="color:#22c55e;font-weight:700">35</div>
+            <div style="font-size:11px;color:#cbd5e1">💰 RENDA</div>
             </div>
-
-            <div style="font-size:11px;color:#94a3b8">
-            💰 RENDA
-            </div>
-
-            </div>
-
             </div>
             </a>
             
-            <a href="../acoes/CEBR6.html" style="text-decoration:none;color:inherit">
-            <div style="
-            background:rgba(30,41,59,0.6);
-            border:1px solid rgba(255,255,255,0.05);
-            padding:14px;
-            border-radius:12px;
-            display:flex;
-            align-items:center;
-            justify-content:space-between;
-            margin-bottom:10px;
-            ">
-
+            <a href="../acoes/BRAP3.html" style="text-decoration:none;color:inherit" aria-label="Ver análise de BRADESPAR (BRAP3)">
+            <div style="background:rgba(30,41,59,0.6);border:1px solid rgba(255,255,255,0.05);padding:14px;border-radius:12px;display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
             <div style="display:flex;align-items:center;gap:10px">
-
+            <img src="../logos/BRAP3.png"
+                 alt="Logo BRADESPAR"
+                 onerror="this.onerror=null;this.src='../logos/default.svg';"
+                 style="width:28px;height:28px">
+            <div>
+            <div style="font-weight:600">#7  BRADESPAR</div>
+            <div style="font-size:12px;color:#cbd5e1">BRAP3 • Serviços Financeiros</div>
+            </div>
+            </div>
+            <div style="text-align:right">
+            <div style="color:#22c55e;font-weight:700">65</div>
+            <div style="font-size:11px;color:#cbd5e1">💰 RENDA</div>
+            </div>
+            </div>
+            </a>
+            
+            <a href="../acoes/VLID3.html" style="text-decoration:none;color:inherit" aria-label="Ver análise de VALID (VLID3)">
+            <div style="background:rgba(30,41,59,0.6);border:1px solid rgba(255,255,255,0.05);padding:14px;border-radius:12px;display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+            <div style="display:flex;align-items:center;gap:10px">
+            <img src="../logos/VLID3.png"
+                 alt="Logo VALID"
+                 onerror="this.onerror=null;this.src='../logos/default.svg';"
+                 style="width:28px;height:28px">
+            <div>
+            <div style="font-weight:600">#8  VALID</div>
+            <div style="font-size:12px;color:#cbd5e1">VLID3 • Indústria</div>
+            </div>
+            </div>
+            <div style="text-align:right">
+            <div style="color:#22c55e;font-weight:700">85</div>
+            <div style="font-size:11px;color:#cbd5e1">💰 RENDA</div>
+            </div>
+            </div>
+            </a>
+            
+            <a href="../acoes/ABEV3.html" style="text-decoration:none;color:inherit" aria-label="Ver análise de AMBEV S/A (ABEV3)">
+            <div style="background:rgba(30,41,59,0.6);border:1px solid rgba(255,255,255,0.05);padding:14px;border-radius:12px;display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+            <div style="display:flex;align-items:center;gap:10px">
+            <img src="../logos/ABEV3.png"
+                 alt="Logo AMBEV S/A"
+                 onerror="this.onerror=null;this.src='../logos/default.svg';"
+                 style="width:28px;height:28px">
+            <div>
+            <div style="font-weight:600">#9  AMBEV S/A</div>
+            <div style="font-size:12px;color:#cbd5e1">ABEV3 • Consumo Defensivo</div>
+            </div>
+            </div>
+            <div style="text-align:right">
+            <div style="color:#22c55e;font-weight:700">50</div>
+            <div style="font-size:11px;color:#cbd5e1">💰 RENDA</div>
+            </div>
+            </div>
+            </a>
+            
+            <a href="../acoes/UNIP3.html" style="text-decoration:none;color:inherit" aria-label="Ver análise de UNIPAR (UNIP3)">
+            <div style="background:rgba(30,41,59,0.6);border:1px solid rgba(255,255,255,0.05);padding:14px;border-radius:12px;display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+            <div style="display:flex;align-items:center;gap:10px">
+            <img src="../logos/UNIP3.png"
+                 alt="Logo UNIPAR"
+                 onerror="this.onerror=null;this.src='../logos/default.svg';"
+                 style="width:28px;height:28px">
+            <div>
+            <div style="font-weight:600">#10  UNIPAR</div>
+            <div style="font-size:12px;color:#cbd5e1">UNIP3 • Materiais Básicos</div>
+            </div>
+            </div>
+            <div style="text-align:right">
+            <div style="color:#22c55e;font-weight:700">35</div>
+            <div style="font-size:11px;color:#cbd5e1">💰 RENDA</div>
+            </div>
+            </div>
+            </a>
+            
+            <a href="../acoes/CEBR6.html" style="text-decoration:none;color:inherit" aria-label="Ver análise de CEB B (CEBR6)">
+            <div style="background:rgba(30,41,59,0.6);border:1px solid rgba(255,255,255,0.05);padding:14px;border-radius:12px;display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+            <div style="display:flex;align-items:center;gap:10px">
             <img src="../logos/CEBR6.png"
-            onerror="this.onerror=null;this.src='../logos/default.svg';"
-            style="width:28px;height:28px">
-
+                 alt="Logo CEB B"
+                 onerror="this.onerror=null;this.src='../logos/default.svg';"
+                 style="width:28px;height:28px">
             <div>
-
-            <div style="font-weight:600">
-            #13  CEB B
+            <div style="font-weight:600">#11  CEB B</div>
+            <div style="font-size:12px;color:#cbd5e1">CEBR6 • Utilidades Públicas</div>
             </div>
-
-            <div style="font-size:12px;color:#94a3b8">
-            CEBR6 • Utilidades Públicas
             </div>
-
-            </div>
-
-            </div>
-
             <div style="text-align:right">
-
-            <div style="color:#22c55e;font-weight:700">
-            35
+            <div style="color:#22c55e;font-weight:700">35</div>
+            <div style="font-size:11px;color:#cbd5e1">💰 RENDA</div>
             </div>
-
-            <div style="font-size:11px;color:#94a3b8">
-            💰 RENDA
-            </div>
-
-            </div>
-
             </div>
             </a>
             
-            <a href="../acoes/CEBR5.html" style="text-decoration:none;color:inherit">
-            <div style="
-            background:rgba(30,41,59,0.6);
-            border:1px solid rgba(255,255,255,0.05);
-            padding:14px;
-            border-radius:12px;
-            display:flex;
-            align-items:center;
-            justify-content:space-between;
-            margin-bottom:10px;
-            ">
-
+            <a href="../acoes/BSLI4.html" style="text-decoration:none;color:inherit" aria-label="Ver análise de BRB BANCO (BSLI4)">
+            <div style="background:rgba(30,41,59,0.6);border:1px solid rgba(255,255,255,0.05);padding:14px;border-radius:12px;display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
             <div style="display:flex;align-items:center;gap:10px">
-
-            <img src="../logos/CEBR5.png"
-            onerror="this.onerror=null;this.src='../logos/default.svg';"
-            style="width:28px;height:28px">
-
-            <div>
-
-            <div style="font-weight:600">
-            #14  CEB A
-            </div>
-
-            <div style="font-size:12px;color:#94a3b8">
-            CEBR5 • Utilidades Públicas
-            </div>
-
-            </div>
-
-            </div>
-
-            <div style="text-align:right">
-
-            <div style="color:#22c55e;font-weight:700">
-            35
-            </div>
-
-            <div style="font-size:11px;color:#94a3b8">
-            💰 RENDA
-            </div>
-
-            </div>
-
-            </div>
-            </a>
-            
-            <a href="../acoes/CMIG4.html" style="text-decoration:none;color:inherit">
-            <div style="
-            background:rgba(30,41,59,0.6);
-            border:1px solid rgba(255,255,255,0.05);
-            padding:14px;
-            border-radius:12px;
-            display:flex;
-            align-items:center;
-            justify-content:space-between;
-            margin-bottom:10px;
-            ">
-
-            <div style="display:flex;align-items:center;gap:10px">
-
-            <img src="../logos/CMIG4.png"
-            onerror="this.onerror=null;this.src='../logos/default.svg';"
-            style="width:28px;height:28px">
-
-            <div>
-
-            <div style="font-weight:600">
-            #15  CEMIG
-            </div>
-
-            <div style="font-size:12px;color:#94a3b8">
-            CMIG4 • Utilidades Públicas
-            </div>
-
-            </div>
-
-            </div>
-
-            <div style="text-align:right">
-
-            <div style="color:#22c55e;font-weight:700">
-            80
-            </div>
-
-            <div style="font-size:11px;color:#94a3b8">
-            💰 RENDA
-            </div>
-
-            </div>
-
-            </div>
-            </a>
-            
-            <a href="../acoes/BSLI4.html" style="text-decoration:none;color:inherit">
-            <div style="
-            background:rgba(30,41,59,0.6);
-            border:1px solid rgba(255,255,255,0.05);
-            padding:14px;
-            border-radius:12px;
-            display:flex;
-            align-items:center;
-            justify-content:space-between;
-            margin-bottom:10px;
-            ">
-
-            <div style="display:flex;align-items:center;gap:10px">
-
             <img src="../logos/BSLI4.png"
-            onerror="this.onerror=null;this.src='../logos/default.svg';"
-            style="width:28px;height:28px">
-
+                 alt="Logo BRB BANCO"
+                 onerror="this.onerror=null;this.src='../logos/default.svg';"
+                 style="width:28px;height:28px">
             <div>
-
-            <div style="font-weight:600">
-            #16  BRB BANCO
+            <div style="font-weight:600">#12  BRB BANCO</div>
+            <div style="font-size:12px;color:#cbd5e1">BSLI4 • Serviços Financeiros</div>
             </div>
-
-            <div style="font-size:12px;color:#94a3b8">
-            BSLI4 • Serviços Financeiros
             </div>
-
-            </div>
-
-            </div>
-
             <div style="text-align:right">
-
-            <div style="color:#22c55e;font-weight:700">
-            85
+            <div style="color:#22c55e;font-weight:700">85</div>
+            <div style="font-size:11px;color:#cbd5e1">💰 RENDA</div>
             </div>
-
-            <div style="font-size:11px;color:#94a3b8">
-            💰 RENDA
-            </div>
-
-            </div>
-
             </div>
             </a>
             
-            <a href="../acoes/RECV3.html" style="text-decoration:none;color:inherit">
-            <div style="
-            background:rgba(30,41,59,0.6);
-            border:1px solid rgba(255,255,255,0.05);
-            padding:14px;
-            border-radius:12px;
-            display:flex;
-            align-items:center;
-            justify-content:space-between;
-            margin-bottom:10px;
-            ">
-
+            <a href="../acoes/BEEF3.html" style="text-decoration:none;color:inherit" aria-label="Ver análise de MINERVA (BEEF3)">
+            <div style="background:rgba(30,41,59,0.6);border:1px solid rgba(255,255,255,0.05);padding:14px;border-radius:12px;display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
             <div style="display:flex;align-items:center;gap:10px">
-
-            <img src="../logos/RECV3.png"
-            onerror="this.onerror=null;this.src='../logos/default.svg';"
-            style="width:28px;height:28px">
-
+            <img src="../logos/BEEF3.png"
+                 alt="Logo MINERVA"
+                 onerror="this.onerror=null;this.src='../logos/default.svg';"
+                 style="width:28px;height:28px">
             <div>
-
-            <div style="font-weight:600">
-            #17  PETRORECSA
+            <div style="font-weight:600">#13  MINERVA</div>
+            <div style="font-size:12px;color:#cbd5e1">BEEF3 • Consumo Defensivo</div>
             </div>
-
-            <div style="font-size:12px;color:#94a3b8">
-            RECV3 • Energia
             </div>
-
-            </div>
-
-            </div>
-
             <div style="text-align:right">
-
-            <div style="color:#22c55e;font-weight:700">
-            65
+            <div style="color:#22c55e;font-weight:700">60</div>
+            <div style="font-size:11px;color:#cbd5e1">💰 RENDA</div>
             </div>
-
-            <div style="font-size:11px;color:#94a3b8">
-            💰 RENDA
-            </div>
-
-            </div>
-
             </div>
             </a>
             
-            <a href="../acoes/BBSE3.html" style="text-decoration:none;color:inherit">
-            <div style="
-            background:rgba(30,41,59,0.6);
-            border:1px solid rgba(255,255,255,0.05);
-            padding:14px;
-            border-radius:12px;
-            display:flex;
-            align-items:center;
-            justify-content:space-between;
-            margin-bottom:10px;
-            ">
-
+            <a href="../acoes/BRAP4.html" style="text-decoration:none;color:inherit" aria-label="Ver análise de BRADESPAR (BRAP4)">
+            <div style="background:rgba(30,41,59,0.6);border:1px solid rgba(255,255,255,0.05);padding:14px;border-radius:12px;display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
             <div style="display:flex;align-items:center;gap:10px">
-
+            <img src="../logos/BRAP4.png"
+                 alt="Logo BRADESPAR"
+                 onerror="this.onerror=null;this.src='../logos/default.svg';"
+                 style="width:28px;height:28px">
+            <div>
+            <div style="font-weight:600">#14  BRADESPAR</div>
+            <div style="font-size:12px;color:#cbd5e1">BRAP4 • Serviços Financeiros</div>
+            </div>
+            </div>
+            <div style="text-align:right">
+            <div style="color:#22c55e;font-weight:700">65</div>
+            <div style="font-size:11px;color:#cbd5e1">💰 RENDA</div>
+            </div>
+            </div>
+            </a>
+            
+            <a href="../acoes/CEBR5.html" style="text-decoration:none;color:inherit" aria-label="Ver análise de CEB A (CEBR5)">
+            <div style="background:rgba(30,41,59,0.6);border:1px solid rgba(255,255,255,0.05);padding:14px;border-radius:12px;display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+            <div style="display:flex;align-items:center;gap:10px">
+            <img src="../logos/CEBR5.png"
+                 alt="Logo CEB A"
+                 onerror="this.onerror=null;this.src='../logos/default.svg';"
+                 style="width:28px;height:28px">
+            <div>
+            <div style="font-weight:600">#15  CEB A</div>
+            <div style="font-size:12px;color:#cbd5e1">CEBR5 • Utilidades Públicas</div>
+            </div>
+            </div>
+            <div style="text-align:right">
+            <div style="color:#22c55e;font-weight:700">35</div>
+            <div style="font-size:11px;color:#cbd5e1">💰 RENDA</div>
+            </div>
+            </div>
+            </a>
+            
+            <a href="../acoes/CMIG4.html" style="text-decoration:none;color:inherit" aria-label="Ver análise de CEMIG (CMIG4)">
+            <div style="background:rgba(30,41,59,0.6);border:1px solid rgba(255,255,255,0.05);padding:14px;border-radius:12px;display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+            <div style="display:flex;align-items:center;gap:10px">
+            <img src="../logos/CMIG4.png"
+                 alt="Logo CEMIG"
+                 onerror="this.onerror=null;this.src='../logos/default.svg';"
+                 style="width:28px;height:28px">
+            <div>
+            <div style="font-weight:600">#16  CEMIG</div>
+            <div style="font-size:12px;color:#cbd5e1">CMIG4 • Utilidades Públicas</div>
+            </div>
+            </div>
+            <div style="text-align:right">
+            <div style="color:#22c55e;font-weight:700">100</div>
+            <div style="font-size:11px;color:#cbd5e1">💰 RENDA</div>
+            </div>
+            </div>
+            </a>
+            
+            <a href="../acoes/BBSE3.html" style="text-decoration:none;color:inherit" aria-label="Ver análise de BBSEGURIDADE (BBSE3)">
+            <div style="background:rgba(30,41,59,0.6);border:1px solid rgba(255,255,255,0.05);padding:14px;border-radius:12px;display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+            <div style="display:flex;align-items:center;gap:10px">
             <img src="../logos/BBSE3.png"
-            onerror="this.onerror=null;this.src='../logos/default.svg';"
-            style="width:28px;height:28px">
-
+                 alt="Logo BBSEGURIDADE"
+                 onerror="this.onerror=null;this.src='../logos/default.svg';"
+                 style="width:28px;height:28px">
             <div>
-
-            <div style="font-weight:600">
-            #18  BBSEGURIDADE
+            <div style="font-weight:600">#17  BBSEGURIDADE</div>
+            <div style="font-size:12px;color:#cbd5e1">BBSE3 • Serviços Financeiros</div>
             </div>
-
-            <div style="font-size:12px;color:#94a3b8">
-            BBSE3 • Serviços Financeiros
             </div>
-
-            </div>
-
-            </div>
-
             <div style="text-align:right">
-
-            <div style="color:#22c55e;font-weight:700">
-            75
+            <div style="color:#22c55e;font-weight:700">75</div>
+            <div style="font-size:11px;color:#cbd5e1">💰 RENDA</div>
             </div>
-
-            <div style="font-size:11px;color:#94a3b8">
-            💰 RENDA
-            </div>
-
-            </div>
-
             </div>
             </a>
             
-            <a href="../acoes/TGMA3.html" style="text-decoration:none;color:inherit">
-            <div style="
-            background:rgba(30,41,59,0.6);
-            border:1px solid rgba(255,255,255,0.05);
-            padding:14px;
-            border-radius:12px;
-            display:flex;
-            align-items:center;
-            justify-content:space-between;
-            margin-bottom:10px;
-            ">
-
+            <a href="../acoes/RECV3.html" style="text-decoration:none;color:inherit" aria-label="Ver análise de PETRORECSA (RECV3)">
+            <div style="background:rgba(30,41,59,0.6);border:1px solid rgba(255,255,255,0.05);padding:14px;border-radius:12px;display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
             <div style="display:flex;align-items:center;gap:10px">
-
+            <img src="../logos/RECV3.png"
+                 alt="Logo PETRORECSA"
+                 onerror="this.onerror=null;this.src='../logos/default.svg';"
+                 style="width:28px;height:28px">
+            <div>
+            <div style="font-weight:600">#18  PETRORECSA</div>
+            <div style="font-size:12px;color:#cbd5e1">RECV3 • Energia</div>
+            </div>
+            </div>
+            <div style="text-align:right">
+            <div style="color:#22c55e;font-weight:700">65</div>
+            <div style="font-size:11px;color:#cbd5e1">💰 RENDA</div>
+            </div>
+            </div>
+            </a>
+            
+            <a href="../acoes/TGMA3.html" style="text-decoration:none;color:inherit" aria-label="Ver análise de TEGMA (TGMA3)">
+            <div style="background:rgba(30,41,59,0.6);border:1px solid rgba(255,255,255,0.05);padding:14px;border-radius:12px;display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+            <div style="display:flex;align-items:center;gap:10px">
             <img src="../logos/TGMA3.png"
-            onerror="this.onerror=null;this.src='../logos/default.svg';"
-            style="width:28px;height:28px">
-
+                 alt="Logo TEGMA"
+                 onerror="this.onerror=null;this.src='../logos/default.svg';"
+                 style="width:28px;height:28px">
             <div>
-
-            <div style="font-weight:600">
-            #19  TEGMA
+            <div style="font-weight:600">#19  TEGMA</div>
+            <div style="font-size:12px;color:#cbd5e1">TGMA3 • Indústria</div>
             </div>
-
-            <div style="font-size:12px;color:#94a3b8">
-            TGMA3 • Indústria
             </div>
-
-            </div>
-
-            </div>
-
             <div style="text-align:right">
-
-            <div style="color:#22c55e;font-weight:700">
-            60
+            <div style="color:#22c55e;font-weight:700">60</div>
+            <div style="font-size:11px;color:#cbd5e1">💰 RENDA</div>
             </div>
-
-            <div style="font-size:11px;color:#94a3b8">
-            💰 RENDA
-            </div>
-
-            </div>
-
             </div>
             </a>
             
-            <a href="../acoes/FIQE3.html" style="text-decoration:none;color:inherit">
-            <div style="
-            background:rgba(30,41,59,0.6);
-            border:1px solid rgba(255,255,255,0.05);
-            padding:14px;
-            border-radius:12px;
-            display:flex;
-            align-items:center;
-            justify-content:space-between;
-            margin-bottom:10px;
-            ">
-
+            <a href="../acoes/FIQE3.html" style="text-decoration:none;color:inherit" aria-label="Ver análise de UNIFIQUE (FIQE3)">
+            <div style="background:rgba(30,41,59,0.6);border:1px solid rgba(255,255,255,0.05);padding:14px;border-radius:12px;display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
             <div style="display:flex;align-items:center;gap:10px">
-
             <img src="../logos/FIQE3.png"
-            onerror="this.onerror=null;this.src='../logos/default.svg';"
-            style="width:28px;height:28px">
-
+                 alt="Logo UNIFIQUE"
+                 onerror="this.onerror=null;this.src='../logos/default.svg';"
+                 style="width:28px;height:28px">
             <div>
-
-            <div style="font-weight:600">
-            #20  UNIFIQUE
+            <div style="font-weight:600">#20  UNIFIQUE</div>
+            <div style="font-size:12px;color:#cbd5e1">FIQE3 • Comunicação</div>
             </div>
-
-            <div style="font-size:12px;color:#94a3b8">
-            FIQE3 • Comunicação
             </div>
-
-            </div>
-
-            </div>
-
             <div style="text-align:right">
-
-            <div style="color:#22c55e;font-weight:700">
-            35
+            <div style="color:#22c55e;font-weight:700">35</div>
+            <div style="font-size:11px;color:#cbd5e1">💰 RENDA</div>
             </div>
-
-            <div style="font-size:11px;color:#94a3b8">
-            💰 RENDA
-            </div>
-
-            </div>
-
             </div>
             </a>
-            
-        </div>
-        
+            </div>
 
 </div>
 
 <!-- ANÚNCIO -->
-<div style="margin:20px 0;text-align:center;">
+<div style="margin:20px 0;text-align:center;" aria-label="Publicidade" role="complementary">
     <ins class="adsbygoogle"
         style="display:block"
         data-ad-client="ca-pub-5213961841779335"
@@ -1147,33 +602,35 @@ Atualizado automaticamente todos os dias.
         data-full-width-responsive="true"></ins>
 </div>
 
-</div>
+</main>
 
 <script>
 (adsbygoogle = window.adsbygoogle || []).push({});
 </script>
 
 <!-- RODAPÉ -->
+<footer>
 <div class="footer">
-⚠️ Este ranking utiliza dados públicos do Yahoo Finance e aplica critérios quantitativos próprios. 
-Não constitui recomendação de investimento.<br>
-<a href="/ranking.csv">Baixar CSV</a>
+  ⚠️ Este ranking utiliza dados públicos do Yahoo Finance e aplica critérios quantitativos próprios.
+  Não constitui recomendação de investimento.<br>
+  <a href="/ranking.csv" aria-label="Baixar ranking em formato CSV">Baixar CSV</a>
 </div>
 
-<footer>
-
-<a href="../index">Home</a> |
-<a href="../privacidade.html">Privacidade</a> |
-<a href="../termos.html">Termos</a> |
-<a href="../cookies.html">Cookies</a> |
-<a href="../sobre.html">Sobre</a> |
-<a href="../contato.html">Contato</a>
-
-<br><br>
-
-© Tá no Precinho, 2026
-
+<div class="footer" style="margin-top:10px">
+  <nav aria-label="Links do rodapé">
+    <a href="../index.html">Home</a> |
+    <a href="../privacidade.html">Privacidade</a> |
+    <a href="../termos.html">Termos</a> |
+    <a href="../cookies.html">Cookies</a> |
+    <a href="../sobre.html">Sobre</a> |
+    <a href="../contato.html">Contato</a>
+  </nav>
+  <br>
+  © Tá no Precinho, 2026
+</div>
 </footer>
+
+</div>
 
 </body>
 </html>

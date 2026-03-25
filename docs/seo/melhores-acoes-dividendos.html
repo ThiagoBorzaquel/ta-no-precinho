@@ -19,7 +19,7 @@ crossorigin="anonymous"></script>
 
 <title>Melhores ações de dividendos | Tá no Precinho</title>
 
-<link rel="canonical" href="https://tanoprecinho.site/{arquivo_seo}.html">
+<link rel="canonical" href="https://tanoprecinho.site/melhores-acoes-dividendos.html">
 <link rel="icon" href="/favicon.ico">
 
 <meta name="robots" content="index, follow">
@@ -63,7 +63,7 @@ crossorigin="anonymous"></script>
     --card:#1e293b;
     --accent:#3b82f6;
     --text:#e2e8f0;
-    --muted:#94a3b8;
+    --muted:#cbd5e1;
     --green:#22c55e;
 }
 
@@ -111,6 +111,15 @@ a:hover{
 opacity:0.8;
 }
 
+/* FIX ACESSIBILIDADE: foco visível para navegação por teclado */
+a:focus,
+button:focus,
+select:focus,
+input:focus {
+outline: 2px solid #3b82f6;
+outline-offset: 2px;
+}
+
 .footer{
 text-align:center;
 margin-top:30px;
@@ -127,7 +136,7 @@ font-size:14px;
 }
 
 .menu a{
-color:#94a3b8;
+color:#cbd5e1;
 text-decoration:none;
 padding:6px 10px;
 border-radius:8px;
@@ -139,38 +148,21 @@ color:#3b82f6;
 background:#243247;
 }
 
+/* FIX ACESSIBILIDADE: aviso de risco visível */
+.aviso-risco {
+background: rgba(234, 179, 8, 0.1);
+border: 1px solid rgba(234, 179, 8, 0.3);
+border-radius: 10px;
+padding: 12px 16px;
+font-size: 13px;
+color: #fde68a;
+margin-bottom: 16px;
+display: flex;
+align-items: flex-start;
+gap: 8px;
+}
+
 </style>
-
-<title>Tá no Precinho? | Ranking de ações da bolsa brasileira</title>
-
-<div style="margin-bottom:20px" class="menu">
-
-<a href="../index.html">Ranking</a> •
-<a href="../missao.html">Nossa missão</a> •
-<a href="../fundamentalista.html">Análise Fundamentalista</a> •
-<a href="../pl.html">O que é P/L</a> •
-<a href="../roe.html">O que é ROE</a> •
-<a href="../dividend-yield.html">Dividend Yield</a> •
-
-</div>
-
-<div class="container">
-
-<h1>
-<a href="investidor.html" style="text-decoration:none;color:inherit">
-📉 Tá no Precinho?
-</a>
-</h1>
-
-<div class="subtitle">
-Criamos este site com um objetivo simples: tornar a análise de ações acessível para qualquer pessoa.
-A informação aqui é gratuita e sempre será.
-<br>
-Atualizado automaticamente todos os dias.
-<br>
-<br>
-</div>
-
 
 </head>
 
@@ -178,857 +170,328 @@ Atualizado automaticamente todos os dias.
 
 <div class="container">
 
+<!-- NAVEGAÇÃO PRINCIPAL - acessível com nav e aria-label -->
+<nav aria-label="Menu principal">
+<div style="margin-bottom:20px" class="menu">
+  <a href="../index.html">Ranking</a>
+  <a href="../missao.html">Nossa missão</a>
+  <a href="../fundamentalista.html">Análise Fundamentalista</a>
+  <a href="../pl.html">O que é P/L</a>
+  <a href="../roe.html">O que é ROE</a>
+  <a href="../dividend-yield.html">Dividend Yield</a>
+</div>
+</nav>
+
+<header>
+<h1>
+  <a href="../index.html" style="text-decoration:none;color:inherit" aria-label="Tá no Precinho - Página inicial">
+    📉 Tá no Precinho?
+  </a>
+</h1>
+
+<p class="subtitle" style="color:var(--muted);font-size:14px;margin-bottom:20px">
+  Tornando a análise de ações acessível para qualquer pessoa. Gratuito e atualizado todos os dias.
+</p>
+</header>
+
+<main>
+
 <!-- CONTEÚDO -->
 <div class="card">
 
 <h1>Melhores ações de dividendos</h1>
 
-<ul>
-    <div style="
-    background:rgba(30,41,59,0.6);
-    border:1px solid rgba(255,255,255,0.05);
-    padding:14px;
-    border-radius:12px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    margin-bottom:10px;
-    ">
+<!-- FIX ACESSIBILIDADE: aviso de risco próximo ao conteúdo -->
+<div class="aviso-risco" role="note" aria-label="Aviso importante">
+  ⚠️ <span>Conteúdo informativo e educacional. <strong>Não constitui recomendação de investimento.</strong> Cada investidor deve tomar suas próprias decisões.</span>
+</div>
 
+<div>
+    <div style="background:rgba(30,41,59,0.6);border:1px solid rgba(255,255,255,0.05);padding:14px;border-radius:12px;display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
     <div style="display:flex;align-items:center;gap:10px">
-
     <img src="../logos/POMO3.png"
-    onerror="this.onerror=null;this.src='../logos/default.svg';"
-    style="width:28px;height:28px">
-
+         alt="Logo MARCOPOLO"
+         onerror="this.onerror=null;this.src='../logos/default.svg';"
+         style="width:28px;height:28px">
     <div>
-    <a href="../acoes/POMO3.html" style="
-    color:#e2e8f0;
-    text-decoration:none;
-    font-weight:600;
-    ">
-    MARCOPOLO
-    </a>
-
-    <div style="font-size:12px;color:#94a3b8">
-    POMO3
+    <a href="../acoes/POMO3.html" style="color:#e2e8f0;text-decoration:none;font-weight:600;">MARCOPOLO</a>
+    <div style="font-size:12px;color:#cbd5e1">POMO3</div>
     </div>
     </div>
-
-    </div>
-
-    <div style="
-    color:#22c55e;
-    font-weight:700;
-    ">
-    19.72%
-    </div>
-
+    <div style="color:#22c55e;font-weight:700;">19.85%</div>
     </div>
     
-    <div style="
-    background:rgba(30,41,59,0.6);
-    border:1px solid rgba(255,255,255,0.05);
-    padding:14px;
-    border-radius:12px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    margin-bottom:10px;
-    ">
-
+    <div style="background:rgba(30,41,59,0.6);border:1px solid rgba(255,255,255,0.05);padding:14px;border-radius:12px;display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
     <div style="display:flex;align-items:center;gap:10px">
-
     <img src="../logos/TRIS3.png"
-    onerror="this.onerror=null;this.src='../logos/default.svg';"
-    style="width:28px;height:28px">
-
+         alt="Logo TRISUL"
+         onerror="this.onerror=null;this.src='../logos/default.svg';"
+         style="width:28px;height:28px">
     <div>
-    <a href="../acoes/TRIS3.html" style="
-    color:#e2e8f0;
-    text-decoration:none;
-    font-weight:600;
-    ">
-    TRISUL
-    </a>
-
-    <div style="font-size:12px;color:#94a3b8">
-    TRIS3
+    <a href="../acoes/TRIS3.html" style="color:#e2e8f0;text-decoration:none;font-weight:600;">TRISUL</a>
+    <div style="font-size:12px;color:#cbd5e1">TRIS3</div>
     </div>
     </div>
-
-    </div>
-
-    <div style="
-    color:#22c55e;
-    font-weight:700;
-    ">
-    18.85%
-    </div>
-
+    <div style="color:#22c55e;font-weight:700;">19.15%</div>
     </div>
     
-    <div style="
-    background:rgba(30,41,59,0.6);
-    border:1px solid rgba(255,255,255,0.05);
-    padding:14px;
-    border-radius:12px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    margin-bottom:10px;
-    ">
-
+    <div style="background:rgba(30,41,59,0.6);border:1px solid rgba(255,255,255,0.05);padding:14px;border-radius:12px;display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
     <div style="display:flex;align-items:center;gap:10px">
-
     <img src="../logos/DIRR3.png"
-    onerror="this.onerror=null;this.src='../logos/default.svg';"
-    style="width:28px;height:28px">
-
+         alt="Logo DIRECIAL"
+         onerror="this.onerror=null;this.src='../logos/default.svg';"
+         style="width:28px;height:28px">
     <div>
-    <a href="../acoes/DIRR3.html" style="
-    color:#e2e8f0;
-    text-decoration:none;
-    font-weight:600;
-    ">
-    DIRECIAL
-    </a>
-
-    <div style="font-size:12px;color:#94a3b8">
-    DIRR3
+    <a href="../acoes/DIRR3.html" style="color:#e2e8f0;text-decoration:none;font-weight:600;">DIRECIAL</a>
+    <div style="font-size:12px;color:#cbd5e1">DIRR3</div>
     </div>
     </div>
-
-    </div>
-
-    <div style="
-    color:#22c55e;
-    font-weight:700;
-    ">
-    18.74%
-    </div>
-
+    <div style="color:#22c55e;font-weight:700;">18.87%</div>
     </div>
     
-    <div style="
-    background:rgba(30,41,59,0.6);
-    border:1px solid rgba(255,255,255,0.05);
-    padding:14px;
-    border-radius:12px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    margin-bottom:10px;
-    ">
-
+    <div style="background:rgba(30,41,59,0.6);border:1px solid rgba(255,255,255,0.05);padding:14px;border-radius:12px;display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
     <div style="display:flex;align-items:center;gap:10px">
-
     <img src="../logos/POMO4.png"
-    onerror="this.onerror=null;this.src='../logos/default.svg';"
-    style="width:28px;height:28px">
-
+         alt="Logo MARCOPOLO"
+         onerror="this.onerror=null;this.src='../logos/default.svg';"
+         style="width:28px;height:28px">
     <div>
-    <a href="../acoes/POMO4.html" style="
-    color:#e2e8f0;
-    text-decoration:none;
-    font-weight:600;
-    ">
-    MARCOPOLO
-    </a>
-
-    <div style="font-size:12px;color:#94a3b8">
-    POMO4
+    <a href="../acoes/POMO4.html" style="color:#e2e8f0;text-decoration:none;font-weight:600;">MARCOPOLO</a>
+    <div style="font-size:12px;color:#cbd5e1">POMO4</div>
     </div>
     </div>
-
-    </div>
-
-    <div style="
-    color:#22c55e;
-    font-weight:700;
-    ">
-    18.69%
-    </div>
-
+    <div style="color:#22c55e;font-weight:700;">18.72%</div>
     </div>
     
-    <div style="
-    background:rgba(30,41,59,0.6);
-    border:1px solid rgba(255,255,255,0.05);
-    padding:14px;
-    border-radius:12px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    margin-bottom:10px;
-    ">
-
+    <div style="background:rgba(30,41,59,0.6);border:1px solid rgba(255,255,255,0.05);padding:14px;border-radius:12px;display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
     <div style="display:flex;align-items:center;gap:10px">
-
     <img src="../logos/UNIP6.png"
-    onerror="this.onerror=null;this.src='../logos/default.svg';"
-    style="width:28px;height:28px">
-
+         alt="Logo UNIPAR B"
+         onerror="this.onerror=null;this.src='../logos/default.svg';"
+         style="width:28px;height:28px">
     <div>
-    <a href="../acoes/UNIP6.html" style="
-    color:#e2e8f0;
-    text-decoration:none;
-    font-weight:600;
-    ">
-    UNIPAR B
-    </a>
-
-    <div style="font-size:12px;color:#94a3b8">
-    UNIP6
+    <a href="../acoes/UNIP6.html" style="color:#e2e8f0;text-decoration:none;font-weight:600;">UNIPAR B</a>
+    <div style="font-size:12px;color:#cbd5e1">UNIP6</div>
     </div>
     </div>
-
-    </div>
-
-    <div style="
-    color:#22c55e;
-    font-weight:700;
-    ">
-    17.37%
-    </div>
-
+    <div style="color:#22c55e;font-weight:700;">17.69%</div>
     </div>
     
-    <div style="
-    background:rgba(30,41,59,0.6);
-    border:1px solid rgba(255,255,255,0.05);
-    padding:14px;
-    border-radius:12px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    margin-bottom:10px;
-    ">
-
+    <div style="background:rgba(30,41,59,0.6);border:1px solid rgba(255,255,255,0.05);padding:14px;border-radius:12px;display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
     <div style="display:flex;align-items:center;gap:10px">
-
-    <img src="../logos/BEEF3.png"
-    onerror="this.onerror=null;this.src='../logos/default.svg';"
-    style="width:28px;height:28px">
-
-    <div>
-    <a href="../acoes/BEEF3.html" style="
-    color:#e2e8f0;
-    text-decoration:none;
-    font-weight:600;
-    ">
-    MINERVA
-    </a>
-
-    <div style="font-size:12px;color:#94a3b8">
-    BEEF3
-    </div>
-    </div>
-
-    </div>
-
-    <div style="
-    color:#22c55e;
-    font-weight:700;
-    ">
-    16.62%
-    </div>
-
-    </div>
-    
-    <div style="
-    background:rgba(30,41,59,0.6);
-    border:1px solid rgba(255,255,255,0.05);
-    padding:14px;
-    border-radius:12px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    margin-bottom:10px;
-    ">
-
-    <div style="display:flex;align-items:center;gap:10px">
-
-    <img src="../logos/BRAP3.png"
-    onerror="this.onerror=null;this.src='../logos/default.svg';"
-    style="width:28px;height:28px">
-
-    <div>
-    <a href="../acoes/BRAP3.html" style="
-    color:#e2e8f0;
-    text-decoration:none;
-    font-weight:600;
-    ">
-    BRADESPAR
-    </a>
-
-    <div style="font-size:12px;color:#94a3b8">
-    BRAP3
-    </div>
-    </div>
-
-    </div>
-
-    <div style="
-    color:#22c55e;
-    font-weight:700;
-    ">
-    16.51%
-    </div>
-
-    </div>
-    
-    <div style="
-    background:rgba(30,41,59,0.6);
-    border:1px solid rgba(255,255,255,0.05);
-    padding:14px;
-    border-radius:12px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    margin-bottom:10px;
-    ">
-
-    <div style="display:flex;align-items:center;gap:10px">
-
-    <img src="../logos/VLID3.png"
-    onerror="this.onerror=null;this.src='../logos/default.svg';"
-    style="width:28px;height:28px">
-
-    <div>
-    <a href="../acoes/VLID3.html" style="
-    color:#e2e8f0;
-    text-decoration:none;
-    font-weight:600;
-    ">
-    VALID
-    </a>
-
-    <div style="font-size:12px;color:#94a3b8">
-    VLID3
-    </div>
-    </div>
-
-    </div>
-
-    <div style="
-    color:#22c55e;
-    font-weight:700;
-    ">
-    16.48%
-    </div>
-
-    </div>
-    
-    <div style="
-    background:rgba(30,41,59,0.6);
-    border:1px solid rgba(255,255,255,0.05);
-    padding:14px;
-    border-radius:12px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    margin-bottom:10px;
-    ">
-
-    <div style="display:flex;align-items:center;gap:10px">
-
-    <img src="../logos/BRAP4.png"
-    onerror="this.onerror=null;this.src='../logos/default.svg';"
-    style="width:28px;height:28px">
-
-    <div>
-    <a href="../acoes/BRAP4.html" style="
-    color:#e2e8f0;
-    text-decoration:none;
-    font-weight:600;
-    ">
-    BRADESPAR
-    </a>
-
-    <div style="font-size:12px;color:#94a3b8">
-    BRAP4
-    </div>
-    </div>
-
-    </div>
-
-    <div style="
-    color:#22c55e;
-    font-weight:700;
-    ">
-    16.33%
-    </div>
-
-    </div>
-    
-    <div style="
-    background:rgba(30,41,59,0.6);
-    border:1px solid rgba(255,255,255,0.05);
-    padding:14px;
-    border-radius:12px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    margin-bottom:10px;
-    ">
-
-    <div style="display:flex;align-items:center;gap:10px">
-
-    <img src="../logos/ABEV3.png"
-    onerror="this.onerror=null;this.src='../logos/default.svg';"
-    style="width:28px;height:28px">
-
-    <div>
-    <a href="../acoes/ABEV3.html" style="
-    color:#e2e8f0;
-    text-decoration:none;
-    font-weight:600;
-    ">
-    AMBEV S/A
-    </a>
-
-    <div style="font-size:12px;color:#94a3b8">
-    ABEV3
-    </div>
-    </div>
-
-    </div>
-
-    <div style="
-    color:#22c55e;
-    font-weight:700;
-    ">
-    16.28%
-    </div>
-
-    </div>
-    
-    <div style="
-    background:rgba(30,41,59,0.6);
-    border:1px solid rgba(255,255,255,0.05);
-    padding:14px;
-    border-radius:12px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    margin-bottom:10px;
-    ">
-
-    <div style="display:flex;align-items:center;gap:10px">
-
-    <img src="../logos/UNIP3.png"
-    onerror="this.onerror=null;this.src='../logos/default.svg';"
-    style="width:28px;height:28px">
-
-    <div>
-    <a href="../acoes/UNIP3.html" style="
-    color:#e2e8f0;
-    text-decoration:none;
-    font-weight:600;
-    ">
-    UNIPAR
-    </a>
-
-    <div style="font-size:12px;color:#94a3b8">
-    UNIP3
-    </div>
-    </div>
-
-    </div>
-
-    <div style="
-    color:#22c55e;
-    font-weight:700;
-    ">
-    15.99%
-    </div>
-
-    </div>
-    
-    <div style="
-    background:rgba(30,41,59,0.6);
-    border:1px solid rgba(255,255,255,0.05);
-    padding:14px;
-    border-radius:12px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    margin-bottom:10px;
-    ">
-
-    <div style="display:flex;align-items:center;gap:10px">
-
     <img src="../logos/UNIP5.png"
-    onerror="this.onerror=null;this.src='../logos/default.svg';"
-    style="width:28px;height:28px">
-
+         alt="Logo UNIPAR A"
+         onerror="this.onerror=null;this.src='../logos/default.svg';"
+         style="width:28px;height:28px">
     <div>
-    <a href="../acoes/UNIP5.html" style="
-    color:#e2e8f0;
-    text-decoration:none;
-    font-weight:600;
-    ">
-    UNIPAR A
-    </a>
-
-    <div style="font-size:12px;color:#94a3b8">
-    UNIP5
+    <a href="../acoes/UNIP5.html" style="color:#e2e8f0;text-decoration:none;font-weight:600;">UNIPAR A</a>
+    <div style="font-size:12px;color:#cbd5e1">UNIP5</div>
     </div>
     </div>
-
-    </div>
-
-    <div style="
-    color:#22c55e;
-    font-weight:700;
-    ">
-    15.93%
-    </div>
-
+    <div style="color:#22c55e;font-weight:700;">16.96%</div>
     </div>
     
-    <div style="
-    background:rgba(30,41,59,0.6);
-    border:1px solid rgba(255,255,255,0.05);
-    padding:14px;
-    border-radius:12px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    margin-bottom:10px;
-    ">
-
+    <div style="background:rgba(30,41,59,0.6);border:1px solid rgba(255,255,255,0.05);padding:14px;border-radius:12px;display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
     <div style="display:flex;align-items:center;gap:10px">
-
+    <img src="../logos/BRAP3.png"
+         alt="Logo BRADESPAR"
+         onerror="this.onerror=null;this.src='../logos/default.svg';"
+         style="width:28px;height:28px">
+    <div>
+    <a href="../acoes/BRAP3.html" style="color:#e2e8f0;text-decoration:none;font-weight:600;">BRADESPAR</a>
+    <div style="font-size:12px;color:#cbd5e1">BRAP3</div>
+    </div>
+    </div>
+    <div style="color:#22c55e;font-weight:700;">16.32%</div>
+    </div>
+    
+    <div style="background:rgba(30,41,59,0.6);border:1px solid rgba(255,255,255,0.05);padding:14px;border-radius:12px;display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+    <div style="display:flex;align-items:center;gap:10px">
+    <img src="../logos/VLID3.png"
+         alt="Logo VALID"
+         onerror="this.onerror=null;this.src='../logos/default.svg';"
+         style="width:28px;height:28px">
+    <div>
+    <a href="../acoes/VLID3.html" style="color:#e2e8f0;text-decoration:none;font-weight:600;">VALID</a>
+    <div style="font-size:12px;color:#cbd5e1">VLID3</div>
+    </div>
+    </div>
+    <div style="color:#22c55e;font-weight:700;">16.28%</div>
+    </div>
+    
+    <div style="background:rgba(30,41,59,0.6);border:1px solid rgba(255,255,255,0.05);padding:14px;border-radius:12px;display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+    <div style="display:flex;align-items:center;gap:10px">
+    <img src="../logos/ABEV3.png"
+         alt="Logo AMBEV S/A"
+         onerror="this.onerror=null;this.src='../logos/default.svg';"
+         style="width:28px;height:28px">
+    <div>
+    <a href="../acoes/ABEV3.html" style="color:#e2e8f0;text-decoration:none;font-weight:600;">AMBEV S/A</a>
+    <div style="font-size:12px;color:#cbd5e1">ABEV3</div>
+    </div>
+    </div>
+    <div style="color:#22c55e;font-weight:700;">16.23%</div>
+    </div>
+    
+    <div style="background:rgba(30,41,59,0.6);border:1px solid rgba(255,255,255,0.05);padding:14px;border-radius:12px;display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+    <div style="display:flex;align-items:center;gap:10px">
+    <img src="../logos/UNIP3.png"
+         alt="Logo UNIPAR"
+         onerror="this.onerror=null;this.src='../logos/default.svg';"
+         style="width:28px;height:28px">
+    <div>
+    <a href="../acoes/UNIP3.html" style="color:#e2e8f0;text-decoration:none;font-weight:600;">UNIPAR</a>
+    <div style="font-size:12px;color:#cbd5e1">UNIP3</div>
+    </div>
+    </div>
+    <div style="color:#22c55e;font-weight:700;">16.1%</div>
+    </div>
+    
+    <div style="background:rgba(30,41,59,0.6);border:1px solid rgba(255,255,255,0.05);padding:14px;border-radius:12px;display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+    <div style="display:flex;align-items:center;gap:10px">
     <img src="../logos/CEBR6.png"
-    onerror="this.onerror=null;this.src='../logos/default.svg';"
-    style="width:28px;height:28px">
-
+         alt="Logo CEB B"
+         onerror="this.onerror=null;this.src='../logos/default.svg';"
+         style="width:28px;height:28px">
     <div>
-    <a href="../acoes/CEBR6.html" style="
-    color:#e2e8f0;
-    text-decoration:none;
-    font-weight:600;
-    ">
-    CEB B
-    </a>
-
-    <div style="font-size:12px;color:#94a3b8">
-    CEBR6
+    <a href="../acoes/CEBR6.html" style="color:#e2e8f0;text-decoration:none;font-weight:600;">CEB B</a>
+    <div style="font-size:12px;color:#cbd5e1">CEBR6</div>
     </div>
     </div>
-
-    </div>
-
-    <div style="
-    color:#22c55e;
-    font-weight:700;
-    ">
-    15.91%
-    </div>
-
+    <div style="color:#22c55e;font-weight:700;">16.06%</div>
     </div>
     
-    <div style="
-    background:rgba(30,41,59,0.6);
-    border:1px solid rgba(255,255,255,0.05);
-    padding:14px;
-    border-radius:12px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    margin-bottom:10px;
-    ">
-
+    <div style="background:rgba(30,41,59,0.6);border:1px solid rgba(255,255,255,0.05);padding:14px;border-radius:12px;display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
     <div style="display:flex;align-items:center;gap:10px">
-
-    <img src="../logos/CEBR5.png"
-    onerror="this.onerror=null;this.src='../logos/default.svg';"
-    style="width:28px;height:28px">
-
-    <div>
-    <a href="../acoes/CEBR5.html" style="
-    color:#e2e8f0;
-    text-decoration:none;
-    font-weight:600;
-    ">
-    CEB A
-    </a>
-
-    <div style="font-size:12px;color:#94a3b8">
-    CEBR5
-    </div>
-    </div>
-
-    </div>
-
-    <div style="
-    color:#22c55e;
-    font-weight:700;
-    ">
-    15.62%
-    </div>
-
-    </div>
-    
-    <div style="
-    background:rgba(30,41,59,0.6);
-    border:1px solid rgba(255,255,255,0.05);
-    padding:14px;
-    border-radius:12px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    margin-bottom:10px;
-    ">
-
-    <div style="display:flex;align-items:center;gap:10px">
-
-    <img src="../logos/CMIG4.png"
-    onerror="this.onerror=null;this.src='../logos/default.svg';"
-    style="width:28px;height:28px">
-
-    <div>
-    <a href="../acoes/CMIG4.html" style="
-    color:#e2e8f0;
-    text-decoration:none;
-    font-weight:600;
-    ">
-    CEMIG
-    </a>
-
-    <div style="font-size:12px;color:#94a3b8">
-    CMIG4
-    </div>
-    </div>
-
-    </div>
-
-    <div style="
-    color:#22c55e;
-    font-weight:700;
-    ">
-    15.42%
-    </div>
-
-    </div>
-    
-    <div style="
-    background:rgba(30,41,59,0.6);
-    border:1px solid rgba(255,255,255,0.05);
-    padding:14px;
-    border-radius:12px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    margin-bottom:10px;
-    ">
-
-    <div style="display:flex;align-items:center;gap:10px">
-
     <img src="../logos/BSLI4.png"
-    onerror="this.onerror=null;this.src='../logos/default.svg';"
-    style="width:28px;height:28px">
-
+         alt="Logo BRB BANCO"
+         onerror="this.onerror=null;this.src='../logos/default.svg';"
+         style="width:28px;height:28px">
     <div>
-    <a href="../acoes/BSLI4.html" style="
-    color:#e2e8f0;
-    text-decoration:none;
-    font-weight:600;
-    ">
-    BRB BANCO
-    </a>
-
-    <div style="font-size:12px;color:#94a3b8">
-    BSLI4
+    <a href="../acoes/BSLI4.html" style="color:#e2e8f0;text-decoration:none;font-weight:600;">BRB BANCO</a>
+    <div style="font-size:12px;color:#cbd5e1">BSLI4</div>
     </div>
     </div>
-
-    </div>
-
-    <div style="
-    color:#22c55e;
-    font-weight:700;
-    ">
-    15.36%
-    </div>
-
+    <div style="color:#22c55e;font-weight:700;">16.05%</div>
     </div>
     
-    <div style="
-    background:rgba(30,41,59,0.6);
-    border:1px solid rgba(255,255,255,0.05);
-    padding:14px;
-    border-radius:12px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    margin-bottom:10px;
-    ">
-
+    <div style="background:rgba(30,41,59,0.6);border:1px solid rgba(255,255,255,0.05);padding:14px;border-radius:12px;display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
     <div style="display:flex;align-items:center;gap:10px">
-
-    <img src="../logos/RECV3.png"
-    onerror="this.onerror=null;this.src='../logos/default.svg';"
-    style="width:28px;height:28px">
-
+    <img src="../logos/BEEF3.png"
+         alt="Logo MINERVA"
+         onerror="this.onerror=null;this.src='../logos/default.svg';"
+         style="width:28px;height:28px">
     <div>
-    <a href="../acoes/RECV3.html" style="
-    color:#e2e8f0;
-    text-decoration:none;
-    font-weight:600;
-    ">
-    PETRORECSA
-    </a>
-
-    <div style="font-size:12px;color:#94a3b8">
-    RECV3
+    <a href="../acoes/BEEF3.html" style="color:#e2e8f0;text-decoration:none;font-weight:600;">MINERVA</a>
+    <div style="font-size:12px;color:#cbd5e1">BEEF3</div>
     </div>
     </div>
-
-    </div>
-
-    <div style="
-    color:#22c55e;
-    font-weight:700;
-    ">
-    15.13%
-    </div>
-
+    <div style="color:#22c55e;font-weight:700;">15.86%</div>
     </div>
     
-    <div style="
-    background:rgba(30,41,59,0.6);
-    border:1px solid rgba(255,255,255,0.05);
-    padding:14px;
-    border-radius:12px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    margin-bottom:10px;
-    ">
-
+    <div style="background:rgba(30,41,59,0.6);border:1px solid rgba(255,255,255,0.05);padding:14px;border-radius:12px;display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
     <div style="display:flex;align-items:center;gap:10px">
-
+    <img src="../logos/BRAP4.png"
+         alt="Logo BRADESPAR"
+         onerror="this.onerror=null;this.src='../logos/default.svg';"
+         style="width:28px;height:28px">
+    <div>
+    <a href="../acoes/BRAP4.html" style="color:#e2e8f0;text-decoration:none;font-weight:600;">BRADESPAR</a>
+    <div style="font-size:12px;color:#cbd5e1">BRAP4</div>
+    </div>
+    </div>
+    <div style="color:#22c55e;font-weight:700;">15.68%</div>
+    </div>
+    
+    <div style="background:rgba(30,41,59,0.6);border:1px solid rgba(255,255,255,0.05);padding:14px;border-radius:12px;display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+    <div style="display:flex;align-items:center;gap:10px">
+    <img src="../logos/CEBR5.png"
+         alt="Logo CEB A"
+         onerror="this.onerror=null;this.src='../logos/default.svg';"
+         style="width:28px;height:28px">
+    <div>
+    <a href="../acoes/CEBR5.html" style="color:#e2e8f0;text-decoration:none;font-weight:600;">CEB A</a>
+    <div style="font-size:12px;color:#cbd5e1">CEBR5</div>
+    </div>
+    </div>
+    <div style="color:#22c55e;font-weight:700;">15.49%</div>
+    </div>
+    
+    <div style="background:rgba(30,41,59,0.6);border:1px solid rgba(255,255,255,0.05);padding:14px;border-radius:12px;display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+    <div style="display:flex;align-items:center;gap:10px">
+    <img src="../logos/CMIG4.png"
+         alt="Logo CEMIG"
+         onerror="this.onerror=null;this.src='../logos/default.svg';"
+         style="width:28px;height:28px">
+    <div>
+    <a href="../acoes/CMIG4.html" style="color:#e2e8f0;text-decoration:none;font-weight:600;">CEMIG</a>
+    <div style="font-size:12px;color:#cbd5e1">CMIG4</div>
+    </div>
+    </div>
+    <div style="color:#22c55e;font-weight:700;">15.3%</div>
+    </div>
+    
+    <div style="background:rgba(30,41,59,0.6);border:1px solid rgba(255,255,255,0.05);padding:14px;border-radius:12px;display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+    <div style="display:flex;align-items:center;gap:10px">
     <img src="../logos/BBSE3.png"
-    onerror="this.onerror=null;this.src='../logos/default.svg';"
-    style="width:28px;height:28px">
-
+         alt="Logo BBSEGURIDADE"
+         onerror="this.onerror=null;this.src='../logos/default.svg';"
+         style="width:28px;height:28px">
     <div>
-    <a href="../acoes/BBSE3.html" style="
-    color:#e2e8f0;
-    text-decoration:none;
-    font-weight:600;
-    ">
-    BBSEGURIDADE
-    </a>
-
-    <div style="font-size:12px;color:#94a3b8">
-    BBSE3
+    <a href="../acoes/BBSE3.html" style="color:#e2e8f0;text-decoration:none;font-weight:600;">BBSEGURIDADE</a>
+    <div style="font-size:12px;color:#cbd5e1">BBSE3</div>
     </div>
     </div>
-
-    </div>
-
-    <div style="
-    color:#22c55e;
-    font-weight:700;
-    ">
-    15.05%
-    </div>
-
+    <div style="color:#22c55e;font-weight:700;">15.13%</div>
     </div>
     
-    <div style="
-    background:rgba(30,41,59,0.6);
-    border:1px solid rgba(255,255,255,0.05);
-    padding:14px;
-    border-radius:12px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    margin-bottom:10px;
-    ">
-
+    <div style="background:rgba(30,41,59,0.6);border:1px solid rgba(255,255,255,0.05);padding:14px;border-radius:12px;display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
     <div style="display:flex;align-items:center;gap:10px">
-
+    <img src="../logos/RECV3.png"
+         alt="Logo PETRORECSA"
+         onerror="this.onerror=null;this.src='../logos/default.svg';"
+         style="width:28px;height:28px">
+    <div>
+    <a href="../acoes/RECV3.html" style="color:#e2e8f0;text-decoration:none;font-weight:600;">PETRORECSA</a>
+    <div style="font-size:12px;color:#cbd5e1">RECV3</div>
+    </div>
+    </div>
+    <div style="color:#22c55e;font-weight:700;">15.13%</div>
+    </div>
+    
+    <div style="background:rgba(30,41,59,0.6);border:1px solid rgba(255,255,255,0.05);padding:14px;border-radius:12px;display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+    <div style="display:flex;align-items:center;gap:10px">
     <img src="../logos/TGMA3.png"
-    onerror="this.onerror=null;this.src='../logos/default.svg';"
-    style="width:28px;height:28px">
-
+         alt="Logo TEGMA"
+         onerror="this.onerror=null;this.src='../logos/default.svg';"
+         style="width:28px;height:28px">
     <div>
-    <a href="../acoes/TGMA3.html" style="
-    color:#e2e8f0;
-    text-decoration:none;
-    font-weight:600;
-    ">
-    TEGMA
-    </a>
-
-    <div style="font-size:12px;color:#94a3b8">
-    TGMA3
+    <a href="../acoes/TGMA3.html" style="color:#e2e8f0;text-decoration:none;font-weight:600;">TEGMA</a>
+    <div style="font-size:12px;color:#cbd5e1">TGMA3</div>
     </div>
     </div>
-
-    </div>
-
-    <div style="
-    color:#22c55e;
-    font-weight:700;
-    ">
-    15.02%
-    </div>
-
+    <div style="color:#22c55e;font-weight:700;">15.11%</div>
     </div>
     
-    <div style="
-    background:rgba(30,41,59,0.6);
-    border:1px solid rgba(255,255,255,0.05);
-    padding:14px;
-    border-radius:12px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    margin-bottom:10px;
-    ">
-
+    <div style="background:rgba(30,41,59,0.6);border:1px solid rgba(255,255,255,0.05);padding:14px;border-radius:12px;display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
     <div style="display:flex;align-items:center;gap:10px">
-
     <img src="../logos/FIQE3.png"
-    onerror="this.onerror=null;this.src='../logos/default.svg';"
-    style="width:28px;height:28px">
-
+         alt="Logo UNIFIQUE"
+         onerror="this.onerror=null;this.src='../logos/default.svg';"
+         style="width:28px;height:28px">
     <div>
-    <a href="../acoes/FIQE3.html" style="
-    color:#e2e8f0;
-    text-decoration:none;
-    font-weight:600;
-    ">
-    UNIFIQUE
-    </a>
-
-    <div style="font-size:12px;color:#94a3b8">
-    FIQE3
+    <a href="../acoes/FIQE3.html" style="color:#e2e8f0;text-decoration:none;font-weight:600;">UNIFIQUE</a>
+    <div style="font-size:12px;color:#cbd5e1">FIQE3</div>
     </div>
     </div>
-
+    <div style="color:#22c55e;font-weight:700;">15.0%</div>
     </div>
-
-    <div style="
-    color:#22c55e;
-    font-weight:700;
-    ">
-    15.0%
     </div>
-
-    </div>
-    </ul>
 
 </div>
 
 <!-- ANÚNCIO -->
-<div style="margin:20px 0;text-align:center;">
+<div style="margin:20px 0;text-align:center;" aria-label="Publicidade" role="complementary">
     <ins class="adsbygoogle"
         style="display:block"
         data-ad-client="ca-pub-5213961841779335"
@@ -1037,33 +500,35 @@ Atualizado automaticamente todos os dias.
         data-full-width-responsive="true"></ins>
 </div>
 
-</div>
+</main>
 
 <script>
 (adsbygoogle = window.adsbygoogle || []).push({});
 </script>
 
 <!-- RODAPÉ -->
+<footer>
 <div class="footer">
-⚠️ Este ranking utiliza dados públicos do Yahoo Finance e aplica critérios quantitativos próprios. 
-Não constitui recomendação de investimento.<br>
-<a href="/ranking.csv">Baixar CSV</a>
+  ⚠️ Este ranking utiliza dados públicos do Yahoo Finance e aplica critérios quantitativos próprios.
+  Não constitui recomendação de investimento.<br>
+  <a href="/ranking.csv" aria-label="Baixar ranking em formato CSV">Baixar CSV</a>
 </div>
 
-<footer>
-
-<a href="../index">Home</a> |
-<a href="../privacidade.html">Privacidade</a> |
-<a href="../termos.html">Termos</a> |
-<a href="../cookies.html">Cookies</a> |
-<a href="../sobre.html">Sobre</a> |
-<a href="../contato.html">Contato</a>
-
-<br><br>
-
-© Tá no Precinho, 2026
-
+<div class="footer" style="margin-top:10px">
+  <nav aria-label="Links do rodapé">
+    <a href="../index.html">Home</a> |
+    <a href="../privacidade.html">Privacidade</a> |
+    <a href="../termos.html">Termos</a> |
+    <a href="../cookies.html">Cookies</a> |
+    <a href="../sobre.html">Sobre</a> |
+    <a href="../contato.html">Contato</a>
+  </nav>
+  <br>
+  © Tá no Precinho, 2026
+</div>
 </footer>
+
+</div>
 
 </body>
 </html>
