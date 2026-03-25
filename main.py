@@ -935,7 +935,9 @@ html = f"""
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
+
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5213961841779335" crossorigin="anonymous"></script>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="Ranking automático das ações brasileiras mais baratas baseado em análise fundamentalista. Atualizado diariamente.">
@@ -943,7 +945,12 @@ html = f"""
 <meta property="og:title" content="Tá no Precinho? - Ranking de ações brasileiras">
 <meta property="og:description" content="Descubra quais ações podem estar baratas hoje segundo análise fundamentalista.">
 <meta property="og:image" content="https://tanoprecinho.site/images/og-image.jpg">
+
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon.png">
+<link rel="shortcut icon" href="/favicon.ico">
+
 <title>Tá no Precinho? | Ranking de ações da bolsa brasileira</title>
+
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
