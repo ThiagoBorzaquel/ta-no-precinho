@@ -218,84 +218,65 @@ print(f"{len(df)} empresas válidas encontradas.")
 # =========================
 
 def gerar_sitemap(df):
-
     base_url = "https://tanoprecinho.site"
-
     urls = []
 
-    def add_url(loc, freq="daily", priority="0.7"):
-        urls.append(f"""
-        <url>
-            <loc>{loc}</loc>
-            <changefreq>{freq}</changefreq>
-            <priority>{priority}</priority>
-        </url>
-        """)
+    def add(loc, freq="daily", pri="0.7"):
+        urls.append(f"  <url><loc>{loc}</loc><changefreq>{freq}</changefreq><priority>{pri}</priority></url>")
 
     # HOME
-    add_url(f"{base_url}/", "daily", "1.0")
+    add(f"{base_url}/", "daily", "1.0")
 
-    # PÁGINAS SEO FIXAS (TODAS DENTRO DE /seo)
-    paginas = [
-        "privacidade",
-        "termos",
-        "cookies",
-        "sobre",
-        "contato",
-        "investidor",
-        "fundamentalista",
-        "pl",
-        "roe",
-        "dividend-yield",
-        "missao"
-    ]
+    # PÁGINAS EDUCATIVAS E LEGAIS — fora do loop, 1x no sitemap
+    for p, freq, pri in [
+        ("missao.html",          "monthly", "0.7"),
+        ("fundamentalista.html", "monthly", "0.7"),
+        ("pl.html",              "monthly", "0.7"),
+        ("roe.html",             "monthly", "0.7"),
+        ("dividend-yield.html",  "monthly", "0.7"),
+        ("investidor.html",      "monthly", "0.5"),
+        ("privacidade.html",     "monthly", "0.3"),
+        ("termos.html",          "monthly", "0.3"),
+        ("cookies.html",         "monthly", "0.3"),
+        ("sobre.html",           "monthly", "0.4"),
+        ("contato.html",         "monthly", "0.4"),
+    ]:
+        add(f"{base_url}/{p}", freq, pri)
 
-    for p in paginas:
-        add_url(f"{base_url}/seo/{p}.html", "monthly", "0.6")
+    # PÁGINAS DE RANKING FIXAS — fora do loop, 1x no sitemap
+    for p in [
+        "seo/melhores-acoes-para-investir.html",
+        "seo/acoes-maior-dividend-yield.html",
+        "seo/acoes-maior-roe.html",
+        "seo/acoes-mais-seguras.html",
+        "seo/acoes-dividendos-mensais.html",
+        "seo/melhores-acoes-dividendos.html",
+        "seo/acoes-baratas-2026.html",
+    ]:
+        add(f"{base_url}/{p}", "daily", "0.9")
 
-    # PÁGINAS DE AÇÕES
+    # PÁGINAS POR AÇÃO — 1 entrada por ticker
+    seen = set()
     for _, row in df.iterrows():
         ticker = row["Ticker"]
-        empresa = row["Empresa"]
-        slug = gerar_slug(empresa, ticker)
+        if ticker in seen:
+            continue
+        seen.add(ticker)
+        slug = gerar_slug(row["Empresa"], ticker)
+        add(f"{base_url}/acoes/{ticker}.html",              "daily",  "0.8")
+        add(f"{base_url}/seo/vale-a-pena-{slug}.html",     "weekly", "0.7")
+        add(f"{base_url}/seo/{slug}-ta-barato.html",       "weekly", "0.7")
+        add(f"{base_url}/seo/{slug}-paga-dividendos.html", "weekly", "0.7")
 
-        # página principal da ação
-        add_url(f"{base_url}/acoes/{ticker}.html", "daily", "0.8")
-
-        # páginas SEO da ação
-        add_url(f"{base_url}/seo/{slug}.html")
-        add_url(f"{base_url}/seo/vale-a-pena-{slug}.html")
-        add_url(f"{base_url}/seo/{slug}-ta-barato.html")
-        add_url(f"{base_url}/seo/{slug}-paga-dividendos.html")
-
-    # PÁGINAS DE RANKING
-    paginas_rank = [
-        "melhores-acoes-dividendos",
-        "acoes-baratas-2026",
-        "melhores-acoes-para-investir",
-        "acoes-maior-dividend-yield",
-        "acoes-maior-roe",
-        "acoes-mais-seguras",
-        "acoes-dividendos-mensais"
-    ]
-
-    for p in paginas_rank:
-        add_url(f"{base_url}/seo/{p}.html", "daily", "0.9")
-
-    sitemap = f"""<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-{''.join(urls)}
-</urlset>
-"""
+    header = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+    footer = '\n</urlset>\n'
+    sitemap = header + "\n".join(urls) + footer
 
     with open("docs/sitemap.xml", "w", encoding="utf-8") as f:
         f.write(sitemap)
 
-    print("✅ Sitemap gerado corretamente.")
+    print(f"Sitemap gerado com {len(urls)} URLs unicas.")
 
-# =========================
-# GERAR MÉTRICA
-# =========================
 
 def gerar_metric(nome, valor, cor="#e2e8f0"):
     return f"""
@@ -404,7 +385,7 @@ gerar_pagina_raiz(
 <p>Se você está aqui analisando empresas, você já está fazendo algo que a maioria das pessoas nunca fará: pensando no longo prazo.</p>
 <p style="margin-top:30px;font-weight:600">O tempo é o melhor amigo do investidor disciplinado.</p>
 <br>
-<a href="/docs/index.html" style="color:#3b82f6">← Voltar ao ranking</a>
+<a href="/index" style="color:#3b82f6">← Voltar ao ranking</a>
 </div>
 """
 )
@@ -582,87 +563,166 @@ def gerar_texto_seo(row):
 # =========================
 
 def gerar_pagina_acao(row):
+    """Página principal da ação em /acoes/TICKER.html"""
 
     ticker = row["Ticker"]
     empresa = limpar_nome_empresa(row["Empresa"])
+    setor   = row["Setor"]
+    slug    = gerar_slug(empresa, ticker)
+    desconto = round(row["Desconto_%"], 2)
+    pl       = round(row["PL"], 2)
+    pvp      = round(row["PVP"], 2)
+    roe      = round(row["ROE"] * 100, 2)
+    dy       = round(row["DivYield"] * 100, 2)
+    preco    = round(row["Preco"], 2) if "Preco" in row else "—"
+    pjusto   = round(row["PrecoJusto"], 2)
 
-    descricao = f"Análise da ação {ticker} ({empresa}) com indicadores atualizados."
-    keywords = f"{ticker}, {empresa}, ação {ticker}, análise fundamentalista"
+    # ---------- Titles e metas dinâmicos (item 12 e 13) ----------
+    titulo_pg = f"{ticker} está barata em 2026? Análise completa — {empresa}"
+    descricao_pg = (
+        f"Veja agora a análise de {ticker} ({empresa}): P/L {pl}, "
+        f"ROE {roe}%, Dividend Yield {dy}% e desconto de {desconto}% "
+        f"em relação ao preço justo. Atualizado hoje."
+    )
+    keywords_pg = (
+        f"{ticker}, {empresa}, ação {ticker} está barata, "
+        f"análise {ticker}, dividendos {ticker}, vale a pena {ticker} 2026"
+    )
 
-    slug = gerar_slug(empresa, ticker)
+    # ---------- Interpretações textuais (item 6 — E-E-A-T) ----------
+    if desconto > 30:
+        avaliacao_desc = f"Com um desconto de <strong>{desconto}%</strong> em relação ao preço justo estimado de R$ {pjusto}, a ação aparenta estar significativamente descontada pelo mercado."
+    elif desconto > 0:
+        avaliacao_desc = f"Com um desconto de <strong>{desconto}%</strong>, a ação negocia abaixo do preço justo estimado de R$ {pjusto}, podendo representar uma oportunidade para investidores de longo prazo."
+    else:
+        avaliacao_desc = f"A ação está negociando <strong>acima do preço justo</strong> estimado de R$ {pjusto}. Isso não significa necessariamente que está cara, mas exige maior cautela na análise."
 
-    texto_analise = f"""
-    <h3>📊 Vale a pena investir em {ticker}?</h3>
-    <p>A <strong>{empresa} ({ticker})</strong> atua no setor <strong>{row["Setor"]}</strong>.</p>
-    <p>Hoje apresenta P/L de <strong>{round(row["PL"],2)}</strong>,
-    ROE de <strong>{round(row["ROE"]*100,2)}%</strong>
-    e dividend yield de <strong>{round(row["DivYield"]*100,2)}%</strong>.</p>
-    <p>O preço justo estimado é de <strong>R$ {round(row["PrecoJusto"],2)}</strong>.</p>
-    """
+    if roe >= 20:
+        avaliacao_roe = f"O ROE de <strong>{roe}%</strong> indica alta eficiência — a empresa gera muito retorno para os acionistas em relação ao capital investido."
+    elif roe >= 12:
+        avaliacao_roe = f"O ROE de <strong>{roe}%</strong> é razoável e está dentro da média do setor {setor}."
+    else:
+        avaliacao_roe = f"O ROE de <strong>{roe}%</strong> está abaixo do ideal. Vale analisar se trata-se de um momento pontual ou tendência."
 
-    info_empresa = f"""
-    <div class="card" style="max-width:700px;margin:20px auto;">
-    <h3>🏢 Sobre a empresa {empresa}</h3>
-    <p style="line-height:1.6;color:#cbd5e1">{row["Resumo"]}</p>
-    </div>
-    """
+    if dy >= 8:
+        avaliacao_dy = f"O Dividend Yield de <strong>{dy}%</strong> é elevado, classificando {ticker} como uma pagadora generosa de dividendos. Boa opção para quem busca renda passiva."
+    elif dy >= 4:
+        avaliacao_dy = f"O Dividend Yield de <strong>{dy}%</strong> é moderado. A empresa distribui dividendos de forma consistente, sem comprometer reinvestimentos."
+    else:
+        avaliacao_dy = f"O Dividend Yield de <strong>{dy}%</strong> é baixo. O foco da empresa parece ser mais crescimento do que distribuição de renda."
 
-    links = f"""
-    <div class="card" style="max-width:700px;margin:20px auto;">
-    <h3>🔗 Explore mais</h3>
-    <ul style="list-style:none;padding:0;display:flex;flex-direction:column;gap:8px;">
-      <li><a href="../seo/vale-a-pena-{slug}.html">Vale a pena investir em {empresa}?</a></li>
-      <li><a href="../seo/{slug}-paga-dividendos.html">{empresa} paga dividendos?</a></li>
-      <li><a href="../seo/{slug}-ta-barato.html">{empresa} está barata?</a></li>
-    </ul>
-    </div>
-    """
+    if pl < 8:
+        avaliacao_pl = f"O P/L de <strong>{pl}</strong> é baixo, sugerindo que o mercado paga pouco pelo lucro desta empresa — potencial sinal de subvalorização."
+    elif pl < 15:
+        avaliacao_pl = f"O P/L de <strong>{pl}</strong> está dentro de um patamar razoável para o setor {setor}."
+    else:
+        avaliacao_pl = f"O P/L de <strong>{pl}</strong> é mais elevado, indicando que o mercado precifica crescimento ou qualidade acima da média."
+
+    # ---------- Schema JSON-LD (item 9) ----------
+    schema = f"""<script type="application/ld+json">
+{{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "{titulo_pg}",
+  "description": "{descricao_pg}",
+  "author": {{"@type": "Organization", "name": "Tá no Precinho", "url": "https://tanoprecinho.site"}},
+  "publisher": {{"@type": "Organization", "name": "Tá no Precinho", "url": "https://tanoprecinho.site"}},
+  "mainEntityOfPage": "https://tanoprecinho.site/acoes/{ticker}.html",
+  "dateModified": "{datetime.date.today().isoformat()}"
+}}
+</script>"""
 
     with open("docs/layout_base.html", "r", encoding="utf-8") as f:
         template = f.read()
 
     conteudo = f"""
+{schema}
 
-    <a href="../index.html" style="color:#94a3b8;font-size:13px;">← Voltar ao ranking</a>
+<a href="/index.html" style="color:#94a3b8;font-size:13px;">← Voltar ao ranking</a>
 
-    <div style="text-align:center;margin:20px 0">
+<div style="text-align:center;margin:20px 0">
+<img src="../logos/{ticker}.png"
+     alt="Logo da empresa {empresa}"
+     loading="lazy"
+     onerror="this.onerror=null;this.src='../logos/default.svg';"
+     style="width:50px;height:50px;margin-bottom:10px">
+<h1 style="margin:0">{empresa} ({ticker})</h1>
+<div style="color:#cbd5e1;margin-top:5px;font-size:13px">{setor} • Atualizado hoje</div>
+</div>
 
-    <!-- FIX ACESSIBILIDADE: alt descritivo na logo -->
-    <img src="../logos/{ticker}.png"
-         alt="Logo da empresa {empresa}"
-         onerror="this.onerror=null;this.src='../logos/default.svg';"
-         style="width:50px;height:50px;margin-bottom:10px">
+<div style="max-width:520px;margin:auto">
+<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:15px;">
+{gerar_metric("P/L", pl)}
+{gerar_metric("P/VP", pvp)}
+{gerar_metric("ROE", f"{roe}%")}
+{gerar_metric("DY", f"{dy}%")}
+{gerar_metric("Score", row["Score"], "#22c55e" if row["Score"] >= 70 else "#eab308")}
+{gerar_metric("Desconto", f"{desconto}%", "#22c55e" if desconto > 0 else "#ef4444")}
+{gerar_metric("Preço atual", f"R$ {preco}")}
+{gerar_metric("Preço justo", f"R$ {pjusto}")}
+</div>
+</div>
 
-    <h1 style="margin:0">{empresa} ({ticker})</h1>
-    <div style="color:#cbd5e1;margin-top:5px">{row["Setor"]}</div>
+<article style="max-width:700px;margin:20px auto;">
 
-    </div>
+<div class="card">
+<h2>Vale a pena investir em {ticker}?</h2>
+<p>A <strong>{empresa}</strong> é uma empresa do setor de <strong>{setor}</strong> listada na Bolsa de Valores brasileira (B3) sob o ticker <strong>{ticker}</strong>.</p>
+<p>{avaliacao_desc}</p>
+<p>{row.get("Resumo", "")}</p>
+</div>
 
-    <div style="max-width:420px;margin:auto">
-    <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:15px;">
-    {gerar_metric("P/L", round(row["PL"],2))}
-    {gerar_metric("P/VP", round(row["PVP"],2))}
-    {gerar_metric("ROE", f'{round(row["ROE"]*100,2)}%')}
-    {gerar_metric("DY", f'{round(row["DivYield"]*100,2)}%')}
-    {gerar_metric("Score", row["Score"], "#22c55e" if row["Score"] >= 70 else "#eab308")}
-    {gerar_metric("Desconto", f'{round(row["Desconto_%"],2)}%', "#22c55e" if row["Desconto_%"] > 0 else "#ef4444")}
-    {gerar_metric("Preço justo", f'R$ {round(row["PrecoJusto"],2)}')}
-    {gerar_metric("Risco", row["Farol"])}
-    </div>
-    </div>
+<div class="card">
+<h2>A ação {ticker} está barata?</h2>
+<p>O preço justo estimado com base no P/L conservador de 15x é de <strong>R$ {pjusto}</strong>. {avaliacao_pl}</p>
+<p>O P/VP de <strong>{pvp}</strong> {'indica que a empresa negocia abaixo do valor patrimonial — sinal positivo para value investing.' if pvp < 1 else f'mostra que o mercado precifica a empresa acima do patrimônio líquido.'}</p>
+</div>
 
-    <div class="card" style="max-width:700px;margin:20px auto;">
-    {texto_analise}
-    </div>
+<div class="card">
+<h2>{ticker} paga bons dividendos?</h2>
+<p>{avaliacao_dy}</p>
+<p>{avaliacao_roe}</p>
+</div>
 
-    {info_empresa}
-    {links}
-    """
+<div class="card">
+<h2>Riscos de investir em {ticker}</h2>
+<p>Todo investimento em ações possui riscos. Para {ticker}, os principais pontos de atenção são:</p>
+<ul>
+<li>Variações macroeconômicas que afetam o setor de <strong>{setor}</strong></li>
+<li>{"Alto endividamento relativo ao patrimônio (P/VP " + str(pvp) + "x)" if pvp > 3 else "Nível de alavancagem dentro do esperado para o setor"}</li>
+<li>{"Dividend Yield elevado pode indicar distribuição insustentável — vale verificar o payout" if dy > 15 else "Distribuição de dividendos aparentemente sustentável"}</li>
+<li>Resultados futuros dependem do desempenho operacional da empresa</li>
+</ul>
+</div>
 
-    html = template.replace("{{titulo}}", ticker)
+<div class="card">
+<h2>Conclusão sobre {ticker}</h2>
+<p>Com base nos indicadores fundamentalistas atuais, {empresa} ({ticker}) apresenta {'um cenário favorável para investidores de longo prazo, especialmente pelo desconto em relação ao preço justo e pelo bom retorno em dividendos.' if desconto > 10 and dy > 4 else 'dados que merecem atenção. Recomendamos aprofundar a análise antes de tomar qualquer decisão.'}
+</p>
+<p>Lembre-se: esta análise é baseada em dados quantitativos e <strong>não constitui recomendação de investimento</strong>. Avalie seu perfil de risco antes de investir.</p>
+</div>
+
+</article>
+
+<div class="card">
+<h2>🚀 Descubra oportunidades</h2>
+<p style="color:#cbd5e1;font-size:14px;margin-bottom:15px">Explore rankings prontos com as melhores ações da bolsa hoje.</p>
+<nav aria-label="Paginas tickers" class="menu">
+    <a href="../seo/melhores-acoes-para-investir.html">🏆 Melhores ações</a>
+    <a href="../seo/acoes-maior-dividend-yield.html">💰 Dividendos</a>
+    <a href="../seo/acoes-maior-roe.html">📈 Alta rentabilidade</a>
+    <a href="../seo/acoes-mais-seguras.html">🛡 Mais seguras</a></li>
+    <a href="../seo/acoes-dividendos-mensais.html">💵 Renda mensal</a>
+    <a href="../seo/acoes-baratas-2026.html">🔥 Ações baratas</a></li>
+    <a href="../seo/melhores-acoes-dividendos.html">💸 Dividendos 2026</a>
+</nav>
+</div>
+"""
+
+    html = template.replace("{{titulo}}", titulo_pg)
     html = html.replace("{{conteudo}}", conteudo)
-    html = html.replace("{{descricao}}", descricao)
-    html = html.replace("{{keywords}}", keywords)
+    html = html.replace("{{descricao}}", descricao_pg)
+    html = html.replace("{{keywords}}", keywords_pg)
     html = html.replace("{{url}}", f"https://tanoprecinho.site/acoes/{ticker}.html")
 
     with open(f"docs/acoes/{ticker}.html", "w", encoding="utf-8") as f:
@@ -671,84 +731,254 @@ def gerar_pagina_acao(row):
     with open(f"docs/seo/{slug}.html", "w", encoding="utf-8") as f:
         f.write(html)
 
-# =========================
-# GERAR PÁGINAS SEO POR TICKER
-# =========================
 
 def gerar_paginas_seo_ticker(row):
+    """3 páginas SEO diferenciadas por foco (item 2 — sem conteúdo duplicado)"""
 
-    ticker = row["Ticker"]
+    ticker  = row["Ticker"]
     empresa = limpar_nome_empresa(row["Empresa"])
-    slug = gerar_slug(empresa, ticker)
+    setor   = row["Setor"]
+    slug    = gerar_slug(empresa, ticker)
+    desconto = round(row["Desconto_%"], 2)
+    pl       = round(row["PL"], 2)
+    pvp      = round(row["PVP"], 2)
+    roe      = round(row["ROE"] * 100, 2)
+    dy       = round(row["DivYield"] * 100, 2)
+    pjusto   = round(row["PrecoJusto"], 2)
 
-    paginas = [
-        (f"vale-a-pena-{slug}", f"👉 Vale a pena investir em {empresa} ({ticker})?"),
-        (f"{slug}-ta-barato", f"{empresa} ({ticker}) 📉 está barato?"),
-        (f"{slug}-paga-dividendos", f"{empresa} ({ticker}) 💰 paga dividendos?")
-    ]
+    with open("docs/layout_base.html", "r", encoding="utf-8") as f:
+        template = f.read()
 
-    for nome, titulo in paginas:
+    # -------------------------------------------------------
+    # PÁGINA 1: vale-a-pena — foco em visão geral (item 2)
+    # -------------------------------------------------------
+    nome1   = f"vale-a-pena-{slug}"
+    titulo1 = f"Vale a pena investir em {empresa} ({ticker}) em 2026?"
+    desc1   = f"Análise completa de {ticker}: indicadores, setor, riscos e oportunidade. Atualizado hoje."
+    schema1 = f"""<script type="application/ld+json">
+{{"@context":"https://schema.org","@type":"Article","headline":"{titulo1}",
+"author":{{"@type":"Organization","name":"Tá no Precinho"}},
+"dateModified":"{datetime.date.today().isoformat()}"}}
+</script>"""
 
-        conteudo = f"""
-    <div style="max-width:900px;margin:auto">
+    conteudo1 = f"""
+{schema1}
+<div style="max-width:780px;margin:auto">
 
-    <div style="max-width:700px;margin:auto;margin-bottom:15px">
-    <a href="../index.html" style="display:inline-block;color:#cbd5e1;text-decoration:none;font-size:13px;padding:6px 10px;border-radius:8px;background:#1e293b;">
-      ← Voltar ao ranking
-    </a>
-    </div>
+<a href="/index.html" style="color:#94a3b8;font-size:13px;">← Ranking completo</a>
 
-    <div class="card" style="text-align:center;margin-bottom:15px">
+<div class="card" style="text-align:center;margin:16px 0">
+<img src="../logos/{ticker}.png" alt="Logo {empresa}" loading="lazy"
+     onerror="this.onerror=null;this.src='../logos/default.svg';"
+     style="width:44px;height:44px;margin-bottom:8px">
+<h1 style="margin:0;font-size:21px">{titulo1}</h1>
+<p style="color:#22c55e;font-size:13px;margin:6px 0">Atualizado hoje • {setor}</p>
+</div>
 
-    <!-- FIX ACESSIBILIDADE: alt descritivo na logo -->
-    <img src="../logos/{ticker}.png"
-         alt="Logo da empresa {empresa}"
-         onerror="this.onerror=null;this.src='../logos/default.svg';"
-         style="width:50px;height:50px;margin-bottom:10px">
+<div class="card">
+<h2>Visão geral de {ticker}</h2>
+<p><strong>{empresa}</strong> atua no setor de <strong>{setor}</strong>. Com P/L de {pl} e ROE de {roe}%, a empresa {'apresenta fundamentos atrativos para o investidor de longo prazo.' if roe >= 15 and pl < 15 else 'requer análise cuidadosa antes de qualquer decisão.'}</p>
+<p>O score fundamentalista atual é de <strong>{row["Score"]}/100</strong>, {'indicando boa qualidade nos indicadores analisados.' if row["Score"] >= 70 else 'com pontos que merecem atenção.'}</p>
+</div>
 
-    <h1 style="margin:0;font-size:22px">{empresa} ({ticker})</h1>
-    <p style="color:#22c55e;font-size:13px;margin-bottom:10px">Atualizado hoje • Dados da bolsa</p>
-    <div style="color:#cbd5e1;margin-top:5px">{row["Setor"]}</div>
+<div class="card" style="background:rgba(34,197,94,0.06);border:1px solid rgba(34,197,94,0.2);">
+<h2>Principais indicadores</h2>
+<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;">
+{gerar_metric("P/L", pl)}
+{gerar_metric("P/VP", pvp)}
+{gerar_metric("ROE", f"{roe}%")}
+{gerar_metric("DY", f"{dy}%")}
+{gerar_metric("Score", row["Score"])}
+{gerar_metric("Desconto", f"{desconto}%")}
+</div>
+</div>
 
-    </div>
+<div class="card">
+<h2>Riscos e oportunidades</h2>
+<p>{"Com desconto de " + str(desconto) + "% em relação ao preço justo, existe potencial de valorização para quem tem horizonte de longo prazo." if desconto > 10 else "A ação negocia próxima ou acima do preço justo estimado, o que reduz a margem de segurança."}</p>
+<p>{"O alto Dividend Yield de " + str(dy) + "% é um ponto positivo para quem busca renda passiva." if dy >= 6 else "Os dividendos são modestos, sendo mais adequada para investidores focados em crescimento."}</p>
+<p><strong>Atenção:</strong> esta análise é informativa e não constitui recomendação de investimento.</p>
+</div>
 
-    <div class="card">
-    {gerar_texto_seo(row)}
-    </div>
+<div class="card">
+<h3>🔗 Aprofunde a análise</h3>
+<ul style="list-style:none;padding:0;display:flex;flex-direction:column;gap:8px;">
+  <li><a href="/acoes/{ticker}.html">📊 Análise completa de {ticker}</a></li>
+  <li><a href="/seo/{slug}-ta-barato.html">💸 {ticker} está barata? Análise de valuation</a></li>
+  <li><a href="/seo/{slug}-paga-dividendos.html">💰 {ticker} paga bons dividendos?</a></li>
+  <li><a href="/index.html">← Ver ranking completo</a></li>
+</ul>
+</div>
 
-    <div class="card" style="background:rgba(34,197,94,0.08);border:1px solid rgba(34,197,94,0.2);">
-    <h3>📊 Indicadores</h3>
-    <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:10px;">
-    {gerar_metric("P/L", round(row["PL"],2))}
-    {gerar_metric("ROE", f'{round(row["ROE"]*100,2)}%')}
-    {gerar_metric("DY", f'{round(row["DivYield"]*100,2)}%')}
-    {gerar_metric("Desconto", f'{round(row["Desconto_%"],2)}%')}
-    </div>
-    </div>
+</div>"""
 
-    <div class="card">
-    <h3>🔗 Continue analisando</h3>
-    <a href="../acoes/{ticker}.html" style="display:inline-block;margin-top:10px;padding:10px 16px;background:#22c55e;color:white;border-radius:8px;text-decoration:none;font-weight:600;">
-      Ver análise completa de {empresa} →
-    </a>
-    <br><br>
-    <a href="../index.html" style="color:#3b82f6">← Ver ranking completo</a>
-    </div>
+    html1 = template.replace("{{titulo}}", titulo1).replace("{{conteudo}}", conteudo1) \
+                    .replace("{{descricao}}", desc1).replace("{{keywords}}", f"{ticker}, vale a pena {ticker}, {empresa} 2026") \
+                    .replace("{{url}}", f"https://tanoprecinho.site/seo/{nome1}.html")
+    with open(f"docs/seo/{nome1}.html", "w", encoding="utf-8") as f:
+        f.write(html1)
 
-    </div>
-    """
+    # -------------------------------------------------------
+    # PÁGINA 2: ta-barato — foco em valuation P/L e preço justo (item 2)
+    # -------------------------------------------------------
+    nome2   = f"{slug}-ta-barato"
+    titulo2 = f"{empresa} ({ticker}) está barata? Análise de valuation 2026"
+    desc2   = f"Veja se {ticker} está barata: P/L {pl}, P/VP {pvp} e preço justo estimado em R$ {pjusto}. Análise atualizada hoje."
+    schema2 = f"""<script type="application/ld+json">
+{{"@context":"https://schema.org","@type":"Article","headline":"{titulo2}",
+"author":{{"@type":"Organization","name":"Tá no Precinho"}},
+"dateModified":"{datetime.date.today().isoformat()}"}}
+</script>"""
 
-        with open("docs/layout_base.html", "r", encoding="utf-8") as f:
-            template = f.read()
+    if pl < 8:
+        conclusao_pl = f"Um P/L de {pl} é considerado baixo — o mercado está pagando menos de 8 anos de lucro pela empresa, o que historicamente sugere subvalorização."
+    elif pl < 15:
+        conclusao_pl = f"Um P/L de {pl} é razoável para o setor de {setor}. Não está excessivamente caro nem barato."
+    else:
+        conclusao_pl = f"Um P/L de {pl} está acima do múltiplo conservador de 15x. Isso pode indicar que o mercado precifica crescimento futuro."
 
-        html = template.replace("{{titulo}}", titulo)
-        html = html.replace("{{conteudo}}", conteudo)
-        html = html.replace("{{descricao}}", titulo)
-        html = html.replace("{{keywords}}", titulo)
-        html = html.replace("{{url}}", f"https://tanoprecinho.site/seo/{nome}.html")
+    conteudo2 = f"""
+{schema2}
+<div style="max-width:780px;margin:auto">
 
-        with open(f"docs/seo/{nome}.html", "w", encoding="utf-8") as f:
-            f.write(html)
+<a href="/index.html" style="color:#94a3b8;font-size:13px;">← Ranking completo</a>
+
+<div class="card" style="text-align:center;margin:16px 0">
+<img src="../logos/{ticker}.png" alt="Logo {empresa}" loading="lazy"
+     onerror="this.onerror=null;this.src='../logos/default.svg';"
+     style="width:44px;height:44px;margin-bottom:8px">
+<h1 style="margin:0;font-size:21px">{titulo2}</h1>
+<p style="color:#22c55e;font-size:13px;margin:6px 0">Análise de valuation • Atualizado hoje</p>
+</div>
+
+<div class="card">
+<h2>Preço justo de {ticker}</h2>
+<p>Utilizando o método do P/L justo com múltiplo conservador de <strong>15x</strong>, o preço justo estimado para {ticker} é de <strong>R$ {pjusto}</strong>.</p>
+<p>{"Com o desconto atual de " + str(desconto) + "%, a ação negocia abaixo do valor estimado — o que pode representar uma oportunidade." if desconto > 0 else "A ação está sendo negociada acima do preço justo estimado, com ágio de " + str(abs(desconto)) + "%."}</p>
+</div>
+
+<div class="card" style="background:rgba(59,130,246,0.06);border:1px solid rgba(59,130,246,0.2);">
+<h2>Indicadores de valuation</h2>
+<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;">
+{gerar_metric("P/L", pl)}
+{gerar_metric("P/VP", pvp)}
+{gerar_metric("Preço justo", f"R$ {pjusto}")}
+{gerar_metric("Desconto", f"{desconto}%")}
+</div>
+</div>
+
+<div class="card">
+<h2>O que o P/L diz sobre {ticker}?</h2>
+<p>{conclusao_pl}</p>
+<p>O P/VP de <strong>{pvp}</strong> {'indica que a ação negocia abaixo do valor patrimonial — característica típica de ações de valor.' if pvp < 1 else 'mostra que o mercado paga ' + str(pvp) + 'x o patrimônio líquido da empresa.'}</p>
+</div>
+
+<div class="card">
+<h2>Conclusão de valuation</h2>
+<p>{"Os indicadores sugerem que " + ticker + " pode estar subvalorizada pelo mercado. Para investidores de value investing, esse desconto pode representar uma entrada interessante." if desconto > 15 else "O valuation atual de " + ticker + " está dentro de um patamar moderado. Não há margem de segurança expressiva pelo critério do P/L justo."}</p>
+<p>⚠️ Esta análise é exclusivamente informativa e <strong>não constitui recomendação de investimento</strong>.</p>
+</div>
+
+<div class="card">
+<h3>🔗 Continue analisando</h3>
+<ul style="list-style:none;padding:0;display:flex;flex-direction:column;gap:8px;">
+  <li><a href="/acoes/{ticker}.html">📊 Análise completa de {ticker}</a></li>
+  <li><a href="/seo/vale-a-pena-{slug}.html">🤔 Vale a pena investir em {empresa}?</a></li>
+  <li><a href="/seo/{slug}-paga-dividendos.html">💰 {ticker} paga bons dividendos?</a></li>
+  <li><a href="/index.html">← Ver ranking completo</a></li>
+</ul>
+</div>
+
+</div>"""
+
+    html2 = template.replace("{{titulo}}", titulo2).replace("{{conteudo}}", conteudo2) \
+                    .replace("{{descricao}}", desc2).replace("{{keywords}}", f"{ticker} está barata, valuation {ticker}, preço justo {ticker}") \
+                    .replace("{{url}}", f"https://tanoprecinho.site/seo/{nome2}.html")
+    with open(f"docs/seo/{nome2}.html", "w", encoding="utf-8") as f:
+        f.write(html2)
+
+    # -------------------------------------------------------
+    # PÁGINA 3: paga-dividendos — foco em renda (item 2)
+    # -------------------------------------------------------
+    nome3   = f"{slug}-paga-dividendos"
+    titulo3 = f"{empresa} ({ticker}) paga bons dividendos em 2026?"
+    desc3   = f"{ticker} tem Dividend Yield de {dy}% e ROE de {roe}%. Veja se os dividendos são sustentáveis. Análise atualizada hoje."
+    schema3 = f"""<script type="application/ld+json">
+{{"@context":"https://schema.org","@type":"Article","headline":"{titulo3}",
+"author":{{"@type":"Organization","name":"Tá no Precinho"}},
+"dateModified":"{datetime.date.today().isoformat()}"}}
+</script>"""
+
+    if dy >= 10:
+        analise_dy = f"O Dividend Yield de <strong>{dy}%</strong> é muito elevado. {ticker} é uma das melhores pagadoras de dividendos do mercado, mas vale verificar se o payout é sustentável a longo prazo."
+    elif dy >= 6:
+        analise_dy = f"O Dividend Yield de <strong>{dy}%</strong> é alto e bem acima da poupança. {ticker} pode ser uma boa opção para quem busca renda passiva consistente."
+    elif dy >= 3:
+        analise_dy = f"O Dividend Yield de <strong>{dy}%</strong> é moderado. A empresa distribui dividendos sem comprometer o caixa para reinvestimento."
+    else:
+        analise_dy = f"O Dividend Yield de <strong>{dy}%</strong> é baixo. O foco da empresa parece ser crescimento — os dividendos são secundários."
+
+    conteudo3 = f"""
+{schema3}
+<div style="max-width:780px;margin:auto">
+
+<a href="/index.html" style="color:#94a3b8;font-size:13px;">← Ranking completo</a>
+
+<div class="card" style="text-align:center;margin:16px 0">
+<img src="../logos/{ticker}.png" alt="Logo {empresa}" loading="lazy"
+     onerror="this.onerror=null;this.src='../logos/default.svg';"
+     style="width:44px;height:44px;margin-bottom:8px">
+<h1 style="margin:0;font-size:21px">{titulo3}</h1>
+<p style="color:#22c55e;font-size:13px;margin:6px 0">Análise de dividendos • Atualizado hoje</p>
+</div>
+
+<div class="card">
+<h2>Dividend Yield de {ticker}</h2>
+<p>{analise_dy}</p>
+<p>Com ROE de <strong>{roe}%</strong>, {'a empresa demonstra eficiência na geração de lucro, o que é um bom sinal para a sustentabilidade dos dividendos.' if roe >= 15 else 'o retorno sobre patrimônio é moderado — acompanhe os resultados trimestrais para avaliar continuidade.'}</p>
+</div>
+
+<div class="card" style="background:rgba(34,197,94,0.06);border:1px solid rgba(34,197,94,0.2);">
+<h2>Indicadores de renda</h2>
+<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;">
+{gerar_metric("Dividend Yield", f"{dy}%")}
+{gerar_metric("ROE", f"{roe}%")}
+{gerar_metric("P/L", pl)}
+{gerar_metric("Score", row["Score"])}
+</div>
+</div>
+
+<div class="card">
+<h2>Os dividendos de {ticker} são sustentáveis?</h2>
+<p>Para avaliar a sustentabilidade dos dividendos, observamos a relação entre o Dividend Yield e o ROE. {"Com ROE de " + str(roe) + "% e DY de " + str(dy) + "%, a empresa demonstra capacidade de gerar lucro suficiente para manter os pagamentos." if roe > dy else "O DY está próximo ou acima do ROE, o que pode indicar distribuição elevada em relação à rentabilidade — monitorar resultados futuros."}</p>
+<p>Empresas do setor de <strong>{setor}</strong> costumam {'ter política de dividendos mais previsível.' if setor in ['Utilidades Públicas', 'Serviços Financeiros', 'Energia'] else 'variar os dividendos conforme ciclos de negócio.'}</p>
+</div>
+
+<div class="card">
+<h2>Conclusão sobre os dividendos de {ticker}</h2>
+<p>{"Com DY de " + str(dy) + "%, " + ticker + " é uma opção relevante para investidores que buscam renda passiva na bolsa brasileira." if dy >= 5 else ticker + " não se destaca como pagadora de dividendos. Para estratégia de renda, existem opções mais adequadas no ranking."}</p>
+<p>⚠️ Análise informativa. <strong>Não constitui recomendação de investimento.</strong></p>
+</div>
+
+<div class="card">
+<h3>🔗 Veja também</h3>
+<ul style="list-style:none;padding:0;display:flex;flex-direction:column;gap:8px;">
+  <li><a href="/acoes/{ticker}.html">📊 Análise completa de {ticker}</a></li>
+  <li><a href="/seo/vale-a-pena-{slug}.html">🤔 Vale a pena investir em {empresa}?</a></li>
+  <li><a href="/seo/{slug}-ta-barato.html">💸 {ticker} está barata? Valuation</a></li>
+  <li><a href="/seo/acoes-maior-dividend-yield.html">💰 Ver todas as ações com alto DY</a></li>
+  <li><a href="/index.html">← Ranking completo</a></li>
+</ul>
+</div>
+
+</div>"""
+
+    html3 = template.replace("{{titulo}}", titulo3).replace("{{conteudo}}", conteudo3) \
+                    .replace("{{descricao}}", desc3).replace("{{keywords}}", f"{ticker} dividendos, dividend yield {ticker}, {empresa} paga dividendos") \
+                    .replace("{{url}}", f"https://tanoprecinho.site/seo/{nome3}.html")
+    with open(f"docs/seo/{nome3}.html", "w", encoding="utf-8") as f:
+        f.write(html3)
+
 
 # =========================
 # GERAR PÁGINAS DE RANKING
@@ -764,6 +994,7 @@ def gerar_paginas_ranking(df):
     <div style="display:flex;align-items:center;gap:10px">
     <img src="../logos/{row['Ticker']}.png"
          alt="Logo {row['Empresa']}"
+         loading="lazy"
          onerror="this.onerror=null;this.src='../logos/default.svg';"
          style="width:28px;height:28px">
     <div>
@@ -793,6 +1024,7 @@ def gerar_paginas_ranking(df):
     <div style="display:flex;align-items:center;gap:10px">
     <img src="../logos/{row['Ticker']}.png"
          alt="Logo {row['Empresa']}"
+         loading="lazy"
          onerror="this.onerror=null;this.src='../logos/default.svg';"
          style="width:28px;height:28px">
     <div>
@@ -813,6 +1045,731 @@ def gerar_paginas_ranking(df):
         descricao="Veja as ações mais baratas hoje na bolsa.",
         keywords="ações baratas, ações descontadas"
     )
+
+    gerar_pagina(
+    "investidores",
+    "Maiores investidores da bolsa",
+    """
+<div style="max-width:900px;margin:auto">
+
+<h1>📚 Maiores investidores da bolsa</h1>
+
+<p style="color:#cbd5e1">
+Conheça os maiores investidores da história e aprenda as estratégias que fizeram eles acumularem patrimônio.
+</p>
+
+<div class="card">
+
+<h2 style="margin-bottom:12px;">💰 Aprenda com os melhores</h2>
+
+<div style="display:flex;flex-direction:column;gap:10px;">
+
+<a href="barsi-dividendos.html" style="
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:12px 14px;
+background:rgba(30,41,59,0.6);
+border:1px solid rgba(255,255,255,0.05);
+border-radius:10px;
+text-decoration:none;
+color:#e2e8f0;
+transition:0.2s;
+">
+
+<span>💸 Luiz Barsi</span>
+<span style="font-size:12px;color:#94a3b8;">Dividendos</span>
+
+</a>
+
+<a href="warren-buffett.html" style="
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:12px 14px;
+background:rgba(30,41,59,0.6);
+border:1px solid rgba(255,255,255,0.05);
+border-radius:10px;
+text-decoration:none;
+color:#e2e8f0;
+transition:0.2s;
+">
+
+<span>💰 Warren Buffett</span>
+<span style="font-size:12px;color:#94a3b8;">Value Investing</span>
+
+</a>
+
+<a href="benjamin-graham.html" style="
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:12px 14px;
+background:rgba(30,41,59,0.6);
+border:1px solid rgba(255,255,255,0.05);
+border-radius:10px;
+text-decoration:none;
+color:#e2e8f0;
+transition:0.2s;
+">
+
+<span>📘 Benjamin Graham</span>
+<span style="font-size:12px;color:#94a3b8;">Fundamentos</span>
+
+</a>
+
+<a href="peter-lynch.html" style="
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:12px 14px;
+background:rgba(30,41,59,0.6);
+border:1px solid rgba(255,255,255,0.05);
+border-radius:10px;
+text-decoration:none;
+color:#e2e8f0;
+transition:0.2s;
+">
+
+<span>📈 Peter Lynch</span>
+<span style="font-size:12px;color:#94a3b8;">Crescimento</span>
+
+</a>
+
+</div>
+
+</div>
+
+<div class="card">
+<h3>📊 Quer ver ações baratas agora?</h3>
+<a href="../index.html" style="display:inline-block;margin-top:10px;padding:12px 18px;background:#22c55e;color:white;border-radius:8px;text-decoration:none;font-weight:600;">
+Ver ranking atualizado →
+</a>
+</div>
+
+<div class="card">
+<h2>🚀 Descubra oportunidades</h2>
+<p style="color:#cbd5e1;font-size:14px;margin-bottom:15px">Explore rankings prontos com as melhores ações da bolsa hoje.</p>
+<nav aria-label="Paginas de livros" class="menu">
+<a href="seo/melhores-acoes-para-investir.html">🏆 Melhores ações</a>
+<a href="seo/acoes-maior-dividend-yield.html">💰 Dividendos</a>
+<a href="seo/acoes-maior-roe.html">📈 Alta rentabilidade</a>
+<a href="seo/acoes-mais-seguras.html">🛡️ Mais seguras</a>
+<a href="seo/acoes-dividendos-mensais.html">💵 Renda mensal</a>
+<a href="seo/acoes-baratas-2026.html">🔥 Ações baratas</a>
+<a href="seo/melhores-acoes-dividendos.html">💸 Dividendos 2026</a>
+<a href="seo/investidores.html">📚 Maiores investidores da bolsa</a>
+</nav>
+</div>
+
+</div>
+""",
+    descricao="Conheça os maiores investidores da bolsa e aprenda suas estratégias.",
+    keywords="maiores investidores, luiz barsi, warren buffett, value investing"
+)
+    
+gerar_pagina(
+    "barsi-dividendos",
+    "Como Luiz Barsi ficou bilionário com dividendos",
+    """
+<div style="max-width:900px;margin:auto">
+
+<div class="card">
+
+<h2>🇧🇷 Luiz Barsi — o investidor dos dividendos</h2>
+
+<p>
+💸 Luiz Barsi é considerado o maior investidor pessoa física do Brasil.
+Sua estratégia é simples e extremamente poderosa: viver de dividendos.
+</p>
+
+<p>
+Ao longo de décadas, Barsi construiu patrimônio investindo em empresas sólidas,
+com foco em geração de caixa e pagamento consistente de dividendos.
+</p>
+
+<p>
+Sua filosofia não envolve especulação ou tentar prever o mercado.
+Ele compra boas empresas e mantém posição por muitos anos.
+</p>
+
+<p>
+A ideia central é clara:
+<strong>construir renda passiva crescente ao longo do tempo.</strong>
+</p>
+
+</div>
+
+<div class="card">
+
+<h2>📈 A estratégia de Barsi</h2>
+
+<ul>
+<li>Foco em dividendos consistentes</li>
+<li>Compra de empresas sólidas</li>
+<li>Visão de longo prazo</li>
+<li>Reinvestimento dos dividendos</li>
+</ul>
+
+<p>
+Barsi nunca tentou prever o mercado. Ele apenas acumulou boas empresas ao longo do tempo.
+</p>
+
+</div>
+
+<div class="card">
+
+<h2>🧠 O segredo</h2>
+
+<p>
+O maior diferencial de Barsi não foi inteligência fora da curva.
+Foi disciplina.
+</p>
+
+<p>
+Enquanto a maioria tenta ganhar dinheiro rápido, ele focou em renda passiva consistente.
+</p>
+
+</div>
+
+<div class="card" style="background:rgba(34,197,94,0.08);border:1px solid rgba(34,197,94,0.2);">
+
+<h2>📚 Quer aprender direto com ele?</h2>
+
+<p>
+Se você quer entender exatamente como Barsi pensa e investe, esse é o melhor ponto de partida:
+</p>
+
+<a href="https://amzn.to/47rV2Vj" target="_blank" style="display:inline-block;margin-top:12px;padding:14px 20px;background:#22c55e;color:white;border-radius:10px;text-decoration:none;font-weight:700;">
+👉 Ver livro recomendado
+</a>
+
+<p style="font-size:12px;color:#94a3b8;margin-top:10px">
+*Link de afiliado — você apoia o projeto sem pagar nada a mais
+</p>
+
+</div>
+
+<div class="card">
+
+<h3>📊 Veja ações com dividendos agora</h3>
+
+<a href="../index.html" style="display:inline-block;margin-top:10px;padding:12px 18px;background:#3b82f6;color:white;border-radius:8px;text-decoration:none;font-weight:600;">
+Ver ranking →
+</a>
+
+</div>
+
+<<div class="card">
+<h2>O Basico de todo investidor</h2>
+<p style="color:#cbd5e1;font-size:14px;margin-bottom:15px">Antes de escolher ações, os melhores investidores dominam o essencial:
+mentalidade, disciplina e visão de longo prazo.</p>
+<nav aria-label="O Basico de todo investidor" class="menu">
+    <a href="pai-rico-pai-pobre.html">💰 Pai Rico, Pai Pobre</a>
+    <a href="homem-mais-rico-babilonia.html">🏺 O Homem Mais Rico da Babilônia</a>
+    <a href="mente-milionaria.html">🧠 Os Segredos da Mente Milionária</a>
+</nav>
+</div>
+
+</div>
+""",
+    descricao="Aprenda como Luiz Barsi ficou bilionário investindo em dividendos.",
+    keywords="luiz barsi, dividendos, renda passiva, investir em ações"
+)
+
+gerar_pagina(
+    "warren-buffett",
+    "Como Warren Buffett ficou bilionário investindo",
+    """
+<div style="max-width:900px;margin:auto">
+
+<div class="card">
+
+<h2>💰 Warren Buffett — o maior investidor do mundo</h2>
+
+<p>
+Warren Buffett é conhecido como o maior investidor da história.
+Ele construiu sua fortuna aplicando os princípios do value investing.
+</p>
+
+<p>
+Buffett busca empresas sólidas, com vantagem competitiva e boa gestão,
+comprando apenas quando estão abaixo do valor justo.
+</p>
+
+<p>
+Ele evita riscos desnecessários e acredita que o tempo é o maior aliado do investidor.
+</p>
+
+<p>
+Sua frase mais famosa resume bem sua estratégia:
+<strong>"Se você não pretende manter uma ação por 10 anos, não compre por 10 minutos."</strong>
+</p>
+
+</div>
+
+<div class="card">
+
+<h2>🧠 Filosofia de investimento</h2>
+
+<ul>
+<li>Comprar empresas com vantagem competitiva</li>
+<li>Pensar no longo prazo</li>
+<li>Evitar especulação</li>
+<li>Investir no que entende</li>
+</ul>
+
+</div>
+
+<div class="card">
+
+<h2>📚 Quer aprender direto com ele?</h2>
+
+<p>
+Se você quer entender exatamente como Buffet pensa e investe, esse é o melhor ponto de partida:
+</p>
+
+<a href="https://amzn.to/4uT0Lh0" target="_blank" style="display:inline-block;margin-top:12px;padding:14px 20px;background:#22c55e;color:white;border-radius:10px;text-decoration:none;font-weight:700;">
+👉 Ver livro do Warren Buffett
+</a>
+
+</div>
+
+<div class="card">
+<a href="../index.html">← Ver ranking de ações</a>
+</div>
+
+<<div class="card">
+<h2>O Basico de todo investidor</h2>
+<p style="color:#cbd5e1;font-size:14px;margin-bottom:15px">Antes de escolher ações, os melhores investidores dominam o essencial:
+mentalidade, disciplina e visão de longo prazo.</p>
+<nav aria-label="O Basico de todo investidor" class="menu">
+    <a href="pai-rico-pai-pobre.html">💰 Pai Rico, Pai Pobre</a>
+    <a href="homem-mais-rico-babilonia.html">🏺 O Homem Mais Rico da Babilônia</a>
+    <a href="mente-milionaria.html">🧠 Os Segredos da Mente Milionária</a>
+</nav>
+</div>
+
+</div>
+""",
+    descricao="Conheça a estratégia de Warren Buffett.",
+    keywords="warren buffett, value investing, melhores investidores"
+)
+
+gerar_pagina(
+    "benjamin-graham",
+    "Benjamin Graham — pai do value investing",
+    """
+<div style="max-width:900px;margin:auto">
+
+<div class="card">
+
+<h2>📘 Benjamin Graham — pai do value investing</h2>
+
+<p>
+Benjamin Graham foi o criador da análise fundamentalista moderna
+e mentor de Warren Buffett.
+</p>
+
+<p>
+Ele desenvolveu o conceito de comprar ações abaixo do valor justo,
+utilizando uma margem de segurança para reduzir riscos.
+</p>
+
+<p>
+Graham via o mercado como emocional e irracional no curto prazo,
+mas eficiente no longo prazo.
+</p>
+
+<p>
+Seu ensinamento principal:
+<strong>o preço é o que você paga, o valor é o que você recebe.</strong>
+</p>
+
+</div>
+
+<div class="card">
+
+<h2>🧠 Princípios fundamentais</h2>
+
+<ul>
+<li>Comprar com margem de segurança</li>
+<li>Focar no valor, não no preço</li>
+<li>Ignorar emoções do mercado</li>
+<li>Investir com disciplina</li>
+</ul>
+
+</div>
+
+<div class="card">
+
+<h2>📊 O conceito de margem de segurança</h2>
+
+<p>
+Graham defendia que o investidor deve comprar ativos com desconto em relação ao valor justo.
+Isso reduz risco e aumenta o potencial de retorno.
+</p>
+
+</div>
+
+<div class="card" style="background:rgba(34,197,94,0.08);border:1px solid rgba(34,197,94,0.2);">
+
+<h2>📚 Quer aprender direto com ele?</h2>
+
+<p>
+Se você quer entender exatamente como Graham pensa e investe, esse é o melhor ponto de partida:
+</p>
+
+
+<a href="https://amzn.to/4bMAYOV" target="_blank" style="display:inline-block;margin-top:12px;padding:14px 20px;background:#22c55e;color:white;border-radius:10px;text-decoration:none;font-weight:700;">
+👉 Ver livro do Benjamin Graham
+</a>
+
+</div>
+
+<div class="card">
+<a href="../index.html">📊 Ver ações baratas agora →</a>
+</div>
+
+<<div class="card">
+<h2>O Basico de todo investidor</h2>
+<p style="color:#cbd5e1;font-size:14px;margin-bottom:15px">Antes de escolher ações, os melhores investidores dominam o essencial:
+mentalidade, disciplina e visão de longo prazo.</p>
+<nav aria-label="O Basico de todo investidor" class="menu">
+    <a href="pai-rico-pai-pobre.html">💰 Pai Rico, Pai Pobre</a>
+    <a href="homem-mais-rico-babilonia.html">🏺 O Homem Mais Rico da Babilônia</a>
+    <a href="mente-milionaria.html">🧠 Os Segredos da Mente Milionária</a>
+</nav>
+</div>
+
+</div>
+""",
+    descricao="Conheça Benjamin Graham e o conceito de value investing.",
+    keywords="benjamin graham, value investing, investir em valor"
+)
+
+gerar_pagina(
+    "peter-lynch",
+    "Peter Lynch — investir no que você conhece",
+    """
+<div style="max-width:900px;margin:auto">
+
+<div class="card">
+
+<h2>📈 Peter Lynch — investir no que você conhece</h2>
+
+<p>
+Peter Lynch ficou famoso por mostrar que qualquer pessoa pode investir bem,
+desde que observe o mundo ao seu redor.
+</p>
+
+<p>
+Sua estratégia é baseada em identificar empresas que fazem parte do seu dia a dia
+antes que o mercado perceba seu potencial.
+</p>
+
+<p>
+Ele acredita que investidores comuns têm vantagem,
+pois conseguem enxergar tendências no consumo antes dos grandes fundos.
+</p>
+
+<p>
+A ideia principal é simples:
+<strong>invista em negócios que você entende.</strong>
+</p>
+
+</div>
+
+<div class="card">
+
+<h2>🧠 Filosofia</h2>
+
+<ul>
+<li>Invista no que você conhece</li>
+<li>Observe o dia a dia</li>
+<li>Busque empresas em crescimento</li>
+<li>Pense no longo prazo</li>
+</ul>
+
+</div>
+
+<div class="card">
+
+<h2>🔍 Exemplo prático</h2>
+
+<p>
+Se você percebe que uma marca está crescendo e sendo cada vez mais usada,
+isso pode ser um sinal de oportunidade.
+</p>
+
+</div>
+
+<div class="card" style="background:rgba(34,197,94,0.08);border:1px solid rgba(34,197,94,0.2);">
+
+<h2>📚 Quer aprender direto com ele?</h2>
+
+<p>
+Se você quer entender exatamente como Lynch pensa e investe, esse é o melhor ponto de partida:
+</p>
+
+<a href="https://amzn.to/47rVy5H" target="_blank" style="display:inline-block;margin-top:12px;padding:14px 20px;background:#22c55e;color:white;border-radius:10px;text-decoration:none;font-weight:700;">
+👉 Ver livro do Peter Lynch
+</a>
+
+</div>
+
+<div class="card">
+<a href="../index.html">📊 Ver ranking de ações →</a>
+</div>
+
+<div class="card">
+<h2>O Basico de todo investidor</h2>
+<p style="color:#cbd5e1;font-size:14px;margin-bottom:15px">Antes de escolher ações, os melhores investidores dominam o essencial:
+mentalidade, disciplina e visão de longo prazo.</p>
+<nav aria-label="O Basico de todo investidor" class="menu">
+    <a href="pai-rico-pai-pobre.html">💰 Pai Rico, Pai Pobre</a>
+    <a href="homem-mais-rico-babilonia.html">🏺 O Homem Mais Rico da Babilônia</a>
+    <a href="mente-milionaria.html">🧠 Os Segredos da Mente Milionária</a>
+</nav>
+</div>
+
+</div>
+""",
+    descricao="Conheça a estratégia de Peter Lynch.",
+    keywords="peter lynch, investir no que conhece, ações crescimento"
+)
+
+gerar_pagina(
+    "pai-rico-pai-pobre",
+    "Pai Rico, Pai Pobre — lições financeiras",
+    """
+<div style="max-width:900px;margin:auto">
+
+<h1>💰 Pai Rico, Pai Pobre</h1>
+
+<p style="color:#cbd5e1">
+A escola prepara as crianças para o mundo real? Essa é a primeira pergunta com a qual o leitor se depara neste livro. O recado é ousado e direto: boa formação e notas altas não bastam para assegurar o sucesso de alguém. O mundo mudou; a maioria dos jovens tem cartão de crédito, antes mesmo de concluir os estudos, e nunca teve aula sobre dinheiro, investimentos, juros etc. Ou seja, eles vão para a escola, mas continuam financeiramente improficientes, despreparados para enfrentar um mundo que valoriza mais as despesas do que a poupança.
+
+Para o autor, o conselho mais perigoso que se pode dar a um jovem nos dias de hoje é: “Vá para a escola, tire notas altas e depois procure um trabalho seguro.” O fato é que agora as regras são outras, e não existe mais emprego garantido para ninguém. Pai Rico, Pai Pobre demonstra que a questão não é ser empregado ou empregador, mas ter o controle do próprio destino ou delegá-lo a alguém. É essa a tese de Robert Kiyosaki neste livro substancial e visionário. Para ele, a formação proporcionada pelo sistema educacional não prepara os jovens para o mundo que encontrarão depois de formados.
+</p>
+
+<div class="card">
+
+<h2>🧠 Principais ensinamentos</h2>
+
+<ul>
+<li>Ativos colocam dinheiro no bolso</li>
+<li>Passivos tiram dinheiro do bolso</li>
+<li>Trabalhe para aprender, não só para ganhar</li>
+<li>Construa renda passiva</li>
+</ul>
+
+</div>
+
+<div class="card">
+
+<h2>💡 Mentalidade</h2>
+
+<p>
+O livro mostra a diferença entre pensar como pobre e pensar como rico.
+</p>
+
+</div>
+
+<div class="card" style="background:rgba(34,197,94,0.08);border:1px solid rgba(34,197,94,0.2);">
+
+<h2>📚 Comece por aqui</h2>
+
+<a href="https://amzn.to/3Pte87v" target="_blank" style="display:inline-block;margin-top:12px;padding:14px 20px;background:#22c55e;color:white;border-radius:10px;text-decoration:none;font-weight:700;">
+👉 Ver livro
+</a>
+
+</div>
+
+<div class="card">
+<a href="../index.html">📊 Ver ações para investir →</a>
+</div>
+
+<div class="card">
+<h2>🚀 Descubra oportunidades</h2>
+<p style="color:#cbd5e1;font-size:14px;margin-bottom:15px">Explore rankings prontos com as melhores ações da bolsa hoje.</p>
+<nav aria-label="Paginas de livros" class="menu">
+<a href="seo/melhores-acoes-para-investir.html">🏆 Melhores ações</a>
+<a href="seo/acoes-maior-dividend-yield.html">💰 Dividendos</a>
+<a href="seo/acoes-maior-roe.html">📈 Alta rentabilidade</a>
+<a href="seo/acoes-mais-seguras.html">🛡️ Mais seguras</a>
+<a href="seo/acoes-dividendos-mensais.html">💵 Renda mensal</a>
+<a href="seo/acoes-baratas-2026.html">🔥 Ações baratas</a>
+<a href="seo/melhores-acoes-dividendos.html">💸 Dividendos 2026</a>
+<a href="seo/investidores.html">📚 Maiores investidores da bolsa</a>
+</nav>
+</div>
+
+
+</div>
+""",
+    descricao="Resumo do livro Pai Rico, Pai Pobre.",
+    keywords="pai rico pai pobre resumo, educação financeira"
+)
+
+gerar_pagina(
+    "homem-mais-rico-babilonia",
+    "O Homem Mais Rico da Babilônia — princípios financeiros",
+    """
+<div style="max-width:900px;margin:auto">
+
+<h1>🏺 O Homem Mais Rico da Babilônia</h1>
+
+<p style="color:#cbd5e1">
+Baseando-se nos segredos de sucesso dos antigos babilônicos ― os habitantes da cidade mais rica e próspera de seu tempo ―, George S. Clason mostra soluções ao mesmo tempo sábias e muito atuais para evitar a falta de dinheiro, como não desperdiçar recursos durante tempos de opulência, buscar conhecimento e informação em vez de apenas lucro, assegurar uma renda para o futuro, manter a pontualidade no pagamento de dívidas e, sobretudo, cultivar as próprias aptidões, tornando-se cada vez mais habilidoso e consciente.
+</p>
+
+<div class="card">
+
+<h2>💰 Regras clássicas</h2>
+
+<ul>
+<li>Pague a si mesmo primeiro</li>
+<li>Controle seus gastos</li>
+<li>Faça seu dinheiro trabalhar</li>
+<li>Proteja seu patrimônio</li>
+</ul>
+
+</div>
+
+<div class="card">
+
+<h2>📊 Por que funciona?</h2>
+
+<p>
+Porque os princípios são simples, mas consistentes ao longo do tempo.
+</p>
+
+</div>
+
+<div class="card" style="background:rgba(34,197,94,0.08);border:1px solid rgba(34,197,94,0.2);">
+
+<h2>📚 Leitura essencial</h2>
+
+<a href="https://amzn.to/4dKRSjp" target="_blank" style="display:inline-block;margin-top:12px;padding:14px 20px;background:#22c55e;color:white;border-radius:10px;text-decoration:none;font-weight:700;">
+👉 Ver livro
+</a>
+
+</div>
+
+<div class="card">
+<a href="../index.html">📊 Ver oportunidades na bolsa →</a>
+</div>
+
+<div class="card">
+<h2>🚀 Descubra oportunidades</h2>
+<p style="color:#cbd5e1;font-size:14px;margin-bottom:15px">Explore rankings prontos com as melhores ações da bolsa hoje.</p>
+<nav aria-label="Rpaginas de livros" class="menu">
+<a href="seo/melhores-acoes-para-investir.html">🏆 Melhores ações</a>
+<a href="seo/acoes-maior-dividend-yield.html">💰 Dividendos</a>
+<a href="seo/acoes-maior-roe.html">📈 Alta rentabilidade</a>
+<a href="seo/acoes-mais-seguras.html">🛡️ Mais seguras</a>
+<a href="seo/acoes-dividendos-mensais.html">💵 Renda mensal</a>
+<a href="seo/acoes-baratas-2026.html">🔥 Ações baratas</a>
+<a href="seo/melhores-acoes-dividendos.html">💸 Dividendos 2026</a>
+<a href="seo/investidores.html">📚 Maiores investidores da bolsa</a>
+</nav>
+</div>
+
+</div>
+""",
+    descricao="Aprenda os princípios do Homem Mais Rico da Babilônia.",
+    keywords="homem mais rico da babilonia resumo"
+)
+
+gerar_pagina(
+    "mente-milionaria",
+    "Os Segredos da Mente Milionária",
+    """
+<div style="max-width:900px;margin:auto">
+
+<h1>🧠 Os Segredos da Mente Milionária</h1>
+
+<p style="color:#cbd5e1">
+"T. Harv Eker desmistifica o motivo pelo qual algumas pessoas estão destinadas à riqueza e outras a uma vida de dureza. Se você quer conhecer as causas fundamentais do sucesso, leia este livro." – Robert G. Allen, autor de O milionário em um minuto
+
+
+Se as suas finanças andam na corda bamba, talvez esteja na hora de você refletir sobre o que T. Harv Eker chama de "o seu modelo de dinheiro" – um conjunto de crenças que cada um de nós alimenta desde a infância e que molda o nosso destino financeiro, quase sempre nos levando para uma situação difícil.
+
+Nesse livro, Eker mostra como substituir uma mentalidade destrutiva – que você talvez nem perceba que tem – pelos "arquivos de riqueza", 17 modos de pensar e agir que distinguem os ricos das demais pessoas. Alguns desses princípios fundamentais são:
+
+• Ou você controla o seu dinheiro ou ele controlará você.
+
+• O hábito de administrar as finanças é mais importante do que a quantidade de dinheiro que você tem.
+
+• A sua motivação para enriquecer é crucial: se ela possui uma raiz negativa, como o medo, a raiva ou a necessidade de provar algo a si mesmo, o dinheiro nunca lhe trará felicidade.
+
+• O segredo do sucesso não é tentar evitar os problemas nem se livrar deles, mas crescer pessoalmente para se tornar maior do que qualquer adversidade.
+
+• Os gastos excessivos têm pouco a ver com o que você está comprando e tudo a ver com a falta de satisfação na sua vida.
+
+O autor também ensina um método eficiente de administrar o dinheiro. Você aprenderá a estabelecer sua remuneração pelos resultados que apresenta e não pelas horas que trabalha. Além disso, saberá como aumentar o seu patrimônio líquido – a verdadeira medida da riqueza.
+
+A ideia é fazer o seu dinheiro trabalhar para você tanto quanto você trabalha para ele. Para isso, é necessário poupar e investir em vez de gastar. "Enriquecer não diz respeito somente a ficar rico em termos financeiros", diz Eker. "É mais do que isso: trata-se da pessoa que você se torna para alcançar esse objetivo."
+</p>
+
+<div class="card">
+
+<h2>🧠 Ideia central</h2>
+
+<p>
+Seu resultado financeiro é reflexo do seu modelo mental.
+</p>
+
+</div>
+
+<div class="card">
+
+<h2>💡 Lições principais</h2>
+
+<ul>
+<li>Ricos pensam diferente</li>
+<li>Assuma responsabilidade financeira</li>
+<li>Foque em crescer</li>
+<li>Construa ativos</li>
+</ul>
+
+</div>
+
+<div class="card" style="background:rgba(34,197,94,0.08);border:1px solid rgba(34,197,94,0.2);">
+
+<h2>📚 Comece a mudar sua mentalidade</h2>
+
+<a href="https://amzn.to/4rW4VSI" target="_blank" style="display:inline-block;margin-top:12px;padding:14px 20px;background:#22c55e;color:white;border-radius:10px;text-decoration:none;font-weight:700;">
+👉 Ver livro
+</a>
+
+</div>
+
+<div class="card">
+<a href="../index.html">📊 Ver ranking de ações →</a>
+</div>
+
+<div class="card">
+<h2>🚀 Descubra oportunidades</h2>
+<p style="color:#cbd5e1;font-size:14px;margin-bottom:15px">Explore rankings prontos com as melhores ações da bolsa hoje.</p>
+<nav aria-label="paginas de livros" class="menu">
+<a href="seo/melhores-acoes-para-investir.html">🏆 Melhores ações</a>
+<a href="seo/acoes-maior-dividend-yield.html">💰 Dividendos</a>
+<a href="seo/acoes-maior-roe.html">📈 Alta rentabilidade</a>
+<a href="seo/acoes-mais-seguras.html">🛡️ Mais seguras</a>
+<a href="seo/acoes-dividendos-mensais.html">💵 Renda mensal</a>
+<a href="seo/acoes-baratas-2026.html">🔥 Ações baratas</a>
+<a href="seo/melhores-acoes-dividendos.html">💸 Dividendos 2026</a>
+<a href="seo/investidores.html">📚 Maiores investidores da bolsa</a>
+</nav>
+</div>
+
+</div>
+""",
+    descricao="Aprenda a mentalidade dos ricos.",
+    keywords="mente milionaria, educação financeira mentalidade"
+)
 
 # =========================
 # GERAR PÁGINAS HIGH INTENT
@@ -912,6 +1869,7 @@ def gerar_paginas_high_intent(df):
         descricao="Ações que podem gerar renda mensal com dividendos.",
         keywords="ações dividendos mensais, renda passiva ações"
     )
+    
 
 # =========================
 # SETUP DIRETÓRIOS
@@ -952,22 +1910,17 @@ html = f"""
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5213961841779335" crossorigin="anonymous"></script>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="Ranking automático das ações brasileiras mais baratas baseado em análise fundamentalista. Atualizado diariamente.">
 <meta name="keywords" content="ações baratas, bolsa brasileira, value investing, ranking ações, B3">
+<link rel="canonical" href="https://tanoprecinho.site/">
+<meta name="robots" content="index, follow">
 <meta property="og:title" content="Tá no Precinho? - Ranking de ações brasileiras">
 <meta property="og:description" content="Descubra quais ações podem estar baratas hoje segundo análise fundamentalista.">
 <meta property="og:image" content="https://tanoprecinho.site/images/og-image.jpg">
-
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon.png">
-<link rel="shortcut icon" href="/favicon.ico">
-
 <title>Tá no Precinho? | Ranking de ações da bolsa brasileira</title>
-
 <script defer src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
@@ -1310,13 +2263,52 @@ function criarGrafico(id, labels, data, cor) {{
     }});
 }}
 
-window.onload = function() {{
-    criarGrafico("graficoTop10", {list(top10["Ticker"])}, {list(top10["Desconto_%"])}, "#ef4444");
-    criarGrafico("graficoBlue", {list(top_blue["Ticker"])}, {list(top_blue["Desconto_%"])}, "#3b82f6");
-    criarGrafico("graficoMid", {list(top_mid["Ticker"])}, {list(top_mid["Desconto_%"])}, "#22c55e");
-    criarGrafico("graficoSmall", {list(top_small["Ticker"])}, {list(top_small["Desconto_%"])}, "#facc15");
-    aplicarFiltros();
+// Aplicar filtros assim que o DOM estiver pronto, sem esperar imagens/scripts
+document.addEventListener("DOMContentLoaded", function() {{
+    if ("requestIdleCallback" in window) {{
+        requestIdleCallback(aplicarFiltros);
+    }} else {{
+        setTimeout(aplicarFiltros, 1);
+    }}
+}});
+
+// Carregar gráficos só quando ficarem visíveis (IntersectionObserver)
+// Evita bloquear o LCP com Chart.js no carregamento inicial
+var graficosCarregados = {{}};
+
+var graficosData = {{
+    "graficoTop10": {{ labels: {list(top10["Ticker"])}, data: {list(top10["Desconto_%"])}, cor: "#ef4444" }},
+    "graficoBlue":  {{ labels: {list(top_blue["Ticker"])}, data: {list(top_blue["Desconto_%"])}, cor: "#3b82f6" }},
+    "graficoMid":   {{ labels: {list(top_mid["Ticker"])}, data: {list(top_mid["Desconto_%"])}, cor: "#22c55e" }},
+    "graficoSmall": {{ labels: {list(top_small["Ticker"])}, data: {list(top_small["Desconto_%"])}, cor: "#facc15" }}
 }};
+
+document.addEventListener("DOMContentLoaded", function() {{
+    if (!("IntersectionObserver" in window)) {{
+        // Fallback para browsers antigos
+        Object.keys(graficosData).forEach(function(id) {{
+            var g = graficosData[id];
+            criarGrafico(id, g.labels, g.data, g.cor);
+        }});
+        return;
+    }}
+
+    var observer = new IntersectionObserver(function(entries) {{
+        entries.forEach(function(entry) {{
+            if (entry.isIntersecting && !graficosCarregados[entry.target.id]) {{
+                graficosCarregados[entry.target.id] = true;
+                var g = graficosData[entry.target.id];
+                if (g) criarGrafico(entry.target.id, g.labels, g.data, g.cor);
+                observer.unobserve(entry.target);
+            }}
+        }});
+    }}, {{ rootMargin: "200px" }});
+
+    ["graficoTop10", "graficoBlue", "graficoMid", "graficoSmall"].forEach(function(id) {{
+        var el = document.getElementById(id);
+        if (el) observer.observe(el);
+    }});
+}});
 
 function aceitarCookies(){{
     localStorage.setItem("cookies_consent","accepted");
@@ -1333,7 +2325,7 @@ function verificarCookies(){{
     if(!consent){{ document.getElementById("cookie-banner").style.display="block"; }}
 }}
 
-window.addEventListener("load", verificarCookies);
+document.addEventListener("DOMContentLoaded", verificarCookies);
 
 </script>
 
@@ -1501,6 +2493,7 @@ html += """
 <a href="seo/acoes-dividendos-mensais.html">💵 Renda mensal</a>
 <a href="seo/acoes-baratas-2026.html">🔥 Ações baratas</a>
 <a href="seo/melhores-acoes-dividendos.html">💸 Dividendos 2026</a>
+<a href="seo/investidores.html">📚 Maiores investidores da bolsa</a>
 </nav>
 </div>
 
@@ -1519,88 +2512,21 @@ Ranking das ações mais descontadas da bolsa com base em análise fundamentalis
   ⚠️ <span><strong>Atenção:</strong> Este ranking é informativo e educacional. <strong>Não constitui recomendação de investimento.</strong> Sempre faça sua própria análise antes de investir.</span>
 </div>
 
-<details class="ranking-explicacao">
-
+<details>
 <summary>📊 Como funciona o ranking?</summary>
-
-<div style="font-size:14px;color:#94a3b8;line-height:1.7">
-
-<p>
-Este ranking foi criado para identificar ações que podem estar negociando abaixo do valor justo,
-utilizando critérios objetivos da análise fundamentalista.
-</p>
-
-<br>
-
-<h3>📊 Critérios analisados</h3>
-
-<p>
-As empresas são avaliadas com base em:
-</p>
-
+<div style="font-size:14px;color:#cbd5e1;line-height:1.7;padding:10px 0;">
+<p>Este site analisa automaticamente centenas de ações da bolsa brasileira e organiza tudo em um ranking simples.</p>
+<p>Utilizamos critérios amplamente usados por investidores de longo prazo:</p>
 <ul>
-<li><strong>P/L</strong> – relação entre preço e lucro</li>
-<li><strong>P/VP</strong> – relação entre preço e patrimônio</li>
+<li><strong>P/L</strong> – quanto o mercado paga pelo lucro</li>
+<li><strong>P/VP</strong> – relação preço/patrimônio</li>
 <li><strong>ROE</strong> – eficiência da empresa</li>
 <li><strong>Dividend Yield</strong> – retorno em dividendos</li>
 </ul>
-
-<p>
-Com base nesses dados, calculamos:
-</p>
-
-<ul>
-<li>Score de qualidade</li>
-<li>Preço justo estimado (P/L = 15)</li>
-<li>Percentual de desconto</li>
-<li>Nível de risco</li>
-</ul>
-
-<br>
-
-<h3>🏆 Como funciona o ranking</h3>
-
-<p>
-As ações são ordenadas principalmente pelo <strong>desconto em relação ao preço justo</strong>.
-</p>
-
-<p>
-Quanto maior o desconto e melhor o score, melhor a posição no ranking.
-</p>
-
-<br>
-
-<h3>🧠 Legenda dos ícones</h3>
-
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px">
-
-<div>🥇 🥈 🥉 → Top 3 do ranking</div>
-<div>💰 → Alto pagamento de dividendos</div>
-<div>🏆 → Alta rentabilidade (ROE elevado)</div>
-<div>🔥 → Grande desconto (oportunidade)</div>
-
+<p>O preço justo utiliza um múltiplo conservador de <strong>P/L = 15</strong>, ajustado por setor.</p>
+<p>Quanto maior o desconto e melhor o score, maior a posição no ranking.</p>
+<p><a href="missao.html" style="color:#3b82f6">Ver como o Score é calculado →</a></p>
 </div>
-
-<br>
-
-<h3>🚦 Risco (farol)</h3>
-
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px">
-
-<div>🟢 Baixo risco</div>
-<div>🟡 Risco moderado</div>
-<div>🔴 Alto risco</div>
-
-</div>
-
-<br>
-
-<p>
-⚠️ Este ranking é apenas informativo e não constitui recomendação de investimento.
-</p>
-
-</div>
-
 </details>
 
 <br>
@@ -1660,6 +2586,7 @@ for i, (_, row) in enumerate(df.iterrows(), start=1):
 <!-- FIX ACESSIBILIDADE: alt descritivo em todas as logos -->
 <img src="logos/{row['Ticker']}.png"
      alt="Logo {row['Empresa']}"
+     loading="lazy"
      onerror="this.onerror=null;this.src='logos/default.svg';"
      style="width:20px;height:20px;object-fit:contain">
 <a class="ticker" href="acoes/{row['Ticker']}.html" aria-label="Ver análise completa de {row['Empresa']}">
