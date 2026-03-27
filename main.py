@@ -511,6 +511,248 @@ gerar_pagina_raiz(
     keywords="missão, análise de ações, bolsa brasileira, investimentos, educação financeira"
 )
 
+gerar_pagina_raiz(
+    "pvp",
+    "O que é P/VP",
+    """
+<div style="max-width:700px;margin:auto">
+
+<h2>🏦 O que é P/VP?</h2>
+
+<p>
+O indicador <strong>P/VP</strong> significa <strong>Preço sobre Valor Patrimonial</strong>.
+Ele mostra quanto o mercado está pagando em relação ao patrimônio líquido da empresa.
+</p>
+
+<p>
+Em outras palavras: indica se a ação está sendo negociada acima, abaixo ou próxima do valor contábil da empresa.
+</p>
+
+<hr style="margin:25px 0;border:1px solid #243247;">
+
+<h3>📊 Como interpretar o P/VP</h3>
+
+<ul>
+<li><strong>P/VP &lt; 1</strong> → A ação pode estar barata (negociando abaixo do patrimônio)</li>
+<li><strong>P/VP = 1</strong> → Preço próximo ao valor patrimonial</li>
+<li><strong>P/VP &gt; 1</strong> → O mercado paga prêmio pela empresa</li>
+</ul>
+
+<p>
+Exemplo: um P/VP de <strong>0,8</strong> significa que o mercado está pagando R$ 0,80 para cada R$ 1,00 de patrimônio da empresa.
+</p>
+
+<hr style="margin:25px 0;border:1px solid #243247;">
+
+<h3>🧠 Quando o P/VP baixo é bom?</h3>
+
+<p>
+Um P/VP baixo pode indicar uma oportunidade — mas nem sempre.
+</p>
+
+<ul>
+<li>✔️ Pode significar ação barata</li>
+<li>❌ Pode indicar problemas na empresa</li>
+</ul>
+
+<p>
+Por isso, o P/VP nunca deve ser analisado sozinho.
+</p>
+
+<hr style="margin:25px 0;border:1px solid #243247;">
+
+<h3>⚠️ Cuidados ao usar o P/VP</h3>
+
+<ul>
+<li>Bancos e seguradoras → P/VP é muito relevante</li>
+<li>Empresas de tecnologia → menos relevante</li>
+<li>Empresas com prejuízo → pode distorcer análise</li>
+</ul>
+
+<p>
+Sempre combine com outros indicadores como:
+</p>
+
+<ul>
+<li>P/L (Preço sobre Lucro)</li>
+<li>ROE (Retorno sobre patrimônio)</li>
+<li>Dividend Yield</li>
+</ul>
+
+<hr style="margin:25px 0;border:1px solid #243247;">
+
+<h3>💡 Resumo simples</h3>
+
+<p>
+O P/VP mostra quanto você está pagando pelo patrimônio da empresa.
+</p>
+
+<ul>
+<li>P/VP baixo → pode ser oportunidade</li>
+<li>P/VP alto → mercado enxerga valor ou crescimento</li>
+</ul>
+
+<hr style="margin:25px 0;border:1px solid #243247;">
+
+<h3>⚠️ Aviso importante</h3>
+
+<p>
+Este conteúdo é educativo e <strong>não constitui recomendação de investimento</strong>.
+Sempre analise o contexto completo antes de investir.
+</p>
+
+<br>
+
+<a href="index.html" style="color:#3b82f6">← Voltar ao ranking</a>
+
+</div>
+""",
+    descricao="Entenda o que é P/VP (Preço sobre Valor Patrimonial), como interpretar e quando usar esse indicador na análise de ações.",
+    keywords="PVP, preço sobre valor patrimonial, análise fundamentalista, ações baratas, valuation"
+)
+
+gerar_pagina_raiz(
+    "on-pn",
+    "Diferença entre ações ON e PN",
+    """
+<div style="max-width:700px;margin:auto">
+
+<h2>📊 Diferença entre ações ON e PN</h2>
+
+<p>
+Na bolsa brasileira, as ações podem ser classificadas em dois tipos principais:
+<strong>ON (Ordinárias)</strong> e <strong>PN (Preferenciais)</strong>.
+</p>
+
+<p>
+A principal diferença entre elas está nos <strong>direitos do acionista</strong>.
+</p>
+
+<hr style="margin:25px 0;border:1px solid #243247;">
+
+<h3>🗳️ Ações ON (Ordinárias)</h3>
+
+<p>
+As ações ON dão ao investidor o <strong>direito de voto</strong> nas decisões da empresa.
+</p>
+
+<ul>
+<li>✔️ Direito a voto em assembleias</li>
+<li>✔️ Participação nas decisões importantes</li>
+<li>✔️ Tag along (proteção em caso de venda da empresa)</li>
+</ul>
+
+<p>
+Exemplo: PETR3, VALE3, ITUB3
+</p>
+
+<hr style="margin:25px 0;border:1px solid #243247;">
+
+<h3>💰 Ações PN (Preferenciais)</h3>
+
+<p>
+As ações PN normalmente <strong>não dão direito a voto</strong>, mas oferecem prioridade na distribuição de dividendos.
+</p>
+
+<ul>
+<li>✔️ Prioridade no recebimento de dividendos</li>
+<li>✔️ Menor participação nas decisões</li>
+<li>✔️ Geralmente mais líquidas no mercado</li>
+</ul>
+
+<p>
+Exemplo: PETR4, ITUB4, BBDC4
+</p>
+
+<hr style="margin:25px 0;border:1px solid #243247;">
+
+<h3>⚖️ Comparação rápida</h3>
+
+<div style="background:#020617;padding:14px;border-radius:14px">
+
+<div style="display:flex;justify-content:space-between;margin-bottom:8px">
+<span>Direito a voto</span>
+<strong>ON ✔️ | PN ❌</strong>
+</div>
+
+<div style="display:flex;justify-content:space-between;margin-bottom:8px">
+<span>Dividendos</span>
+<strong>ON normal | PN prioridade</strong>
+</div>
+
+<div style="display:flex;justify-content:space-between;margin-bottom:8px">
+<span>Liquidez</span>
+<strong>ON menor | PN maior</strong>
+</div>
+
+</div>
+
+<hr style="margin:25px 0;border:1px solid #243247;">
+
+<h3>🧠 Qual é melhor: ON ou PN?</h3>
+
+<p>
+Depende do seu objetivo como investidor:
+</p>
+
+<ul>
+<li>📊 <strong>Quer participar da empresa?</strong> → ON</li>
+<li>💰 <strong>Quer mais dividendos?</strong> → PN</li>
+</ul>
+
+<p>
+Na prática, muitos investidores preferem PN pela liquidez e dividendos,
+mas ações ON podem oferecer mais segurança em casos de mudança de controle.
+</p>
+
+<hr style="margin:25px 0;border:1px solid #243247;">
+
+<h3>⚠️ Importante: Tag Along</h3>
+
+<p>
+O tag along protege o investidor em caso de venda da empresa.
+</p>
+
+<ul>
+<li>ON → geralmente 100% de tag along</li>
+<li>PN → pode ser menor ou inexistente</li>
+</ul>
+
+<p>
+Isso significa que ações ON costumam ter <strong>mais proteção jurídica</strong>.
+</p>
+
+<hr style="margin:25px 0;border:1px solid #243247;">
+
+<h3>💡 Resumo simples</h3>
+
+<ul>
+<li>ON = poder de decisão</li>
+<li>PN = prioridade em dividendos</li>
+</ul>
+
+<p>
+Ambas podem ser boas — o importante é analisar a empresa como um todo.
+</p>
+
+<hr style="margin:25px 0;border:1px solid #243247;">
+
+<h3>⚠️ Aviso importante</h3>
+
+<p>
+Este conteúdo é educativo e <strong>não constitui recomendação de investimento</strong>.
+</p>
+
+<br>
+
+<a href="index.html" style="color:#3b82f6">← Voltar ao ranking</a>
+
+</div>
+""",
+    descricao="Entenda a diferença entre ações ON e PN, direitos de voto, dividendos e qual escolher na bolsa brasileira.",
+    keywords="ações ON e PN, diferença ON PN, ações ordinárias e preferenciais, PETR3 PETR4 diferença"
+)
+
 # =========================
 # GERAR SLUG
 # =========================
@@ -2342,7 +2584,9 @@ document.addEventListener("DOMContentLoaded", verificarCookies);
   <a href="missao.html">Nossa missão</a>
   <a href="fundamentalista.html">Análise Fundamentalista</a>
   <a href="pl.html">O que é P/L</a>
+  <a href="pvp.html">O que é P/VP</a>
   <a href="roe.html">O que é ROE</a>
+  <a href="on-pn.html">Diferença entre ações ON e PN</a>
   <a href="dividend-yield.html">Dividend Yield</a>
 </div>
 </nav>
