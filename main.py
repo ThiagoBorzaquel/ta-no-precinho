@@ -1072,6 +1072,16 @@ def gerar_paginas_ranking(df):
 </div>
 
 <div class="card">
+<h2>O Básico de todo investidor</h2>
+<nav class="menu">
+    <a href="pai-rico-pai-pobre.html">💰 Pai Rico, Pai Pobre</a>
+    <a href="homem-mais-rico-babilonia.html">🏺 O Homem Mais Rico da Babilônia</a>
+    <a href="mente-milionaria.html">🧠 Os Segredos da Mente Milionária</a>
+</nav>
+</div>
+</div>
+
+<div class="card">
 <h2>🚀 Descubra oportunidades</h2>
 <p style="color:#cbd5e1;font-size:14px;margin-bottom:15px">Explore rankings prontos com as melhores ações da bolsa hoje.</p>
 <nav aria-label="Rankings especializados" class="menu">
