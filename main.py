@@ -780,6 +780,9 @@ def gerar_pagina_acao(row):
     <a href="../seo/acoes-dividendos-mensais.html">💵 Renda mensal</a>
     <a href="../seo/acoes-baratas-2026.html">🔥 Ações baratas</a>
     <a href="../seo/melhores-acoes-dividendos.html">💸 Dividendos 2026</a>
+    <a href="../seo/comparar.html">↔️ Comparar Ações</a>
+    <a href="../investidores.html">📚 Maiores investidores da bolsa</a>
+
 </nav>
 </div>
 """
@@ -1092,6 +1095,7 @@ def gerar_paginas_ranking(df):
 <a href="seo/acoes-dividendos-mensais.html">💵 Renda mensal</a>
 <a href="seo/acoes-baratas-2026.html">🔥 Ações baratas</a>
 <a href="seo/melhores-acoes-dividendos.html">💸 Dividendos 2026</a>
+<a href="seo/comparar.html">↔️ Comparar Ações</a>
 <a href="seo/investidores.html">📚 Maiores investidores da bolsa</a>
 </nav>
 </div>
@@ -1147,6 +1151,7 @@ def gerar_paginas_ranking(df):
 <a href="seo/acoes-dividendos-mensais.html">💵 Renda mensal</a>
 <a href="seo/acoes-baratas-2026.html">🔥 Ações baratas</a>
 <a href="seo/melhores-acoes-dividendos.html">💸 Dividendos 2026</a>
+<a href="seo/comparar.html">↔️ Comparar Ações</a>
 <a href="seo/investidores.html">📚 Maiores investidores da bolsa</a>
 </nav>
 </div>
@@ -1201,6 +1206,7 @@ def gerar_paginas_ranking(df):
 <a href="seo/acoes-dividendos-mensais.html">💵 Renda mensal</a>
 <a href="seo/acoes-baratas-2026.html">🔥 Ações baratas</a>
 <a href="seo/melhores-acoes-dividendos.html">💸 Dividendos 2026</a>
+<a href="seo/comparar.html">↔️ Comparar Ações</a>
 <a href="seo/investidores.html">📚 Maiores investidores da bolsa</a>
 </nav>
 </div>
@@ -1255,6 +1261,7 @@ def gerar_paginas_ranking(df):
 <a href="seo/acoes-dividendos-mensais.html">💵 Renda mensal</a>
 <a href="seo/acoes-baratas-2026.html">🔥 Ações baratas</a>
 <a href="seo/melhores-acoes-dividendos.html">💸 Dividendos 2026</a>
+<a href="seo/comparar.html">↔️ Comparar Ações</a>
 <a href="seo/investidores.html">📚 Maiores investidores da bolsa</a>
 </nav>
 </div>
@@ -1308,6 +1315,7 @@ def gerar_paginas_ranking(df):
 <a href="seo/acoes-dividendos-mensais.html">💵 Renda mensal</a>
 <a href="seo/acoes-baratas-2026.html">🔥 Ações baratas</a>
 <a href="seo/melhores-acoes-dividendos.html">💸 Dividendos 2026</a>
+<a href="seo/comparar.html">↔️ Comparar Ações</a>
 <a href="seo/investidores.html">📚 Maiores investidores da bolsa</a>
 </nav>
 </div>
@@ -1350,6 +1358,7 @@ def gerar_paginas_ranking(df):
 <a href="seo/acoes-dividendos-mensais.html">💵 Renda mensal</a>
 <a href="seo/acoes-baratas-2026.html">🔥 Ações baratas</a>
 <a href="seo/melhores-acoes-dividendos.html">💸 Dividendos 2026</a>
+<a href="seo/comparar.html">↔️ Comparar Ações</a>
 <a href="seo/investidores.html">📚 Maiores investidores da bolsa</a>
 </nav>
 </div>
@@ -1392,6 +1401,7 @@ def gerar_paginas_ranking(df):
 <a href="seo/acoes-dividendos-mensais.html">💵 Renda mensal</a>
 <a href="seo/acoes-baratas-2026.html">🔥 Ações baratas</a>
 <a href="seo/melhores-acoes-dividendos.html">💸 Dividendos 2026</a>
+<a href="seo/comparar.html">↔️ Comparar Ações</a>
 <a href="seo/investidores.html">📚 Maiores investidores da bolsa</a>
 </nav>
 </div>
@@ -1438,6 +1448,7 @@ def gerar_paginas_ranking(df):
 <a href="seo/acoes-dividendos-mensais.html">💵 Renda mensal</a>
 <a href="seo/acoes-baratas-2026.html">🔥 Ações baratas</a>
 <a href="seo/melhores-acoes-dividendos.html">💸 Dividendos 2026</a>
+<a href="seo/comparar.html">↔️ Comparar Ações</a>
 <a href="seo/investidores.html">📚 Maiores investidores da bolsa</a>
 </nav>
 </div>
@@ -1542,6 +1553,378 @@ def gerar_paginas_high_intent(df):
         keywords="ações dividendos mensais, renda passiva ações"
     )
 
+# =========================
+# GERAR PÁGINA COMPARAR
+# =========================
+
+def gerar_comparar(df):
+    """Gera docs/seo/comparar.html — ferramenta visual de comparação"""
+    import json as _j
+
+    # Médias por setor
+    s_df = (df.groupby("Setor")
+              .agg(PL=("PL","mean"), PVP=("PVP","mean"), ROE=("ROE","mean"),
+                   DivYield=("DivYield","mean"), Desc=("Desconto_%","mean"), Score=("Score","mean"))
+              .round(2).reset_index())
+    setor_json = _j.dumps([
+        {"Setor": r["Setor"], "PL": round(r["PL"],2), "PVP": round(r["PVP"],2),
+         "ROE": round(r["ROE"],4), "DivYield": round(r["DivYield"],4),
+         "Desconto_%": round(r["Desc"],2), "Score": round(r["Score"],1)}
+        for _, r in s_df.iterrows()], ensure_ascii=False)
+
+    # Médias por categoria
+    c_df = (df.groupby("Categoria")
+              .agg(PL=("PL","mean"), PVP=("PVP","mean"), ROE=("ROE","mean"),
+                   DivYield=("DivYield","mean"), Desc=("Desconto_%","mean"), Score=("Score","mean"))
+              .round(2).reset_index())
+    cat_json = _j.dumps([
+        {"Categoria": r["Categoria"], "PL": round(r["PL"],2), "PVP": round(r["PVP"],2),
+         "ROE": round(r["ROE"],4), "DivYield": round(r["DivYield"],4),
+         "Desconto_%": round(r["Desc"],2), "Score": round(r["Score"],1)}
+        for _, r in c_df.iterrows()], ensure_ascii=False)
+
+    # Top 80 ações por score para os selects
+    cols = ["Ticker","Empresa","Setor","PL","PVP","ROE","DivYield","Score","Desconto_%"]
+    acoes_json = _j.dumps([
+        {"Ticker": r["Ticker"], "Empresa": r["Empresa"], "Setor": r["Setor"],
+         "PL": round(r["PL"],2), "PVP": round(r["PVP"],2),
+         "ROE": round(r["ROE"],4), "DivYield": round(r["DivYield"],4),
+         "Score": int(r["Score"]), "Desconto_%": round(r["Desconto_%"],2)}
+        for _, r in df.nlargest(80,"Score")[cols].iterrows()], ensure_ascii=False)
+
+    gerar_pagina(
+        "comparar",
+        "Comparar ações da bolsa brasileira",
+        f"""
+<style>
+/* ── COMPARAR — estilos específicos desta página ── */
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap');
+
+.cmp-hero{{
+  text-align:center;padding:40px 20px 32px;
+  background:linear-gradient(145deg,rgba(20,40,80,0.55),rgba(10,20,40,0.4));
+  border:1px solid rgba(100,150,220,0.14);border-radius:18px;
+  margin-bottom:24px;position:relative;overflow:hidden;
+}}
+.cmp-hero::before{{
+  content:'';position:absolute;top:-40px;right:-40px;width:180px;height:180px;
+  background:radial-gradient(circle,rgba(96,165,250,0.09),transparent 70%);
+  border-radius:50%;pointer-events:none;
+}}
+.cmp-hero h2{{
+  font-family:'DM Serif Display',serif;font-size:clamp(22px,4vw,34px);
+  letter-spacing:-.4px;color:#fff;margin-bottom:10px;
+}}
+.cmp-hero p{{color:#6b8fad;font-size:14px;max-width:460px;margin:0 auto 20px;}}
+.cmp-badges{{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;}}
+.cmp-badge{{display:inline-flex;align-items:center;gap:5px;
+  background:rgba(17,30,48,0.9);border:1px solid rgba(100,150,220,0.15);
+  border-radius:20px;padding:6px 14px;font-size:12px;color:#6b8fad;}}
+.cmp-badge strong{{color:#dce8f8;}}
+
+/* Glossário */
+.cmp-gloss{{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px;}}
+.cmp-pill{{
+  background:rgba(17,30,48,0.9);border:1px solid rgba(100,150,220,0.13);
+  border-radius:8px;padding:7px 14px;font-size:12px;color:#6b8fad;
+  cursor:pointer;transition:all .18s;position:relative;
+}}
+.cmp-pill:hover,.cmp-pill:focus{{
+  border-color:rgba(96,165,250,0.35);color:#dce8f8;outline:none;
+}}
+.cmp-tip{{
+  display:none;position:absolute;bottom:calc(100% + 8px);left:50%;
+  transform:translateX(-50%);background:#1e3a5f;
+  border:1px solid rgba(96,165,250,0.25);border-radius:8px;
+  padding:10px 14px;width:210px;font-size:12px;color:#dce8f8;
+  line-height:1.55;z-index:100;white-space:normal;text-align:left;pointer-events:none;
+}}
+.cmp-pill:hover .cmp-tip,.cmp-pill:focus .cmp-tip{{display:block;}}
+
+/* Widget compare */
+.cmp-widget{{
+  background:rgba(17,30,48,0.95);border:1px solid rgba(100,150,220,0.13);
+  border-radius:18px;padding:24px;margin-bottom:22px;
+  box-shadow:0 8px 36px rgba(0,0,0,0.4);
+}}
+.cmp-selects{{
+  display:grid;grid-template-columns:1fr 48px 1fr;
+  align-items:end;gap:12px;margin-bottom:16px;
+}}
+.cmp-grp{{display:flex;flex-direction:column;gap:6px;}}
+.cmp-grp label{{
+  font-size:11px;font-weight:600;letter-spacing:1.5px;
+  text-transform:uppercase;color:#6b8fad;
+}}
+.cmp-select{{
+  width:100%;padding:10px 36px 10px 12px;
+  background:#060d1a;color:#dce8f8;
+  border:1px solid rgba(100,150,220,0.16);border-radius:9px;
+  font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;
+  appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='7' fill='none'%3E%3Cpath d='M1 1l4.5 4.5L10 1' stroke='%236b8fad' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 12px center;
+  transition:border-color .18s;
+}}
+.cmp-select:hover{{border-color:rgba(96,165,250,0.3);}}
+.cmp-select:focus{{outline:2px solid #60a5fa;outline-offset:2px;border-color:#60a5fa;}}
+.cmp-vs{{
+  display:flex;align-items:center;justify-content:center;
+  font-family:'DM Serif Display',serif;font-size:16px;font-style:italic;
+  color:#60a5fa;background:rgba(96,165,250,0.09);
+  border:1px solid rgba(96,165,250,0.2);border-radius:50%;
+  width:48px;height:48px;flex-shrink:0;
+}}
+.cmp-btn{{
+  width:100%;padding:13px;background:#60a5fa;color:#000;
+  font-family:'DM Sans',sans-serif;font-size:14px;font-weight:700;
+  border:none;border-radius:9px;cursor:pointer;transition:all .18s;
+}}
+.cmp-btn:hover{{background:#93c5fd;transform:translateY(-1px);}}
+.cmp-btn:focus{{outline:2px solid #fff;outline-offset:2px;}}
+
+/* Resultado */
+.cmp-result{{
+  display:grid;grid-template-columns:1fr 1fr;gap:14px;
+  margin-top:20px;animation:cmpFade .32s ease both;
+}}
+@keyframes cmpFade{{from{{opacity:0;transform:translateY(10px)}}to{{opacity:1;transform:translateY(0)}}}}
+.cmp-col{{
+  background:#060d1a;border:1px solid rgba(100,150,220,0.13);
+  border-radius:13px;padding:20px;
+}}
+.cmp-col.win{{
+  border-color:rgba(52,211,153,0.38);
+  background:rgba(52,211,153,0.04);
+}}
+.cmp-win-badge{{
+  display:inline-flex;align-items:center;gap:5px;
+  background:rgba(52,211,153,0.1);color:#34d399;
+  border:1px solid rgba(52,211,153,0.28);
+  font-size:11px;font-weight:700;letter-spacing:.8px;
+  text-transform:uppercase;padding:4px 11px;border-radius:20px;margin-bottom:12px;
+}}
+.cmp-ticker{{
+  font-family:'DM Serif Display',serif;font-size:22px;color:#fff;margin-bottom:3px;
+}}
+.cmp-empresa{{font-size:11px;color:#6b8fad;margin-bottom:16px;text-transform:uppercase;letter-spacing:.5px;}}
+.cmp-metric{{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:8px 0;border-bottom:1px solid rgba(100,150,220,0.1);font-size:13px;
+}}
+.cmp-metric:last-child{{border-bottom:none;}}
+.cmp-ml{{color:#6b8fad;}}
+.cmp-mv{{font-weight:600;color:#dce8f8;}}
+.cmp-mv.g{{color:#34d399;}}
+.cmp-mv.r{{color:#f87171;}}
+.cmp-verdict{{
+  background:rgba(96,165,250,0.07);border:1px solid rgba(96,165,250,0.18);
+  border-radius:10px;padding:14px 16px;margin-top:16px;
+  font-size:13px;line-height:1.6;color:#dce8f8;
+}}
+.cmp-verdict strong{{color:#60a5fa;}}
+.cmp-empty{{
+  text-align:center;padding:28px;color:#6b8fad;font-size:14px;
+  border:1px dashed rgba(100,150,220,0.18);border-radius:10px;margin-top:16px;
+}}
+
+/* Cards setor/categoria */
+.cmp-grid{{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:22px;}}
+.cmp-panel{{
+  background:rgba(17,30,48,0.95);border:1px solid rgba(100,150,220,0.13);
+  border-radius:18px;padding:22px;
+}}
+.cmp-panel h3{{
+  font-family:'DM Serif Display',serif;font-size:18px;color:#fff;margin-bottom:16px;
+}}
+.cmp-card{{
+  background:#060d1a;border:1px solid rgba(100,150,220,0.1);
+  border-radius:11px;padding:14px;margin-bottom:9px;
+  transition:border-color .18s,transform .18s;
+}}
+.cmp-card:last-child{{margin-bottom:0;}}
+.cmp-card:hover{{border-color:rgba(100,150,220,0.28);transform:translateX(3px);}}
+.cmp-card-name{{font-size:13px;font-weight:600;color:#dce8f8;margin-bottom:10px;}}
+.cmp-mrow{{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin-bottom:9px;}}
+.cmp-mpill{{background:rgba(22,36,55,0.9);border-radius:6px;padding:6px 8px;text-align:center;}}
+.cmp-mpill .pl{{font-size:10px;letter-spacing:.6px;text-transform:uppercase;color:#6b8fad;display:block;margin-bottom:2px;}}
+.cmp-mpill .pv{{font-size:12px;font-weight:600;color:#dce8f8;}}
+.pv.pg{{color:#34d399;}}.pv.pb{{color:#60a5fa;}}.pv.py{{color:#fbbf24;}}
+.cmp-sbar-top{{display:flex;justify-content:space-between;font-size:11px;color:#6b8fad;margin-bottom:4px;}}
+.cmp-sbar-track{{height:4px;background:rgba(255,255,255,0.07);border-radius:99px;overflow:hidden;}}
+.cmp-sbar-fill{{height:100%;border-radius:99px;background:linear-gradient(90deg,#60a5fa,#34d399);width:0%;transition:width .85s cubic-bezier(.4,0,.2,1);}}
+
+@media(max-width:640px){{
+  .cmp-selects{{grid-template-columns:1fr;}}
+  .cmp-vs{{display:none;}}
+  .cmp-result,.cmp-grid{{grid-template-columns:1fr;}}
+  .cmp-mrow{{grid-template-columns:repeat(2,1fr);}}
+}}
+</style>
+
+<!-- HERO -->
+<div class="cmp-hero">
+  <h2>📊 Comparar Ações da Bolsa</h2>
+  <p>Escolha duas ações e compare lado a lado — P/L, ROE, Dividendos e Score. <em>Simples para qualquer investidor.</em></p>
+  <div class="cmp-badges">
+    <div class="cmp-badge">🔄 <strong>Atualizado hoje</strong></div>
+    <div class="cmp-badge">📈 <strong>Análise fundamentalista</strong></div>
+    <div class="cmp-badge">🆓 <strong>Gratuito</strong></div>
+  </div>
+</div>
+
+<!-- GLOSSÁRIO -->
+<p style="font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#6b8fad;margin-bottom:14px;">O que cada indicador significa?</p>
+<div class="cmp-gloss" role="list">
+  <div class="cmp-pill" tabindex="0" role="listitem">P/L
+    <div class="cmp-tip"><strong>Preço / Lucro</strong><br>Quanto o mercado paga pelo lucro da empresa.<br>🟢 Menor = mais barata &nbsp; 🔴 Maior = mais cara</div>
+  </div>
+  <div class="cmp-pill" tabindex="0" role="listitem">ROE
+    <div class="cmp-tip"><strong>Retorno sobre Patrimônio</strong><br>Quanto a empresa lucra com o que ela tem.<br>🟢 Maior = mais eficiente</div>
+  </div>
+  <div class="cmp-pill" tabindex="0" role="listitem">Dividend Yield
+    <div class="cmp-tip"><strong>Rendimento em Dividendos</strong><br>Quanto você recebe em dividendos por R$100 investidos.<br>Ex: 8% = R$8 ao ano</div>
+  </div>
+  <div class="cmp-pill" tabindex="0" role="listitem">Desconto %
+    <div class="cmp-tip"><strong>Desconto vs. Preço Justo</strong><br>Quanto a ação está abaixo do valor estimado.<br>🟢 Positivo = pode estar barata</div>
+  </div>
+  <div class="cmp-pill" tabindex="0" role="listitem">Score
+    <div class="cmp-tip"><strong>Score Fundamentalista (0–100)</strong><br>Nossa nota combinando todos os indicadores.<br>🟢 70+ = boa oportunidade<br>🟡 50–70 = razoável<br>🔴 Abaixo de 50 = cautela</div>
+  </div>
+</div>
+
+<!-- WIDGET DE COMPARAÇÃO -->
+<div class="cmp-widget">
+  <p style="font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#6b8fad;margin-bottom:14px;">Comparação direta entre ações</p>
+
+  <div class="cmp-selects">
+    <div class="cmp-grp">
+      <label for="cmp1">1ª Ação</label>
+      <select id="cmp1" class="cmp-select" aria-label="Selecione a primeira ação"></select>
+    </div>
+    <div class="cmp-vs" aria-hidden="true">vs</div>
+    <div class="cmp-grp">
+      <label for="cmp2">2ª Ação</label>
+      <select id="cmp2" class="cmp-select" aria-label="Selecione a segunda ação"></select>
+    </div>
+  </div>
+
+  <button class="cmp-btn" onclick="cmpComparar()" aria-label="Comparar ações selecionadas">
+    ⚡ Comparar agora
+  </button>
+
+  <div id="cmp-resultado" role="region" aria-live="polite" aria-label="Resultado da comparação">
+    <div class="cmp-empty">Selecione duas ações acima e clique em <strong>Comparar agora</strong>.</div>
+  </div>
+</div>
+
+<!-- SETORES E CATEGORIAS -->
+<div class="cmp-grid">
+  <section class="cmp-panel">
+    <h3>🏢 Desempenho por Setor</h3>
+    <div id="cmp-setores" role="list" aria-label="Indicadores médios por setor"></div>
+  </section>
+  <section class="cmp-panel">
+    <h3>🏷 Por Tamanho de Empresa</h3>
+    <div id="cmp-cats" role="list" aria-label="Indicadores médios por categoria"></div>
+  </section>
+</div>
+
+<script>
+var cmpAcoes  = {acoes_json};
+var cmpSetores = {setor_json};
+var cmpCats   = {cat_json};
+
+(function init() {{
+  var s1=document.getElementById('cmp1'), s2=document.getElementById('cmp2');
+  cmpAcoes.forEach(function(a,i) {{
+    s1.add(new Option(a.Ticker+' — '+a.Empresa, a.Ticker));
+    s2.add(new Option(a.Ticker+' — '+a.Empresa, a.Ticker));
+  }});
+  if (s2.options.length>1) s2.selectedIndex=1;
+  cmpRenderCards(cmpSetores,'cmp-setores');
+  cmpRenderCards(cmpCats,'cmp-cats');
+}})();
+
+function cmpRenderCards(data, id) {{
+  var el=document.getElementById(id);
+  el.innerHTML=data.map(function(d) {{
+    var name=d.Setor||d.Categoria, sc=d.Score, pct=Math.min(sc,100).toFixed(0);
+    var lbl=sc>=65?'🟢 Bom':sc>=50?'🟡 Regular':'🔴 Baixo';
+    return '<article class="cmp-card" role="listitem" aria-label="'+name+': Score '+sc+'">'
+      +'<div class="cmp-card-name">'+name+'</div>'
+      +'<div class="cmp-mrow">'
+      +'<div class="cmp-mpill"><span class="pl">P/L</span><span class="pv">'+d.PL+'</span></div>'
+      +'<div class="cmp-mpill"><span class="pl">ROE</span><span class="pv pg">'+Math.round(d.ROE*100)+'%</span></div>'
+      +'<div class="cmp-mpill"><span class="pl">DY</span><span class="pv pb">'+Math.round(d.DivYield*100)+'%</span></div>'
+      +'</div>'
+      +'<div><div class="cmp-sbar-top"><span>Score &mdash; '+lbl+'</span><span>'+sc+'</span></div>'
+      +'<div class="cmp-sbar-track"><div class="cmp-sbar-fill" data-w="'+pct+'%"></div></div></div>'
+      +'</article>';
+  }}).join('');
+  requestAnimationFrame(function() {{
+    el.querySelectorAll('.cmp-sbar-fill').forEach(function(b){{b.style.width=b.dataset.w;}});
+  }});
+}}
+
+function cmpComparar() {{
+  var t1=document.getElementById('cmp1').value, t2=document.getElementById('cmp2').value;
+  var a1=cmpAcoes.find(function(a){{return a.Ticker===t1;}}),
+      a2=cmpAcoes.find(function(a){{return a.Ticker===t2;}});
+  if (!a1||!a2) return;
+
+  function cls(v1,v2,hi) {{
+    if (v1===v2) return ['',''];
+    return hi?(v1>v2?['g','r']:['r','g']):(v1<v2?['g','r']:['r','g']);
+  }}
+  var plc=cls(a1.PL,a2.PL,false), roec=cls(a1.ROE,a2.ROE,true),
+      dyc=cls(a1.DivYield,a2.DivYield,true), dsc=cls(a1['Desconto_%'],a2['Desconto_%'],true),
+      scc=cls(a1.Score,a2.Score,true);
+  var win=a1.Score>a2.Score?1:a2.Score>a1.Score?2:0;
+
+  function buildCol(a,b,p,rc,dc,dy,sc,w) {{
+    var badge=w?'<div class="cmp-win-badge">✦ Maior Score</div>':'';
+    return '<div class="cmp-col'+(w?' win':'')+'">'+badge
+      +'<div class="cmp-ticker">'+a.Ticker+'</div>'
+      +'<div class="cmp-empresa">'+a.Empresa+' &middot; '+a.Setor+'</div>'
+      +'<div class="cmp-metric"><span class="cmp-ml">P/L <small style="font-weight:400">(↓ melhor)</small></span><span class="cmp-mv '+p+'">'+a.PL.toFixed(2)+'</span></div>'
+      +'<div class="cmp-metric"><span class="cmp-ml">ROE <small style="font-weight:400">(↑ melhor)</small></span><span class="cmp-mv '+rc+'">'+Math.round(a.ROE*1000)/10+'%</span></div>'
+      +'<div class="cmp-metric"><span class="cmp-ml">Dividend Yield</span><span class="cmp-mv '+dy+'">'+Math.round(a.DivYield*1000)/10+'%</span></div>'
+      +'<div class="cmp-metric"><span class="cmp-ml">Desconto</span><span class="cmp-mv '+dc+'">'+a['Desconto_%'].toFixed(1)+'%</span></div>'
+      +'<div class="cmp-metric"><span class="cmp-ml">Score (0–100)</span><span class="cmp-mv '+sc+'">'+a.Score+'</span></div>'
+      +'</div>';
+  }}
+
+  var c1=buildCol(a1,a2,plc[0],roec[0],dsc[0],dyc[0],scc[0],win===1);
+  var c2=buildCol(a2,a1,plc[1],roec[1],dsc[1],dyc[1],scc[1],win===2);
+
+  // Texto de conclusão legível para leigo
+  function resumo(a,b) {{
+    var pts=[];
+    if (a.Score>b.Score) pts.push('score mais alto ('+a.Score+' vs '+b.Score+')');
+    if (a['Desconto_%']>b['Desconto_%']) pts.push('maior desconto em relação ao preço justo ('+a['Desconto_%'].toFixed(1)+'% vs '+b['Desconto_%'].toFixed(1)+'%)');
+    if (a.DivYield>b.DivYield) pts.push('mais dividendos ('+Math.round(a.DivYield*1000)/10+'% vs '+Math.round(b.DivYield*1000)/10+'%)');
+    if (a.ROE>b.ROE) pts.push('melhor rentabilidade (ROE '+Math.round(a.ROE*1000)/10+'%)');
+    if (pts.length===0) return 'As duas ações estão empatadas nos principais indicadores.';
+    return '<strong>'+a.Ticker+'</strong> se destaca por ter '+pts.join(', ')+'. Mas a decisão final depende do seu perfil e objetivos.';
+  }}
+
+  var vtext=win===0
+    ? 'As duas ações estão muito próximas. Analise com calma antes de decidir.'
+    : resumo(win===1?a1:a2, win===1?a2:a1);
+
+  document.getElementById('cmp-resultado').innerHTML=
+    '<div class="cmp-result">'+c1+c2+'</div>'
+    +'<div class="cmp-verdict" role="note" aria-label="Conclusão">💡 '+vtext+'</div>';
+}}
+</script>
+""",
+        descricao="Compare ações da bolsa brasileira por P/L, ROE, Dividend Yield e Score. Ferramenta gratuita e atualizada diariamente.",
+        keywords="comparar ações, comparar ações bolsa, análise fundamentalista comparar"
+    )
+    print("comparar.html gerado.")
+
+
 
 # =========================
 # SETUP DIRETÓRIOS
@@ -1600,55 +1983,211 @@ html = f"""<!DOCTYPE html>
     --text:#e2e8f0;
     --muted:#cbd5e1;
 }}
+
 body{{
     margin:0;
     font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
     background:var(--bg);
     color:var(--text);
 }}
-.container{{ max-width:1200px;margin:auto;padding:25px 16px; }}
+
+.container{{
+    max-width:1200px;
+    margin:auto;
+    padding:25px 16px;
+}}
+
 h1{{ margin-top:0; }}
-.subtitle{{ color:var(--muted);margin-bottom:25px;font-size:14px; }}
-.card{{ background:var(--card);padding:14px;border-radius:12px;margin-bottom:14px; }}
-.filter-group{{ display:flex;flex-direction:column;gap:4px; }}
-.filters{{ display:grid;grid-template-columns:repeat(5,1fr);gap:12px;align-items:flex-end; }}
-select,input{{ padding:8px;border-radius:8px;border:none;font-size:14px;background:#0f172a;color:#e2e8f0; }}
-select:focus, input:focus, a:focus, button:focus, [tabindex]:focus {{ outline: 2px solid #3b82f6;outline-offset: 2px; }}
-tr:nth-child(even){{ background:var(--card-light); }}
-.badge{{ padding:4px 8px;border-radius:8px;font-size:11px; }}
-.grid{{ display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:15px; }}
-.grafico-box{{ background:var(--card-light);padding:12px;border-radius:12px; }}
-.stats{{ display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:15px;margin-bottom:25px; }}
-.stat-box{{ background:var(--card);padding:16px;border-radius:12px;text-align:center; }}
-.stat-num{{ font-size:22px;font-weight:bold; }}
-.stat-label{{ font-size:12px;color:var(--muted); }}
-.aviso-risco{{ background:rgba(234,179,8,0.1);border:1px solid rgba(234,179,8,0.3);border-radius:10px;padding:12px 16px;font-size:13px;color:#fde68a;margin-bottom:16px;display:flex;align-items:flex-start;gap:8px; }}
-.footer{{ margin-top:30px;font-size:12px;color:var(--muted);text-align:center; }}
-.footer-links{{ display:flex;justify-content:center;gap:20px;flex-wrap:wrap;margin-bottom:10px; }}
-.footer-links a{{ color:#cbd5e1;font-size:13px;text-decoration:none; }}
+
+.subtitle{{
+    color:var(--muted);
+    margin-bottom:25px;
+    font-size:14px;
+}}
+
+.card{{
+    background:var(--card);
+    padding:14px;
+    border-radius:12px;
+    margin-bottom:14px;
+}}
+
+/* FIX ACESSIBILIDADE: label + select associados */
+.filter-group{{
+    display:flex;
+    flex-direction:column;
+    gap:4px;
+}}
+
+.filters{{
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:12px;
+    align-items:flex-end;
+}}
+
+select,input{{
+    padding:8px;
+    border-radius:8px;
+    border:none;
+    font-size:14px;
+    background:#0f172a;
+    color:#e2e8f0;
+}}
+
+/* FIX ACESSIBILIDADE: foco visível */
+select:focus, input:focus, a:focus, button:focus, [tabindex]:focus {{
+    outline: 2px solid #3b82f6;
+    outline-offset: 2px;
+}}
+
+tr:nth-child(even){{
+    background:var(--card-light);
+}}
+
+.badge{{
+    padding:4px 8px;
+    border-radius:8px;
+    font-size:11px;
+}}
+
+.grid{{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+    gap:15px;
+}}
+
+.grafico-box{{
+    background:var(--card-light);
+    padding:14px;
+    border-radius:12px;
+}}
+
+/* Opção A — barras horizontais com logo */
+.bar-row{{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:11px;
+}}
+.bar-row:last-child{{ margin-bottom:0; }}
+.bar-logo{{
+    width:28px;
+    height:28px;
+    border-radius:6px;
+    background:#0f172a;
+    border:1px solid rgba(255,255,255,0.08);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:9px;
+    font-weight:700;
+    color:var(--muted);
+    flex-shrink:0;
+    overflow:hidden;
+}}
+.bar-logo img{{
+    width:100%;
+    height:100%;
+    object-fit:contain;
+}}
+.bar-info{{ flex:1;min-width:0; }}
+.bar-label{{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:4px;
+}}
+.bar-ticker{{ font-size:12px;font-weight:700;color:var(--text); }}
+.bar-value{{ font-size:12px;font-weight:700; }}
+.bar-track{{
+    height:5px;
+    background:rgba(255,255,255,0.06);
+    border-radius:99px;
+    overflow:hidden;
+}}
+.bar-fill{{
+    height:100%;
+    border-radius:99px;
+    transition:width 0.9s cubic-bezier(0.4,0,0.2,1);
+}}
+.bar-empresa{{
+    font-size:10px;
+    color:var(--muted);
+    margin-top:2px;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}}
+
+.stats{{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+    gap:15px;
+    margin-bottom:25px;
+}}
+
+.stat-box{{
+    background:var(--card);
+    padding:16px;
+    border-radius:12px;
+    text-align:center;
+}}
+
+.stat-num{{
+    font-size:22px;
+    font-weight:bold;
+}}
+
+.stat-label{{
+    font-size:12px;
+    color:var(--muted);
+}}
+
+canvas{{ max-height:250px; }}
+
+/* FIX ACESSIBILIDADE: aviso de risco visível acima do ranking */
+.aviso-risco{{
+    background:rgba(234,179,8,0.1);
+    border:1px solid rgba(234,179,8,0.3);
+    border-radius:10px;
+    padding:12px 16px;
+    font-size:13px;
+    color:#fde68a;
+    margin-bottom:16px;
+    display:flex;
+    align-items:flex-start;
+    gap:8px;
+}}
+
+.footer{{
+    margin-top:30px;
+    font-size:12px;
+    color:var(--muted);
+    text-align:center;
+}}
+
+.footer-links{{
+    display:flex;
+    justify-content:center;
+    gap:20px;
+    flex-wrap:wrap;
+    margin-bottom:10px;
+}}
+
+.footer-links a{{
+    color:#cbd5e1;
+    font-size:13px;
+    text-decoration:none;
+}}
+
 .footer-links a:hover{{ color:#3b82f6; }}
+
 .footer-copy{{ font-size:12px;color:#64748b; }}
-#cookie-banner{{ position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:9999;width:90%;max-width:420px;display:none; }}
-.cookie-box{{ background:#1e293b;padding:16px;border-radius:12px;box-shadow:0 8px 30px rgba(0,0,0,0.4);font-size:13px;color:#e2e8f0; }}
-.cookie-box a{{ color:#3b82f6;text-decoration:none; }}
-.cookie-buttons{{ display:flex;gap:10px;margin-top:10px; }}
-.cookie-accept{{ background:#22c55e;border:none;padding:8px 14px;border-radius:8px;cursor:pointer;color:white; }}
-.cookie-reject{{ background:#ef4444;border:none;padding:8px 14px;border-radius:8px;cursor:pointer;color:white; }}
-.menu{{ display:flex;flex-wrap:wrap;gap:14px;margin:12px 0 22px 0;font-size:14px; }}
-.menu a{{ color:#cbd5e1;text-decoration:none;padding:6px 10px;border-radius:8px;background:#1e293b; }}
-.menu a:hover{{ color:#3b82f6;background:#243247; }}
-details{{ cursor:pointer; }}
-summary{{ font-weight:600;font-size:16px;margin-bottom:10px; }}
-.bar-row{{ display:flex;align-items:center;gap:10px;margin-bottom:12px;cursor:pointer; }}
-.bar-row:hover{{ background:rgba(255,255,255,0.03);border-radius:8px; }}
-.bar-logo{{ width:28px;height:28px;border-radius:6px;overflow:hidden;background:#1e293b;display:flex;align-items:center;justify-content:center; }}
-.bar-logo img{{ width:100%;height:100%;object-fit:contain; }}
-.bar-info{{ flex:1; }}
-.bar-label{{ display:flex;justify-content:space-between;font-size:13px;font-weight:600; }}
-.bar-track{{ height:6px;background:rgba(255,255,255,0.06);border-radius:999px;overflow:hidden;margin-top:4px; }}
-.bar-fill{{ height:100%;border-radius:999px; }}
+
 @media(max-width:768px){{
     h1{{ font-size:22px; }}
+    .subtitle{{ font-size:13px; }}
     .filters{{ grid-template-columns:1fr; }}
     select,input{{ width:100%;padding:10px; }}
     thead{{ display:none; }}
@@ -1668,17 +2207,105 @@ summary{{ font-weight:600;font-size:16px;margin-bottom:10px; }}
     td::before{{ font-weight:600;color:var(--muted); }}
     .footer-links{{ flex-direction:column;gap:8px; }}
 }}
+
 table{{ width:100%;border-collapse:collapse;margin-top:10px; }}
 thead{{ background:#334155; }}
-th{{ padding:12px 10px;font-size:13px;text-align:center;color:#cbd5e1;cursor:pointer; }}
+
+/* FIX ACESSIBILIDADE: scope nos th via HTML */
+th{{
+    padding:12px 10px;
+    font-size:13px;
+    text-align:center;
+    color:#cbd5e1;
+    cursor:pointer;
+}}
+
 th:hover{{ background:#3d5068; }}
-td{{ padding:12px 10px;font-size:13px;text-align:center;border-bottom:1px solid #243247; }}
+
+td{{
+    padding:12px 10px;
+    font-size:13px;
+    text-align:center;
+    border-bottom:1px solid #243247;
+}}
+
 tbody tr{{ cursor:pointer; }}
 tbody tr:hover{{ background:#1f2a3d; }}
+
 td:first-child{{ text-align:left; }}
-.ticker{{ font-weight:700;font-size:14px;color:#e2e8f0;text-decoration:none; }}
+
+.ticker{{
+    font-weight:700;
+    font-size:14px;
+    color:#e2e8f0;
+    text-decoration:none;
+}}
+
 .ticker:hover{{ color:#3b82f6; }}
+
 .empresa{{ font-size:11px;color:#cbd5e1; }}
+
+.desconto-positivo{{ color:#22c55e;font-weight:600; }}
+.desconto-negativo{{ color:#ef4444; }}
+.score-alto{{ color:#22c55e;font-weight:700; }}
+.score-medio{{ color:#eab308; }}
+
+#cookie-banner{{
+    position:fixed;
+    bottom:20px;
+    left:50%;
+    transform:translateX(-50%);
+    z-index:9999;
+    width:90%;
+    max-width:420px;
+    display:none;
+}}
+
+.cookie-box{{
+    background:#1e293b;
+    padding:16px;
+    border-radius:12px;
+    box-shadow:0 8px 30px rgba(0,0,0,0.4);
+    font-size:13px;
+    color:#e2e8f0;
+}}
+
+.cookie-box a{{ color:#3b82f6;text-decoration:none; }}
+
+.cookie-buttons{{ display:flex;gap:10px;margin-top:10px; }}
+
+.cookie-accept{{
+    background:#22c55e;border:none;padding:8px 14px;
+    border-radius:8px;cursor:pointer;color:white;
+}}
+
+.cookie-reject{{
+    background:#ef4444;border:none;padding:8px 14px;
+    border-radius:8px;cursor:pointer;color:white;
+}}
+
+.menu{{
+    display:flex;
+    flex-wrap:wrap;
+    gap:14px;
+    margin:12px 0 22px 0;
+    font-size:14px;
+}}
+
+.menu a{{
+    color:#cbd5e1;
+    text-decoration:none;
+    padding:6px 10px;
+    border-radius:8px;
+    background:#1e293b;
+}}
+
+.menu a:hover{{ color:#3b82f6;background:#243247; }}
+
+details{{ cursor:pointer; }}
+summary{{ font-weight:600;font-size:16px;margin-bottom:10px; }}
+details p{{ margin-top:10px; }}
+
 </style>
 
 <script>
@@ -1922,6 +2549,7 @@ html += f"""</select>
 <a href="seo/acoes-dividendos-mensais.html">💵 Renda mensal</a>
 <a href="seo/acoes-baratas-2026.html">🔥 Ações baratas</a>
 <a href="seo/melhores-acoes-dividendos.html">💸 Dividendos 2026</a>
+<a href="seo/comparar.html">↔️ Comparar Ações</a>
 <a href="seo/investidores.html">📚 Maiores investidores da bolsa</a>
 </nav>
 </div>
