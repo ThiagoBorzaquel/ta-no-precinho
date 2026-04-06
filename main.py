@@ -100,7 +100,19 @@ cnpj_empresas = {
     "ITUB4": "60.701.190/0001-04",
 }
 
-df["CNPJ"] = df["Ticker"].map(cnpj_empresas).fillna("Não disponível")
+if "Ticker" not in df.columns:
+    print("⚠️ ERRO: coluna 'Ticker' não encontrada")
+    print("Colunas disponíveis:", df.columns)
+    exit()
+
+if df.empty:
+    print("⚠️ Nenhum dado coletado. Verifique a API / scraping.")
+    exit()
+
+if "Ticker" not in df.columns:
+    print("⚠️ Coluna 'Ticker' não encontrada.")
+    print(df.head())
+    exit()
 
 logger.info(f"{len(df)} empresas coletadas com dados fundamentalistas.")
 
@@ -596,6 +608,154 @@ gerar_pagina_raiz(
     descricao="Entenda a diferença entre ações ON e PN, direitos de voto, dividendos e qual escolher.",
     keywords="ações ON e PN, diferença ON PN, ações ordinárias e preferenciais"
 )
+
+gerar_pagina_raiz(
+    "estrategia-investidor",
+    "Estratégias para investir melhor em ações (2026)",
+    """
+<div style="max-width:800px;margin:auto">
+
+<h1>📈 Como investir melhor em ações (estratégias reais)</h1>
+
+<p>Investir bem não é sobre acertar a próxima ação que vai subir 100%.</p>
+<p>É sobre <strong>eficiência</strong>: pagar menos imposto, errar menos e deixar o tempo trabalhar para você.</p>
+
+<hr style="margin:25px 0;border:1px solid #243247;">
+
+<h2>💰 1. O segredo: retorno líquido (não bruto)</h2>
+
+<p>A maioria dos investidores foca só em retorno. Os melhores focam em:</p>
+
+<ul>
+<li>Impostos</li>
+<li>Custos</li>
+<li>Frequência de operações</li>
+</ul>
+
+<p>Pequenas melhorias aqui podem aumentar muito seu resultado no longo prazo.</p>
+
+<hr style="margin:25px 0;border:1px solid #243247;">
+
+<h2>🧾 2. Como pagar menos imposto (legalmente)</h2>
+
+<h3>📌 Isenção de até R$ 20 mil/mês</h3>
+<p>Se você vender até <strong>R$ 20.000 por mês em ações</strong>, você não paga imposto.</p>
+
+<p><strong>Estratégia:</strong></p>
+<ul>
+<li>Evite vender tudo de uma vez</li>
+<li>Divida vendas ao longo dos meses</li>
+</ul>
+
+<h3>📌 Compensação de prejuízo</h3>
+<p>Se você teve prejuízo, pode usar isso para pagar menos imposto no futuro.</p>
+
+<p><strong>Estratégia:</strong></p>
+<ul>
+<li>Realizar prejuízos de forma inteligente</li>
+<li>Abater lucros futuros</li>
+</ul>
+
+<h3>📌 Dividendos</h3>
+<p>Dividendos continuam sendo uma forma eficiente de gerar renda.</p>
+
+<hr style="margin:25px 0;border:1px solid #243247;">
+
+<h2>📊 3. Como comprar melhor</h2>
+
+<h3>✔️ Nunca compre tudo de uma vez</h3>
+<p>Compre aos poucos (preço médio).</p>
+
+<h3>✔️ Use quedas a seu favor</h3>
+<ul>
+<li>Queda de 10% → compra leve</li>
+<li>Queda de 20% → compra média</li>
+<li>Queda de 30% → compra forte</li>
+</ul>
+
+<h3>✔️ Foque em poucas empresas boas</h3>
+<p>5 a 12 boas ações são melhores do que 30 aleatórias.</p>
+
+<hr style="margin:25px 0;border:1px solid #243247;">
+
+<h2>🔄 4. Quando vender uma ação?</h2>
+
+<p>Você não vende porque subiu ou caiu.</p>
+
+<p>Você vende quando:</p>
+<ul>
+<li>A empresa piorou</li>
+<li>A tese deixou de fazer sentido</li>
+<li>Existe uma oportunidade melhor</li>
+</ul>
+
+<hr style="margin:25px 0;border:1px solid #243247;">
+
+<h2>⚙️ 5. Estrutura inteligente (nível profissional)</h2>
+
+<p>Organize sua carteira como um investidor profissional:</p>
+
+<ul>
+<li><strong>Core</strong> → longo prazo (não mexe)</li>
+<li><strong>Oportunidades</strong> → onde você gira mais</li>
+<li><strong>Renda</strong> → dividendos</li>
+</ul>
+
+<hr style="margin:25px 0;border:1px solid #243247;">
+
+<h2>🧠 6. O que destrói seu resultado</h2>
+
+<ul>
+<li>Comprar no topo</li>
+<li>Vender no pânico</li>
+<li>Girar demais a carteira</li>
+<li>Seguir hype</li>
+</ul>
+
+<h2>🚀 O que funciona de verdade</h2>
+
+<ul>
+<li>Consistência</li>
+<li>Longo prazo</li>
+<li>Reinvestimento</li>
+<li>Disciplina</li>
+</ul>
+
+<hr style="margin:25px 0;border:1px solid #243247;">
+
+<h2>📦 7. Estratégia simples (modelo pronto)</h2>
+
+<p>Uma estratégia eficiente para a maioria dos investidores:</p>
+
+<ul>
+<li>60% → ações de qualidade (longo prazo)</li>
+<li>20% → dividendos</li>
+<li>20% → oportunidades</li>
+</ul>
+
+<p><strong>Regras:</strong></p>
+<ul>
+<li>Aportar todo mês</li>
+<li>Reinvestir dividendos</li>
+<li>Evitar giro excessivo</li>
+<li>Revisar carteira a cada 3 meses</li>
+</ul>
+
+<hr style="margin:25px 0;border:1px solid #243247;">
+
+<h2>⚠️ Aviso importante</h2>
+<p>Este conteúdo é educativo e <strong>não constitui recomendação de investimento</strong>.</p>
+
+<br>
+
+<a href="index.html" style="color:#3b82f6">← Ver ranking de ações</a>
+
+</div>
+""",
+    descricao="Aprenda estratégias para investir melhor em ações, pagar menos imposto e aumentar sua eficiência como investidor.",
+    keywords="como investir melhor, estratégias ações, pagar menos imposto bolsa, investir 2026"
+)
+
 
 
 # =========================
@@ -2458,6 +2618,7 @@ document.addEventListener("DOMContentLoaded", () => {{
   <a href="roe.html">O que é ROE</a>
   <a href="on-pn.html">Diferença entre ações ON e PN</a>
   <a href="dividend-yield.html">Dividend Yield</a>
+  <a href="../estrategia-investidor.html">Como Investir Melhor em Ações</a>
 </div>
 </nav>
 
@@ -2704,6 +2865,7 @@ html += f"""
 <a href="pl.html">O que é P/L</a>
 <a href="roe.html">O que é ROE</a>
 <a href="dividend-yield.html">O que é Dividend Yield</a>
+<a href="estrategia-investidor.html">Como Investir Melhor em Ações</a>
 </nav>
 </div>
 
