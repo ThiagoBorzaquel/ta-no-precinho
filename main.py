@@ -1730,7 +1730,7 @@ def gerar_paginas_setores(df):
 
         lista = "".join([
             f"""
-            <a href="../seo/{row['Ticker']}.html" style="text-decoration:none;color:inherit">
+            <a href="../acoes/{row['Ticker']}.html" style="text-decoration:none;color:inherit">
             <div style="background:rgba(30,41,59,0.6);
                         border:1px solid rgba(255,255,255,0.05);
                         padding:14px;
@@ -1786,6 +1786,23 @@ Ranking atualizado das melhores empresas do setor {setor} com base em análise f
 ⚠️ Conteúdo educativo. Não constitui recomendação de investimento.
 </p>
 </div>
+
+<div class="card">
+<h2>🚀 Descubra oportunidades</h2>
+<nav aria-label="Paginas tickers" class="menu">
+    <a href="../seo/melhores-acoes-para-investir.html">🏆 Melhores ações</a>
+    <a href="../seo/acoes-maior-dividend-yield.html">💰 Dividendos</a>
+    <a href="../seo/acoes-maior-roe.html">📈 Alta rentabilidade</a>
+    <a href="../seo/acoes-mais-seguras.html">🛡 Mais seguras</a>
+    <a href="../seo/acoes-dividendos-mensais.html">💵 Renda mensal</a>
+    <a href="../seo/acoes-baratas-2026.html">🔥 Ações baratas</a>
+    <a href="../seo/melhores-acoes-dividendos.html">💸 Dividendos 2026</a>
+    <a href="../seo/comparar.html">↔️ Comparar Ações</a>
+    <a href="../investidores.html">📚 Maiores investidores da bolsa</a>
+
+</nav>
+</div>
+
 """,
             descricao=f"Veja as melhores ações do setor {setor} na bolsa brasileira.",
             keywords=f"ações setor {setor}, melhores ações {setor}, investir em {setor}"
@@ -1808,7 +1825,7 @@ def gerar_paginas_categorias(df):
 
         lista = "".join([
             f"""
-            <a href="../seo/{row['Ticker']}.html" style="text-decoration:none;color:inherit">
+            <a href="../acoes/{row['Ticker']}.html" style="text-decoration:none;color:inherit">
             <div style="background:rgba(30,41,59,0.6);
                         border:1px solid rgba(255,255,255,0.05);
                         padding:14px;
@@ -1864,6 +1881,22 @@ Ranking das melhores {categoria.lower()} da bolsa baseado em Score fundamentalis
 <p style="margin-top:20px;font-size:13px;color:#cbd5e1">
 ⚠️ Conteúdo educativo. Não constitui recomendação de investimento.
 </p>
+</div>
+
+<div class="card">
+<h2>🚀 Descubra oportunidades</h2>
+<nav aria-label="Paginas tickers" class="menu">
+    <a href="../seo/melhores-acoes-para-investir.html">🏆 Melhores ações</a>
+    <a href="../seo/acoes-maior-dividend-yield.html">💰 Dividendos</a>
+    <a href="../seo/acoes-maior-roe.html">📈 Alta rentabilidade</a>
+    <a href="../seo/acoes-mais-seguras.html">🛡 Mais seguras</a>
+    <a href="../seo/acoes-dividendos-mensais.html">💵 Renda mensal</a>
+    <a href="../seo/acoes-baratas-2026.html">🔥 Ações baratas</a>
+    <a href="../seo/melhores-acoes-dividendos.html">💸 Dividendos 2026</a>
+    <a href="../seo/comparar.html">↔️ Comparar Ações</a>
+    <a href="../investidores.html">📚 Maiores investidores da bolsa</a>
+
+</nav>
 </div>
 """,
             descricao=f"Veja as melhores ações {categoria} da bolsa brasileira.",
