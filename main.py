@@ -1714,6 +1714,163 @@ def gerar_paginas_high_intent(df):
     )
 
 # =========================
+# GERAR PÁGINA SETOR
+# =========================
+
+def gerar_paginas_setores(df):
+
+    for setor in sorted(df["Setor"].dropna().unique()):
+
+        df_setor = df[df["Setor"] == setor] \
+            .sort_values("Score", ascending=False) \
+            .head(20)
+
+        if df_setor.empty:
+            continue
+
+        lista = "".join([
+            f"""
+            <a href="../seo/{row['Ticker']}.html" style="text-decoration:none;color:inherit">
+            <div style="background:rgba(30,41,59,0.6);
+                        border:1px solid rgba(255,255,255,0.05);
+                        padding:14px;
+                        border-radius:12px;
+                        display:flex;
+                        align-items:center;
+                        justify-content:space-between;
+                        margin-bottom:10px;">
+                
+                <div style="display:flex;align-items:center;gap:10px">
+                    <img src="../logos/{row['Ticker']}.png"
+                         style="width:28px;height:28px"
+                         onerror="this.onerror=null;this.src='../logos/default.svg';">
+
+                    <div>
+                        <div style="font-weight:600">{row['Empresa']}</div>
+                        <div style="font-size:12px;color:#cbd5e1">
+                            {row['Ticker']}
+                        </div>
+                    </div>
+                </div>
+
+                <div style="text-align:right">
+                    <div style="color:#22c55e;font-weight:700">
+                        {round(row['Score'],0)}
+                    </div>
+                    <div style="font-size:11px;color:#cbd5e1">
+                        Score
+                    </div>
+                </div>
+
+            </div>
+            </a>
+            """
+            for _, row in df_setor.iterrows()
+        ])
+
+        slug_setor = setor.lower().replace(" ", "-")
+
+        gerar_pagina(
+            f"melhores-acoes-setor-{slug_setor}",
+            f"Melhores ações do setor {setor}",
+            f"""
+<div class="card">
+<h1>🏢 Melhores ações do setor {setor}</h1>
+<p style="color:#cbd5e1;font-size:14px">
+Ranking atualizado das melhores empresas do setor {setor} com base em análise fundamentalista.
+</p>
+
+{lista}
+
+<p style="margin-top:20px;font-size:13px;color:#cbd5e1">
+⚠️ Conteúdo educativo. Não constitui recomendação de investimento.
+</p>
+</div>
+""",
+            descricao=f"Veja as melhores ações do setor {setor} na bolsa brasileira.",
+            keywords=f"ações setor {setor}, melhores ações {setor}, investir em {setor}"
+        )
+
+# =========================
+# GERAR PÁGINA CATEGORIA
+# =========================
+
+def gerar_paginas_categorias(df):
+
+    for categoria in sorted(df["Categoria"].dropna().unique()):
+
+        df_cat = df[df["Categoria"] == categoria] \
+            .sort_values("Score", ascending=False) \
+            .head(20)
+
+        if df_cat.empty:
+            continue
+
+        lista = "".join([
+            f"""
+            <a href="../seo/{row['Ticker']}.html" style="text-decoration:none;color:inherit">
+            <div style="background:rgba(30,41,59,0.6);
+                        border:1px solid rgba(255,255,255,0.05);
+                        padding:14px;
+                        border-radius:12px;
+                        display:flex;
+                        align-items:center;
+                        justify-content:space-between;
+                        margin-bottom:10px;">
+                
+                <div style="display:flex;align-items:center;gap:10px">
+                    <img src="../logos/{row['Ticker']}.png"
+                         style="width:28px;height:28px"
+                         onerror="this.onerror=null;this.src='../logos/default.svg';">
+
+                    <div>
+                        <div style="font-weight:600">{row['Empresa']}</div>
+                        <div style="font-size:12px;color:#cbd5e1">
+                            {row['Ticker']}
+                        </div>
+                    </div>
+                </div>
+
+                <div style="text-align:right">
+                    <div style="color:#22c55e;font-weight:700">
+                        {round(row['Score'],0)}
+                    </div>
+                    <div style="font-size:11px;color:#cbd5e1">
+                        Score
+                    </div>
+                </div>
+
+            </div>
+            </a>
+            """
+            for _, row in df_cat.iterrows()
+        ])
+
+        slug = categoria.lower().replace(" ", "-")
+
+        gerar_pagina(
+            f"melhores-acoes-{slug}",
+            f"Melhores ações {categoria}",
+            f"""
+<div class="card">
+<h1>🏆 Melhores ações {categoria}</h1>
+
+<p style="color:#cbd5e1;font-size:14px">
+Ranking das melhores {categoria.lower()} da bolsa baseado em Score fundamentalista.
+</p>
+
+{lista}
+
+<p style="margin-top:20px;font-size:13px;color:#cbd5e1">
+⚠️ Conteúdo educativo. Não constitui recomendação de investimento.
+</p>
+</div>
+""",
+            descricao=f"Veja as melhores ações {categoria} da bolsa brasileira.",
+            keywords=f"{categoria}, melhores {categoria}, ações {categoria}"
+        )
+
+# =========================
 # GERAR PÁGINA COMPARAR
 # =========================
 
@@ -2023,23 +2180,80 @@ var cmpCats   = {cat_json};
 }})();
 
 function cmpRenderCards(data, id) {{
-  var el=document.getElementById(id);
-  el.innerHTML=data.map(function(d) {{
-    var name=d.Setor||d.Categoria, sc=d.Score, pct=Math.min(sc,100).toFixed(0);
-    var lbl=sc>=65?'🟢 Bom':sc>=50?'🟡 Regular':'🔴 Baixo';
-    return '<article class="cmp-card" role="listitem" aria-label="'+name+': Score '+sc+'">'
-      +'<div class="cmp-card-name">'+name+'</div>'
-      +'<div class="cmp-mrow">'
-      +'<div class="cmp-mpill"><span class="pl">P/L</span><span class="pv">'+d.PL+'</span></div>'
-      +'<div class="cmp-mpill"><span class="pl">ROE</span><span class="pv pg">'+Math.round(d.ROE*100)+'%</span></div>'
-      +'<div class="cmp-mpill"><span class="pl">DY</span><span class="pv pb">'+Math.round(d.DivYield*100)+'%</span></div>'
-      +'</div>'
-      +'<div><div class="cmp-sbar-top"><span>Score &mdash; '+lbl+'</span><span>'+sc+'</span></div>'
-      +'<div class="cmp-sbar-track"><div class="cmp-sbar-fill" data-w="'+pct+'%"></div></div></div>'
-      +'</article>';
+  var el = document.getElementById(id);
+
+  el.innerHTML = data.map(function(d) {{
+    var isSetor = !!d.Setor;
+    var name = d.Setor || d.Categoria;
+
+    // slug SEO
+    var slug = name.toLowerCase().replace(/\s+/g, "-");
+
+    // link correto
+    var link = isSetor
+      ? "seo/melhores-acoes-setor-" + slug + ".html"
+      : "seo/melhores-acoes-" + slug + ".html";
+
+    var sc = d.Score;
+    var pct = Math.min(sc, 100).toFixed(0);
+    var lbl = sc >= 65 ? '🟢 Bom' : sc >= 50 ? '🟡 Regular' : '🔴 Baixo';
+
+    return `
+      <article 
+        class="cmp-card"
+        role="listitem"
+        onclick="window.location='${{link}}'"
+        style="cursor:pointer"
+        aria-label="${{name}}: Score ${{sc}}"
+      >
+
+        <div class="cmp-card-name">
+          ${{name}}
+        </div>
+
+        <div class="cmp-mrow">
+          <div class="cmp-mpill">
+            <span class="pl">P/L</span>
+            <span class="pv">${{d.PL}}</span>
+          </div>
+
+          <div class="cmp-mpill">
+            <span class="pl">ROE</span>
+            <span class="pv pg">${{Math.round(d.ROE * 100)}}%</span>
+          </div>
+
+          <div class="cmp-mpill">
+            <span class="pl">DY</span>
+            <span class="pv pb">${{Math.round(d.DivYield * 100)}}%
+          </div>
+        </div>
+
+        <div>
+          <div class="cmp-sbar-top">
+            <span>Score — ${{lbl}}</span>
+            <span>${{sc}}</span>
+          </div>
+
+          <div class="cmp-sbar-track">
+            <div class="cmp-sbar-fill" data-w="${{pct}}%"></div>
+          </div>
+        </div>
+
+      </article>
+    `;
   }}).join('');
+
   requestAnimationFrame(function() {{
-    el.querySelectorAll('.cmp-sbar-fill').forEach(function(b){{b.style.width=b.dataset.w;}});
+    el.querySelectorAll('.cmp-sbar-fill').forEach(function(b){{
+      b.style.width = b.dataset.w;
+    }});
+  }});
+}}
+
+  requestAnimationFrame(function() {{
+    el.querySelectorAll('.cmp-sbar-fill').forEach(function(b){{
+      b.style.width = b.dataset.w;
+    }});
   }});
 }}
 
@@ -2126,6 +2340,8 @@ for _, row in df.iterrows():
 
 gerar_paginas_ranking(df)
 gerar_paginas_high_intent(df)
+gerar_paginas_setores(df)
+gerar_paginas_categorias(df)
 gerar_sitemap(df)
 
 # =========================
