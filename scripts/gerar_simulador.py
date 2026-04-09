@@ -1,0 +1,1135 @@
+# =========================
+# GERAR PÁGINA SIMULADOR
+# =========================
+
+def gerar_simulador(df):
+    """
+    Gera a página simulador-pro.html com o top-50 ativos por Score.
+    Usa .replace() para injetar o JSON — sem f-string no HTML para evitar
+    conflitos com chaves CSS/JS.
+    """
+    import json
+
+    top = df.nlargest(50, "Score")
+
+    dados = json.dumps([
+        {
+            "ticker": row["Ticker"],
+            "empresa": row["Empresa"],
+            "dy": round(float(row["DivYield"]), 4),
+            "score": int(row["Score"]),
+            "preco": round(float(row["Preco"]), 2),
+            "setor": row.get("Setor", "Outros"),
+        }
+        for _, row in top.iterrows()
+    ], ensure_ascii=False)
+
+    # Injetar JSON no template via marcador — seguro com qualquer conteúdo CSS/JS
+    conteudo = HTML_TEMPLATE.replace("__DADOS_JSON__", dados)
+
+    gerar_pagina(
+        "simulador-pro",
+        "Simulador de Carteira — TanoPrecinho",
+        conteudo,
+        descricao="Simule o crescimento da sua carteira de ações com benchmarks reais.",
+        keywords="simulador de investimentos, carteira de ações, renda passiva, B3, bolsa",
+    )
+
+    print("simulador-pro.html gerado.")
+
+
+# ── Template HTML inline ──────────────────────────────────────────────────────
+# O marcador __DADOS_JSON__ é substituído em runtime com o JSON dos ativos.
+# Não usar f-string: o HTML contém 200+ pares de chaves CSS/JS.
+HTML_TEMPLATE = """<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simulador de Carteira — TanoPrecinho</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+
+<div class="bg-grid"></div>
+
+<div class="page">
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="header-inner">
+      <a href="../index.html" class="logo-link">← voltar</a>
+      <div class="header-title">
+        <span class="pill">BETA</span>
+        <h1>Simulador de Carteira</h1>
+      </div>
+    </div>
+  </header>
+
+  <!-- STEPS -->
+  <div class="steps-bar">
+    <div class="step active" data-step="1"><span>1</span> Capital</div>
+    <div class="step-sep"></div>
+    <div class="step" data-step="2"><span>2</span> Ativos</div>
+    <div class="step-sep"></div>
+    <div class="step" data-step="3"><span>3</span> Resultado</div>
+  </div>
+
+  <!-- PASSO 1: Capital -->
+  <section class="panel" id="panel-1">
+    <div class="panel-head">
+      <div class="panel-num">01</div>
+      <div>
+        <h2>Quanto você vai investir?</h2>
+        <p>Defina seu capital inicial, aporte mensal e horizonte de tempo.</p>
+      </div>
+    </div>
+
+    <div class="inputs-row">
+      <div class="input-block">
+        <label>Valor inicial</label>
+        <div class="input-wrap">
+          <span class="prefix">R$</span>
+          <input type="number" id="valor" placeholder="10.000" min="0" step="100">
+        </div>
+      </div>
+      <div class="input-block">
+        <label>Aporte mensal</label>
+        <div class="input-wrap">
+          <span class="prefix">R$</span>
+          <input type="number" id="aporte" placeholder="1.000" min="0" step="100">
+        </div>
+      </div>
+      <div class="input-block">
+        <label>Tempo de investimento</label>
+        <div class="input-wrap">
+          <input type="number" id="anos" placeholder="10" min="1" max="40" step="1">
+          <span class="suffix">anos</span>
+        </div>
+        <div class="slider-row">
+          <input type="range" id="anos-slider" min="1" max="40" value="10" class="slider">
+          <div class="slider-labels">
+            <span>1</span><span>10</span><span>20</span><span>30</span><span>40</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="benchmarks-block">
+      <h3>Comparar com</h3>
+      <div class="bench-pills">
+        <label class="bench-pill active">
+          <input type="checkbox" id="cdi" checked>
+          <span class="dot" style="background:#facc15"></span> CDI (11% a.a.)
+        </label>
+        <label class="bench-pill active">
+          <input type="checkbox" id="ibov" checked>
+          <span class="dot" style="background:#60a5fa"></span> Ibovespa (10% a.a.)
+        </label>
+        <label class="bench-pill">
+          <input type="checkbox" id="sp500">
+          <span class="dot" style="background:#f472b6"></span> S&P 500 (9% a.a.)
+        </label>
+        <label class="bench-pill">
+          <input type="checkbox" id="dolar">
+          <span class="dot" style="background:#a78bfa"></span> Dólar (6% a.a.)
+        </label>
+      </div>
+    </div>
+
+    <button class="btn-next" onclick="irParaAtivos()">
+      Escolher ativos <span>→</span>
+    </button>
+  </section>
+
+  <!-- PASSO 2: Ativos -->
+  <section class="panel hidden" id="panel-2">
+    <div class="panel-head">
+      <div class="panel-num">02</div>
+      <div>
+        <h2>Selecione os ativos</h2>
+        <p>Escolha até 10 ações para compor sua carteira simulada.</p>
+      </div>
+    </div>
+
+    <div class="filtros-row">
+      <div class="search-wrap">
+        <span>🔍</span>
+        <input type="text" id="busca" placeholder="Buscar ticker ou empresa..." oninput="filtrarAtivos()">
+      </div>
+      <div id="selecionados-count" class="count-badge">0 selecionados</div>
+    </div>
+
+    <div id="ativos-grid" class="ativos-grid"></div>
+
+    <div class="nav-btns">
+      <button class="btn-back" onclick="irParaStep(1)">← Voltar</button>
+      <button class="btn-next" onclick="simular()">Simular carteira →</button>
+    </div>
+  </section>
+
+  <!-- PASSO 3: Resultado -->
+  <section class="panel hidden" id="panel-3">
+    <div class="panel-head">
+      <div class="panel-num">03</div>
+      <div>
+        <h2>Resultado da simulação</h2>
+        <p id="resumo-params">—</p>
+      </div>
+    </div>
+
+    <div class="metricas-grid" id="metricas"></div>
+
+    <div class="chart-card">
+      <div class="chart-header">
+        <h3>Evolução patrimonial</h3>
+        <div id="chart-legend" class="chart-legend"></div>
+      </div>
+      <div class="chart-wrap">
+        <canvas id="grafico"></canvas>
+      </div>
+    </div>
+
+    <div class="ativos-result-grid" id="ativos-result"></div>
+
+    <div class="nav-btns">
+      <button class="btn-back" onclick="irParaStep(2)">← Ajustar ativos</button>
+      <button class="btn-next" onclick="irParaStep(1)">Nova simulação ↺</button>
+    </div>
+  </section>
+
+</div>
+
+<script>
+// ─────────────────────────────────────────────
+// DADOS (serão injetados pelo Python em prod)
+// ─────────────────────────────────────────────
+const DADOS = __DADOS_JSON__;
+
+// ─────────────────────────────────────────────
+// ESTADO
+// ─────────────────────────────────────────────
+let selecionados = new Set();
+let chartInstance = null;
+
+// ─────────────────────────────────────────────
+// STEPS
+// ─────────────────────────────────────────────
+function irParaStep(n) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.add('hidden'));
+  document.getElementById(`panel-${n}`).classList.remove('hidden');
+  document.querySelectorAll('.step').forEach(s => {
+    const sn = parseInt(s.dataset.step);
+    s.classList.toggle('active', sn <= n);
+    s.classList.toggle('done', sn < n);
+  });
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function irParaAtivos() {
+  const valor = parseFloat(document.getElementById('valor').value);
+  const anos = parseFloat(document.getElementById('anos').value);
+  if (!valor || valor <= 0 || !anos || anos <= 0) {
+    shakePanelError('panel-1');
+    return;
+  }
+  renderAtivos();
+  irParaStep(2);
+}
+
+function shakePanelError(id) {
+  const el = document.getElementById(id);
+  el.classList.add('shake');
+  setTimeout(() => el.classList.remove('shake'), 500);
+}
+
+// ─────────────────────────────────────────────
+// SLIDER SYNC
+// ─────────────────────────────────────────────
+document.getElementById('anos').addEventListener('input', e => {
+  document.getElementById('anos-slider').value = e.target.value;
+});
+document.getElementById('anos-slider').addEventListener('input', e => {
+  document.getElementById('anos').value = e.target.value;
+});
+
+// Bench pills toggle visual
+document.querySelectorAll('.bench-pill input').forEach(cb => {
+  cb.addEventListener('change', () => {
+    cb.closest('.bench-pill').classList.toggle('active', cb.checked);
+  });
+});
+
+// ─────────────────────────────────────────────
+// RENDER ATIVOS
+// ─────────────────────────────────────────────
+let dadosFiltrados = [...DADOS];
+
+function filtrarAtivos() {
+  const q = document.getElementById('busca').value.toLowerCase();
+  dadosFiltrados = DADOS.filter(a =>
+    a.ticker.toLowerCase().includes(q) || a.empresa.toLowerCase().includes(q)
+  );
+  renderAtivos();
+}
+
+function renderAtivos() {
+  const grid = document.getElementById('ativos-grid');
+  grid.innerHTML = dadosFiltrados.map(a => {
+    const sel = selecionados.has(a.ticker);
+    const dyPct = (a.dy * 100).toFixed(2);
+    return `
+    <div class="ativo-card ${sel ? 'sel' : ''}" onclick="toggleAtivo('${a.ticker}')" data-ticker="${a.ticker}">
+      <div class="ativo-top">
+        <img src="../logos/${a.ticker}.png"
+          onerror="this.onerror=null;this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 40 40%22><rect width=%2240%22 height=%2240%22 rx=%228%22 fill=%22%231e293b%22/><text x=%2250%25%22 y=%2254%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 font-size=%2213%22 fill=%22%2394a3b8%22 font-family=%22monospace%22>${a.ticker[0]}</text></svg>'"
+          class="ativo-logo" alt="${a.ticker}">
+        <div class="ativo-info">
+          <strong>${a.ticker}</strong>
+          <small>${a.empresa}</small>
+        </div>
+        <div class="check-icon">${sel ? '✓' : ''}</div>
+      </div>
+      <div class="ativo-bottom">
+        <div class="ativo-stat">
+          <span class="stat-label">DY</span>
+          <span class="stat-val dy">${dyPct}%</span>
+        </div>
+        <div class="ativo-stat">
+          <span class="stat-label">Score</span>
+          <span class="stat-val">${a.score}</span>
+        </div>
+        <div class="ativo-stat">
+          <span class="stat-label">Preço</span>
+          <span class="stat-val">R$${a.preco}</span>
+        </div>
+      </div>
+      <div class="setor-tag">${a.setor}</div>
+    </div>`;
+  }).join('');
+  atualizarContador();
+}
+
+function toggleAtivo(ticker) {
+  if (selecionados.has(ticker)) {
+    selecionados.delete(ticker);
+  } else {
+    if (selecionados.size >= 10) {
+      alert('Máximo de 10 ativos por simulação.');
+      return;
+    }
+    selecionados.add(ticker);
+  }
+  const card = document.querySelector(`.ativo-card[data-ticker="${ticker}"]`);
+  if (card) {
+    card.classList.toggle('sel', selecionados.has(ticker));
+    const icon = card.querySelector('.check-icon');
+    if (icon) icon.textContent = selecionados.has(ticker) ? '✓' : '';
+  }
+  atualizarContador();
+}
+
+function atualizarContador() {
+  const n = selecionados.size;
+  document.getElementById('selecionados-count').textContent =
+    n === 0 ? 'Nenhum selecionado' : `${n} selecionado${n > 1 ? 's' : ''}`;
+}
+
+// ─────────────────────────────────────────────
+// SIMULAÇÃO
+// ─────────────────────────────────────────────
+function simular() {
+  if (selecionados.size === 0) { shakePanelError('panel-2'); return; }
+
+  const valor = parseFloat(document.getElementById('valor').value) || 0;
+  const aporte = parseFloat(document.getElementById('aporte').value) || 0;
+  const anos = parseFloat(document.getElementById('anos').value) || 10;
+  const meses = Math.round(anos * 12);
+
+  const ativos = DADOS.filter(d => selecionados.has(d.ticker));
+  const dyMedio = ativos.reduce((s, a) => s + a.dy, 0) / ativos.length;
+
+  // Séries mensais
+  const series = {
+    carteira: [],
+    cdi: [],
+    ibov: [],
+    sp500: [],
+    dolar: []
+  };
+
+  const taxas = { cdi: 0.11, ibov: 0.10, sp500: 0.09, dolar: 0.06 };
+
+  let totCarteira = valor;
+  for (let i = 0; i < meses; i++) {
+    totCarteira += aporte;
+    totCarteira *= (1 + dyMedio / 12);
+    series.carteira.push(totCarteira);
+
+    for (const [key, taxa] of Object.entries(taxas)) {
+      let t = series[key].length > 0 ? series[key][series[key].length - 1] : valor;
+      t += aporte;
+      t *= (1 + taxa / 12);
+      series[key].push(t);
+    }
+  }
+
+  const finalCarteira = series.carteira[meses - 1];
+  const totalInvestido = valor + aporte * meses;
+  const rendaMensal = (finalCarteira * dyMedio) / 12;
+  const ganho = finalCarteira - totalInvestido;
+  const ganhoPerc = ((finalCarteira / totalInvestido - 1) * 100).toFixed(1);
+
+  // Métricas
+  document.getElementById('metricas').innerHTML = `
+    <div class="metrica-card highlight">
+      <div class="metrica-label">Patrimônio final</div>
+      <div class="metrica-val">${fmt(finalCarteira)}</div>
+    </div>
+    <div class="metrica-card">
+      <div class="metrica-label">Total investido</div>
+      <div class="metrica-val dim">${fmt(totalInvestido)}</div>
+    </div>
+    <div class="metrica-card green">
+      <div class="metrica-label">Ganho</div>
+      <div class="metrica-val">${fmt(ganho)} <span class="badge-perc">+${ganhoPerc}%</span></div>
+    </div>
+    <div class="metrica-card green">
+      <div class="metrica-label">Renda mensal estimada</div>
+      <div class="metrica-val">${fmt(rendaMensal)}</div>
+      <div class="metrica-sub">DY médio: ${(dyMedio * 100).toFixed(2)}% a.a.</div>
+    </div>
+  `;
+
+  // Resumo
+  document.getElementById('resumo-params').textContent =
+    `Capital inicial ${fmt(valor)} + aportes de ${fmt(aporte)}/mês por ${anos} anos`;
+
+  // Ativos result
+  document.getElementById('ativos-result').innerHTML =
+    `<div class="ativos-result-title">Ativos selecionados</div>` +
+    ativos.map(a => `
+    <div class="ativo-result-row">
+      <img src="../logos/${a.ticker}.png"
+        onerror="this.onerror=null;this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 40 40%22><rect width=%2240%22 height=%2240%22 rx=%228%22 fill=%22%231e293b%22/><text x=%2250%25%22 y=%2254%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 font-size=%2213%22 fill=%22%2394a3b8%22 font-family=%22monospace%22>${a.ticker[0]}</text></svg>'"
+        class="ativo-logo-sm">
+      <span class="ativo-ticker-sm">${a.ticker}</span>
+      <span class="ativo-emp-sm">${a.empresa}</span>
+      <span class="dy-badge">${(a.dy * 100).toFixed(2)}% DY</span>
+    </div>`).join('');
+
+  renderGrafico(series, meses, anos);
+  irParaStep(3);
+}
+
+// ─────────────────────────────────────────────
+// GRÁFICO
+// ─────────────────────────────────────────────
+const CORES = {
+  carteira: '#22c55e',
+  cdi: '#facc15',
+  ibov: '#60a5fa',
+  sp500: '#f472b6',
+  dolar: '#a78bfa',
+};
+
+function renderGrafico(series, meses, anos) {
+  const ctx = document.getElementById('grafico').getContext('2d');
+  if (chartInstance) { chartInstance.destroy(); chartInstance = null; }
+
+  // Labels: anos
+  const labels = Array.from({ length: meses }, (_, i) => {
+    const a = Math.floor(i / 12) + 1;
+    return i % 12 === 0 ? `Ano ${a}` : '';
+  });
+
+  const datasets = [
+    {
+      label: 'Sua carteira',
+      data: series.carteira,
+      borderColor: CORES.carteira,
+      backgroundColor: 'rgba(34,197,94,0.08)',
+      borderWidth: 2.5,
+      fill: true,
+      tension: 0.4,
+      pointRadius: 0,
+      pointHoverRadius: 5,
+    }
+  ];
+
+  const benchActive = {
+    cdi: document.getElementById('cdi').checked,
+    ibov: document.getElementById('ibov').checked,
+    sp500: document.getElementById('sp500').checked,
+    dolar: document.getElementById('dolar').checked,
+  };
+  const benchLabels = { cdi: 'CDI', ibov: 'Ibovespa', sp500: 'S&P 500', dolar: 'Dólar' };
+
+  for (const [key, active] of Object.entries(benchActive)) {
+    if (!active) continue;
+    datasets.push({
+      label: benchLabels[key],
+      data: series[key],
+      borderColor: CORES[key],
+      backgroundColor: 'transparent',
+      borderWidth: 1.5,
+      borderDash: [4, 4],
+      tension: 0.4,
+      pointRadius: 0,
+      pointHoverRadius: 4,
+      fill: false,
+    });
+  }
+
+  chartInstance = new Chart(ctx, {
+    type: 'line',
+    data: { labels, datasets },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: '#0f172a',
+          borderColor: '#1e293b',
+          borderWidth: 1,
+          padding: 12,
+          callbacks: {
+            label: ctx => ` ${ctx.dataset.label}: ${fmt(ctx.raw)}`,
+          }
+        }
+      },
+      scales: {
+        x: {
+          grid: { color: 'rgba(255,255,255,0.04)' },
+          ticks: { color: '#475569', font: { family: 'DM Mono', size: 11 } }
+        },
+        y: {
+          grid: { color: 'rgba(255,255,255,0.04)' },
+          ticks: {
+            color: '#475569',
+            font: { family: 'DM Mono', size: 11 },
+            callback: v => fmtShort(v)
+          }
+        }
+      }
+    }
+  });
+
+  // Legend manual
+  const leg = document.getElementById('chart-legend');
+  leg.innerHTML = datasets.map(d => `
+    <div class="leg-item">
+      <span class="leg-dot" style="background:${d.borderColor}"></span>
+      ${d.label}
+    </div>`).join('');
+}
+
+// ─────────────────────────────────────────────
+// UTILS
+// ─────────────────────────────────────────────
+function fmt(v) {
+  return 'R$ ' + v.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+}
+function fmtShort(v) {
+  if (v >= 1e6) return 'R$ ' + (v / 1e6).toFixed(1) + 'M';
+  if (v >= 1e3) return 'R$ ' + (v / 1e3).toFixed(0) + 'K';
+  return 'R$ ' + v.toFixed(0);
+}
+
+// init
+renderAtivos();
+</script>
+
+<style>
+/* ─── RESET & BASE ─── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #020617;
+  --surface: #0d1526;
+  --surface2: #111827;
+  --border: #1e293b;
+  --border2: #263148;
+  --text: #f1f5f9;
+  --muted: #64748b;
+  --accent: #22c55e;
+  --accent2: #16a34a;
+  --danger: #ef4444;
+  --yellow: #facc15;
+  --blue: #60a5fa;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ─── BG GRID ─── */
+.bg-grid {
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(34,197,94,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(34,197,94,0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ─── PAGE ─── */
+.page {
+  position: relative;
+  z-index: 1;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 24px 20px 80px;
+}
+
+/* ─── HEADER ─── */
+.header { margin-bottom: 32px; }
+.header-inner {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.logo-link {
+  color: var(--muted);
+  text-decoration: none;
+  font-family: 'DM Mono', monospace;
+  font-size: 13px;
+  transition: color .2s;
+  white-space: nowrap;
+}
+.logo-link:hover { color: var(--accent); }
+.header-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.header-title h1 {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(20px, 4vw, 28px);
+  font-weight: 800;
+  letter-spacing: -0.5px;
+}
+.pill {
+  background: rgba(34,197,94,0.15);
+  color: var(--accent);
+  border: 1px solid rgba(34,197,94,0.3);
+  border-radius: 99px;
+  padding: 2px 10px;
+  font-size: 11px;
+  font-family: 'DM Mono', monospace;
+  letter-spacing: 1px;
+}
+
+/* ─── STEPS BAR ─── */
+.steps-bar {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  margin-bottom: 32px;
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+}
+.step {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--muted);
+  transition: color .3s;
+}
+.step span {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px;
+  transition: all .3s;
+}
+.step.active { color: var(--text); }
+.step.active span {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #000;
+  font-weight: 700;
+}
+.step.done span {
+  background: rgba(34,197,94,0.2);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.step-sep {
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+  margin: 0 12px;
+  max-width: 80px;
+}
+
+/* ─── PANEL ─── */
+.panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 32px;
+  animation: fadeUp .35s ease;
+}
+.panel.hidden { display: none; }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes shake {
+  0%,100% { transform: translateX(0); }
+  20% { transform: translateX(-8px); }
+  40% { transform: translateX(8px); }
+  60% { transform: translateX(-5px); }
+  80% { transform: translateX(5px); }
+}
+.shake { animation: shake .45s ease; }
+
+.panel-head {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  margin-bottom: 28px;
+}
+.panel-num {
+  font-family: 'Syne', sans-serif;
+  font-size: 48px;
+  font-weight: 800;
+  color: rgba(34,197,94,0.15);
+  line-height: 1;
+  min-width: 64px;
+  letter-spacing: -2px;
+}
+.panel-head h2 {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(18px, 3vw, 24px);
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+.panel-head p { color: var(--muted); font-size: 14px; }
+
+/* ─── INPUTS ─── */
+.inputs-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 20px;
+  margin-bottom: 28px;
+}
+@media(max-width: 640px) { .inputs-row { grid-template-columns: 1fr; } }
+
+.input-block label {
+  display: block;
+  font-size: 12px;
+  color: var(--muted);
+  font-family: 'DM Mono', monospace;
+  letter-spacing: .5px;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+}
+.input-wrap {
+  display: flex;
+  align-items: center;
+  background: var(--bg);
+  border: 1px solid var(--border2);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: border-color .2s;
+}
+.input-wrap:focus-within { border-color: var(--accent); }
+.prefix, .suffix {
+  padding: 12px 14px;
+  color: var(--muted);
+  font-family: 'DM Mono', monospace;
+  font-size: 13px;
+  background: var(--surface2);
+  border-right: 1px solid var(--border);
+}
+.suffix { border-right: none; border-left: 1px solid var(--border); }
+.input-wrap input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--text);
+  font-size: 15px;
+  padding: 12px 14px;
+  font-family: 'DM Mono', monospace;
+  width: 100%;
+}
+input[type=number]::-webkit-inner-spin-button { opacity: 0; }
+
+/* Slider */
+.slider-row { margin-top: 10px; }
+.slider {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 4px;
+  border-radius: 4px;
+  background: var(--border2);
+  outline: none;
+  cursor: pointer;
+}
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 16px; height: 16px;
+  border-radius: 50%;
+  background: var(--accent);
+  cursor: pointer;
+  border: 2px solid var(--bg);
+  box-shadow: 0 0 0 2px rgba(34,197,94,0.3);
+}
+.slider-labels {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 4px;
+  font-size: 11px;
+  color: var(--muted);
+  font-family: 'DM Mono', monospace;
+}
+
+/* ─── BENCHMARKS ─── */
+.benchmarks-block { margin-bottom: 28px; }
+.benchmarks-block h3 {
+  font-size: 12px;
+  color: var(--muted);
+  text-transform: uppercase;
+  font-family: 'DM Mono', monospace;
+  letter-spacing: .5px;
+  margin-bottom: 12px;
+}
+.bench-pills { display: flex; flex-wrap: wrap; gap: 8px; }
+.bench-pill {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: 99px;
+  border: 1px solid var(--border2);
+  cursor: pointer;
+  font-size: 13px;
+  color: var(--muted);
+  transition: all .2s;
+}
+.bench-pill input { display: none; }
+.bench-pill.active { border-color: var(--border2); color: var(--text); background: var(--surface2); }
+.dot { width: 8px; height: 8px; border-radius: 50%; }
+
+/* ─── BOTÕES ─── */
+.btn-next {
+  width: 100%;
+  padding: 16px;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  color: #000;
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 15px;
+  border: none;
+  border-radius: 14px;
+  cursor: pointer;
+  transition: all .2s;
+  letter-spacing: .5px;
+}
+.btn-next:hover { filter: brightness(1.1); transform: translateY(-1px); box-shadow: 0 8px 24px rgba(34,197,94,0.25); }
+
+.btn-back {
+  padding: 14px 24px;
+  background: transparent;
+  color: var(--muted);
+  font-family: 'Syne', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  border: 1px solid var(--border2);
+  border-radius: 14px;
+  cursor: pointer;
+  transition: all .2s;
+}
+.btn-back:hover { color: var(--text); border-color: var(--text); }
+
+.nav-btns {
+  display: flex;
+  gap: 12px;
+  margin-top: 32px;
+}
+.nav-btns .btn-next { flex: 1; }
+
+/* ─── FILTROS ─── */
+.filtros-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+.search-wrap {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--bg);
+  border: 1px solid var(--border2);
+  border-radius: 12px;
+  padding: 10px 16px;
+  transition: border-color .2s;
+}
+.search-wrap:focus-within { border-color: var(--accent); }
+.search-wrap input {
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--text);
+  font-size: 14px;
+  width: 100%;
+}
+.count-badge {
+  font-size: 12px;
+  font-family: 'DM Mono', monospace;
+  color: var(--accent);
+  background: rgba(34,197,94,0.1);
+  border: 1px solid rgba(34,197,94,0.2);
+  padding: 8px 14px;
+  border-radius: 99px;
+  white-space: nowrap;
+}
+
+/* ─── ATIVOS GRID ─── */
+.ativos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 10px;
+  max-height: 460px;
+  overflow-y: auto;
+  padding-right: 4px;
+  margin-bottom: 8px;
+}
+.ativos-grid::-webkit-scrollbar { width: 4px; }
+.ativos-grid::-webkit-scrollbar-track { background: transparent; }
+.ativos-grid::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 4px; }
+
+.ativo-card {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 12px;
+  cursor: pointer;
+  transition: all .18s;
+  position: relative;
+  overflow: hidden;
+}
+.ativo-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+.ativo-card.sel {
+  border-color: var(--accent);
+  background: rgba(34,197,94,0.06);
+}
+
+.ativo-top {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+.ativo-logo {
+  width: 32px; height: 32px;
+  border-radius: 8px;
+  object-fit: contain;
+  background: var(--surface2);
+  flex-shrink: 0;
+}
+.ativo-info strong {
+  display: block;
+  font-size: 13px;
+  font-family: 'DM Mono', monospace;
+  font-weight: 500;
+}
+.ativo-info small {
+  display: block;
+  font-size: 11px;
+  color: var(--muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 80px;
+}
+.check-icon {
+  margin-left: auto;
+  color: var(--accent);
+  font-weight: 700;
+  font-size: 14px;
+  min-width: 16px;
+  text-align: center;
+}
+
+.ativo-bottom {
+  display: flex;
+  gap: 6px;
+  justify-content: space-between;
+}
+.ativo-stat { text-align: center; flex: 1; }
+.stat-label {
+  display: block;
+  font-size: 10px;
+  color: var(--muted);
+  font-family: 'DM Mono', monospace;
+  margin-bottom: 2px;
+}
+.stat-val {
+  font-size: 12px;
+  font-family: 'DM Mono', monospace;
+  font-weight: 500;
+}
+.stat-val.dy { color: var(--accent); }
+
+.setor-tag {
+  position: absolute;
+  top: 8px; right: 8px;
+  font-size: 9px;
+  font-family: 'DM Mono', monospace;
+  color: var(--muted);
+  background: var(--surface2);
+  border-radius: 99px;
+  padding: 2px 7px;
+  opacity: 0.7;
+}
+
+/* ─── MÉTRICAS ─── */
+.metricas-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 14px;
+  margin-bottom: 28px;
+}
+.metrica-card {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 20px;
+}
+.metrica-card.highlight {
+  border-color: rgba(34,197,94,0.4);
+  background: rgba(34,197,94,0.04);
+}
+.metrica-card.green .metrica-val { color: var(--accent); }
+.metrica-label {
+  font-size: 11px;
+  font-family: 'DM Mono', monospace;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  margin-bottom: 8px;
+}
+.metrica-val {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(16px, 2.5vw, 22px);
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.metrica-val.dim { color: var(--muted); }
+.metrica-sub { font-size: 12px; color: var(--muted); margin-top: 4px; }
+.badge-perc {
+  font-size: 12px;
+  background: rgba(34,197,94,0.15);
+  color: var(--accent);
+  border-radius: 99px;
+  padding: 2px 8px;
+}
+
+/* ─── CHART ─── */
+.chart-card {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 24px;
+}
+.chart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.chart-header h3 {
+  font-family: 'Syne', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+}
+.chart-legend { display: flex; flex-wrap: wrap; gap: 14px; }
+.leg-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-family: 'DM Mono', monospace;
+  color: var(--muted);
+}
+.leg-dot { width: 10px; height: 10px; border-radius: 50%; }
+.chart-wrap { height: 300px; position: relative; }
+
+/* ─── ATIVOS RESULT ─── */
+.ativos-result-grid {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+}
+.ativos-result-title {
+  padding: 14px 20px;
+  font-size: 12px;
+  font-family: 'DM Mono', monospace;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  border-bottom: 1px solid var(--border);
+}
+.ativo-result-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 20px;
+  border-bottom: 1px solid var(--border);
+  transition: background .15s;
+}
+.ativo-result-row:last-child { border-bottom: none; }
+.ativo-result-row:hover { background: var(--surface2); }
+.ativo-logo-sm {
+  width: 28px; height: 28px;
+  border-radius: 6px;
+  object-fit: contain;
+  background: var(--surface2);
+  flex-shrink: 0;
+}
+.ativo-ticker-sm {
+  font-family: 'DM Mono', monospace;
+  font-weight: 500;
+  font-size: 13px;
+  min-width: 52px;
+}
+.ativo-emp-sm { font-size: 13px; color: var(--muted); flex: 1; }
+.dy-badge {
+  font-size: 12px;
+  font-family: 'DM Mono', monospace;
+  color: var(--accent);
+  background: rgba(34,197,94,0.1);
+  border: 1px solid rgba(34,197,94,0.2);
+  padding: 4px 10px;
+  border-radius: 99px;
+}
+</style>
+</body>
+</html>
+"""
