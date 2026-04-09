@@ -2275,25 +2275,27 @@ function cmpRenderCards(data, id) {{
             </div>
         </div>
 
+        <div class="card">
+        <h2>🚀 Descubra oportunidades</h2>
+        <p style="color:#cbd5e1;font-size:14px;margin-bottom:15px">Explore rankings prontos com as melhores ações da bolsa hoje.</p>
+        <nav aria-label="Rankings especializados" class="menu">
+        <a href="seo/melhores-acoes-para-investir.html">🏆 Melhores ações</a>
+        <a href="seo/acoes-maior-dividend-yield.html">💰 Dividendos</a>
+        <a href="seo/acoes-maior-roe.html">📈 Alta rentabilidade</a>
+        <a href="seo/acoes-mais-seguras.html">🛡️ Mais seguras</a>
+        <a href="seo/acoes-dividendos-mensais.html">💵 Renda mensal</a>
+        <a href="seo/acoes-baratas-2026.html">🔥 Ações baratas</a>
+        <a href="seo/melhores-acoes-dividendos.html">💸 Dividendos 2026</a>
+        <a href="seo/comparar.html">↔️ Comparar Ações</a>
+        <a href="seo/investidores.html">📚 Maiores investidores da bolsa</a>
+        </nav>
+        </div>
+
         </div>
 
     </a>
 
-        <div class="card">
-    <h2>🚀 Descubra oportunidades</h2>
-    <p style="color:#cbd5e1;font-size:14px;margin-bottom:15px">Explore rankings prontos com as melhores ações da bolsa hoje.</p>
-    <nav aria-label="Rankings especializados" class="menu">
-    <a href="seo/melhores-acoes-para-investir.html">🏆 Melhores ações</a>
-    <a href="seo/acoes-maior-dividend-yield.html">💰 Dividendos</a>
-    <a href="seo/acoes-maior-roe.html">📈 Alta rentabilidade</a>
-    <a href="seo/acoes-mais-seguras.html">🛡️ Mais seguras</a>
-    <a href="seo/acoes-dividendos-mensais.html">💵 Renda mensal</a>
-    <a href="seo/acoes-baratas-2026.html">🔥 Ações baratas</a>
-    <a href="seo/melhores-acoes-dividendos.html">💸 Dividendos 2026</a>
-    <a href="seo/comparar.html">↔️ Comparar Ações</a>
-    <a href="seo/investidores.html">📚 Maiores investidores da bolsa</a>
-    </nav>
-    </div>
+        
     `;
 
   }}).join('');
@@ -2373,6 +2375,10 @@ function cmpComparar() {{
 # GERAR PÁGINA SIMULADOR
 # =========================
 
+# =========================
+# GERAR PÁGINA SIMULADOR
+# =========================
+
 def gerar_simulador(df):
     """
     Gera a página simulador-pro.html com o top-50 ativos por Score.
@@ -2400,7 +2406,7 @@ def gerar_simulador(df):
 
     gerar_pagina(
         "simulador-pro",
-        "Simulador de Carteira — Ta no Precinho? 📉",
+        "Simulador de Carteira — TanoPrecinho",
         conteudo,
         descricao="Simule o crescimento da sua carteira de ações com benchmarks reais.",
         keywords="simulador de investimentos, carteira de ações, renda passiva, B3, bolsa",
@@ -2959,9 +2965,16 @@ body {
 .page {
   position: relative;
   z-index: 1;
-  max-width: 900px;
+  max-width: 1200px; /* aumentei */
   margin: 0 auto;
-  padding: 24px 20px 80px;
+  padding: 24px 16px 80px;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .page {
+    padding: 16px 12px 60px;
+  }
 }
 
 /* ─── HEADER ─── */
@@ -3053,8 +3066,16 @@ body {
   border: 1px solid var(--border);
   border-radius: 20px;
   padding: 32px;
-  animation: fadeUp .35s ease;
 }
+
+/* Mobile */
+@media (max-width: 768px) {
+  .panel {
+    padding: 20px 16px;
+    border-radius: 16px;
+  }
+}
+
 .panel.hidden { display: none; }
 
 @keyframes fadeUp {
@@ -3096,8 +3117,8 @@ body {
 /* ─── INPUTS ─── */
 .inputs-row {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
   margin-bottom: 28px;
 }
 @media(max-width: 640px) { .inputs-row { grid-template-columns: 1fr; } }
@@ -3278,7 +3299,7 @@ input[type=number]::-webkit-inner-spin-button { opacity: 0; }
 /* ─── ATIVOS GRID ─── */
 .ativos-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
   gap: 10px;
   max-height: 460px;
   overflow-y: auto;
@@ -3449,8 +3470,24 @@ input[type=number]::-webkit-inner-spin-button { opacity: 0; }
   color: var(--muted);
 }
 .leg-dot { width: 10px; height: 10px; border-radius: 50%; }
-.chart-wrap { height: 300px; position: relative; }
 
+.chart-wrap {
+  position: relative;
+  width: 100%;
+  height: 280px;
+}
+
+@media (min-width: 768px) {
+  .chart-wrap {
+    height: 380px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .chart-wrap {
+    height: 420px;
+  }
+}
 /* ─── ATIVOS RESULT ─── */
 .ativos-result-grid {
   background: var(--bg);
@@ -3500,6 +3537,24 @@ input[type=number]::-webkit-inner-spin-button { opacity: 0; }
   padding: 4px 10px;
   border-radius: 99px;
 }
+
+@media (max-width: 640px) {
+  .header-inner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+}
+
+html, body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+.chart-legend {
+  justify-content: flex-start;
+}
+
 </style>
 </body>
 </html>
