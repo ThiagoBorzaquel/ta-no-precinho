@@ -318,15 +318,22 @@ gap: 8px;
       <div class="panel-num">02</div>
       <div>
         <h2>Selecione os ativos</h2>
-        <p>Escolha até 10 ações para compor sua carteira simulada.</p>
+        <p>Escolha até 10 ativos para compor sua carteira simulada.</p>
       </div>
     </div>
 
+    <!-- FILTROS: busca + setor + categoria -->
     <div class="filtros-row">
       <div class="search-wrap">
         <span>🔍</span>
         <input type="text" id="busca" placeholder="Buscar ticker ou empresa..." oninput="filtrarAtivos()">
       </div>
+      <select id="filtro-setor" class="select-filtro" onchange="filtrarAtivos()">
+        <option value="">Todos os setores</option>
+      </select>
+      <select id="filtro-categoria" class="select-filtro" onchange="filtrarAtivos()">
+        <option value="">Todas as categorias</option>
+      </select>
       <div id="selecionados-count" class="count-badge">0 selecionados</div>
     </div>
 
@@ -350,6 +357,7 @@ gap: 8px;
 
     <div class="metricas-grid" id="metricas"></div>
 
+    <!-- Gráfico de linha: evolução patrimonial -->
     <div class="chart-card">
       <div class="chart-header">
         <h3>Evolução patrimonial</h3>
@@ -357,6 +365,20 @@ gap: 8px;
       </div>
       <div class="chart-wrap">
         <canvas id="grafico"></canvas>
+      </div>
+    </div>
+
+    <!-- Gráfico de pizza: divisão por setor -->
+    <div class="charts-row">
+      <div class="chart-card chart-card-pie">
+        <div class="chart-header">
+          <h3>Divisão por setor</h3>
+          <span class="chart-subtitle">% de ativos na carteira</span>
+        </div>
+        <div class="pie-wrap">
+          <canvas id="grafico-pizza"></canvas>
+        </div>
+        <div id="pizza-legend" class="pizza-legend"></div>
       </div>
     </div>
 
@@ -372,15 +394,16 @@ gap: 8px;
 
 <script>
 // ─────────────────────────────────────────────
-// DADOS (serão injetados pelo Python em prod)
+// DADOS (injetados pelo Python em produção)
 // ─────────────────────────────────────────────
-const DADOS = [{"ticker": "BNBR3", "empresa": "NORD BRASIL", "dy": 0.0567, "score": 100, "preco": 121.5, "setor": "Serviços Financeiros"}, {"ticker": "GMAT3", "empresa": "GRUPO MATEUS", "dy": 0.054, "score": 100, "preco": 4.68, "setor": "Consumo Cíclico"}, {"ticker": "PETR4", "empresa": "PETROBRAS", "dy": 0.0838, "score": 100, "preco": 47.72, "setor": "Energia"}, {"ticker": "CYRE3", "empresa": "CYRELA REALT", "dy": 0.1389, "score": 100, "preco": 28.03, "setor": "Consumo Cíclico"}, {"ticker": "CMIG4", "empresa": "CEMIG EJ", "dy": 0.0953, "score": 100, "preco": 13.61, "setor": "Utilidades Públicas"}, {"ticker": "TAEE3", "empresa": "TAESA", "dy": 0.0746, "score": 100, "preco": 14.82, "setor": "Utilidades Públicas"}, {"ticker": "TAEE4", "empresa": "TAESA", "dy": 0.0817, "score": 100, "preco": 15.11, "setor": "Utilidades Públicas"}, {"ticker": "BSLI4", "empresa": "BRB BANCO", "dy": 0.1638, "score": 85, "preco": 3.89, "setor": "Serviços Financeiros"}, {"ticker": "BSLI3", "empresa": "BRB BANCO", "dy": 0.1438, "score": 85, "preco": 4.04, "setor": "Serviços Financeiros"}, {"ticker": "BAZA3", "empresa": "AMAZIA", "dy": 0.0975, "score": 85, "preco": 82.44, "setor": "Serviços Financeiros"}, {"ticker": "JHSF3", "empresa": "JHSF PART ED", "dy": 0.0692, "score": 85, "preco": 12.15, "setor": "Imobiliário"}, {"ticker": "BRSR5", "empresa": "BANRISUL A", "dy": 0.0513, "score": 85, "preco": 18.42, "setor": "Serviços Financeiros"}, {"ticker": "BRSR6", "empresa": "BANRISUL B", "dy": 0.0508, "score": 85, "preco": 18.53, "setor": "Serviços Financeiros"}, {"ticker": "SUZB3", "empresa": "SUZANO S.A.", "dy": 0.0237, "score": 85, "preco": 47.92, "setor": "Materiais Básicos"}, {"ticker": "ABCB4", "empresa": "ABC BRASIL", "dy": 0.1157, "score": 85, "preco": 27.09, "setor": "Serviços Financeiros"}, {"ticker": "CEEB5", "empresa": "COELBA A", "dy": 0.046, "score": 85, "preco": 43.5, "setor": "Utilidades Públicas"}, {"ticker": "VLID3", "empresa": "VALID", "dy": 0.1594, "score": 85, "preco": 20.72, "setor": "Indústria"}, {"ticker": "SHUL4", "empresa": "SCHULZ EJ", "dy": 0.1075, "score": 85, "preco": 5.27, "setor": "Consumo Cíclico"}, {"ticker": "SAPR4", "empresa": "SANEPAR", "dy": 0.026, "score": 85, "preco": 8.76, "setor": "Utilidades Públicas"}, {"ticker": "CEAB3", "empresa": "CEA MODAS", "dy": 0.0715, "score": 85, "preco": 13.15, "setor": "Consumo Cíclico"}, {"ticker": "CLSC3", "empresa": "CELESC EJ", "dy": 0.0563, "score": 85, "preco": 128.02, "setor": "Utilidades Públicas"}, {"ticker": "CSED3", "empresa": "CRUZEIRO EDU", "dy": 0.0829, "score": 85, "preco": 5.94, "setor": "Consumo Defensivo"}, {"ticker": "BGIP3", "empresa": "BANESE", "dy": 0.0877, "score": 85, "preco": 57.97, "setor": "Serviços Financeiros"}, {"ticker": "CLSC4", "empresa": "CELESC EJ", "dy": 0.0548, "score": 85, "preco": 145.25, "setor": "Utilidades Públicas"}, {"ticker": "ISAE4", "empresa": "ISA ENERGIA ED", "dy": 0.0877, "score": 80, "preco": 30.7, "setor": "Utilidades Públicas"}, {"ticker": "ISAE3", "empresa": "ISA ENERGIA ED", "dy": 0.0754, "score": 80, "preco": 34.51, "setor": "Utilidades Públicas"}, {"ticker": "SANB3", "empresa": "SANTANDER BR", "dy": 0.054, "score": 80, "preco": 15.72, "setor": "Serviços Financeiros"}, {"ticker": "SANB4", "empresa": "SANTANDER BR", "dy": 0.0587, "score": 80, "preco": 16.07, "setor": "Serviços Financeiros"}, {"ticker": "PETR3", "empresa": "PETROBRAS", "dy": 0.0763, "score": 75, "preco": 52.44, "setor": "Energia"}, {"ticker": "BBSE3", "empresa": "BBSEGURIDADE", "dy": 0.1454, "score": 75, "preco": 36.24, "setor": "Serviços Financeiros"}, {"ticker": "BRSR3", "empresa": "BANRISUL", "dy": 0.0483, "score": 70, "preco": 19.64, "setor": "Serviços Financeiros"}, {"ticker": "SEER3", "empresa": "SER EDUCA ED", "dy": 0.0362, "score": 70, "preco": 13.31, "setor": "Consumo Defensivo"}, {"ticker": "EVEN3", "empresa": "EVEN", "dy": 0.1079, "score": 65, "preco": 7.16, "setor": "Imobiliário"}, {"ticker": "AZZA3", "empresa": "AZZAS 2154", "dy": 0.1072, "score": 65, "preco": 23.03, "setor": "Consumo Cíclico"}, {"ticker": "TRIS3", "empresa": "TRISUL", "dy": 0.185, "score": 65, "preco": 5.85, "setor": "Imobiliário"}, {"ticker": "VTRU3", "empresa": "VITRUEDUCA", "dy": 0.19, "score": 65, "preco": 14.31, "setor": "Consumo Defensivo"}, {"ticker": "BMGB4", "empresa": "BANCO BMG", "dy": 0.0793, "score": 65, "preco": 5.64, "setor": "Serviços Financeiros"}, {"ticker": "EUCA4", "empresa": "EUCATEX", "dy": 0.0536, "score": 65, "preco": 21.05, "setor": "Indústria"}, {"ticker": "RECV3", "empresa": "PETRORECSA", "dy": 0.1397, "score": 65, "preco": 13.87, "setor": "Energia"}, {"ticker": "LOGG3", "empresa": "LOG COM PROP", "dy": 0.1422, "score": 65, "preco": 27.96, "setor": "Imobiliário"}, {"ticker": "EZTC3", "empresa": "EZTEC", "dy": 0.0847, "score": 65, "preco": 14.8, "setor": "Imobiliário"}, {"ticker": "NEOE3", "empresa": "NEOENERGIA", "dy": 0.0437, "score": 65, "preco": 33.46, "setor": "Utilidades Públicas"}, {"ticker": "BLAU3", "empresa": "BLAU", "dy": 0.0616, "score": 65, "preco": 10.95, "setor": "Saúde"}, {"ticker": "ALUP4", "empresa": "ALUPAR", "dy": 0.0221, "score": 65, "preco": 11.56, "setor": "Utilidades Públicas"}, {"ticker": "POMO3", "empresa": "MARCOPOLO", "dy": 0.1922, "score": 60, "preco": 6.1, "setor": "Indústria"}, {"ticker": "MDNE3", "empresa": "MOURA DUBEUX", "dy": 0.1504, "score": 60, "preco": 31.86, "setor": "Imobiliário"}, {"ticker": "CEEB3", "empresa": "COELBA", "dy": 0.0406, "score": 60, "preco": 47.6, "setor": "Utilidades Públicas"}, {"ticker": "POMO4", "empresa": "MARCOPOLO", "dy": 0.179, "score": 60, "preco": 6.55, "setor": "Indústria"}, {"ticker": "LAVV3", "empresa": "LAVVI", "dy": 0.0706, "score": 60, "preco": 14.68, "setor": "Imobiliário"}, {"ticker": "PLPL3", "empresa": "PLANOEPLANO", "dy": 0.1117, "score": 60, "preco": 13.61, "setor": "Imobiliário"}];
+const DADOS = [{"ticker": "BNBR3", "empresa": "NORD BRASIL", "dy": 0.0567, "score": 100, "preco": 121.5, "setor": "Serviços Financeiros", "categoria": "Mid Caps"}, {"ticker": "GMAT3", "empresa": "GRUPO MATEUS", "dy": 0.0534, "score": 100, "preco": 4.64, "setor": "Consumo Cíclico", "categoria": "Mid Caps"}, {"ticker": "CYRE3", "empresa": "CYRELA REALT", "dy": 0.1354, "score": 100, "preco": 27.8, "setor": "Consumo Cíclico", "categoria": "Mid Caps"}, {"ticker": "PETR4", "empresa": "PETROBRAS", "dy": 0.0816, "score": 100, "preco": 48.08, "setor": "Energia", "categoria": "Blue Chips"}, {"ticker": "CMIG4", "empresa": "CEMIG EJ", "dy": 0.0939, "score": 100, "preco": 13.68, "setor": "Utilidades Públicas", "categoria": "Mid Caps"}, {"ticker": "TAEE3", "empresa": "TAESA", "dy": 0.0737, "score": 100, "preco": 14.82, "setor": "Utilidades Públicas", "categoria": "Mid Caps"}, {"ticker": "TAEE4", "empresa": "TAESA", "dy": 0.0806, "score": 100, "preco": 15.17, "setor": "Utilidades Públicas", "categoria": "Mid Caps"}, {"ticker": "BSLI4", "empresa": "BRB BANCO", "dy": 0.1647, "score": 85, "preco": 3.92, "setor": "Serviços Financeiros", "categoria": "Small Caps"}, {"ticker": "BSLI3", "empresa": "BRB BANCO", "dy": 0.1459, "score": 85, "preco": 3.99, "setor": "Serviços Financeiros", "categoria": "Small Caps"}, {"ticker": "BAZA3", "empresa": "AMAZIA", "dy": 0.097, "score": 85, "preco": 82.68, "setor": "Serviços Financeiros", "categoria": "Small Caps"}, {"ticker": "BRSR5", "empresa": "BANRISUL A", "dy": 0.0513, "score": 85, "preco": 18.42, "setor": "Serviços Financeiros", "categoria": "Small Caps"}, {"ticker": "SUZB3", "empresa": "SUZANO S.A.", "dy": 0.0236, "score": 85, "preco": 47.61, "setor": "Materiais Básicos", "categoria": "Blue Chips"}, {"ticker": "JHSF3", "empresa": "JHSF PART ED", "dy": 0.0657, "score": 85, "preco": 12.26, "setor": "Imobiliário", "categoria": "Small Caps"}, {"ticker": "ABCB4", "empresa": "ABC BRASIL", "dy": 0.1129, "score": 85, "preco": 27.23, "setor": "Serviços Financeiros", "categoria": "Small Caps"}, {"ticker": "CEEB5", "empresa": "COELBA A", "dy": 0.046, "score": 85, "preco": 43.5, "setor": "Utilidades Públicas", "categoria": "Mid Caps"}, {"ticker": "VLID3", "empresa": "VALID", "dy": 0.1553, "score": 85, "preco": 20.79, "setor": "Indústria", "categoria": "Small Caps"}, {"ticker": "SHUL4", "empresa": "SCHULZ EJ", "dy": 0.1052, "score": 85, "preco": 5.27, "setor": "Consumo Cíclico", "categoria": "Small Caps"}, {"ticker": "SAPR4", "empresa": "SANEPAR", "dy": 0.0258, "score": 85, "preco": 8.75, "setor": "Utilidades Públicas", "categoria": "Mid Caps"}, {"ticker": "CEAB3", "empresa": "CEA MODAS", "dy": 0.068, "score": 85, "preco": 13.51, "setor": "Consumo Cíclico", "categoria": "Small Caps"}, {"ticker": "CLSC3", "empresa": "CELESC EJ", "dy": 0.0563, "score": 85, "preco": 128.02, "setor": "Utilidades Públicas", "categoria": "Small Caps"}, {"ticker": "CSED3", "empresa": "CRUZEIRO EDU", "dy": 0.0807, "score": 85, "preco": 6.0, "setor": "Consumo Defensivo", "categoria": "Small Caps"}, {"ticker": "BGIP3", "empresa": "BANESE", "dy": 0.0879, "score": 85, "preco": 58.95, "setor": "Serviços Financeiros", "categoria": "Small Caps"}, {"ticker": "CLSC4", "empresa": "CELESC EJ", "dy": 0.055, "score": 85, "preco": 146.79, "setor": "Utilidades Públicas", "categoria": "Small Caps"}, {"ticker": "ISAE4", "empresa": "ISA ENERGIA ED", "dy": 0.0861, "score": 80, "preco": 30.64, "setor": "Utilidades Públicas", "categoria": "Mid Caps"}, {"ticker": "ISAE3", "empresa": "ISA ENERGIA ED", "dy": 0.0757, "score": 80, "preco": 34.65, "setor": "Utilidades Públicas", "categoria": "Mid Caps"}, {"ticker": "SANB3", "empresa": "SANTANDER BR", "dy": 0.0535, "score": 80, "preco": 15.92, "setor": "Serviços Financeiros", "categoria": "Blue Chips"}, {"ticker": "SANB4", "empresa": "SANTANDER BR", "dy": 0.0573, "score": 80, "preco": 16.28, "setor": "Serviços Financeiros", "categoria": "Blue Chips"}, {"ticker": "PETR3", "empresa": "PETROBRAS", "dy": 0.0742, "score": 75, "preco": 52.95, "setor": "Energia", "categoria": "Blue Chips"}, {"ticker": "BBSE3", "empresa": "BBSEGURIDADE", "dy": 0.1452, "score": 75, "preco": 36.14, "setor": "Serviços Financeiros", "categoria": "Blue Chips"}, {"ticker": "BRSR6", "empresa": "BANRISUL B", "dy": 0.0496, "score": 70, "preco": 18.65, "setor": "Serviços Financeiros", "categoria": "Small Caps"}, {"ticker": "BRSR3", "empresa": "BANRISUL", "dy": 0.0475, "score": 70, "preco": 19.4, "setor": "Serviços Financeiros", "categoria": "Small Caps"}, {"ticker": "SEER3", "empresa": "SER EDUCA ED", "dy": 0.0354, "score": 70, "preco": 13.23, "setor": "Consumo Defensivo", "categoria": "Small Caps"}, {"ticker": "EVEN3", "empresa": "EVEN", "dy": 0.106, "score": 65, "preco": 7.18, "setor": "Imobiliário", "categoria": "Small Caps"}, {"ticker": "AZZA3", "empresa": "AZZAS 2154", "dy": 0.1061, "score": 65, "preco": 23.07, "setor": "Consumo Cíclico", "categoria": "Small Caps"}, {"ticker": "TRIS3", "empresa": "TRISUL", "dy": 0.185, "score": 65, "preco": 5.84, "setor": "Imobiliário", "categoria": "Small Caps"}, {"ticker": "VTRU3", "empresa": "VITRUEDUCA", "dy": 0.19, "score": 65, "preco": 14.16, "setor": "Consumo Defensivo", "categoria": "Small Caps"}, {"ticker": "BMGB4", "empresa": "BANCO BMG", "dy": 0.0777, "score": 65, "preco": 5.74, "setor": "Serviços Financeiros", "categoria": "Small Caps"}, {"ticker": "EUCA4", "empresa": "EUCATEX", "dy": 0.054, "score": 65, "preco": 21.13, "setor": "Indústria", "categoria": "Small Caps"}, {"ticker": "RECV3", "empresa": "PETRORECSA", "dy": 0.1375, "score": 65, "preco": 14.33, "setor": "Energia", "categoria": "Small Caps"}, {"ticker": "LOGG3", "empresa": "LOG COM PROP", "dy": 0.1405, "score": 65, "preco": 28.24, "setor": "Imobiliário", "categoria": "Small Caps"}, {"ticker": "EZTC3", "empresa": "EZTEC", "dy": 0.0812, "score": 65, "preco": 14.95, "setor": "Imobiliário", "categoria": "Small Caps"}, {"ticker": "NEOE3", "empresa": "NEOENERGIA", "dy": 0.0436, "score": 65, "preco": 33.47, "setor": "Utilidades Públicas", "categoria": "Mid Caps"}, {"ticker": "BLAU3", "empresa": "BLAU", "dy": 0.0597, "score": 65, "preco": 11.15, "setor": "Saúde", "categoria": "Small Caps"}, {"ticker": "ALUP4", "empresa": "ALUPAR", "dy": 0.0219, "score": 65, "preco": 11.41, "setor": "Utilidades Públicas", "categoria": "Mid Caps"}, {"ticker": "POMO3", "empresa": "MARCOPOLO", "dy": 0.1866, "score": 60, "preco": 6.23, "setor": "Indústria", "categoria": "Small Caps"}, {"ticker": "MDNE3", "empresa": "MOURA DUBEUX", "dy": 0.145, "score": 60, "preco": 32.83, "setor": "Imobiliário", "categoria": "Small Caps"}, {"ticker": "CEEB3", "empresa": "COELBA", "dy": 0.0402, "score": 60, "preco": 49.6, "setor": "Utilidades Públicas", "categoria": "Mid Caps"}, {"ticker": "POMO4", "empresa": "MARCOPOLO", "dy": 0.173, "score": 60, "preco": 6.75, "setor": "Indústria", "categoria": "Small Caps"}, {"ticker": "LAVV3", "empresa": "LAVVI", "dy": 0.0685, "score": 60, "preco": 14.97, "setor": "Imobiliário", "categoria": "Small Caps"}, {"ticker": "WIZC3", "empresa": "WIZ CO", "dy": 0.0649, "score": 60, "preco": 9.65, "setor": "Serviços Financeiros", "categoria": "Small Caps"}];
 
 // ─────────────────────────────────────────────
 // ESTADO
 // ─────────────────────────────────────────────
-let selecionados = new Set();
-let chartInstance = null;
+let selecionados    = new Set();
+let chartInstance   = null;
+let pizzaInstance   = null;
 
 // ─────────────────────────────────────────────
 // STEPS
@@ -398,11 +421,12 @@ function irParaStep(n) {
 
 function irParaAtivos() {
   const valor = parseFloat(document.getElementById('valor').value);
-  const anos = parseFloat(document.getElementById('anos').value);
+  const anos  = parseFloat(document.getElementById('anos').value);
   if (!valor || valor <= 0 || !anos || anos <= 0) {
     shakePanelError('panel-1');
     return;
   }
+  popularFiltros();
   renderAtivos();
   irParaStep(2);
 }
@@ -431,23 +455,59 @@ document.querySelectorAll('.bench-pill input').forEach(cb => {
 });
 
 // ─────────────────────────────────────────────
-// RENDER ATIVOS
+// POPULAR FILTROS DE SETOR E CATEGORIA
+// ─────────────────────────────────────────────
+function popularFiltros() {
+  const setores     = [...new Set(DADOS.map(a => a.setor).filter(Boolean))].sort();
+  const categorias  = [...new Set(DADOS.map(a => a.categoria).filter(Boolean))].sort();
+
+  const selSetor = document.getElementById('filtro-setor');
+  const selCat   = document.getElementById('filtro-categoria');
+
+  // Preserva seleção atual ao re-popular
+  const setorAtual = selSetor.value;
+  const catAtual   = selCat.value;
+
+  selSetor.innerHTML = '<option value="">Todos os setores</option>' +
+    setores.map(s => `<option value="${s}"${s === setorAtual ? ' selected' : ''}>${s}</option>`).join('');
+
+  selCat.innerHTML = '<option value="">Todas as categorias</option>' +
+    categorias.map(c => `<option value="${c}"${c === catAtual ? ' selected' : ''}>${c}</option>`).join('');
+}
+
+// ─────────────────────────────────────────────
+// RENDER ATIVOS COM FILTROS
 // ─────────────────────────────────────────────
 let dadosFiltrados = [...DADOS];
 
 function filtrarAtivos() {
-  const q = document.getElementById('busca').value.toLowerCase();
-  dadosFiltrados = DADOS.filter(a =>
-    a.ticker.toLowerCase().includes(q) || a.empresa.toLowerCase().includes(q)
-  );
+  const q      = document.getElementById('busca').value.toLowerCase().trim();
+  const setor  = document.getElementById('filtro-setor').value;
+  const cat    = document.getElementById('filtro-categoria').value;
+
+  dadosFiltrados = DADOS.filter(a => {
+    const matchTexto = !q ||
+      a.ticker.toLowerCase().includes(q) ||
+      a.empresa.toLowerCase().includes(q);
+    const matchSetor = !setor || a.setor === setor;
+    const matchCat   = !cat   || a.categoria === cat;
+    return matchTexto && matchSetor && matchCat;
+  });
+
   renderAtivos();
 }
 
 function renderAtivos() {
   const grid = document.getElementById('ativos-grid');
+  if (dadosFiltrados.length === 0) {
+    grid.innerHTML = '<div class="empty-state">Nenhum ativo encontrado para os filtros selecionados.</div>';
+    atualizarContador();
+    return;
+  }
+
   grid.innerHTML = dadosFiltrados.map(a => {
-    const sel = selecionados.has(a.ticker);
-    const dyPct = (a.dy * 100).toFixed(2);
+    const sel    = selecionados.has(a.ticker);
+    const dyPct  = (a.dy * 100).toFixed(2);
     return `
     <div class="ativo-card ${sel ? 'sel' : ''}" onclick="toggleAtivo('${a.ticker}')" data-ticker="${a.ticker}">
       <div class="ativo-top">
@@ -475,8 +535,10 @@ function renderAtivos() {
         </div>
       </div>
       <div class="setor-tag">${a.setor}</div>
+      <div class="cat-tag">${a.categoria}</div>
     </div>`;
   }).join('');
+
   atualizarContador();
 }
 
@@ -511,24 +573,17 @@ function atualizarContador() {
 function simular() {
   if (selecionados.size === 0) { shakePanelError('panel-2'); return; }
 
-  const valor = parseFloat(document.getElementById('valor').value) || 0;
+  const valor  = parseFloat(document.getElementById('valor').value)  || 0;
   const aporte = parseFloat(document.getElementById('aporte').value) || 0;
-  const anos = parseFloat(document.getElementById('anos').value) || 10;
-  const meses = Math.round(anos * 12);
+  const anos   = parseFloat(document.getElementById('anos').value)   || 10;
+  const meses  = Math.round(anos * 12);
 
-  const ativos = DADOS.filter(d => selecionados.has(d.ticker));
+  const ativos  = DADOS.filter(d => selecionados.has(d.ticker));
   const dyMedio = ativos.reduce((s, a) => s + a.dy, 0) / ativos.length;
 
   // Séries mensais
-  const series = {
-    carteira: [],
-    cdi: [],
-    ibov: [],
-    sp500: [],
-    dolar: []
-  };
-
-  const taxas = { cdi: 0.11, ibov: 0.10, sp500: 0.09, dolar: 0.06 };
+  const series = { carteira: [], cdi: [], ibov: [], sp500: [], dolar: [] };
+  const taxas  = { cdi: 0.11, ibov: 0.10, sp500: 0.09, dolar: 0.06 };
 
   let totCarteira = valor;
   for (let i = 0; i < meses; i++) {
@@ -544,11 +599,11 @@ function simular() {
     }
   }
 
-  const finalCarteira = series.carteira[meses - 1];
+  const finalCarteira  = series.carteira[meses - 1];
   const totalInvestido = valor + aporte * meses;
-  const rendaMensal = (finalCarteira * dyMedio) / 12;
-  const ganho = finalCarteira - totalInvestido;
-  const ganhoPerc = ((finalCarteira / totalInvestido - 1) * 100).toFixed(1);
+  const rendaMensal    = (finalCarteira * dyMedio) / 12;
+  const ganho          = finalCarteira - totalInvestido;
+  const ganhoPerc      = ((finalCarteira / totalInvestido - 1) * 100).toFixed(1);
 
   // Métricas
   document.getElementById('metricas').innerHTML = `
@@ -575,7 +630,7 @@ function simular() {
   document.getElementById('resumo-params').textContent =
     `Capital inicial ${fmt(valor)} + aportes de ${fmt(aporte)}/mês por ${anos} anos`;
 
-  // Ativos result
+  // Ativos resultado
   document.getElementById('ativos-result').innerHTML =
     `<div class="ativos-result-title">Ativos selecionados</div>` +
     ativos.map(a => `
@@ -585,51 +640,51 @@ function simular() {
         class="ativo-logo-sm">
       <span class="ativo-ticker-sm">${a.ticker}</span>
       <span class="ativo-emp-sm">${a.empresa}</span>
+      <span class="setor-badge">${a.setor}</span>
+      <span class="cat-badge">${a.categoria}</span>
       <span class="dy-badge">${(a.dy * 100).toFixed(2)}% DY</span>
     </div>`).join('');
 
   renderGrafico(series, meses, anos);
+  renderGraficoPizza(ativos);
   irParaStep(3);
 }
 
 // ─────────────────────────────────────────────
-// GRÁFICO
+// GRÁFICO DE LINHA — Evolução patrimonial
 // ─────────────────────────────────────────────
 const CORES = {
   carteira: '#22c55e',
-  cdi: '#facc15',
-  ibov: '#60a5fa',
-  sp500: '#f472b6',
-  dolar: '#a78bfa',
+  cdi:      '#facc15',
+  ibov:     '#60a5fa',
+  sp500:    '#f472b6',
+  dolar:    '#a78bfa',
 };
 
 function renderGrafico(series, meses, anos) {
   const ctx = document.getElementById('grafico').getContext('2d');
   if (chartInstance) { chartInstance.destroy(); chartInstance = null; }
 
-  // Labels: anos
   const labels = Array.from({ length: meses }, (_, i) => {
     const a = Math.floor(i / 12) + 1;
     return i % 12 === 0 ? `Ano ${a}` : '';
   });
 
-  const datasets = [
-    {
-      label: 'Sua carteira',
-      data: series.carteira,
-      borderColor: CORES.carteira,
-      backgroundColor: 'rgba(34,197,94,0.08)',
-      borderWidth: 2.5,
-      fill: true,
-      tension: 0.4,
-      pointRadius: 0,
-      pointHoverRadius: 5,
-    }
-  ];
+  const datasets = [{
+    label: 'Sua carteira',
+    data: series.carteira,
+    borderColor: CORES.carteira,
+    backgroundColor: 'rgba(34,197,94,0.08)',
+    borderWidth: 2.5,
+    fill: true,
+    tension: 0.4,
+    pointRadius: 0,
+    pointHoverRadius: 5,
+  }];
 
   const benchActive = {
-    cdi: document.getElementById('cdi').checked,
-    ibov: document.getElementById('ibov').checked,
+    cdi:   document.getElementById('cdi').checked,
+    ibov:  document.getElementById('ibov').checked,
     sp500: document.getElementById('sp500').checked,
     dolar: document.getElementById('dolar').checked,
   };
@@ -665,9 +720,7 @@ function renderGrafico(series, meses, anos) {
           borderColor: '#1e293b',
           borderWidth: 1,
           padding: 12,
-          callbacks: {
-            label: ctx => ` ${ctx.dataset.label}: ${fmt(ctx.raw)}`,
-          }
+          callbacks: { label: ctx => ` ${ctx.dataset.label}: ${fmt(ctx.raw)}` }
         }
       },
       scales: {
@@ -687,13 +740,85 @@ function renderGrafico(series, meses, anos) {
     }
   });
 
-  // Legend manual
+  // Legenda manual
   const leg = document.getElementById('chart-legend');
   leg.innerHTML = datasets.map(d => `
     <div class="leg-item">
       <span class="leg-dot" style="background:${d.borderColor}"></span>
       ${d.label}
     </div>`).join('');
+}
+
+// ─────────────────────────────────────────────
+// GRÁFICO DE PIZZA — Divisão por setor
+// ─────────────────────────────────────────────
+const PIZZA_CORES = [
+  '#22c55e','#60a5fa','#facc15','#f472b6','#a78bfa',
+  '#fb923c','#34d399','#f87171','#38bdf8','#c084fc',
+  '#fbbf24','#4ade80','#818cf8','#e879f9','#2dd4bf',
+];
+
+function renderGraficoPizza(ativos) {
+  const ctx = document.getElementById('grafico-pizza').getContext('2d');
+  if (pizzaInstance) { pizzaInstance.destroy(); pizzaInstance = null; }
+
+  // Conta ativos por setor
+  const contagem = {};
+  ativos.forEach(a => {
+    const s = a.setor || 'Outros';
+    contagem[s] = (contagem[s] || 0) + 1;
+  });
+
+  const total   = ativos.length;
+  const labels  = Object.keys(contagem);
+  const valores = Object.values(contagem);
+  const cores   = labels.map((_, i) => PIZZA_CORES[i % PIZZA_CORES.length]);
+
+  pizzaInstance = new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+      labels,
+      datasets: [{
+        data: valores,
+        backgroundColor: cores,
+        borderColor: '#020617',
+        borderWidth: 3,
+        hoverOffset: 8,
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      cutout: '62%',
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: '#0f172a',
+          borderColor: '#1e293b',
+          borderWidth: 1,
+          padding: 12,
+          callbacks: {
+            label: ctx => {
+              const pct = ((ctx.raw / total) * 100).toFixed(1);
+              return ` ${ctx.label}: ${ctx.raw} ativo${ctx.raw > 1 ? 's' : ''} (${pct}%)`;
+            }
+          }
+        }
+      }
+    }
+  });
+
+  // Legenda personalizada
+  const legEl = document.getElementById('pizza-legend');
+  legEl.innerHTML = labels.map((label, i) => {
+    const pct = ((valores[i] / total) * 100).toFixed(1);
+    return `
+      <div class="pizza-leg-item">
+        <span class="pizza-leg-dot" style="background:${cores[i]}"></span>
+        <span class="pizza-leg-label">${label}</span>
+        <span class="pizza-leg-pct">${pct}%</span>
+      </div>`;
+  }).join('');
 }
 
 // ─────────────────────────────────────────────
@@ -709,6 +834,7 @@ function fmtShort(v) {
 }
 
 // init
+popularFiltros();
 renderAtivos();
 </script>
 
@@ -717,18 +843,18 @@ renderAtivos();
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --bg: #020617;
-  --surface: #0d1526;
+  --bg:       #020617;
+  --surface:  #0d1526;
   --surface2: #111827;
-  --border: #1e293b;
-  --border2: #263148;
-  --text: #f1f5f9;
-  --muted: #64748b;
-  --accent: #22c55e;
-  --accent2: #16a34a;
-  --danger: #ef4444;
-  --yellow: #facc15;
-  --blue: #60a5fa;
+  --border:   #1e293b;
+  --border2:  #263148;
+  --text:     #f1f5f9;
+  --muted:    #64748b;
+  --accent:   #22c55e;
+  --accent2:  #16a34a;
+  --danger:   #ef4444;
+  --yellow:   #facc15;
+  --blue:     #60a5fa;
 }
 
 body {
@@ -756,16 +882,12 @@ body {
 .page {
   position: relative;
   z-index: 1;
-  max-width: 1200px; /* aumentei */
+  max-width: 1200px;
   margin: 0 auto;
   padding: 24px 16px 80px;
 }
-
-/* Mobile */
 @media (max-width: 768px) {
-  .page {
-    padding: 16px 12px 60px;
-  }
+  .page { padding: 16px 12px 60px; }
 }
 
 /* ─── HEADER ─── */
@@ -858,27 +980,21 @@ body {
   border-radius: 20px;
   padding: 32px;
 }
-
-/* Mobile */
 @media (max-width: 768px) {
-  .panel {
-    padding: 20px 16px;
-    border-radius: 16px;
-  }
+  .panel { padding: 20px 16px; border-radius: 16px; }
 }
-
 .panel.hidden { display: none; }
 
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(12px); }
-  to { opacity: 1; transform: translateY(0); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 @keyframes shake {
   0%,100% { transform: translateX(0); }
-  20% { transform: translateX(-8px); }
-  40% { transform: translateX(8px); }
-  60% { transform: translateX(-5px); }
-  80% { transform: translateX(5px); }
+  20%     { transform: translateX(-8px); }
+  40%     { transform: translateX(8px); }
+  60%     { transform: translateX(-5px); }
+  80%     { transform: translateX(5px); }
 }
 .shake { animation: shake .45s ease; }
 
@@ -1027,7 +1143,6 @@ input[type=number]::-webkit-inner-spin-button { opacity: 0; }
   letter-spacing: .5px;
 }
 .btn-next:hover { filter: brightness(1.1); transform: translateY(-1px); box-shadow: 0 8px 24px rgba(34,197,94,0.25); }
-
 .btn-back {
   padding: 14px 24px;
   background: transparent;
@@ -1041,23 +1156,20 @@ input[type=number]::-webkit-inner-spin-button { opacity: 0; }
   transition: all .2s;
 }
 .btn-back:hover { color: var(--text); border-color: var(--text); }
-
-.nav-btns {
-  display: flex;
-  gap: 12px;
-  margin-top: 32px;
-}
+.nav-btns { display: flex; gap: 12px; margin-top: 32px; }
 .nav-btns .btn-next { flex: 1; }
 
 /* ─── FILTROS ─── */
 .filtros-row {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
   margin-bottom: 20px;
+  flex-wrap: wrap;
 }
 .search-wrap {
   flex: 1;
+  min-width: 160px;
   display: flex;
   align-items: center;
   gap: 10px;
@@ -1076,6 +1188,29 @@ input[type=number]::-webkit-inner-spin-button { opacity: 0; }
   font-size: 14px;
   width: 100%;
 }
+
+/* Select de filtro */
+.select-filtro {
+  background: var(--bg);
+  border: 1px solid var(--border2);
+  border-radius: 12px;
+  color: var(--text);
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  padding: 10px 14px;
+  cursor: pointer;
+  outline: none;
+  transition: border-color .2s;
+  min-width: 130px;
+  max-width: 190px;
+  flex-shrink: 0;
+}
+.select-filtro:focus { border-color: var(--accent); }
+.select-filtro option {
+  background: var(--surface2);
+  color: var(--text);
+}
+
 .count-badge {
   font-size: 12px;
   font-family: 'DM Mono', monospace;
@@ -1085,6 +1220,17 @@ input[type=number]::-webkit-inner-spin-button { opacity: 0; }
   padding: 8px 14px;
   border-radius: 99px;
   white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* Estado vazio */
+.empty-state {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--muted);
+  font-size: 14px;
+  font-family: 'DM Mono', monospace;
 }
 
 /* ─── ATIVOS GRID ─── */
@@ -1158,6 +1304,7 @@ input[type=number]::-webkit-inner-spin-button { opacity: 0; }
   display: flex;
   gap: 6px;
   justify-content: space-between;
+  margin-bottom: 6px;
 }
 .ativo-stat { text-align: center; flex: 1; }
 .stat-label {
@@ -1175,15 +1322,34 @@ input[type=number]::-webkit-inner-spin-button { opacity: 0; }
 .stat-val.dy { color: var(--accent); }
 
 .setor-tag {
-  position: absolute;
-  top: 8px; right: 8px;
   font-size: 9px;
   font-family: 'DM Mono', monospace;
   color: var(--muted);
   background: var(--surface2);
   border-radius: 99px;
   padding: 2px 7px;
-  opacity: 0.7;
+  opacity: 0.8;
+  display: inline-block;
+  margin-top: 2px;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.cat-tag {
+  font-size: 9px;
+  font-family: 'DM Mono', monospace;
+  color: #60a5fa;
+  background: rgba(96,165,250,0.08);
+  border: 1px solid rgba(96,165,250,0.2);
+  border-radius: 99px;
+  padding: 2px 7px;
+  display: inline-block;
+  margin-top: 3px;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 /* ─── MÉTRICAS ─── */
@@ -1230,13 +1396,30 @@ input[type=number]::-webkit-inner-spin-button { opacity: 0; }
   padding: 2px 8px;
 }
 
-/* ─── CHART ─── */
+/* ─── CHARTS ROW ─── */
+.charts-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+  margin-bottom: 24px;
+}
+@media (min-width: 768px) {
+  .charts-row { grid-template-columns: 1fr; }
+}
+
+/* ─── CHART CARD ─── */
 .chart-card {
   background: var(--bg);
   border: 1px solid var(--border);
   border-radius: 16px;
   padding: 24px;
   margin-bottom: 24px;
+}
+.chart-card-pie { margin-bottom: 0; }
+.chart-subtitle {
+  font-size: 12px;
+  font-family: 'DM Mono', monospace;
+  color: var(--muted);
 }
 .chart-header {
   display: flex;
@@ -1267,18 +1450,52 @@ input[type=number]::-webkit-inner-spin-button { opacity: 0; }
   width: 100%;
   height: 280px;
 }
+@media (min-width: 768px)  { .chart-wrap { height: 380px; } }
+@media (min-width: 1200px) { .chart-wrap { height: 420px; } }
 
-@media (min-width: 768px) {
-  .chart-wrap {
-    height: 380px;
-  }
+/* ─── PIE CHART ─── */
+.pie-wrap {
+  position: relative;
+  width: 100%;
+  height: 260px;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+.pie-wrap canvas {
+  max-width: 260px;
+}
+.pizza-legend {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 10px;
+  padding-top: 8px;
+  border-top: 1px solid var(--border);
+}
+.pizza-leg-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  font-family: 'DM Mono', monospace;
+}
+.pizza-leg-dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.pizza-leg-label {
+  flex: 1;
+  color: var(--muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.pizza-leg-pct {
+  color: var(--text);
+  font-weight: 500;
 }
 
-@media (min-width: 1200px) {
-  .chart-wrap {
-    height: 420px;
-  }
-}
 /* ─── ATIVOS RESULT ─── */
 .ativos-result-grid {
   background: var(--bg);
@@ -1298,10 +1515,11 @@ input[type=number]::-webkit-inner-spin-button { opacity: 0; }
 .ativo-result-row {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
   padding: 12px 20px;
   border-bottom: 1px solid var(--border);
   transition: background .15s;
+  flex-wrap: wrap;
 }
 .ativo-result-row:last-child { border-bottom: none; }
 .ativo-result-row:hover { background: var(--surface2); }
@@ -1318,7 +1536,25 @@ input[type=number]::-webkit-inner-spin-button { opacity: 0; }
   font-size: 13px;
   min-width: 52px;
 }
-.ativo-emp-sm { font-size: 13px; color: var(--muted); flex: 1; }
+.ativo-emp-sm { font-size: 13px; color: var(--muted); flex: 1; min-width: 80px; }
+.setor-badge {
+  font-size: 11px;
+  font-family: 'DM Mono', monospace;
+  color: var(--muted);
+  background: var(--surface2);
+  border: 1px solid var(--border2);
+  padding: 3px 9px;
+  border-radius: 99px;
+}
+.cat-badge {
+  font-size: 11px;
+  font-family: 'DM Mono', monospace;
+  color: #60a5fa;
+  background: rgba(96,165,250,0.08);
+  border: 1px solid rgba(96,165,250,0.2);
+  padding: 3px 9px;
+  border-radius: 99px;
+}
 .dy-badge {
   font-size: 12px;
   font-family: 'DM Mono', monospace;
@@ -1329,23 +1565,12 @@ input[type=number]::-webkit-inner-spin-button { opacity: 0; }
   border-radius: 99px;
 }
 
+/* ─── MISC ─── */
 @media (max-width: 640px) {
-  .header-inner {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 12px;
-  }
+  .header-inner { flex-direction: column; align-items: flex-start; gap: 12px; }
 }
-
-html, body {
-  max-width: 100%;
-  overflow-x: hidden;
-}
-
-.chart-legend {
-  justify-content: flex-start;
-}
-
+html, body { max-width: 100%; overflow-x: hidden; }
+.chart-legend { justify-content: flex-start; }
 </style>
 </body>
 </html>

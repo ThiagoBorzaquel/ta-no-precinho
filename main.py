@@ -2371,32 +2371,41 @@ function cmpComparar() {{
     )
     print("comparar.html gerado.")
 
-# =========================
-# GERAR PÁGINA SIMULADOR
-# =========================
 
 # =========================
 # GERAR PÁGINA SIMULADOR
 # =========================
+
 
 def gerar_simulador(df):
     """
     Gera a página simulador-pro.html com o top-50 ativos por Score.
+    Inclui:
+      - Filtros de Setor e Categoria na seleção de ativos
+      - Gráfico de pizza com divisão percentual por setor no resultado
     Usa .replace() para injetar o JSON — sem f-string no HTML para evitar
     conflitos com chaves CSS/JS.
     """
-    import json
+    
 
     top = df.nlargest(50, "Score")
 
+    # Garante que todas as colunas opcionais existam com fallback seguro
+    def safe_get(row, col, default="Outros"):
+        val = row.get(col, default)
+        if val is None or (isinstance(val, float) and __import__("math").isnan(val)):
+            return default
+        return str(val).strip() or default
+
     dados = json.dumps([
         {
-            "ticker": row["Ticker"],
-            "empresa": row["Empresa"],
-            "dy": round(float(row["DivYield"]), 4),
-            "score": int(row["Score"]),
-            "preco": round(float(row["Preco"]), 2),
-            "setor": row.get("Setor", "Outros"),
+            "ticker":    row["Ticker"],
+            "empresa":   row["Empresa"],
+            "dy":        round(float(row["DivYield"]), 4),
+            "score":     int(row["Score"]),
+            "preco":     round(float(row["Preco"]), 2),
+            "setor":     safe_get(row, "Setor",      "Outros"),
+            "categoria": safe_get(row, "Categoria",  "Ação"),
         }
         for _, row in top.iterrows()
     ], ensure_ascii=False)
@@ -2527,15 +2536,22 @@ HTML_TEMPLATE = """<!DOCTYPE html>
       <div class="panel-num">02</div>
       <div>
         <h2>Selecione os ativos</h2>
-        <p>Escolha até 10 ações para compor sua carteira simulada.</p>
+        <p>Escolha até 10 ativos para compor sua carteira simulada.</p>
       </div>
     </div>
 
+    <!-- FILTROS: busca + setor + categoria -->
     <div class="filtros-row">
       <div class="search-wrap">
         <span>🔍</span>
         <input type="text" id="busca" placeholder="Buscar ticker ou empresa..." oninput="filtrarAtivos()">
       </div>
+      <select id="filtro-setor" class="select-filtro" onchange="filtrarAtivos()">
+        <option value="">Todos os setores</option>
+      </select>
+      <select id="filtro-categoria" class="select-filtro" onchange="filtrarAtivos()">
+        <option value="">Todas as categorias</option>
+      </select>
       <div id="selecionados-count" class="count-badge">0 selecionados</div>
     </div>
 
@@ -2559,6 +2575,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 
     <div class="metricas-grid" id="metricas"></div>
 
+    <!-- Gráfico de linha: evolução patrimonial -->
     <div class="chart-card">
       <div class="chart-header">
         <h3>Evolução patrimonial</h3>
@@ -2566,6 +2583,20 @@ HTML_TEMPLATE = """<!DOCTYPE html>
       </div>
       <div class="chart-wrap">
         <canvas id="grafico"></canvas>
+      </div>
+    </div>
+
+    <!-- Gráfico de pizza: divisão por setor -->
+    <div class="charts-row">
+      <div class="chart-card chart-card-pie">
+        <div class="chart-header">
+          <h3>Divisão por setor</h3>
+          <span class="chart-subtitle">% de ativos na carteira</span>
+        </div>
+        <div class="pie-wrap">
+          <canvas id="grafico-pizza"></canvas>
+        </div>
+        <div id="pizza-legend" class="pizza-legend"></div>
       </div>
     </div>
 
@@ -2581,15 +2612,16 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 
 <script>
 // ─────────────────────────────────────────────
-// DADOS (serão injetados pelo Python em prod)
+// DADOS (injetados pelo Python em produção)
 // ─────────────────────────────────────────────
 const DADOS = __DADOS_JSON__;
 
 // ─────────────────────────────────────────────
 // ESTADO
 // ─────────────────────────────────────────────
-let selecionados = new Set();
-let chartInstance = null;
+let selecionados    = new Set();
+let chartInstance   = null;
+let pizzaInstance   = null;
 
 // ─────────────────────────────────────────────
 // STEPS
@@ -2607,11 +2639,12 @@ function irParaStep(n) {
 
 function irParaAtivos() {
   const valor = parseFloat(document.getElementById('valor').value);
-  const anos = parseFloat(document.getElementById('anos').value);
+  const anos  = parseFloat(document.getElementById('anos').value);
   if (!valor || valor <= 0 || !anos || anos <= 0) {
     shakePanelError('panel-1');
     return;
   }
+  popularFiltros();
   renderAtivos();
   irParaStep(2);
 }
@@ -2640,23 +2673,59 @@ document.querySelectorAll('.bench-pill input').forEach(cb => {
 });
 
 // ─────────────────────────────────────────────
-// RENDER ATIVOS
+// POPULAR FILTROS DE SETOR E CATEGORIA
+// ─────────────────────────────────────────────
+function popularFiltros() {
+  const setores     = [...new Set(DADOS.map(a => a.setor).filter(Boolean))].sort();
+  const categorias  = [...new Set(DADOS.map(a => a.categoria).filter(Boolean))].sort();
+
+  const selSetor = document.getElementById('filtro-setor');
+  const selCat   = document.getElementById('filtro-categoria');
+
+  // Preserva seleção atual ao re-popular
+  const setorAtual = selSetor.value;
+  const catAtual   = selCat.value;
+
+  selSetor.innerHTML = '<option value="">Todos os setores</option>' +
+    setores.map(s => `<option value="${s}"${s === setorAtual ? ' selected' : ''}>${s}</option>`).join('');
+
+  selCat.innerHTML = '<option value="">Todas as categorias</option>' +
+    categorias.map(c => `<option value="${c}"${c === catAtual ? ' selected' : ''}>${c}</option>`).join('');
+}
+
+// ─────────────────────────────────────────────
+// RENDER ATIVOS COM FILTROS
 // ─────────────────────────────────────────────
 let dadosFiltrados = [...DADOS];
 
 function filtrarAtivos() {
-  const q = document.getElementById('busca').value.toLowerCase();
-  dadosFiltrados = DADOS.filter(a =>
-    a.ticker.toLowerCase().includes(q) || a.empresa.toLowerCase().includes(q)
-  );
+  const q      = document.getElementById('busca').value.toLowerCase().trim();
+  const setor  = document.getElementById('filtro-setor').value;
+  const cat    = document.getElementById('filtro-categoria').value;
+
+  dadosFiltrados = DADOS.filter(a => {
+    const matchTexto = !q ||
+      a.ticker.toLowerCase().includes(q) ||
+      a.empresa.toLowerCase().includes(q);
+    const matchSetor = !setor || a.setor === setor;
+    const matchCat   = !cat   || a.categoria === cat;
+    return matchTexto && matchSetor && matchCat;
+  });
+
   renderAtivos();
 }
 
 function renderAtivos() {
   const grid = document.getElementById('ativos-grid');
+  if (dadosFiltrados.length === 0) {
+    grid.innerHTML = '<div class="empty-state">Nenhum ativo encontrado para os filtros selecionados.</div>';
+    atualizarContador();
+    return;
+  }
+
   grid.innerHTML = dadosFiltrados.map(a => {
-    const sel = selecionados.has(a.ticker);
-    const dyPct = (a.dy * 100).toFixed(2);
+    const sel    = selecionados.has(a.ticker);
+    const dyPct  = (a.dy * 100).toFixed(2);
     return `
     <div class="ativo-card ${sel ? 'sel' : ''}" onclick="toggleAtivo('${a.ticker}')" data-ticker="${a.ticker}">
       <div class="ativo-top">
@@ -2684,8 +2753,10 @@ function renderAtivos() {
         </div>
       </div>
       <div class="setor-tag">${a.setor}</div>
+      <div class="cat-tag">${a.categoria}</div>
     </div>`;
   }).join('');
+
   atualizarContador();
 }
 
@@ -2720,24 +2791,17 @@ function atualizarContador() {
 function simular() {
   if (selecionados.size === 0) { shakePanelError('panel-2'); return; }
 
-  const valor = parseFloat(document.getElementById('valor').value) || 0;
+  const valor  = parseFloat(document.getElementById('valor').value)  || 0;
   const aporte = parseFloat(document.getElementById('aporte').value) || 0;
-  const anos = parseFloat(document.getElementById('anos').value) || 10;
-  const meses = Math.round(anos * 12);
+  const anos   = parseFloat(document.getElementById('anos').value)   || 10;
+  const meses  = Math.round(anos * 12);
 
-  const ativos = DADOS.filter(d => selecionados.has(d.ticker));
+  const ativos  = DADOS.filter(d => selecionados.has(d.ticker));
   const dyMedio = ativos.reduce((s, a) => s + a.dy, 0) / ativos.length;
 
   // Séries mensais
-  const series = {
-    carteira: [],
-    cdi: [],
-    ibov: [],
-    sp500: [],
-    dolar: []
-  };
-
-  const taxas = { cdi: 0.11, ibov: 0.10, sp500: 0.09, dolar: 0.06 };
+  const series = { carteira: [], cdi: [], ibov: [], sp500: [], dolar: [] };
+  const taxas  = { cdi: 0.11, ibov: 0.10, sp500: 0.09, dolar: 0.06 };
 
   let totCarteira = valor;
   for (let i = 0; i < meses; i++) {
@@ -2753,11 +2817,11 @@ function simular() {
     }
   }
 
-  const finalCarteira = series.carteira[meses - 1];
+  const finalCarteira  = series.carteira[meses - 1];
   const totalInvestido = valor + aporte * meses;
-  const rendaMensal = (finalCarteira * dyMedio) / 12;
-  const ganho = finalCarteira - totalInvestido;
-  const ganhoPerc = ((finalCarteira / totalInvestido - 1) * 100).toFixed(1);
+  const rendaMensal    = (finalCarteira * dyMedio) / 12;
+  const ganho          = finalCarteira - totalInvestido;
+  const ganhoPerc      = ((finalCarteira / totalInvestido - 1) * 100).toFixed(1);
 
   // Métricas
   document.getElementById('metricas').innerHTML = `
@@ -2784,7 +2848,7 @@ function simular() {
   document.getElementById('resumo-params').textContent =
     `Capital inicial ${fmt(valor)} + aportes de ${fmt(aporte)}/mês por ${anos} anos`;
 
-  // Ativos result
+  // Ativos resultado
   document.getElementById('ativos-result').innerHTML =
     `<div class="ativos-result-title">Ativos selecionados</div>` +
     ativos.map(a => `
@@ -2794,51 +2858,51 @@ function simular() {
         class="ativo-logo-sm">
       <span class="ativo-ticker-sm">${a.ticker}</span>
       <span class="ativo-emp-sm">${a.empresa}</span>
+      <span class="setor-badge">${a.setor}</span>
+      <span class="cat-badge">${a.categoria}</span>
       <span class="dy-badge">${(a.dy * 100).toFixed(2)}% DY</span>
     </div>`).join('');
 
   renderGrafico(series, meses, anos);
+  renderGraficoPizza(ativos);
   irParaStep(3);
 }
 
 // ─────────────────────────────────────────────
-// GRÁFICO
+// GRÁFICO DE LINHA — Evolução patrimonial
 // ─────────────────────────────────────────────
 const CORES = {
   carteira: '#22c55e',
-  cdi: '#facc15',
-  ibov: '#60a5fa',
-  sp500: '#f472b6',
-  dolar: '#a78bfa',
+  cdi:      '#facc15',
+  ibov:     '#60a5fa',
+  sp500:    '#f472b6',
+  dolar:    '#a78bfa',
 };
 
 function renderGrafico(series, meses, anos) {
   const ctx = document.getElementById('grafico').getContext('2d');
   if (chartInstance) { chartInstance.destroy(); chartInstance = null; }
 
-  // Labels: anos
   const labels = Array.from({ length: meses }, (_, i) => {
     const a = Math.floor(i / 12) + 1;
     return i % 12 === 0 ? `Ano ${a}` : '';
   });
 
-  const datasets = [
-    {
-      label: 'Sua carteira',
-      data: series.carteira,
-      borderColor: CORES.carteira,
-      backgroundColor: 'rgba(34,197,94,0.08)',
-      borderWidth: 2.5,
-      fill: true,
-      tension: 0.4,
-      pointRadius: 0,
-      pointHoverRadius: 5,
-    }
-  ];
+  const datasets = [{
+    label: 'Sua carteira',
+    data: series.carteira,
+    borderColor: CORES.carteira,
+    backgroundColor: 'rgba(34,197,94,0.08)',
+    borderWidth: 2.5,
+    fill: true,
+    tension: 0.4,
+    pointRadius: 0,
+    pointHoverRadius: 5,
+  }];
 
   const benchActive = {
-    cdi: document.getElementById('cdi').checked,
-    ibov: document.getElementById('ibov').checked,
+    cdi:   document.getElementById('cdi').checked,
+    ibov:  document.getElementById('ibov').checked,
     sp500: document.getElementById('sp500').checked,
     dolar: document.getElementById('dolar').checked,
   };
@@ -2874,9 +2938,7 @@ function renderGrafico(series, meses, anos) {
           borderColor: '#1e293b',
           borderWidth: 1,
           padding: 12,
-          callbacks: {
-            label: ctx => ` ${ctx.dataset.label}: ${fmt(ctx.raw)}`,
-          }
+          callbacks: { label: ctx => ` ${ctx.dataset.label}: ${fmt(ctx.raw)}` }
         }
       },
       scales: {
@@ -2896,13 +2958,85 @@ function renderGrafico(series, meses, anos) {
     }
   });
 
-  // Legend manual
+  // Legenda manual
   const leg = document.getElementById('chart-legend');
   leg.innerHTML = datasets.map(d => `
     <div class="leg-item">
       <span class="leg-dot" style="background:${d.borderColor}"></span>
       ${d.label}
     </div>`).join('');
+}
+
+// ─────────────────────────────────────────────
+// GRÁFICO DE PIZZA — Divisão por setor
+// ─────────────────────────────────────────────
+const PIZZA_CORES = [
+  '#22c55e','#60a5fa','#facc15','#f472b6','#a78bfa',
+  '#fb923c','#34d399','#f87171','#38bdf8','#c084fc',
+  '#fbbf24','#4ade80','#818cf8','#e879f9','#2dd4bf',
+];
+
+function renderGraficoPizza(ativos) {
+  const ctx = document.getElementById('grafico-pizza').getContext('2d');
+  if (pizzaInstance) { pizzaInstance.destroy(); pizzaInstance = null; }
+
+  // Conta ativos por setor
+  const contagem = {};
+  ativos.forEach(a => {
+    const s = a.setor || 'Outros';
+    contagem[s] = (contagem[s] || 0) + 1;
+  });
+
+  const total   = ativos.length;
+  const labels  = Object.keys(contagem);
+  const valores = Object.values(contagem);
+  const cores   = labels.map((_, i) => PIZZA_CORES[i % PIZZA_CORES.length]);
+
+  pizzaInstance = new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+      labels,
+      datasets: [{
+        data: valores,
+        backgroundColor: cores,
+        borderColor: '#020617',
+        borderWidth: 3,
+        hoverOffset: 8,
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      cutout: '62%',
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: '#0f172a',
+          borderColor: '#1e293b',
+          borderWidth: 1,
+          padding: 12,
+          callbacks: {
+            label: ctx => {
+              const pct = ((ctx.raw / total) * 100).toFixed(1);
+              return ` ${ctx.label}: ${ctx.raw} ativo${ctx.raw > 1 ? 's' : ''} (${pct}%)`;
+            }
+          }
+        }
+      }
+    }
+  });
+
+  // Legenda personalizada
+  const legEl = document.getElementById('pizza-legend');
+  legEl.innerHTML = labels.map((label, i) => {
+    const pct = ((valores[i] / total) * 100).toFixed(1);
+    return `
+      <div class="pizza-leg-item">
+        <span class="pizza-leg-dot" style="background:${cores[i]}"></span>
+        <span class="pizza-leg-label">${label}</span>
+        <span class="pizza-leg-pct">${pct}%</span>
+      </div>`;
+  }).join('');
 }
 
 // ─────────────────────────────────────────────
@@ -2918,6 +3052,7 @@ function fmtShort(v) {
 }
 
 // init
+popularFiltros();
 renderAtivos();
 </script>
 
@@ -2926,18 +3061,18 @@ renderAtivos();
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --bg: #020617;
-  --surface: #0d1526;
+  --bg:       #020617;
+  --surface:  #0d1526;
   --surface2: #111827;
-  --border: #1e293b;
-  --border2: #263148;
-  --text: #f1f5f9;
-  --muted: #64748b;
-  --accent: #22c55e;
-  --accent2: #16a34a;
-  --danger: #ef4444;
-  --yellow: #facc15;
-  --blue: #60a5fa;
+  --border:   #1e293b;
+  --border2:  #263148;
+  --text:     #f1f5f9;
+  --muted:    #64748b;
+  --accent:   #22c55e;
+  --accent2:  #16a34a;
+  --danger:   #ef4444;
+  --yellow:   #facc15;
+  --blue:     #60a5fa;
 }
 
 body {
@@ -2965,16 +3100,12 @@ body {
 .page {
   position: relative;
   z-index: 1;
-  max-width: 1200px; /* aumentei */
+  max-width: 1200px;
   margin: 0 auto;
   padding: 24px 16px 80px;
 }
-
-/* Mobile */
 @media (max-width: 768px) {
-  .page {
-    padding: 16px 12px 60px;
-  }
+  .page { padding: 16px 12px 60px; }
 }
 
 /* ─── HEADER ─── */
@@ -3067,27 +3198,21 @@ body {
   border-radius: 20px;
   padding: 32px;
 }
-
-/* Mobile */
 @media (max-width: 768px) {
-  .panel {
-    padding: 20px 16px;
-    border-radius: 16px;
-  }
+  .panel { padding: 20px 16px; border-radius: 16px; }
 }
-
 .panel.hidden { display: none; }
 
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(12px); }
-  to { opacity: 1; transform: translateY(0); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 @keyframes shake {
   0%,100% { transform: translateX(0); }
-  20% { transform: translateX(-8px); }
-  40% { transform: translateX(8px); }
-  60% { transform: translateX(-5px); }
-  80% { transform: translateX(5px); }
+  20%     { transform: translateX(-8px); }
+  40%     { transform: translateX(8px); }
+  60%     { transform: translateX(-5px); }
+  80%     { transform: translateX(5px); }
 }
 .shake { animation: shake .45s ease; }
 
@@ -3236,7 +3361,6 @@ input[type=number]::-webkit-inner-spin-button { opacity: 0; }
   letter-spacing: .5px;
 }
 .btn-next:hover { filter: brightness(1.1); transform: translateY(-1px); box-shadow: 0 8px 24px rgba(34,197,94,0.25); }
-
 .btn-back {
   padding: 14px 24px;
   background: transparent;
@@ -3250,23 +3374,20 @@ input[type=number]::-webkit-inner-spin-button { opacity: 0; }
   transition: all .2s;
 }
 .btn-back:hover { color: var(--text); border-color: var(--text); }
-
-.nav-btns {
-  display: flex;
-  gap: 12px;
-  margin-top: 32px;
-}
+.nav-btns { display: flex; gap: 12px; margin-top: 32px; }
 .nav-btns .btn-next { flex: 1; }
 
 /* ─── FILTROS ─── */
 .filtros-row {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
   margin-bottom: 20px;
+  flex-wrap: wrap;
 }
 .search-wrap {
   flex: 1;
+  min-width: 160px;
   display: flex;
   align-items: center;
   gap: 10px;
@@ -3285,6 +3406,29 @@ input[type=number]::-webkit-inner-spin-button { opacity: 0; }
   font-size: 14px;
   width: 100%;
 }
+
+/* Select de filtro */
+.select-filtro {
+  background: var(--bg);
+  border: 1px solid var(--border2);
+  border-radius: 12px;
+  color: var(--text);
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  padding: 10px 14px;
+  cursor: pointer;
+  outline: none;
+  transition: border-color .2s;
+  min-width: 130px;
+  max-width: 190px;
+  flex-shrink: 0;
+}
+.select-filtro:focus { border-color: var(--accent); }
+.select-filtro option {
+  background: var(--surface2);
+  color: var(--text);
+}
+
 .count-badge {
   font-size: 12px;
   font-family: 'DM Mono', monospace;
@@ -3294,6 +3438,17 @@ input[type=number]::-webkit-inner-spin-button { opacity: 0; }
   padding: 8px 14px;
   border-radius: 99px;
   white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* Estado vazio */
+.empty-state {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--muted);
+  font-size: 14px;
+  font-family: 'DM Mono', monospace;
 }
 
 /* ─── ATIVOS GRID ─── */
@@ -3367,6 +3522,7 @@ input[type=number]::-webkit-inner-spin-button { opacity: 0; }
   display: flex;
   gap: 6px;
   justify-content: space-between;
+  margin-bottom: 6px;
 }
 .ativo-stat { text-align: center; flex: 1; }
 .stat-label {
@@ -3384,15 +3540,34 @@ input[type=number]::-webkit-inner-spin-button { opacity: 0; }
 .stat-val.dy { color: var(--accent); }
 
 .setor-tag {
-  position: absolute;
-  top: 8px; right: 8px;
   font-size: 9px;
   font-family: 'DM Mono', monospace;
   color: var(--muted);
   background: var(--surface2);
   border-radius: 99px;
   padding: 2px 7px;
-  opacity: 0.7;
+  opacity: 0.8;
+  display: inline-block;
+  margin-top: 2px;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.cat-tag {
+  font-size: 9px;
+  font-family: 'DM Mono', monospace;
+  color: #60a5fa;
+  background: rgba(96,165,250,0.08);
+  border: 1px solid rgba(96,165,250,0.2);
+  border-radius: 99px;
+  padding: 2px 7px;
+  display: inline-block;
+  margin-top: 3px;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 /* ─── MÉTRICAS ─── */
@@ -3439,13 +3614,30 @@ input[type=number]::-webkit-inner-spin-button { opacity: 0; }
   padding: 2px 8px;
 }
 
-/* ─── CHART ─── */
+/* ─── CHARTS ROW ─── */
+.charts-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+  margin-bottom: 24px;
+}
+@media (min-width: 768px) {
+  .charts-row { grid-template-columns: 1fr; }
+}
+
+/* ─── CHART CARD ─── */
 .chart-card {
   background: var(--bg);
   border: 1px solid var(--border);
   border-radius: 16px;
   padding: 24px;
   margin-bottom: 24px;
+}
+.chart-card-pie { margin-bottom: 0; }
+.chart-subtitle {
+  font-size: 12px;
+  font-family: 'DM Mono', monospace;
+  color: var(--muted);
 }
 .chart-header {
   display: flex;
@@ -3476,18 +3668,52 @@ input[type=number]::-webkit-inner-spin-button { opacity: 0; }
   width: 100%;
   height: 280px;
 }
+@media (min-width: 768px)  { .chart-wrap { height: 380px; } }
+@media (min-width: 1200px) { .chart-wrap { height: 420px; } }
 
-@media (min-width: 768px) {
-  .chart-wrap {
-    height: 380px;
-  }
+/* ─── PIE CHART ─── */
+.pie-wrap {
+  position: relative;
+  width: 100%;
+  height: 260px;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+.pie-wrap canvas {
+  max-width: 260px;
+}
+.pizza-legend {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 10px;
+  padding-top: 8px;
+  border-top: 1px solid var(--border);
+}
+.pizza-leg-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  font-family: 'DM Mono', monospace;
+}
+.pizza-leg-dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.pizza-leg-label {
+  flex: 1;
+  color: var(--muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.pizza-leg-pct {
+  color: var(--text);
+  font-weight: 500;
 }
 
-@media (min-width: 1200px) {
-  .chart-wrap {
-    height: 420px;
-  }
-}
 /* ─── ATIVOS RESULT ─── */
 .ativos-result-grid {
   background: var(--bg);
@@ -3507,10 +3733,11 @@ input[type=number]::-webkit-inner-spin-button { opacity: 0; }
 .ativo-result-row {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
   padding: 12px 20px;
   border-bottom: 1px solid var(--border);
   transition: background .15s;
+  flex-wrap: wrap;
 }
 .ativo-result-row:last-child { border-bottom: none; }
 .ativo-result-row:hover { background: var(--surface2); }
@@ -3527,7 +3754,25 @@ input[type=number]::-webkit-inner-spin-button { opacity: 0; }
   font-size: 13px;
   min-width: 52px;
 }
-.ativo-emp-sm { font-size: 13px; color: var(--muted); flex: 1; }
+.ativo-emp-sm { font-size: 13px; color: var(--muted); flex: 1; min-width: 80px; }
+.setor-badge {
+  font-size: 11px;
+  font-family: 'DM Mono', monospace;
+  color: var(--muted);
+  background: var(--surface2);
+  border: 1px solid var(--border2);
+  padding: 3px 9px;
+  border-radius: 99px;
+}
+.cat-badge {
+  font-size: 11px;
+  font-family: 'DM Mono', monospace;
+  color: #60a5fa;
+  background: rgba(96,165,250,0.08);
+  border: 1px solid rgba(96,165,250,0.2);
+  padding: 3px 9px;
+  border-radius: 99px;
+}
 .dy-badge {
   font-size: 12px;
   font-family: 'DM Mono', monospace;
@@ -3538,27 +3783,17 @@ input[type=number]::-webkit-inner-spin-button { opacity: 0; }
   border-radius: 99px;
 }
 
+/* ─── MISC ─── */
 @media (max-width: 640px) {
-  .header-inner {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 12px;
-  }
+  .header-inner { flex-direction: column; align-items: flex-start; gap: 12px; }
 }
-
-html, body {
-  max-width: 100%;
-  overflow-x: hidden;
-}
-
-.chart-legend {
-  justify-content: flex-start;
-}
-
+html, body { max-width: 100%; overflow-x: hidden; }
+.chart-legend { justify-content: flex-start; }
 </style>
 </body>
 </html>
 """
+
 
 # =========================
 # SETUP DIRETÓRIOS
@@ -3586,7 +3821,7 @@ gerar_paginas_ranking(df)
 gerar_paginas_high_intent(df)
 gerar_paginas_setores(df)
 gerar_paginas_categorias(df)
-gerar_simulador(df)
+gerar_simulador(df)  
 gerar_sitemap(df)
 
 # =========================
