@@ -1,0 +1,41 @@
+
+    <style>
+    .charts-bottom{
+      display:grid;
+      grid-template-columns:1fr minmax(220px,320px);
+      gap:16px;
+    }
+
+    .ativos-grid{
+      grid-template-columns:repeat(auto-fill,minmax(140px,1fr));
+    }
+
+    .chart-wrap{
+      height:clamp(220px,40vw,320px);
+    }
+
+    @media(max-width:360px){
+      .ativos-grid{grid-template-columns:1fr}
+    }
+
+    @media(max-width:640px){
+      .charts-bottom{grid-template-columns:1fr}
+    }
+
+    @media(max-width:400px){
+      .ativo-emp-sm{
+        display:block;
+        font-size:11px;
+      }
+    }
+    </style>
+
+    <html>
+    <body>
+    <script>
+    const DADOS = [{"ticker": "PETR4", "empresa": "Petrobras", "dy": 0.12, "score": 90, "preco": 35.5, "setor": "Energia", "categoria": "Dividendos"}, {"ticker": "VALE3", "empresa": "Vale", "dy": 0.08, "score": 85, "preco": 70.2, "setor": "Mineração", "categoria": "Commodities"}];
+    console.log(DADOS);
+    </script>
+    </body>
+    </html>
+    
