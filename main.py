@@ -2388,7 +2388,7 @@ def gerar_simulador(df):
     """
     
 
-    top = df.nlargest(50, "Score")
+    top = df.nlargest(100, "Score")
 
     # Garante que todas as colunas opcionais existam com fallback seguro
     def safe_get(row, col, default="Outros"):
