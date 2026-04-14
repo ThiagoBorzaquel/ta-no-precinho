@@ -2388,7 +2388,7 @@ def gerar_simulador(df):
     """
     
 
-    top = df.nlargest(50, "Score")
+    top = df.nlargest(100, "Score")
 
     # Garante que todas as colunas opcionais existam com fallback seguro
     def safe_get(row, col, default="Outros"):
@@ -4328,6 +4328,7 @@ document.addEventListener("DOMContentLoaded", () => {{
   <a href="on-pn.html">Diferença entre ações ON e PN</a>
   <a href="dividend-yield.html">Dividend Yield</a>
   <a href="estrategia-investidor.html">Como Investir Melhor em Ações</a>
+  <a href="doacoes.html">💚 Apoie o Projeto</a>
 </div>
 </nav>
 
@@ -4593,6 +4594,7 @@ html += f"""
 <a href="cookies.html">Cookies</a>
 <a href="sobre.html">Sobre</a>
 <a href="contato.html">Contato</a>
+<a href="doacoes.html">💚 Apoie o Projeto</a>
 </nav>
 <div class="footer-copy">© Tá no Precinho, 2026 — Todos os direitos reservados.</div>
 </div>
