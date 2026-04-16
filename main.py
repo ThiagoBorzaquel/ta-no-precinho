@@ -19,7 +19,6 @@ from scripts.logo_manager import preparar_logos
 from scripts.collect_data import get_b3_tickers, get_stock_data, filtrar_acoes_validas
 from scripts.history_manager import salvar_historico
 from scripts.history_analysis import carregar_historico
-from scripts.gerar_calendario_dividendos import gerar_calendario_dividendos_completo
 
 
 traducao_setores = {
@@ -4475,7 +4474,7 @@ def gerar_calendario_dividendos_completo(df):
   <!-- HERO -->
   <header class="cal-hero">
     <div class="cal-hero-inner">
-      <div class="cal-eyebrow">Tanoprecinho • B3</div>
+      <div class="cal-eyebrow">Ta no precinho • B3</div>
       <h1 class="cal-title">Calendário de<br>Dividendos 2026</h1>
       <p class="cal-subtitle">Proventos pagos ao longo do ano, direto da B3.</p>
 
