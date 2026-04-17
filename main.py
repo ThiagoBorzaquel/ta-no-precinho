@@ -3813,8 +3813,6 @@ html, body { max-width: 100%; overflow-x: hidden; }
 
 def gerar_calendario_dividendos_completo(df):
 
-    import pandas as pd
-    import yfinance as yf
 
     print("📅 Gerando calendário de dividendos...")
 
@@ -3931,7 +3929,7 @@ def gerar_calendario_dividendos_completo(df):
              data-valor="{valor}"
              data-data="{row['DataPagamento'].strftime('%Y%m%d')}">
 
-            <div class="card-left">
+            <a class="card-left" href="../acoes/{row['Ticker']}.html" title="Ver análise de {row['Ticker']}">
                 <div class="logo-wrap">
                     <img src="../logos/{row['Ticker']}.png"
                          onerror="this.src='../logos/default.svg'"
@@ -3943,7 +3941,7 @@ def gerar_calendario_dividendos_completo(df):
                     <span class="empresa-label">{empresa}</span>
                     {f'<span class="setor-tag">{setor}</span>' if setor else ''}
                 </div>
-            </div>
+            </a>
 
             <div class="card-right">
                 {dy_badge}
@@ -4315,6 +4313,19 @@ def gerar_calendario_dividendos_completo(df):
     align-items: center;
     gap: 14px;
     min-width: 0;
+    text-decoration: none;
+    color: inherit;
+    flex: 1;
+}}
+
+.card-left:hover .ticker-label {{
+    color: var(--green);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}}
+
+.card-left:hover .logo-wrap {{
+    border-color: var(--green-mid);
 }}
 
 .logo-wrap {{
@@ -4474,7 +4485,7 @@ def gerar_calendario_dividendos_completo(df):
   <!-- HERO -->
   <header class="cal-hero">
     <div class="cal-hero-inner">
-      <div class="cal-eyebrow">Ta no precinho • B3</div>
+      <div class="cal-eyebrow">Tanoprecinho • B3</div>
       <h1 class="cal-title">Calendário de<br>Dividendos 2026</h1>
       <p class="cal-subtitle">Proventos pagos ao longo do ano, direto da B3.</p>
 
