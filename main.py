@@ -1178,13 +1178,13 @@ def gerar_pagina_acao(row):
 <section class="card" style="margin-top:24px;">
   <h2>🚀 Descubra oportunidades</h2>
   <ul>
-    <li><a href="/seo/melhores.html">🏆 Melhores ações</a></li>
-    <li><a href="/seo/dividendos.html">💰 Dividendos</a></li>
-    <li><a href="/seo/rentaveis.html">📈 Alta rentabilidade</a></li>
-    <li><a href="/seo/seguras.html">🛡 Mais seguras</a></li>
-    <li><a href="/seo/renda-mensal.html">💵 Renda mensal</a></li>
-    <li><a href="/seo/baratas.html">🔥 Ações baratas</a></li>
-    <li><a href="/seo/dividendos-2026.html">💸 Dividendos 2026</a></li>
+    <li><a href="/seo/melhores-acoes-para-investir.html">🏆 Melhores ações</a></li>
+    <li><a href="/seo/acoes-maior-dividend-yield.html">💰 Dividendos</a></li>
+    <li><a href="/seo/acoes-maior-roe.html">📈 Alta rentabilidade</a></li>
+    <li><a href="/seo/acoes-mais-seguras.html">🛡 Mais seguras</a></li>
+    <li><a href="/seo/acoes-dividendos-mensais.html">💵 Renda mensal</a></li>
+    <li><a href="/seo/acoes-baratas-2026.html">🔥 Ações baratas</a></li>
+    <li><a href="/seo/melhores-acoes-dividendos.html">💸 Dividendos 2026</a></li>
     <li><a href="/seo/comparar.html">↔️ Comparar Ações</a></li>
     <li><a href="/seo/investidores.html">📚 Maiores investidores da bolsa</a></li>
   </ul>
