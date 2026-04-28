@@ -186,7 +186,7 @@ gap: 8px;
 .metric:hover {
   transform: translateY(-4px);
   border-color: rgba(255,255,255,0.08);
-  opacity: 1;
+  
 }
 
 /* LABEL */
@@ -232,6 +232,24 @@ gap: 8px;
 /* NEGATIVO (se quiser usar depois) */
 .metric.negative .metric-value {
   color: #ef4444;
+}
+
+.metric::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at top left, rgba(255,255,255,0.05), transparent 60%);
+  opacity: 0;
+  transition: 0.3s;
+}
+
+.metric:hover::after {
+  opacity: 1;
+}
+
+h1 span {
+  color: #64748b;
+  font-weight: 500;
 }
 
 </style>
@@ -305,107 +323,51 @@ gap: 8px;
 
 <section class="metrics-grid">
   
-    <div style="
-    background:#020617;
-    padding:14px;
-    border-radius:14px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    ">
-        <span style="color:#cbd5e1">P/L</span>
-        <strong style="color:#e2e8f0">4.96</strong>
+    <div class="metric ">
+        <div class="metric-label">P/L</div>
+        <div class="metric-value">4.96</div>
     </div>
     
   
-    <div style="
-    background:#020617;
-    padding:14px;
-    border-radius:14px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    ">
-        <span style="color:#cbd5e1">P/VP</span>
-        <strong style="color:#e2e8f0">0.56</strong>
+    <div class="metric ">
+        <div class="metric-label">P/VP</div>
+        <div class="metric-value">0.56</div>
     </div>
     
   
-    <div style="
-    background:#020617;
-    padding:14px;
-    border-radius:14px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    ">
-        <span style="color:#cbd5e1">ROE</span>
-        <strong style="color:#e2e8f0">11.61%</strong>
+    <div class="metric ">
+        <div class="metric-label">ROE</div>
+        <div class="metric-value">11.61%</div>
     </div>
     
   
-    <div style="
-    background:#020617;
-    padding:14px;
-    border-radius:14px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    ">
-        <span style="color:#cbd5e1">DY</span>
-        <strong style="color:#e2e8f0">11.31%</strong>
+    <div class="metric ">
+        <div class="metric-label">DY</div>
+        <div class="metric-value">11.31%</div>
     </div>
     
   
-    <div style="
-    background:#020617;
-    padding:14px;
-    border-radius:14px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    ">
-        <span style="color:#cbd5e1">Score</span>
-        <strong style="color:#e2e8f0">65</strong>
+    <div class="metric score">
+        <div class="metric-label">Score</div>
+        <div class="metric-value">65</div>
     </div>
     
   
-    <div style="
-    background:#020617;
-    padding:14px;
-    border-radius:14px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    ">
-        <span style="color:#cbd5e1">Desconto</span>
-        <strong style="color:#e2e8f0">66.95%</strong>
+    <div class="metric desconto">
+        <div class="metric-label">Desconto</div>
+        <div class="metric-value">66.95%</div>
     </div>
     
   
-    <div style="
-    background:#020617;
-    padding:14px;
-    border-radius:14px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    ">
-        <span style="color:#cbd5e1">Preço atual</span>
-        <strong style="color:#e2e8f0">R$ 21.96</strong>
+    <div class="metric ">
+        <div class="metric-label">Preço atual</div>
+        <div class="metric-value">R$ 21.96</div>
     </div>
     
   
-    <div style="
-    background:#020617;
-    padding:14px;
-    border-radius:14px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    ">
-        <span style="color:#cbd5e1">Preço justo</span>
-        <strong style="color:#e2e8f0">R$ 66.45</strong>
+    <div class="metric highlight">
+        <div class="metric-label">Preço justo</div>
+        <div class="metric-value">R$ 66.45</div>
     </div>
     
 </section>
@@ -476,22 +438,65 @@ gap: 8px;
 
 <section class="card" style="margin-top:24px;">
   <h2>📰 Principais notícias sobre AZZA3</h2>
-  <p>Nenhuma notícia recente encontrada.</p>
+  
+<article style="padding:16px 0;border-bottom:1px solid #2a2a2a;">
+  <h3 style="margin:0 0 6px 0;">Azzas 2154 (AZZA3): UBS BB rebaixa varejista e corta preço-alvo, de olho na pressão sobre a receita; veja - Money Times</h3>
+  <p style="font-size:12px;opacity:.7;margin:0 0 8px 0;">Money Times • Thu, 23 Ap</p>
+  <p style="margin:0 0 10px 0;"><a href="https://news.google.com/rss/articles/CBMi0gFBVV95cUxNSEh4djEzTUE2WVlVOFNadTZ6UTJfcWFKb2hBN2JXQTlqeW5QX0FQSUJpM0dOLTlabXZ0NEJ3bUszeFNVelVvX1p5eFlKRS0wNWJOWUY4ODBTY1o3THgxa3RsYWRGY3JtNk53dXJwaU1sVWFhdlgyRmJZNndtYVh3aW13eFB0Rmt5RE90VWc1cTlCZXR0TUU0OEp3dnN5Nm9jUm9IS0gtWGpoQ0gtYW5pNENfOUY3YTRicmE2YXNkUEZCeXNhOXNTLTdvWVNnV1QySmc?oc=5" target="_blank">Azzas 2154 (AZZA3): UBS BB rebaixa varejista e corta preço-alvo, de olho na pressão sobre a receita; veja</a>&nbsp;&nbsp;<font color="#6f6f6f">Money Times</font></p>
+  <a href="https://news.google.com/rss/articles/CBMi0gFBVV95cUxNSEh4djEzTUE2WVlVOFNadTZ6UTJfcWFKb2hBN2JXQTlqeW5QX0FQSUJpM0dOLTlabXZ0NEJ3bUszeFNVelVvX1p5eFlKRS0wNWJOWUY4ODBTY1o3THgxa3RsYWRGY3JtNk53dXJwaU1sVWFhdlgyRmJZNndtYVh3aW13eFB0Rmt5RE90VWc1cTlCZXR0TUU0OEp3dnN5Nm9jUm9IS0gtWGpoQ0gtYW5pNENfOUY3YTRicmE2YXNkUEZCeXNhOXNTLTdvWVNnV1QySmc?oc=5" target="_blank" rel="noopener noreferrer"
+     style="font-size:13px;text-decoration:underline;">
+    Ler matéria original em Money Times ↗
+  </a>
+</article>
+
+<article style="padding:16px 0;border-bottom:1px solid #2a2a2a;">
+  <h3 style="margin:0 0 6px 0;">Azzas 2154: por que a saída de um executivo levou a uma reação tão extrema das ações - InfoMoney</h3>
+  <p style="font-size:12px;opacity:.7;margin:0 0 8px 0;">InfoMoney • Mon, 13 Ap</p>
+  <p style="margin:0 0 10px 0;"><a href="https://news.google.com/rss/articles/CBMixwFBVV95cUxOa2J2NXcxOFoxUGNtNmNLZnRDWnJYLXBoSnJjaFdtamxqOHBIbjQzb1kxNlVFWnJ0OWNUZGUzeGZMSkFrX1NTNXBxUl8yOGx1Q1ZxRmYxNVFmb3lIQlpOeERfbUxUM0laYlJtTmh6UnV1YzJwekp3dTQtVlR2VG5ZdnZWRVU5bnJ3LV92UnhBaFdIM09ncUU0QnB4OTJ4bmV2bmNhVkc1NWRhNkNRdXZOQTNKTkNETjY5eWplT25LZWNpNmZvbXJV0gHMAUFVX3lxTE9zaURkUTZTcWl2VkoxaUJoM0haaXI5Rnl2UmxHc2sySUk5cWlWdVlEOUxWWHlTMVFIbWx0X2o2amJITXNhaldtMW9DdTdfQURDOVRwVGNKb0pQS21GVlRYWHNUV3NUYVZrS2ZyS1pyWTJyeXB3dkEtZU14UFU2cHNjcEtLV0tPRUJxT2lULUV3eGREd2FzQmJUUHBsWWpmTmdxaDdjS1dOb3NEbmVIN0VQRGhUYWdhSWVkMlZGN19qdUlFdEZnUnZhTWIxSg?oc=5" target="_blank">Azzas 2154: por que a saída de um executivo levou a uma reação tão extrema das ações</a>&nbsp;&nbsp;<font color="#6f6f6f">InfoMoney</font></p>
+  <a href="https://news.google.com/rss/articles/CBMixwFBVV95cUxOa2J2NXcxOFoxUGNtNmNLZnRDWnJYLXBoSnJjaFdtamxqOHBIbjQzb1kxNlVFWnJ0OWNUZGUzeGZMSkFrX1NTNXBxUl8yOGx1Q1ZxRmYxNVFmb3lIQlpOeERfbUxUM0laYlJtTmh6UnV1YzJwekp3dTQtVlR2VG5ZdnZWRVU5bnJ3LV92UnhBaFdIM09ncUU0QnB4OTJ4bmV2bmNhVkc1NWRhNkNRdXZOQTNKTkNETjY5eWplT25LZWNpNmZvbXJV0gHMAUFVX3lxTE9zaURkUTZTcWl2VkoxaUJoM0haaXI5Rnl2UmxHc2sySUk5cWlWdVlEOUxWWHlTMVFIbWx0X2o2amJITXNhaldtMW9DdTdfQURDOVRwVGNKb0pQS21GVlRYWHNUV3NUYVZrS2ZyS1pyWTJyeXB3dkEtZU14UFU2cHNjcEtLV0tPRUJxT2lULUV3eGREd2FzQmJUUHBsWWpmTmdxaDdjS1dOb3NEbmVIN0VQRGhUYWdhSWVkMlZGN19qdUlFdEZnUnZhTWIxSg?oc=5" target="_blank" rel="noopener noreferrer"
+     style="font-size:13px;text-decoration:underline;">
+    Ler matéria original em InfoMoney ↗
+  </a>
+</article>
+
+<article style="padding:16px 0;border-bottom:1px solid #2a2a2a;">
+  <h3 style="margin:0 0 6px 0;">Sai um, entram dois: Azzas 2154 (AZZA3) reorganiza a casa após baixas no alto escalão; veja como fica agora - Seu Dinheiro</h3>
+  <p style="font-size:12px;opacity:.7;margin:0 0 8px 0;">Seu Dinheiro • Wed, 22 Ap</p>
+  <p style="margin:0 0 10px 0;"><a href="https://news.google.com/rss/articles/CBMi5AFBVV95cUxQbG9aYUZib0llR0w0bTlaNjRzdC1IbHlYWnZfb1R2bWFnemlmZWwwV1dtdVZvczNMZkl2R1YtRDE5QlZ5YXEtMmdBV1RhOWJqMjBxWUhKbldnUEg0RjhfTmM4Skd3aE9kLVlpNFdualUta3U3dkZ0OHFrWDNuVjl2LXdGdlhsaDVzaXc3bW9STzVNLTE0WGtTQm9qR05NQ0ZiUHlhUmNVMjBjX19rMUc0QXoxV3FDU1g1MVBOQm9UbW1UTC01Qi0yd1Znb2pObEhySHFWOVRRWXpZWnl5dHc4Y3ptZEc?oc=5" target="_blank">Sai um, entram dois: Azzas 2154 (AZZA3) reorganiza a casa após baixas no alto escalão; veja como fica agora</a>&nbsp;&nbsp;<font color="#6f6f6f">Seu Dinheiro</font></p>
+  <a href="https://news.google.com/rss/articles/CBMi5AFBVV95cUxQbG9aYUZib0llR0w0bTlaNjRzdC1IbHlYWnZfb1R2bWFnemlmZWwwV1dtdVZvczNMZkl2R1YtRDE5QlZ5YXEtMmdBV1RhOWJqMjBxWUhKbldnUEg0RjhfTmM4Skd3aE9kLVlpNFdualUta3U3dkZ0OHFrWDNuVjl2LXdGdlhsaDVzaXc3bW9STzVNLTE0WGtTQm9qR05NQ0ZiUHlhUmNVMjBjX19rMUc0QXoxV3FDU1g1MVBOQm9UbW1UTC01Qi0yd1Znb2pObEhySHFWOVRRWXpZWnl5dHc4Y3ptZEc?oc=5" target="_blank" rel="noopener noreferrer"
+     style="font-size:13px;text-decoration:underline;">
+    Ler matéria original em Seu Dinheiro ↗
+  </a>
+</article>
+
+<article style="padding:16px 0;border-bottom:1px solid #2a2a2a;">
+  <h3 style="margin:0 0 6px 0;">Mais um executivo deixa a Azzas 2154 (AZZA3) e ações desabam 10%; entenda - Investidor10</h3>
+  <p style="font-size:12px;opacity:.7;margin:0 0 8px 0;">Investidor10 • Fri, 10 Ap</p>
+  <p style="margin:0 0 10px 0;"><a href="https://news.google.com/rss/articles/CBMitAFBVV95cUxQNFNPMkhkOEE2YUQyUDAzRkYwckZaeXpRS3BZd09iSVhXTmxzVzVRNnhTblBBcUQ4M2NZTGw5MmttaUpIVmQyRmlTeDFMSlR1SFdTUjlQdzhBRE94QWY5WldmdUZmSzMtQ0QzTVgwQy11MV9RYzJoTGZFTVo5MUw5SzNZUDk4QmdNX3dtZERlWk5waE0xVngxT0pfR1JyMWRNb0c1ZGQ1bzdxUTF5bWM0cS1kN3nSAboBQVVfeXFMTS0tcXgtVGF5Rk0ybEtKUzM5eThGanhvTWdjNWVIb3l5NXdRUnFKSDFZODFSTmY1T2EzQmVCUE4wZndQY3phM3g1WHNiRzR2YzB5dWRrSjlJWkZld0FOcG93dW9rX0RKb0lEYlVKaU1DTzJyakZuRlVKUFA0UVpQaU5fVVVWcExkNEExdzFHWDNWTVAydjRMZnJwaFVsOHU3RV9NeUpCM1JUdUFpaGIwRDhHSngzODdhUVZn?oc=5" target="_blank">Mais um executivo deixa a Azzas 2154 (AZZA3) e ações desabam 10%; entenda</a>&nbsp;&nbsp;<font color="#6f6f6f">Investidor10</font></p>
+  <a href="https://news.google.com/rss/articles/CBMitAFBVV95cUxQNFNPMkhkOEE2YUQyUDAzRkYwckZaeXpRS3BZd09iSVhXTmxzVzVRNnhTblBBcUQ4M2NZTGw5MmttaUpIVmQyRmlTeDFMSlR1SFdTUjlQdzhBRE94QWY5WldmdUZmSzMtQ0QzTVgwQy11MV9RYzJoTGZFTVo5MUw5SzNZUDk4QmdNX3dtZERlWk5waE0xVngxT0pfR1JyMWRNb0c1ZGQ1bzdxUTF5bWM0cS1kN3nSAboBQVVfeXFMTS0tcXgtVGF5Rk0ybEtKUzM5eThGanhvTWdjNWVIb3l5NXdRUnFKSDFZODFSTmY1T2EzQmVCUE4wZndQY3phM3g1WHNiRzR2YzB5dWRrSjlJWkZld0FOcG93dW9rX0RKb0lEYlVKaU1DTzJyakZuRlVKUFA0UVpQaU5fVVVWcExkNEExdzFHWDNWTVAydjRMZnJwaFVsOHU3RV9NeUpCM1JUdUFpaGIwRDhHSngzODdhUVZn?oc=5" target="_blank" rel="noopener noreferrer"
+     style="font-size:13px;text-decoration:underline;">
+    Ler matéria original em Investidor10 ↗
+  </a>
+</article>
+
+  <p style="font-size:12px;opacity:.6;margin-top:12px;">
+    Conteúdo exibido aqui para sua conveniência. Direitos reservados às fontes originais.
+  </p>
 </section>
 
 
 <section class="card" style="margin-top:24px;">
   <h2>🚀 Descubra oportunidades</h2>
   <ul>
-    <li><a href="../melhores.html">🏆 Melhores ações</a></li>
-    <li><a href="../dividendos.html">💰 Dividendos</a></li>
-    <li><a href="../rentaveis.html">📈 Alta rentabilidade</a></li>
-    <li><a href="../seguras.html">🛡 Mais seguras</a></li>
-    <li><a href="../renda-mensal.html">💵 Renda mensal</a></li>
-    <li><a href="../baratas.html">🔥 Ações baratas</a></li>
-    <li><a href="../dividendos-2026.html">💸 Dividendos 2026</a></li>
-    <li><a href="../comparar.html">↔️ Comparar Ações</a></li>
-    <li><a href="../investidores.html">📚 Maiores investidores da bolsa</a></li>
+    <li><a href="/seo/melhores.html">🏆 Melhores ações</a></li>
+    <li><a href="/seo/dividendos.html">💰 Dividendos</a></li>
+    <li><a href="/seo/rentaveis.html">📈 Alta rentabilidade</a></li>
+    <li><a href="/seo/seguras.html">🛡 Mais seguras</a></li>
+    <li><a href="/seo/renda-mensal.html">💵 Renda mensal</a></li>
+    <li><a href="/seo/baratas.html">🔥 Ações baratas</a></li>
+    <li><a href="/seo/dividendos-2026.html">💸 Dividendos 2026</a></li>
+    <li><a href="/seo/comparar.html">↔️ Comparar Ações</a></li>
+    <li><a href="/seo/investidores.html">📚 Maiores investidores da bolsa</a></li>
   </ul>
 </section>
 

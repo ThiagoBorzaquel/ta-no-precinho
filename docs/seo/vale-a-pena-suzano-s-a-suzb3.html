@@ -186,6 +186,7 @@ gap: 8px;
 .metric:hover {
   transform: translateY(-4px);
   border-color: rgba(255,255,255,0.08);
+  
 }
 
 /* LABEL */
@@ -231,6 +232,24 @@ gap: 8px;
 /* NEGATIVO (se quiser usar depois) */
 .metric.negative .metric-value {
   color: #ef4444;
+}
+
+.metric::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at top left, rgba(255,255,255,0.05), transparent 60%);
+  opacity: 0;
+  transition: 0.3s;
+}
+
+.metric:hover::after {
+  opacity: 1;
+}
+
+h1 span {
+  color: #64748b;
+  font-weight: 500;
 }
 
 </style>
@@ -304,88 +323,46 @@ gap: 8px;
 <div class="card">
 <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;">
 
-    <div style="
-    background:#020617;
-    padding:14px;
-    border-radius:14px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    ">
-        <span style="color:#cbd5e1">P/L</span>
-        <strong style="color:#e2e8f0">4.15</strong>
+    <div class="metric ">
+        <div class="metric-label">P/L</div>
+        <div class="metric-value">4.15</div>
     </div>
     
 
-    <div style="
-    background:#020617;
-    padding:14px;
-    border-radius:14px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    ">
-        <span style="color:#cbd5e1">P/VP</span>
-        <strong style="color:#e2e8f0">1.27</strong>
+    <div class="metric ">
+        <div class="metric-label">P/VP</div>
+        <div class="metric-value">1.27</div>
     </div>
     
 
-    <div style="
-    background:#020617;
-    padding:14px;
-    border-radius:14px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    ">
-        <span style="color:#cbd5e1">ROE</span>
-        <strong style="color:#e2e8f0">35.19%</strong>
+    <div class="metric ">
+        <div class="metric-label">ROE</div>
+        <div class="metric-value">35.19%</div>
     </div>
     
 
-    <div style="
-    background:#020617;
-    padding:14px;
-    border-radius:14px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    ">
-        <span style="color:#cbd5e1">DY</span>
-        <strong style="color:#e2e8f0">2.47%</strong>
+    <div class="metric ">
+        <div class="metric-label">DY</div>
+        <div class="metric-value">2.47%</div>
     </div>
     
 
-    <div style="
-    background:#020617;
-    padding:14px;
-    border-radius:14px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    ">
-        <span style="color:#cbd5e1">Score</span>
-        <strong style="color:#e2e8f0">85</strong>
+    <div class="metric ">
+        <div class="metric-label">Score</div>
+        <div class="metric-value">85</div>
     </div>
     
 
-    <div style="
-    background:#020617;
-    padding:14px;
-    border-radius:14px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    ">
-        <span style="color:#cbd5e1">Desconto</span>
-        <strong style="color:#e2e8f0">72.34%</strong>
+    <div class="metric ">
+        <div class="metric-label">Desconto</div>
+        <div class="metric-value">72.33%</div>
     </div>
     
 </div>
 </div>
 <div class="card">
 <h2>Riscos e oportunidades</h2>
-<p>Com desconto de 72.34% em relação ao preço justo, existe potencial de valorização.</p>
+<p>Com desconto de 72.33% em relação ao preço justo, existe potencial de valorização.</p>
 <p>⚠️ Esta análise é informativa e não constitui recomendação de investimento.</p>
 </div>
 <div class="card">

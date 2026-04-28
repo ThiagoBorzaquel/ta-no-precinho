@@ -186,6 +186,7 @@ gap: 8px;
 .metric:hover {
   transform: translateY(-4px);
   border-color: rgba(255,255,255,0.08);
+  
 }
 
 /* LABEL */
@@ -231,6 +232,24 @@ gap: 8px;
 /* NEGATIVO (se quiser usar depois) */
 .metric.negative .metric-value {
   color: #ef4444;
+}
+
+.metric::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at top left, rgba(255,255,255,0.05), transparent 60%);
+  opacity: 0;
+  transition: 0.3s;
+}
+
+.metric:hover::after {
+  opacity: 1;
+}
+
+h1 span {
+  color: #64748b;
+  font-weight: 500;
 }
 
 </style>
@@ -304,107 +323,51 @@ gap: 8px;
 
 <section class="metrics-grid">
   
-    <div style="
-    background:#020617;
-    padding:14px;
-    border-radius:14px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    ">
-        <span style="color:#cbd5e1">P/L</span>
-        <strong style="color:#e2e8f0">4.33</strong>
+    <div class="metric ">
+        <div class="metric-label">P/L</div>
+        <div class="metric-value">4.33</div>
     </div>
     
   
-    <div style="
-    background:#020617;
-    padding:14px;
-    border-radius:14px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    ">
-        <span style="color:#cbd5e1">P/VP</span>
-        <strong style="color:#e2e8f0">0.65</strong>
+    <div class="metric ">
+        <div class="metric-label">P/VP</div>
+        <div class="metric-value">0.65</div>
     </div>
     
   
-    <div style="
-    background:#020617;
-    padding:14px;
-    border-radius:14px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    ">
-        <span style="color:#cbd5e1">ROE</span>
-        <strong style="color:#e2e8f0">15.67%</strong>
+    <div class="metric ">
+        <div class="metric-label">ROE</div>
+        <div class="metric-value">15.67%</div>
     </div>
     
   
-    <div style="
-    background:#020617;
-    padding:14px;
-    border-radius:14px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    ">
-        <span style="color:#cbd5e1">DY</span>
-        <strong style="color:#e2e8f0">5.09%</strong>
+    <div class="metric ">
+        <div class="metric-label">DY</div>
+        <div class="metric-value">5.09%</div>
     </div>
     
   
-    <div style="
-    background:#020617;
-    padding:14px;
-    border-radius:14px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    ">
-        <span style="color:#cbd5e1">Score</span>
-        <strong style="color:#e2e8f0">85</strong>
+    <div class="metric score">
+        <div class="metric-label">Score</div>
+        <div class="metric-value">85</div>
     </div>
     
   
-    <div style="
-    background:#020617;
-    padding:14px;
-    border-radius:14px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    ">
-        <span style="color:#cbd5e1">Desconto</span>
-        <strong style="color:#e2e8f0">71.15%</strong>
+    <div class="metric desconto">
+        <div class="metric-label">Desconto</div>
+        <div class="metric-value">71.15%</div>
     </div>
     
   
-    <div style="
-    background:#020617;
-    padding:14px;
-    border-radius:14px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    ">
-        <span style="color:#cbd5e1">Preço atual</span>
-        <strong style="color:#e2e8f0">R$ 18.13</strong>
+    <div class="metric ">
+        <div class="metric-label">Preço atual</div>
+        <div class="metric-value">R$ 18.13</div>
     </div>
     
   
-    <div style="
-    background:#020617;
-    padding:14px;
-    border-radius:14px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    ">
-        <span style="color:#cbd5e1">Preço justo</span>
-        <strong style="color:#e2e8f0">R$ 62.85</strong>
+    <div class="metric highlight">
+        <div class="metric-label">Preço justo</div>
+        <div class="metric-value">R$ 62.85</div>
     </div>
     
 </section>
@@ -475,22 +438,65 @@ gap: 8px;
 
 <section class="card" style="margin-top:24px;">
   <h2>📰 Principais notícias sobre BRSR3</h2>
-  <p>Nenhuma notícia recente encontrada.</p>
+  
+<article style="padding:16px 0;border-bottom:1px solid #2a2a2a;">
+  <h3 style="margin:0 0 6px 0;">Banrisul (BRSR3; BRSR6) cai na Bolsa após rebaixamento do UBS BB, BTG e JPMorgan - Estadão E-Investidor</h3>
+  <p style="font-size:12px;opacity:.7;margin:0 0 8px 0;">Estadão E-Investidor • Mon, 20 Ap</p>
+  <p style="margin:0 0 10px 0;"><a href="https://news.google.com/rss/articles/CBMirgFBVV95cUxObjRscVd3QnBPcTA3UktFMUhsVk9lVTNmZ05XRjcxUDlwYWhYY1FWY2NrSUxmaE1OSEQ3akxidHhvVnFaY0xsZmNUTkVFdnd2S3hSQThsd21uSGJpeS0xV1UzOGZZb1ZrUE9mdzl4enhXSEt5UXlUSU5EN1UwbFNoWWxiMzdnSEUydUh0YXhaZXY1V1dhbGJ2STJRWVdSSk9wZ1g5WklUR1JYNDFIU2fSAbMBQVVfeXFMTURRYmxYZ2lOVGJNeTlsUDJTQVVkb0RRdUVVZXV5aS0yZEl6NVJzLVB6b1V1TDk4emZqWUx0YkNLZ19GeDZUdGYtNHNYdjNMNEY0a3otb1FDcTZCT3hZeGszT3RjUlFKVWxiVy1qWWJoeDRlVEpRa3pHS2dscE5iQzl1bUVFUk1sZlo1dFdkblAydi1QcjZQX2pKY1gtWWFwel9RQndHYUFaakF3SEhSLWw1VnM?oc=5" target="_blank">Banrisul (BRSR3; BRSR6) cai na Bolsa após rebaixamento do UBS BB, BTG e JPMorgan</a>&nbsp;&nbsp;<font color="#6f6f6f">Estadão E-Investidor</font></p>
+  <a href="https://news.google.com/rss/articles/CBMirgFBVV95cUxObjRscVd3QnBPcTA3UktFMUhsVk9lVTNmZ05XRjcxUDlwYWhYY1FWY2NrSUxmaE1OSEQ3akxidHhvVnFaY0xsZmNUTkVFdnd2S3hSQThsd21uSGJpeS0xV1UzOGZZb1ZrUE9mdzl4enhXSEt5UXlUSU5EN1UwbFNoWWxiMzdnSEUydUh0YXhaZXY1V1dhbGJ2STJRWVdSSk9wZ1g5WklUR1JYNDFIU2fSAbMBQVVfeXFMTURRYmxYZ2lOVGJNeTlsUDJTQVVkb0RRdUVVZXV5aS0yZEl6NVJzLVB6b1V1TDk4emZqWUx0YkNLZ19GeDZUdGYtNHNYdjNMNEY0a3otb1FDcTZCT3hZeGszT3RjUlFKVWxiVy1qWWJoeDRlVEpRa3pHS2dscE5iQzl1bUVFUk1sZlo1dFdkblAydi1QcjZQX2pKY1gtWWFwel9RQndHYUFaakF3SEhSLWw1VnM?oc=5" target="_blank" rel="noopener noreferrer"
+     style="font-size:13px;text-decoration:underline;">
+    Ler matéria original em Estadão E-Investidor ↗
+  </a>
+</article>
+
+<article style="padding:16px 0;border-bottom:1px solid #2a2a2a;">
+  <h3 style="margin:0 0 6px 0;">Banrisul (BRSR3) anuncia saída de diretor de Desenvolvimento - Visno Invest</h3>
+  <p style="font-size:12px;opacity:.7;margin:0 0 8px 0;">Visno Invest • Thu, 02 Ap</p>
+  <p style="margin:0 0 10px 0;"><a href="https://news.google.com/rss/articles/CBMinAFBVV95cUxNdEZsQURfT2lOQ1Zob253akYyQ1B6dGlhQmRPNFRVdElvVERWcV9VTkQxbVRYUVVoa1VXU3pJajdINlJIdm9zLUExYWQ0QnIxQmRVaVQ3bjlreXhQTDlweTAwNG8zbzBxTXpSNXVUU3F5V3FVbFdpZGc3WFZKY0paRElWeXFYVXJ0UUo3NV8wLUdpNG5qdDF6WVRzZEk?oc=5" target="_blank">Banrisul (BRSR3) anuncia saída de diretor de Desenvolvimento</a>&nbsp;&nbsp;<font color="#6f6f6f">Visno Invest</font></p>
+  <a href="https://news.google.com/rss/articles/CBMinAFBVV95cUxNdEZsQURfT2lOQ1Zob253akYyQ1B6dGlhQmRPNFRVdElvVERWcV9VTkQxbVRYUVVoa1VXU3pJajdINlJIdm9zLUExYWQ0QnIxQmRVaVQ3bjlreXhQTDlweTAwNG8zbzBxTXpSNXVUU3F5V3FVbFdpZGc3WFZKY0paRElWeXFYVXJ0UUo3NV8wLUdpNG5qdDF6WVRzZEk?oc=5" target="_blank" rel="noopener noreferrer"
+     style="font-size:13px;text-decoration:underline;">
+    Ler matéria original em Visno Invest ↗
+  </a>
+</article>
+
+<article style="padding:16px 0;border-bottom:1px solid #2a2a2a;">
+  <h3 style="margin:0 0 6px 0;">Banrisul espera alta de 3% a 8% na carteira de crédito em 2026 - TradingView</h3>
+  <p style="font-size:12px;opacity:.7;margin:0 0 8px 0;">TradingView • Wed, 11 Fe</p>
+  <p style="margin:0 0 10px 0;"><a href="https://news.google.com/rss/articles/CBMid0FVX3lxTE9vQnpVSUVfRktvMzhENExyMFNQRnZnY1VSMzlEWXEwTUJrZlFYNkZ1cXV5WHhGQVoyRHdid09pVVpLT3dsOGdFaTNGNmp2bG1EUXFpbmdTdHUxTEVNZG5NaUN6SWdqVi1zZkRKa05peVVlNzNWZ3hV?oc=5" target="_blank">Banrisul espera alta de 3% a 8% na carteira de crédito em 2026</a>&nbsp;&nbsp;<font color="#6f6f6f">TradingView</font></p>
+  <a href="https://news.google.com/rss/articles/CBMid0FVX3lxTE9vQnpVSUVfRktvMzhENExyMFNQRnZnY1VSMzlEWXEwTUJrZlFYNkZ1cXV5WHhGQVoyRHdid09pVVpLT3dsOGdFaTNGNmp2bG1EUXFpbmdTdHUxTEVNZG5NaUN6SWdqVi1zZkRKa05peVVlNzNWZ3hV?oc=5" target="_blank" rel="noopener noreferrer"
+     style="font-size:13px;text-decoration:underline;">
+    Ler matéria original em TradingView ↗
+  </a>
+</article>
+
+<article style="padding:16px 0;border-bottom:1px solid #2a2a2a;">
+  <h3 style="margin:0 0 6px 0;">Governo gaúcho irá vender ações do Banrisul em oferta que pode captar cerca de R$ 2,2 bi - Seu Dinheiro</h3>
+  <p style="font-size:12px;opacity:.7;margin:0 0 8px 0;">Seu Dinheiro • Tue, 21 Oc</p>
+  <p style="margin:0 0 10px 0;"><a href="https://news.google.com/rss/articles/CBMiiwFBVV95cUxPUXVPWElrMGVwa3BNVmdkZzlCN0dueW5DOVk0ZS1iX0NyTDBTenFpNU03WGk0d0NnZ3Nnc2hOVi1oX3p1Y2NCNHNncFBoSFRnM3JkeXNTaEpEaUk3TXNZRUxyUVhqVGFQOUd2MllzUDFfUTRQNHBtV1Q2MVlJX0Q0YkE1aXdIbEg5emFv?oc=5" target="_blank">Governo gaúcho irá vender ações do Banrisul em oferta que pode captar cerca de R$ 2,2 bi</a>&nbsp;&nbsp;<font color="#6f6f6f">Seu Dinheiro</font></p>
+  <a href="https://news.google.com/rss/articles/CBMiiwFBVV95cUxPUXVPWElrMGVwa3BNVmdkZzlCN0dueW5DOVk0ZS1iX0NyTDBTenFpNU03WGk0d0NnZ3Nnc2hOVi1oX3p1Y2NCNHNncFBoSFRnM3JkeXNTaEpEaUk3TXNZRUxyUVhqVGFQOUd2MllzUDFfUTRQNHBtV1Q2MVlJX0Q0YkE1aXdIbEg5emFv?oc=5" target="_blank" rel="noopener noreferrer"
+     style="font-size:13px;text-decoration:underline;">
+    Ler matéria original em Seu Dinheiro ↗
+  </a>
+</article>
+
+  <p style="font-size:12px;opacity:.6;margin-top:12px;">
+    Conteúdo exibido aqui para sua conveniência. Direitos reservados às fontes originais.
+  </p>
 </section>
 
 
 <section class="card" style="margin-top:24px;">
   <h2>🚀 Descubra oportunidades</h2>
   <ul>
-    <li><a href="../melhores.html">🏆 Melhores ações</a></li>
-    <li><a href="../dividendos.html">💰 Dividendos</a></li>
-    <li><a href="../rentaveis.html">📈 Alta rentabilidade</a></li>
-    <li><a href="../seguras.html">🛡 Mais seguras</a></li>
-    <li><a href="../renda-mensal.html">💵 Renda mensal</a></li>
-    <li><a href="../baratas.html">🔥 Ações baratas</a></li>
-    <li><a href="../dividendos-2026.html">💸 Dividendos 2026</a></li>
-    <li><a href="../comparar.html">↔️ Comparar Ações</a></li>
-    <li><a href="../investidores.html">📚 Maiores investidores da bolsa</a></li>
+    <li><a href="/seo/melhores.html">🏆 Melhores ações</a></li>
+    <li><a href="/seo/dividendos.html">💰 Dividendos</a></li>
+    <li><a href="/seo/rentaveis.html">📈 Alta rentabilidade</a></li>
+    <li><a href="/seo/seguras.html">🛡 Mais seguras</a></li>
+    <li><a href="/seo/renda-mensal.html">💵 Renda mensal</a></li>
+    <li><a href="/seo/baratas.html">🔥 Ações baratas</a></li>
+    <li><a href="/seo/dividendos-2026.html">💸 Dividendos 2026</a></li>
+    <li><a href="/seo/comparar.html">↔️ Comparar Ações</a></li>
+    <li><a href="/seo/investidores.html">📚 Maiores investidores da bolsa</a></li>
   </ul>
 </section>
 
