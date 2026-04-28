@@ -1,0 +1,1732 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+
+<!-- PERFORMANCE -->
+<link rel="preconnect" href="https://pagead2.googlesyndication.com">
+<link rel="dns-prefetch" href="//pagead2.googlesyndication.com">
+
+<!-- ADSENSE -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5213961841779335"
+crossorigin="anonymous"></script>
+
+<meta name="google-adsense-account" content="ca-pub-5213961841779335">
+
+<!-- META -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Simulador de Carteira — TanoPrecinho | Tá no Precinho</title>
+
+<link rel="canonical" href="https://tanoprecinho.site/seo/simulador-pro.html">
+<link rel="icon" href="/favicon.ico">
+
+<meta name="robots" content="index, follow">
+<meta name="author" content="Tá no Precinho">
+
+<meta name="description" content="Simule o crescimento da sua carteira de ações com benchmarks reais.">
+<meta name="keywords" content="simulador de investimentos, carteira de ações, renda passiva, B3, bolsa">
+
+<meta name="theme-color" content="#0f172a">
+
+<!-- OPEN GRAPH -->
+<meta property="og:title" content="Simulador de Carteira — TanoPrecinho">
+<meta property="og:description" content="Simule o crescimento da sua carteira de ações com benchmarks reais.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://tanoprecinho.site/seo/simulador-pro.html">
+<meta property="og:image" content="https://tanoprecinho.site/images/og-image.jpg">
+<meta property="og:site_name" content="Tá no Precinho">
+<meta property="og:locale" content="pt_BR">
+
+
+<!-- SCHEMA SEO -->
+<script type="application/ld+json">
+{
+"@context": "https://schema.org",
+"@type": "WebPage",
+"name": "Simulador de Carteira — TanoPrecinho",
+"description": "Simule o crescimento da sua carteira de ações com benchmarks reais.",
+"url": "https://tanoprecinho.site/seo/simulador-pro.html",
+"inLanguage": "pt-BR",
+"publisher": {
+  "@type": "Organization",
+  "name": "Tá no Precinho",
+  "url": "https://tanoprecinho.site"
+}
+}
+</script>
+
+<style>
+
+:root {
+    --bg:#0f172a;
+    --card:#1e293b;
+    --accent:#3b82f6;
+    --text:#e2e8f0;
+    --muted:#cbd5e1;
+    --green:#22c55e;
+}
+
+body{
+margin:0;
+background:linear-gradient(180deg,#0f172a,#020617);
+color:var(--text);
+font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+}
+
+.container{
+max-width:900px;
+margin:auto;
+padding:30px 16px;
+}
+
+.card{
+background:rgba(30,41,59,0.85);
+backdrop-filter: blur(8px);
+padding:25px;
+border-radius:16px;
+margin-bottom:20px;
+box-shadow:0 10px 30px rgba(0,0,0,0.4);
+border:1px solid rgba(255,255,255,0.05);
+}
+
+h1{
+margin-bottom:15px;
+font-size:24px;
+}
+
+p{
+line-height:1.7;
+color:var(--muted);
+font-size:15px;
+}
+
+a{
+color:var(--accent);
+text-decoration:none;
+font-weight:500;
+}
+
+a:hover{
+opacity:0.8;
+}
+
+/* FIX ACESSIBILIDADE: foco visível para navegação por teclado */
+a:focus,
+button:focus,
+select:focus,
+input:focus {
+outline: 2px solid #3b82f6;
+outline-offset: 2px;
+}
+
+.footer{
+text-align:center;
+margin-top:30px;
+font-size:12px;
+color:var(--muted);
+}
+
+.menu{
+display:flex;
+flex-wrap:wrap;
+gap:14px;
+margin:12px 0 22px 0;
+font-size:14px;
+}
+
+.menu a{
+color:#cbd5e1;
+text-decoration:none;
+padding:6px 10px;
+border-radius:8px;
+background:#1e293b;
+}
+
+.menu a:hover{
+color:#3b82f6;
+background:#243247;
+}
+
+/* FIX ACESSIBILIDADE: aviso de risco visível */
+.aviso-risco {
+background: rgba(234, 179, 8, 0.1);
+border: 1px solid rgba(234, 179, 8, 0.3);
+border-radius: 10px;
+padding: 12px 16px;
+font-size: 13px;
+color: #fde68a;
+margin-bottom: 16px;
+display: flex;
+align-items: flex-start;
+gap: 8px;
+}
+
+/* GRID */
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 14px;
+  margin: 20px 0;
+}
+
+/* CARD */
+.metric {
+  background: linear-gradient(145deg, #020617, #020617);
+  border-radius: 14px;
+  padding: 16px;
+  border: 1px solid rgba(255,255,255,0.04);
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+/* HOVER PREMIUM */
+.metric:hover {
+  transform: translateY(-4px);
+  border-color: rgba(255,255,255,0.08);
+  
+}
+
+/* LABEL */
+.metric-label {
+  font-size: 12px;
+  color: #94a3b8;
+}
+
+/* VALOR */
+.metric-value {
+  font-size: 22px;
+  font-weight: 700;
+  color: #f8fafc;
+  margin-top: 4px;
+}
+
+/* SCORE */
+.metric.score {
+  background: linear-gradient(145deg, rgba(34,197,94,0.08), #020617);
+  border: 1px solid rgba(34,197,94,0.2);
+}
+
+.metric.score .metric-value {
+  color: #22c55e;
+}
+
+/* DESCONTO */
+.metric.desconto .metric-value {
+  color: #22c55e;
+}
+
+/* PREÇO JUSTO (destaque principal) */
+.metric.highlight {
+  background: linear-gradient(145deg, rgba(34,197,94,0.12), #020617);
+  border: 1px solid #22c55e;
+}
+
+.metric.highlight .metric-value {
+  color: #22c55e;
+  font-size: 24px;
+}
+
+/* NEGATIVO (se quiser usar depois) */
+.metric.negative .metric-value {
+  color: #ef4444;
+}
+
+.metric::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at top left, rgba(255,255,255,0.05), transparent 60%);
+  opacity: 0;
+  transition: 0.3s;
+}
+
+.metric:hover::after {
+  opacity: 1;
+}
+
+h1 span {
+  color: #64748b;
+  font-weight: 500;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<!-- NAVEGAÇÃO PRINCIPAL - acessível com nav e aria-label -->
+<nav aria-label="Menu principal">
+<div style="margin-bottom:20px" class="menu">
+  <a href="../index.html">Ranking</a>
+  <a href="../missao.html">Nossa missão</a>
+  <a href="../fundamentalista.html">Análise Fundamentalista</a>
+  <a href="../pl.html">O que é P/L</a>
+  <a href="../pvp.html">O que é P/VP</a>
+  <a href="../roe.html">O que é ROE</a>
+  <a href="../on-pn.html">Diferença entre ações ON e PN</a>
+  <a href="../dividend-yield.html">Dividend Yield</a>
+  <a href="../estrategia-investidor.html">Como Investir Melhor em Ações</a>
+  <a href="../doacoes.html">💚 Apoie o Projeto</a>
+</div>
+</nav>
+
+<header>
+<h1>
+  <a href="/index.html" style="text-decoration:none;color:inherit" aria-label="Tá no Precinho - Página inicial">
+    📉 Tá no Precinho?
+  </a>
+</h1>
+
+<p class="subtitle" style="color:var(--muted);font-size:14px;margin-bottom:20px">
+  Tornando a análise de ações acessível para qualquer pessoa. Gratuito e atualizado todos os dias.
+</p>
+</header>
+
+<main>
+
+<!-- CONTEÚDO -->
+<div class="card">
+
+<h1>Simulador de Carteira — TanoPrecinho</h1>
+
+<!-- FIX ACESSIBILIDADE: aviso de risco próximo ao conteúdo -->
+<div class="aviso-risco" role="note" aria-label="Aviso importante">
+  ⚠️ <span>Conteúdo informativo e educacional. <strong>Não constitui recomendação de investimento.</strong> Cada investidor deve tomar suas próprias decisões.</span>
+</div>
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simulador de Carteira — TanoPrecinho</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JXK8PRLVRV"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-JXK8PRLVRV');
+</script>
+
+<script defer src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
+
+</head>
+<body>
+
+<div class="bg-grid"></div>
+
+<div class="page">
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="header-inner">
+      <a href="../index.html" class="logo-link">← voltar</a>
+      <div class="header-title">
+        <span class="pill">BETA</span>
+        <h1>Simulador de Carteira</h1>
+      </div>
+    </div>
+  </header>
+
+  <!-- STEPS -->
+  <div class="steps-bar">
+    <div class="step active" data-step="1"><span>1</span> Capital</div>
+    <div class="step-sep"></div>
+    <div class="step" data-step="2"><span>2</span> Ativos</div>
+    <div class="step-sep"></div>
+    <div class="step" data-step="3"><span>3</span> Resultado</div>
+  </div>
+
+  <!-- PASSO 1: Capital -->
+  <section class="panel" id="panel-1">
+    <div class="panel-head">
+      <div class="panel-num">01</div>
+      <div>
+        <h2>Quanto você vai investir?</h2>
+        <p>Defina seu capital inicial, aporte mensal e horizonte de tempo.</p>
+      </div>
+    </div>
+
+    <div class="inputs-row">
+      <div class="input-block">
+        <label>Valor inicial</label>
+        <div class="input-wrap">
+          <span class="prefix">R$</span>
+          <input type="number" id="valor" placeholder="10.000" min="0" step="100">
+        </div>
+      </div>
+      <div class="input-block">
+        <label>Aporte mensal</label>
+        <div class="input-wrap">
+          <span class="prefix">R$</span>
+          <input type="number" id="aporte" placeholder="1.000" min="0" step="100">
+        </div>
+      </div>
+      <div class="input-block">
+        <label>Tempo de investimento</label>
+        <div class="input-wrap">
+          <input type="number" id="anos" placeholder="10" min="1" max="40" step="1">
+          <span class="suffix">anos</span>
+        </div>
+        <div class="slider-row">
+          <input type="range" id="anos-slider" min="1" max="40" value="10" class="slider">
+          <div class="slider-labels">
+            <span>1</span><span>10</span><span>20</span><span>30</span><span>40</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="benchmarks-block">
+      <h3>Comparar com</h3>
+      <div class="bench-pills">
+        <label class="bench-pill active">
+          <input type="checkbox" id="cdi" checked>
+          <span class="dot" style="background:#facc15"></span> CDI (11% a.a.)
+        </label>
+        <label class="bench-pill active">
+          <input type="checkbox" id="ibov" checked>
+          <span class="dot" style="background:#60a5fa"></span> Ibovespa (10% a.a.)
+        </label>
+        <label class="bench-pill">
+          <input type="checkbox" id="sp500">
+          <span class="dot" style="background:#f472b6"></span> S&P 500 (9% a.a.)
+        </label>
+        <label class="bench-pill">
+          <input type="checkbox" id="dolar">
+          <span class="dot" style="background:#a78bfa"></span> Dólar (6% a.a.)
+        </label>
+      </div>
+    </div>
+
+    <button class="btn-next" onclick="irParaAtivos()">
+      Escolher ativos <span>→</span>
+    </button>
+  </section>
+
+  <!-- PASSO 2: Ativos -->
+  <section class="panel hidden" id="panel-2">
+    <div class="panel-head">
+      <div class="panel-num">02</div>
+      <div>
+        <h2>Selecione os ativos</h2>
+        <p>Escolha até 10 ativos para compor sua carteira simulada.</p>
+      </div>
+    </div>
+
+    <!-- FILTROS: busca + setor + categoria -->
+    <div class="filtros-row">
+      <div class="search-wrap">
+        <span>🔍</span>
+        <input type="text" id="busca" placeholder="Buscar ticker ou empresa..." oninput="filtrarAtivos()">
+      </div>
+      <select id="filtro-setor" class="select-filtro" onchange="filtrarAtivos()">
+        <option value="">Todos os setores</option>
+      </select>
+      <select id="filtro-categoria" class="select-filtro" onchange="filtrarAtivos()">
+        <option value="">Todas as categorias</option>
+      </select>
+      <div id="selecionados-count" class="count-badge">0 selecionados</div>
+    </div>
+
+    <div id="ativos-grid" class="ativos-grid"></div>
+
+    <div class="nav-btns">
+      <button class="btn-back" onclick="irParaStep(1)">← Voltar</button>
+      <button class="btn-next" onclick="simular()">Simular carteira →</button>
+    </div>
+  </section>
+
+  <!-- PASSO 3: Resultado -->
+  <section class="panel hidden" id="panel-3">
+    <div class="panel-head">
+      <div class="panel-num">03</div>
+      <div>
+        <h2>Resultado da simulação</h2>
+        <p id="resumo-params">—</p>
+      </div>
+    </div>
+
+    <div class="metricas-grid" id="metricas"></div>
+
+    <!-- Gráfico de linha: evolução patrimonial -->
+    <div class="chart-card">
+      <div class="chart-header">
+        <h3>Evolução patrimonial</h3>
+        <div id="chart-legend" class="chart-legend"></div>
+      </div>
+      <div class="chart-wrap">
+        <canvas id="grafico"></canvas>
+      </div>
+    </div>
+
+    <!-- Gráfico de pizza: divisão por setor -->
+    <div class="charts-row">
+      <div class="chart-card chart-card-pie">
+        <div class="chart-header">
+          <h3>Divisão por setor</h3>
+          <span class="chart-subtitle">% de ativos na carteira</span>
+        </div>
+        <div class="pie-wrap">
+          <canvas id="grafico-pizza"></canvas>
+        </div>
+        <div id="pizza-legend" class="pizza-legend"></div>
+      </div>
+    </div>
+
+    <div class="ativos-result-grid" id="ativos-result"></div>
+
+    <div class="nav-btns">
+      <button class="btn-back" onclick="irParaStep(2)">← Ajustar ativos</button>
+      <button class="btn-next" onclick="irParaStep(1)">Nova simulação ↺</button>
+    </div>
+  </section>
+
+</div>
+
+<script>
+// ─────────────────────────────────────────────
+// DADOS (injetados pelo Python em produção)
+// ─────────────────────────────────────────────
+const DADOS = [{"ticker": "BNBR3", "empresa": "NORD BRASIL", "dy": 0.0575, "score": 100, "preco": 119.75, "setor": "Serviços Financeiros", "categoria": "Mid Caps"}, {"ticker": "GMAT3", "empresa": "GRUPO MATEUS", "dy": 0.0548, "score": 100, "preco": 4.5, "setor": "Consumo Cíclico", "categoria": "Mid Caps"}, {"ticker": "PETR4", "empresa": "PETROBRAS ERJ", "dy": 0.083, "score": 100, "preco": 47.87, "setor": "Energia", "categoria": "Blue Chips"}, {"ticker": "CMIG4", "empresa": "CEMIG", "dy": 0.0991, "score": 100, "preco": 12.71, "setor": "Utilidades Públicas", "categoria": "Mid Caps"}, {"ticker": "TAEE3", "empresa": "TAESA", "dy": 0.0763, "score": 100, "preco": 14.05, "setor": "Utilidades Públicas", "categoria": "Mid Caps"}, {"ticker": "TAEE4", "empresa": "TAESA", "dy": 0.0826, "score": 100, "preco": 14.44, "setor": "Utilidades Públicas", "categoria": "Mid Caps"}, {"ticker": "BSLI3", "empresa": "BRB BANCO", "dy": 0.152, "score": 85, "preco": 3.79, "setor": "Serviços Financeiros", "categoria": "Small Caps"}, {"ticker": "BSLI4", "empresa": "BRB BANCO", "dy": 0.1605, "score": 85, "preco": 3.94, "setor": "Serviços Financeiros", "categoria": "Small Caps"}, {"ticker": "BRSR6", "empresa": "BANRISUL B", "dy": 0.0588, "score": 85, "preco": 15.93, "setor": "Serviços Financeiros", "categoria": "Small Caps"}, {"ticker": "BAZA3", "empresa": "AMAZIA", "dy": 0.0941, "score": 85, "preco": 85.0, "setor": "Serviços Financeiros", "categoria": "Small Caps"}, {"ticker": "SUZB3", "empresa": "SUZANO S.A.", "dy": 0.0247, "score": 85, "preco": 44.9, "setor": "Materiais Básicos", "categoria": "Blue Chips"}, {"ticker": "BRSR3", "empresa": "BANRISUL", "dy": 0.0509, "score": 85, "preco": 18.13, "setor": "Serviços Financeiros", "categoria": "Small Caps"}, {"ticker": "JHSF3", "empresa": "JHSF PART", "dy": 0.0635, "score": 85, "preco": 12.71, "setor": "Imobiliário", "categoria": "Small Caps"}, {"ticker": "ABCB4", "empresa": "ABC BRASIL", "dy": 0.1229, "score": 85, "preco": 25.07, "setor": "Serviços Financeiros", "categoria": "Small Caps"}, {"ticker": "CYRE3", "empresa": "CYRELA REALT", "dy": 0.1516, "score": 85, "preco": 24.1, "setor": "Consumo Cíclico", "categoria": "Small Caps"}, {"ticker": "VLID3", "empresa": "VALID", "dy": 0.1667, "score": 85, "preco": 19.29, "setor": "Indústria", "categoria": "Small Caps"}, {"ticker": "CEAB3", "empresa": "CEA MODAS", "dy": 0.0807, "score": 85, "preco": 11.12, "setor": "Consumo Cíclico", "categoria": "Small Caps"}, {"ticker": "SAPR4", "empresa": "SANEPAR", "dy": 0.0281, "score": 85, "preco": 7.87, "setor": "Utilidades Públicas", "categoria": "Mid Caps"}, {"ticker": "SHUL4", "empresa": "SCHULZ", "dy": 0.1062, "score": 85, "preco": 5.17, "setor": "Consumo Cíclico", "categoria": "Small Caps"}, {"ticker": "CSED3", "empresa": "CRUZEIRO EDU", "dy": 0.0865, "score": 85, "preco": 5.55, "setor": "Consumo Defensivo", "categoria": "Small Caps"}, {"ticker": "SAPR3", "empresa": "SANEPAR", "dy": 0.0211, "score": 85, "preco": 9.26, "setor": "Utilidades Públicas", "categoria": "Mid Caps"}, {"ticker": "RANI3", "empresa": "IRANI", "dy": 0.0561, "score": 85, "preco": 8.17, "setor": "Consumo Cíclico", "categoria": "Small Caps"}, {"ticker": "CLSC3", "empresa": "CELESC", "dy": 0.054, "score": 85, "preco": 133.51, "setor": "Utilidades Públicas", "categoria": "Small Caps"}, {"ticker": "BGIP3", "empresa": "BANESE EJ", "dy": 0.0597, "score": 85, "preco": 59.22, "setor": "Serviços Financeiros", "categoria": "Small Caps"}, {"ticker": "ISAE4", "empresa": "ISA ENERGIA ED", "dy": 0.0903, "score": 80, "preco": 28.89, "setor": "Utilidades Públicas", "categoria": "Mid Caps"}, {"ticker": "SANB3", "empresa": "SANTANDER BR EJ", "dy": 0.0574, "score": 80, "preco": 14.48, "setor": "Serviços Financeiros", "categoria": "Blue Chips"}, {"ticker": "SANB4", "empresa": "SANTANDER BR EJ", "dy": 0.0617, "score": 80, "preco": 14.88, "setor": "Serviços Financeiros", "categoria": "Blue Chips"}, {"ticker": "ISAE3", "empresa": "ISA ENERGIA ED", "dy": 0.076, "score": 80, "preco": 34.41, "setor": "Utilidades Públicas", "categoria": "Mid Caps"}, {"ticker": "LREN3", "empresa": "LOJAS RENNER", "dy": 0.0638, "score": 80, "preco": 13.88, "setor": "Consumo Cíclico", "categoria": "Mid Caps"}, {"ticker": "PETR3", "empresa": "PETROBRAS ERJ", "dy": 0.075, "score": 75, "preco": 53.14, "setor": "Energia", "categoria": "Blue Chips"}, {"ticker": "BBSE3", "empresa": "BBSEGURIDADE", "dy": 0.1536, "score": 75, "preco": 33.98, "setor": "Serviços Financeiros", "categoria": "Blue Chips"}, {"ticker": "CMIG3", "empresa": "CEMIG", "dy": 0.0832, "score": 75, "preco": 16.6, "setor": "Utilidades Públicas", "categoria": "Mid Caps"}, {"ticker": "SEER3", "empresa": "SER EDUCA", "dy": 0.0377, "score": 70, "preco": 12.69, "setor": "Consumo Defensivo", "categoria": "Small Caps"}, {"ticker": "EVEN3", "empresa": "EVEN", "dy": 0.1179, "score": 65, "preco": 6.46, "setor": "Imobiliário", "categoria": "Small Caps"}, {"ticker": "AZZA3", "empresa": "AZZAS 2154", "dy": 0.1131, "score": 65, "preco": 21.96, "setor": "Consumo Cíclico", "categoria": "Small Caps"}, {"ticker": "VTRU3", "empresa": "VITRUEDUCA", "dy": 0.18, "score": 65, "preco": 13.72, "setor": "Consumo Defensivo", "categoria": "Small Caps"}, {"ticker": "BMGB4", "empresa": "BANCO BMG", "dy": 0.0817, "score": 65, "preco": 5.41, "setor": "Serviços Financeiros", "categoria": "Small Caps"}, {"ticker": "EUCA4", "empresa": "EUCATEX", "dy": 0.055, "score": 65, "preco": 20.38, "setor": "Indústria", "categoria": "Small Caps"}, {"ticker": "RECV3", "empresa": "PETRORECSA", "dy": 0.1469, "score": 65, "preco": 12.97, "setor": "Energia", "categoria": "Small Caps"}, {"ticker": "LOGG3", "empresa": "LOG COM PROP", "dy": 0.1507, "score": 65, "preco": 26.39, "setor": "Imobiliário", "categoria": "Small Caps"}, {"ticker": "SMTO3", "empresa": "SAO MARTINHO", "dy": 0.0571, "score": 65, "preco": 15.95, "setor": "Materiais Básicos", "categoria": "Small Caps"}, {"ticker": "EZTC3", "empresa": "EZTEC", "dy": 0.0835, "score": 65, "preco": 14.39, "setor": "Imobiliário", "categoria": "Small Caps"}, {"ticker": "BLAU3", "empresa": "BLAU", "dy": 0.0654, "score": 65, "preco": 10.07, "setor": "Saúde", "categoria": "Small Caps"}, {"ticker": "NEOE3", "empresa": "NEOENERGIA", "dy": 0.0432, "score": 65, "preco": 33.77, "setor": "Utilidades Públicas", "categoria": "Mid Caps"}, {"ticker": "ALUP4", "empresa": "ALUPAR ED", "dy": 0.0231, "score": 65, "preco": 10.77, "setor": "Utilidades Públicas", "categoria": "Mid Caps"}, {"ticker": "MDNE3", "empresa": "MOURA DUBEUX", "dy": 0.1602, "score": 60, "preco": 29.72, "setor": "Imobiliário", "categoria": "Small Caps"}, {"ticker": "PLPL3", "empresa": "PLANOEPLANO", "dy": 0.1407, "score": 60, "preco": 10.95, "setor": "Imobiliário", "categoria": "Small Caps"}, {"ticker": "POMO3", "empresa": "MARCOPOLO", "dy": 0.1653, "score": 60, "preco": 6.1, "setor": "Indústria", "categoria": "Small Caps"}, {"ticker": "LAVV3", "empresa": "LAVVI", "dy": 0.077, "score": 60, "preco": 13.24, "setor": "Imobiliário", "categoria": "Small Caps"}, {"ticker": "POMO4", "empresa": "MARCOPOLO", "dy": 0.1541, "score": 60, "preco": 6.45, "setor": "Indústria", "categoria": "Small Caps"}, {"ticker": "CEEB3", "empresa": "COELBA", "dy": 0.04, "score": 60, "preco": 50.0, "setor": "Utilidades Públicas", "categoria": "Mid Caps"}, {"ticker": "PINE3", "empresa": "PINE EJ", "dy": 0.0645, "score": 60, "preco": 13.41, "setor": "Serviços Financeiros", "categoria": "Small Caps"}, {"ticker": "PINE4", "empresa": "PINE EJ", "dy": 0.0613, "score": 60, "preco": 13.64, "setor": "Serviços Financeiros", "categoria": "Small Caps"}, {"ticker": "WIZC3", "empresa": "WIZ CO", "dy": 0.0701, "score": 60, "preco": 9.06, "setor": "Serviços Financeiros", "categoria": "Small Caps"}, {"ticker": "LEVE3", "empresa": "METAL LEVE", "dy": 0.0791, "score": 60, "preco": 35.64, "setor": "Consumo Cíclico", "categoria": "Small Caps"}, {"ticker": "EKTR4", "empresa": "ELEKTRO", "dy": 0.1107, "score": 60, "preco": 38.11, "setor": "Utilidades Públicas", "categoria": "Small Caps"}, {"ticker": "WHRL3", "empresa": "WHIRLPOOL", "dy": 0.1278, "score": 60, "preco": 4.01, "setor": "Consumo Cíclico", "categoria": "Small Caps"}, {"ticker": "TGMA3", "empresa": "TEGMA", "dy": 0.1374, "score": 60, "preco": 31.53, "setor": "Indústria", "categoria": "Small Caps"}, {"ticker": "KEPL3", "empresa": "KEPLER WEBER", "dy": 0.0698, "score": 60, "preco": 7.77, "setor": "Indústria", "categoria": "Small Caps"}, {"ticker": "CLSC4", "empresa": "CELESC", "dy": 0.0515, "score": 60, "preco": 154.6, "setor": "Utilidades Públicas", "categoria": "Small Caps"}, {"ticker": "WHRL4", "empresa": "WHIRLPOOL", "dy": 0.1254, "score": 60, "preco": 4.34, "setor": "Consumo Cíclico", "categoria": "Small Caps"}, {"ticker": "VIVA3", "empresa": "VIVARA S.A.", "dy": 0.0533, "score": 60, "preco": 24.75, "setor": "Consumo Cíclico", "categoria": "Small Caps"}, {"ticker": "INTB3", "empresa": "INTELBRAS", "dy": 0.0959, "score": 60, "preco": 14.04, "setor": "Tecnologia", "categoria": "Small Caps"}, {"ticker": "PSSA3", "empresa": "PORTO SEGURO", "dy": 0.0485, "score": 60, "preco": 51.28, "setor": "Serviços Financeiros", "categoria": "Mid Caps"}, {"ticker": "CURY3", "empresa": "CURY S/A", "dy": 0.165, "score": 60, "preco": 29.54, "setor": "Imobiliário", "categoria": "Small Caps"}, {"ticker": "BPAC5", "empresa": "BTGP BANCO A", "dy": 0.0268, "score": 60, "preco": 17.22, "setor": "Serviços Financeiros", "categoria": "Blue Chips"}, {"ticker": "ENGI4", "empresa": "ENERGISA", "dy": 0.063, "score": 55, "preco": 10.18, "setor": "Utilidades Públicas", "categoria": "Mid Caps"}, {"ticker": "ENGI3", "empresa": "ENERGISA", "dy": 0.0501, "score": 55, "preco": 13.08, "setor": "Utilidades Públicas", "categoria": "Mid Caps"}, {"ticker": "KLBN4", "empresa": "KLABIN S/A", "dy": 0.0911, "score": 55, "preco": 3.56, "setor": "Materiais Básicos", "categoria": "Mid Caps"}, {"ticker": "KLBN3", "empresa": "KLABIN S/A", "dy": 0.0917, "score": 55, "preco": 3.57, "setor": "Materiais Básicos", "categoria": "Mid Caps"}, {"ticker": "EUCA3", "empresa": "EUCATEX", "dy": 0.0482, "score": 50, "preco": 21.2, "setor": "Indústria", "categoria": "Small Caps"}, {"ticker": "IGTI3", "empresa": "IGUATEMI S.A ED", "dy": 0.0297, "score": 50, "preco": 3.28, "setor": "Imobiliário", "categoria": "Small Caps"}, {"ticker": "SBFG3", "empresa": "GRUPO SBF", "dy": 0.047, "score": 50, "preco": 11.25, "setor": "Consumo Cíclico", "categoria": "Small Caps"}, {"ticker": "BEES4", "empresa": "BANESTES", "dy": 0.0375, "score": 50, "preco": 9.21, "setor": "Serviços Financeiros", "categoria": "Small Caps"}, {"ticker": "BEES3", "empresa": "BANESTES", "dy": 0.0378, "score": 50, "preco": 9.25, "setor": "Serviços Financeiros", "categoria": "Small Caps"}, {"ticker": "CPFE3", "empresa": "CPFL ENERGIA", "dy": 0.0707, "score": 50, "preco": 51.62, "setor": "Utilidades Públicas", "categoria": "Blue Chips"}, {"ticker": "REDE3", "empresa": "REDE ENERGIA", "dy": 0.0719, "score": 50, "preco": 6.26, "setor": "Utilidades Públicas", "categoria": "Mid Caps"}, {"ticker": "UGPA3", "empresa": "ULTRAPAR", "dy": 0.06, "score": 50, "preco": 29.37, "setor": "Energia", "categoria": "Mid Caps"}, {"ticker": "CXSE3", "empresa": "CAIXA SEGURI", "dy": 0.072, "score": 50, "preco": 18.08, "setor": "Serviços Financeiros", "categoria": "Blue Chips"}, {"ticker": "ENMT3", "empresa": "ENERGISA MT", "dy": 0.0626, "score": 50, "preco": 48.5, "setor": "Utilidades Públicas", "categoria": "Mid Caps"}, {"ticker": "ENMT4", "empresa": "ENERGISA MT", "dy": 0.061, "score": 50, "preco": 50.0, "setor": "Utilidades Públicas", "categoria": "Mid Caps"}, {"ticker": "TIMS3", "empresa": "TIM", "dy": 0.1006, "score": 50, "preco": 25.31, "setor": "Comunicação", "categoria": "Blue Chips"}, {"ticker": "ABEV3", "empresa": "AMBEV S/A", "dy": 0.1641, "score": 50, "preco": 14.56, "setor": "Consumo Defensivo", "categoria": "Blue Chips"}, {"ticker": "EGIE3", "empresa": "ENGIE BRASIL", "dy": 0.0506, "score": 50, "preco": 35.05, "setor": "Utilidades Públicas", "categoria": "Mid Caps"}, {"ticker": "CMIN3", "empresa": "CSINERACAO ED", "dy": 0.1313, "score": 50, "preco": 4.68, "setor": "Materiais Básicos", "categoria": "Mid Caps"}, {"ticker": "BEEF3", "empresa": "MINERVA", "dy": 0.0317, "score": 45, "preco": 3.92, "setor": "Consumo Defensivo", "categoria": "Small Caps"}, {"ticker": "TEND3", "empresa": "TENDA", "dy": 0.0431, "score": 45, "preco": 28.01, "setor": "Imobiliário", "categoria": "Small Caps"}, {"ticker": "ECOR3", "empresa": "ECORODOVIAS", "dy": 0.0341, "score": 45, "preco": 8.9, "setor": "Indústria", "categoria": "Small Caps"}, {"ticker": "OFSA3", "empresa": "OUROFINO S/A ED", "dy": 0.0426, "score": 45, "preco": 32.95, "setor": "Saúde", "categoria": "Small Caps"}, {"ticker": "TTEN3", "empresa": "3TENTOS", "dy": 0.0248, "score": 45, "preco": 15.06, "setor": "Materiais Básicos", "categoria": "Small Caps"}, {"ticker": "BMEB3", "empresa": "MERCANTIL", "dy": 0.0271, "score": 45, "preco": 61.1, "setor": "Serviços Financeiros", "categoria": "Small Caps"}, {"ticker": "MOVI3", "empresa": "MOVIDA", "dy": 0.107, "score": 40, "preco": 12.55, "setor": "Indústria", "categoria": "Small Caps"}, {"ticker": "IGTI4", "empresa": "IGUATEMI S.A ED", "dy": 0.0228, "score": 40, "preco": 12.69, "setor": "Imobiliário", "categoria": "Mid Caps"}, {"ticker": "MILS3", "empresa": "MILLS ED", "dy": 0.0921, "score": 35, "preco": 12.83, "setor": "Indústria", "categoria": "Small Caps"}, {"ticker": "FIQE3", "empresa": "UNIFIQUE", "dy": 0.125, "score": 35, "preco": 6.71, "setor": "Comunicação", "categoria": "Small Caps"}, {"ticker": "CEBR5", "empresa": "CEB A", "dy": 0.1312, "score": 35, "preco": 29.96, "setor": "Utilidades Públicas", "categoria": "Small Caps"}, {"ticker": "CEBR6", "empresa": "CEB B", "dy": 0.1355, "score": 35, "preco": 31.44, "setor": "Utilidades Públicas", "categoria": "Small Caps"}, {"ticker": "CEBR3", "empresa": "CEB", "dy": 0.1129, "score": 35, "preco": 33.16, "setor": "Utilidades Públicas", "categoria": "Small Caps"}, {"ticker": "ODPV3", "empresa": "ODTOPREV", "dy": 0.0681, "score": 35, "preco": 14.46, "setor": "Saúde", "categoria": "Small Caps"}, {"ticker": "MULT3", "empresa": "MULTIPLAN", "dy": 0.0351, "score": 35, "preco": 32.07, "setor": "Imobiliário", "categoria": "Mid Caps"}];
+
+// ─────────────────────────────────────────────
+// ESTADO
+// ─────────────────────────────────────────────
+let selecionados    = new Set();
+let chartInstance   = null;
+let pizzaInstance   = null;
+
+// ─────────────────────────────────────────────
+// STEPS
+// ─────────────────────────────────────────────
+function irParaStep(n) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.add('hidden'));
+  document.getElementById(`panel-${n}`).classList.remove('hidden');
+  document.querySelectorAll('.step').forEach(s => {
+    const sn = parseInt(s.dataset.step);
+    s.classList.toggle('active', sn <= n);
+    s.classList.toggle('done', sn < n);
+  });
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function irParaAtivos() {
+  const valor = parseFloat(document.getElementById('valor').value);
+  const anos  = parseFloat(document.getElementById('anos').value);
+  if (!valor || valor <= 0 || !anos || anos <= 0) {
+    shakePanelError('panel-1');
+    return;
+  }
+  popularFiltros();
+  renderAtivos();
+  irParaStep(2);
+}
+
+function shakePanelError(id) {
+  const el = document.getElementById(id);
+  el.classList.add('shake');
+  setTimeout(() => el.classList.remove('shake'), 500);
+}
+
+// ─────────────────────────────────────────────
+// SLIDER SYNC
+// ─────────────────────────────────────────────
+document.getElementById('anos').addEventListener('input', e => {
+  document.getElementById('anos-slider').value = e.target.value;
+});
+document.getElementById('anos-slider').addEventListener('input', e => {
+  document.getElementById('anos').value = e.target.value;
+});
+
+// Bench pills toggle visual
+document.querySelectorAll('.bench-pill input').forEach(cb => {
+  cb.addEventListener('change', () => {
+    cb.closest('.bench-pill').classList.toggle('active', cb.checked);
+  });
+});
+
+// ─────────────────────────────────────────────
+// POPULAR FILTROS DE SETOR E CATEGORIA
+// ─────────────────────────────────────────────
+function popularFiltros() {
+  const setores     = [...new Set(DADOS.map(a => a.setor).filter(Boolean))].sort();
+  const categorias  = [...new Set(DADOS.map(a => a.categoria).filter(Boolean))].sort();
+
+  const selSetor = document.getElementById('filtro-setor');
+  const selCat   = document.getElementById('filtro-categoria');
+
+  // Preserva seleção atual ao re-popular
+  const setorAtual = selSetor.value;
+  const catAtual   = selCat.value;
+
+  selSetor.innerHTML = '<option value="">Todos os setores</option>' +
+    setores.map(s => `<option value="${s}"${s === setorAtual ? ' selected' : ''}>${s}</option>`).join('');
+
+  selCat.innerHTML = '<option value="">Todas as categorias</option>' +
+    categorias.map(c => `<option value="${c}"${c === catAtual ? ' selected' : ''}>${c}</option>`).join('');
+}
+
+// ─────────────────────────────────────────────
+// RENDER ATIVOS COM FILTROS
+// ─────────────────────────────────────────────
+let dadosFiltrados = [...DADOS];
+
+function filtrarAtivos() {
+  const q      = document.getElementById('busca').value.toLowerCase().trim();
+  const setor  = document.getElementById('filtro-setor').value;
+  const cat    = document.getElementById('filtro-categoria').value;
+
+  dadosFiltrados = DADOS.filter(a => {
+    const matchTexto = !q ||
+      a.ticker.toLowerCase().includes(q) ||
+      a.empresa.toLowerCase().includes(q);
+    const matchSetor = !setor || a.setor === setor;
+    const matchCat   = !cat   || a.categoria === cat;
+    return matchTexto && matchSetor && matchCat;
+  });
+
+  renderAtivos();
+}
+
+function renderAtivos() {
+  const grid = document.getElementById('ativos-grid');
+  if (dadosFiltrados.length === 0) {
+    grid.innerHTML = '<div class="empty-state">Nenhum ativo encontrado para os filtros selecionados.</div>';
+    atualizarContador();
+    return;
+  }
+
+  grid.innerHTML = dadosFiltrados.map(a => {
+    const sel    = selecionados.has(a.ticker);
+    const dyPct  = (a.dy * 100).toFixed(2);
+    return `
+    <div class="ativo-card ${sel ? 'sel' : ''}" onclick="toggleAtivo('${a.ticker}')" data-ticker="${a.ticker}">
+      <div class="ativo-top">
+        <img src="../logos/${a.ticker}.png loading="lazy"
+          onerror="this.onerror=null;this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 40 40%22><rect width=%2240%22 height=%2240%22 rx=%228%22 fill=%22%231e293b%22/><text x=%2250%25%22 y=%2254%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 font-size=%2213%22 fill=%22%2394a3b8%22 font-family=%22monospace%22>${a.ticker[0]}</text></svg>'"
+          class="ativo-logo" alt="${a.ticker}">
+        <div class="ativo-info">
+          <strong>${a.ticker}</strong>
+          <small>${a.empresa}</small>
+        </div>
+        <div class="check-icon">${sel ? '✓' : ''}</div>
+      </div>
+      <div class="ativo-bottom">
+        <div class="ativo-stat">
+          <span class="stat-label">DY</span>
+          <span class="stat-val dy">${dyPct}%</span>
+        </div>
+        <div class="ativo-stat">
+          <span class="stat-label">Score</span>
+          <span class="stat-val">${a.score}</span>
+        </div>
+        <div class="ativo-stat">
+          <span class="stat-label">Preço</span>
+          <span class="stat-val">R$${a.preco}</span>
+        </div>
+      </div>
+      <div class="setor-tag">${a.setor}</div>
+      <div class="cat-tag">${a.categoria}</div>
+    </div>`;
+  }).join('');
+
+  atualizarContador();
+}
+
+function toggleAtivo(ticker) {
+  if (selecionados.has(ticker)) {
+    selecionados.delete(ticker);
+  } else {
+    if (selecionados.size >= 10) {
+      alert('Máximo de 10 ativos por simulação.');
+      return;
+    }
+    selecionados.add(ticker);
+  }
+  const card = document.querySelector(`.ativo-card[data-ticker="${ticker}"]`);
+  if (card) {
+    card.classList.toggle('sel', selecionados.has(ticker));
+    const icon = card.querySelector('.check-icon');
+    if (icon) icon.textContent = selecionados.has(ticker) ? '✓' : '';
+  }
+  atualizarContador();
+}
+
+function atualizarContador() {
+  const n = selecionados.size;
+  document.getElementById('selecionados-count').textContent =
+    n === 0 ? 'Nenhum selecionado' : `${n} selecionado${n > 1 ? 's' : ''}`;
+}
+
+// ─────────────────────────────────────────────
+// SIMULAÇÃO
+// ─────────────────────────────────────────────
+function simular() {
+  if (selecionados.size === 0) { shakePanelError('panel-2'); return; }
+
+  const valor  = parseFloat(document.getElementById('valor').value)  || 0;
+  const aporte = parseFloat(document.getElementById('aporte').value) || 0;
+  const anos   = parseFloat(document.getElementById('anos').value)   || 10;
+  const meses  = Math.round(anos * 12);
+
+  const ativos  = DADOS.filter(d => selecionados.has(d.ticker));
+  const dyMedio = ativos.reduce((s, a) => s + a.dy, 0) / ativos.length;
+
+  // Séries mensais
+  const series = { carteira: [], cdi: [], ibov: [], sp500: [], dolar: [] };
+  const taxas  = { cdi: 0.11, ibov: 0.10, sp500: 0.09, dolar: 0.06 };
+
+  let totCarteira = valor;
+  for (let i = 0; i < meses; i++) {
+    totCarteira += aporte;
+    totCarteira *= (1 + dyMedio / 12);
+    series.carteira.push(totCarteira);
+
+    for (const [key, taxa] of Object.entries(taxas)) {
+      let t = series[key].length > 0 ? series[key][series[key].length - 1] : valor;
+      t += aporte;
+      t *= (1 + taxa / 12);
+      series[key].push(t);
+    }
+  }
+
+  const finalCarteira  = series.carteira[meses - 1];
+  const totalInvestido = valor + aporte * meses;
+  const rendaMensal    = (finalCarteira * dyMedio) / 12;
+  const ganho          = finalCarteira - totalInvestido;
+  const ganhoPerc      = ((finalCarteira / totalInvestido - 1) * 100).toFixed(1);
+
+  // Métricas
+  document.getElementById('metricas').innerHTML = `
+    <div class="metrica-card highlight">
+      <div class="metrica-label">Patrimônio final</div>
+      <div class="metrica-val">${fmt(finalCarteira)}</div>
+    </div>
+    <div class="metrica-card">
+      <div class="metrica-label">Total investido</div>
+      <div class="metrica-val dim">${fmt(totalInvestido)}</div>
+    </div>
+    <div class="metrica-card green">
+      <div class="metrica-label">Ganho</div>
+      <div class="metrica-val">${fmt(ganho)} <span class="badge-perc">+${ganhoPerc}%</span></div>
+    </div>
+    <div class="metrica-card green">
+      <div class="metrica-label">Renda mensal estimada</div>
+      <div class="metrica-val">${fmt(rendaMensal)}</div>
+      <div class="metrica-sub">DY médio: ${(dyMedio * 100).toFixed(2)}% a.a.</div>
+    </div>
+  `;
+
+  // Resumo
+  document.getElementById('resumo-params').textContent =
+    `Capital inicial ${fmt(valor)} + aportes de ${fmt(aporte)}/mês por ${anos} anos`;
+
+  // Ativos resultado
+  document.getElementById('ativos-result').innerHTML =
+    `<div class="ativos-result-title">Ativos selecionados</div>` +
+    ativos.map(a => `
+    <div class="ativo-result-row" loading="lazy">
+      <img src="../logos/${a.ticker}.png" loading="lazy"
+        onerror="this.onerror=null;this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 40 40%22><rect width=%2240%22 height=%2240%22 rx=%228%22 fill=%22%231e293b%22/><text x=%2250%25%22 y=%2254%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 font-size=%2213%22 fill=%22%2394a3b8%22 font-family=%22monospace%22>${a.ticker[0]}</text></svg>'"
+        class="ativo-logo-sm">
+      <span class="ativo-ticker-sm">${a.ticker}</span>
+      <span class="ativo-emp-sm">${a.empresa}</span>
+      <span class="setor-badge">${a.setor}</span>
+      <span class="cat-badge">${a.categoria}</span>
+      <span class="dy-badge">${(a.dy * 100).toFixed(2)}% DY</span>
+    </div>`).join('');
+
+  renderGrafico(series, meses, anos);
+  renderGraficoPizza(ativos);
+  irParaStep(3);
+}
+
+// ─────────────────────────────────────────────
+// GRÁFICO DE LINHA — Evolução patrimonial
+// ─────────────────────────────────────────────
+const CORES = {
+  carteira: '#22c55e',
+  cdi:      '#facc15',
+  ibov:     '#60a5fa',
+  sp500:    '#f472b6',
+  dolar:    '#a78bfa',
+};
+
+function renderGrafico(series, meses, anos) {
+  const ctx = document.getElementById('grafico').getContext('2d');
+  if (chartInstance) { chartInstance.destroy(); chartInstance = null; }
+
+  const labels = Array.from({ length: meses }, (_, i) => {
+    const a = Math.floor(i / 12) + 1;
+    return i % 12 === 0 ? `Ano ${a}` : '';
+  });
+
+  const datasets = [{
+    label: 'Sua carteira',
+    data: series.carteira,
+    borderColor: CORES.carteira,
+    backgroundColor: 'rgba(34,197,94,0.08)',
+    borderWidth: 2.5,
+    fill: true,
+    tension: 0.4,
+    pointRadius: 0,
+    pointHoverRadius: 5,
+  }];
+
+  const benchActive = {
+    cdi:   document.getElementById('cdi').checked,
+    ibov:  document.getElementById('ibov').checked,
+    sp500: document.getElementById('sp500').checked,
+    dolar: document.getElementById('dolar').checked,
+  };
+  const benchLabels = { cdi: 'CDI', ibov: 'Ibovespa', sp500: 'S&P 500', dolar: 'Dólar' };
+
+  for (const [key, active] of Object.entries(benchActive)) {
+    if (!active) continue;
+    datasets.push({
+      label: benchLabels[key],
+      data: series[key],
+      borderColor: CORES[key],
+      backgroundColor: 'transparent',
+      borderWidth: 1.5,
+      borderDash: [4, 4],
+      tension: 0.4,
+      pointRadius: 0,
+      pointHoverRadius: 4,
+      fill: false,
+    });
+  }
+
+  chartInstance = new Chart(ctx, {
+    type: 'line',
+    data: { labels, datasets },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: '#0f172a',
+          borderColor: '#1e293b',
+          borderWidth: 1,
+          padding: 12,
+          callbacks: { label: ctx => ` ${ctx.dataset.label}: ${fmt(ctx.raw)}` }
+        }
+      },
+      scales: {
+        x: {
+          grid: { color: 'rgba(255,255,255,0.04)' },
+          ticks: { color: '#475569', font: { family: 'DM Mono', size: 11 } }
+        },
+        y: {
+          grid: { color: 'rgba(255,255,255,0.04)' },
+          ticks: {
+            color: '#475569',
+            font: { family: 'DM Mono', size: 11 },
+            callback: v => fmtShort(v)
+          }
+        }
+      }
+    }
+  });
+
+  // Legenda manual
+  const leg = document.getElementById('chart-legend');
+  leg.innerHTML = datasets.map(d => `
+    <div class="leg-item">
+      <span class="leg-dot" style="background:${d.borderColor}"></span>
+      ${d.label}
+    </div>`).join('');
+}
+
+// ─────────────────────────────────────────────
+// GRÁFICO DE PIZZA — Divisão por setor
+// ─────────────────────────────────────────────
+const PIZZA_CORES = [
+  '#22c55e','#60a5fa','#facc15','#f472b6','#a78bfa',
+  '#fb923c','#34d399','#f87171','#38bdf8','#c084fc',
+  '#fbbf24','#4ade80','#818cf8','#e879f9','#2dd4bf',
+];
+
+function renderGraficoPizza(ativos) {
+  const ctx = document.getElementById('grafico-pizza').getContext('2d');
+  if (pizzaInstance) { pizzaInstance.destroy(); pizzaInstance = null; }
+
+  // Conta ativos por setor
+  const contagem = {};
+  ativos.forEach(a => {
+    const s = a.setor || 'Outros';
+    contagem[s] = (contagem[s] || 0) + 1;
+  });
+
+  const total   = ativos.length;
+  const labels  = Object.keys(contagem);
+  const valores = Object.values(contagem);
+  const cores   = labels.map((_, i) => PIZZA_CORES[i % PIZZA_CORES.length]);
+
+  pizzaInstance = new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+      labels,
+      datasets: [{
+        data: valores,
+        backgroundColor: cores,
+        borderColor: '#020617',
+        borderWidth: 3,
+        hoverOffset: 8,
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      cutout: '62%',
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: '#0f172a',
+          borderColor: '#1e293b',
+          borderWidth: 1,
+          padding: 12,
+          callbacks: {
+            label: ctx => {
+              const pct = ((ctx.raw / total) * 100).toFixed(1);
+              return ` ${ctx.label}: ${ctx.raw} ativo${ctx.raw > 1 ? 's' : ''} (${pct}%)`;
+            }
+          }
+        }
+      }
+    }
+  });
+
+  // Legenda personalizada
+  const legEl = document.getElementById('pizza-legend');
+  legEl.innerHTML = labels.map((label, i) => {
+    const pct = ((valores[i] / total) * 100).toFixed(1);
+    return `
+      <div class="pizza-leg-item">
+        <span class="pizza-leg-dot" style="background:${cores[i]}"></span>
+        <span class="pizza-leg-label">${label}</span>
+        <span class="pizza-leg-pct">${pct}%</span>
+      </div>`;
+  }).join('');
+}
+
+// ─────────────────────────────────────────────
+// UTILS
+// ─────────────────────────────────────────────
+function fmt(v) {
+  return 'R$ ' + v.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+}
+function fmtShort(v) {
+  if (v >= 1e6) return 'R$ ' + (v / 1e6).toFixed(1) + 'M';
+  if (v >= 1e3) return 'R$ ' + (v / 1e3).toFixed(0) + 'K';
+  return 'R$ ' + v.toFixed(0);
+}
+
+// init
+popularFiltros();
+renderAtivos();
+</script>
+
+<style>
+/* ─── RESET & BASE ─── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:       #020617;
+  --surface:  #0d1526;
+  --surface2: #111827;
+  --border:   #1e293b;
+  --border2:  #263148;
+  --text:     #f1f5f9;
+  --muted:    #64748b;
+  --accent:   #22c55e;
+  --accent2:  #16a34a;
+  --danger:   #ef4444;
+  --yellow:   #facc15;
+  --blue:     #60a5fa;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ─── BG GRID ─── */
+.bg-grid {
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(34,197,94,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(34,197,94,0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ─── PAGE ─── */
+.page {
+  position: relative;
+  z-index: 1;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px 16px 80px;
+}
+@media (max-width: 768px) {
+  .page { padding: 16px 12px 60px; }
+}
+
+/* ─── HEADER ─── */
+.header { margin-bottom: 32px; }
+.header-inner {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.logo-link {
+  color: var(--muted);
+  text-decoration: none;
+  font-family: 'DM Mono', monospace;
+  font-size: 13px;
+  transition: color .2s;
+  white-space: nowrap;
+}
+.logo-link:hover { color: var(--accent); }
+.header-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.header-title h1 {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(20px, 4vw, 28px);
+  font-weight: 800;
+  letter-spacing: -0.5px;
+}
+.pill {
+  background: rgba(34,197,94,0.15);
+  color: var(--accent);
+  border: 1px solid rgba(34,197,94,0.3);
+  border-radius: 99px;
+  padding: 2px 10px;
+  font-size: 11px;
+  font-family: 'DM Mono', monospace;
+  letter-spacing: 1px;
+}
+
+/* ─── STEPS BAR ─── */
+.steps-bar {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  margin-bottom: 32px;
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+}
+.step {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--muted);
+  transition: color .3s;
+}
+.step span {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px;
+  transition: all .3s;
+}
+.step.active { color: var(--text); }
+.step.active span {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #000;
+  font-weight: 700;
+}
+.step.done span {
+  background: rgba(34,197,94,0.2);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.step-sep {
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+  margin: 0 12px;
+  max-width: 80px;
+}
+
+/* ─── PANEL ─── */
+.panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 32px;
+}
+@media (max-width: 768px) {
+  .panel { padding: 20px 16px; border-radius: 16px; }
+}
+.panel.hidden { display: none; }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes shake {
+  0%,100% { transform: translateX(0); }
+  20%     { transform: translateX(-8px); }
+  40%     { transform: translateX(8px); }
+  60%     { transform: translateX(-5px); }
+  80%     { transform: translateX(5px); }
+}
+.shake { animation: shake .45s ease; }
+
+.panel-head {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  margin-bottom: 28px;
+}
+.panel-num {
+  font-family: 'Syne', sans-serif;
+  font-size: 48px;
+  font-weight: 800;
+  color: rgba(34,197,94,0.15);
+  line-height: 1;
+  min-width: 64px;
+  letter-spacing: -2px;
+}
+.panel-head h2 {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(18px, 3vw, 24px);
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+.panel-head p { color: var(--muted); font-size: 14px; }
+
+/* ─── INPUTS ─── */
+.inputs-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+  margin-bottom: 28px;
+}
+@media(max-width: 640px) { .inputs-row { grid-template-columns: 1fr; } }
+
+.input-block label {
+  display: block;
+  font-size: 12px;
+  color: var(--muted);
+  font-family: 'DM Mono', monospace;
+  letter-spacing: .5px;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+}
+.input-wrap {
+  display: flex;
+  align-items: center;
+  background: var(--bg);
+  border: 1px solid var(--border2);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: border-color .2s;
+}
+.input-wrap:focus-within { border-color: var(--accent); }
+.prefix, .suffix {
+  padding: 12px 14px;
+  color: var(--muted);
+  font-family: 'DM Mono', monospace;
+  font-size: 13px;
+  background: var(--surface2);
+  border-right: 1px solid var(--border);
+}
+.suffix { border-right: none; border-left: 1px solid var(--border); }
+.input-wrap input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--text);
+  font-size: 15px;
+  padding: 12px 14px;
+  font-family: 'DM Mono', monospace;
+  width: 100%;
+}
+input[type=number]::-webkit-inner-spin-button { opacity: 0; }
+
+/* Slider */
+.slider-row { margin-top: 10px; }
+.slider {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 4px;
+  border-radius: 4px;
+  background: var(--border2);
+  outline: none;
+  cursor: pointer;
+}
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 16px; height: 16px;
+  border-radius: 50%;
+  background: var(--accent);
+  cursor: pointer;
+  border: 2px solid var(--bg);
+  box-shadow: 0 0 0 2px rgba(34,197,94,0.3);
+}
+.slider-labels {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 4px;
+  font-size: 11px;
+  color: var(--muted);
+  font-family: 'DM Mono', monospace;
+}
+
+/* ─── BENCHMARKS ─── */
+.benchmarks-block { margin-bottom: 28px; }
+.benchmarks-block h3 {
+  font-size: 12px;
+  color: var(--muted);
+  text-transform: uppercase;
+  font-family: 'DM Mono', monospace;
+  letter-spacing: .5px;
+  margin-bottom: 12px;
+}
+.bench-pills { display: flex; flex-wrap: wrap; gap: 8px; }
+.bench-pill {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: 99px;
+  border: 1px solid var(--border2);
+  cursor: pointer;
+  font-size: 13px;
+  color: var(--muted);
+  transition: all .2s;
+}
+.bench-pill input { display: none; }
+.bench-pill.active { border-color: var(--border2); color: var(--text); background: var(--surface2); }
+.dot { width: 8px; height: 8px; border-radius: 50%; }
+
+/* ─── BOTÕES ─── */
+.btn-next {
+  width: 100%;
+  padding: 16px;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  color: #000;
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 15px;
+  border: none;
+  border-radius: 14px;
+  cursor: pointer;
+  transition: all .2s;
+  letter-spacing: .5px;
+}
+.btn-next:hover { filter: brightness(1.1); transform: translateY(-1px); box-shadow: 0 8px 24px rgba(34,197,94,0.25); }
+.btn-back {
+  padding: 14px 24px;
+  background: transparent;
+  color: var(--muted);
+  font-family: 'Syne', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  border: 1px solid var(--border2);
+  border-radius: 14px;
+  cursor: pointer;
+  transition: all .2s;
+}
+.btn-back:hover { color: var(--text); border-color: var(--text); }
+.nav-btns { display: flex; gap: 12px; margin-top: 32px; }
+.nav-btns .btn-next { flex: 1; }
+
+/* ─── FILTROS ─── */
+.filtros-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+.search-wrap {
+  flex: 1;
+  min-width: 160px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--bg);
+  border: 1px solid var(--border2);
+  border-radius: 12px;
+  padding: 10px 16px;
+  transition: border-color .2s;
+}
+.search-wrap:focus-within { border-color: var(--accent); }
+.search-wrap input {
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--text);
+  font-size: 14px;
+  width: 100%;
+}
+
+/* Select de filtro */
+.select-filtro {
+  background: var(--bg);
+  border: 1px solid var(--border2);
+  border-radius: 12px;
+  color: var(--text);
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  padding: 10px 14px;
+  cursor: pointer;
+  outline: none;
+  transition: border-color .2s;
+  min-width: 130px;
+  max-width: 190px;
+  flex-shrink: 0;
+}
+.select-filtro:focus { border-color: var(--accent); }
+.select-filtro option {
+  background: var(--surface2);
+  color: var(--text);
+}
+
+.count-badge {
+  font-size: 12px;
+  font-family: 'DM Mono', monospace;
+  color: var(--accent);
+  background: rgba(34,197,94,0.1);
+  border: 1px solid rgba(34,197,94,0.2);
+  padding: 8px 14px;
+  border-radius: 99px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* Estado vazio */
+.empty-state {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--muted);
+  font-size: 14px;
+  font-family: 'DM Mono', monospace;
+}
+
+/* ─── ATIVOS GRID ─── */
+.ativos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 10px;
+  max-height: 460px;
+  overflow-y: auto;
+  padding-right: 4px;
+  margin-bottom: 8px;
+}
+.ativos-grid::-webkit-scrollbar { width: 4px; }
+.ativos-grid::-webkit-scrollbar-track { background: transparent; }
+.ativos-grid::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 4px; }
+
+.ativo-card {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 12px;
+  cursor: pointer;
+  transition: all .18s;
+  position: relative;
+  overflow: hidden;
+}
+.ativo-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+.ativo-card.sel {
+  border-color: var(--accent);
+  background: rgba(34,197,94,0.06);
+}
+
+.ativo-top {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+.ativo-logo {
+  width: 32px; height: 32px;
+  border-radius: 8px;
+  object-fit: contain;
+  background: var(--surface2);
+  flex-shrink: 0;
+}
+.ativo-info strong {
+  display: block;
+  font-size: 13px;
+  font-family: 'DM Mono', monospace;
+  font-weight: 500;
+}
+.ativo-info small {
+  display: block;
+  font-size: 11px;
+  color: var(--muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 80px;
+}
+.check-icon {
+  margin-left: auto;
+  color: var(--accent);
+  font-weight: 700;
+  font-size: 14px;
+  min-width: 16px;
+  text-align: center;
+}
+
+.ativo-bottom {
+  display: flex;
+  gap: 6px;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+.ativo-stat { text-align: center; flex: 1; }
+.stat-label {
+  display: block;
+  font-size: 10px;
+  color: var(--muted);
+  font-family: 'DM Mono', monospace;
+  margin-bottom: 2px;
+}
+.stat-val {
+  font-size: 12px;
+  font-family: 'DM Mono', monospace;
+  font-weight: 500;
+}
+.stat-val.dy { color: var(--accent); }
+
+.setor-tag {
+  font-size: 9px;
+  font-family: 'DM Mono', monospace;
+  color: var(--muted);
+  background: var(--surface2);
+  border-radius: 99px;
+  padding: 2px 7px;
+  opacity: 0.8;
+  display: inline-block;
+  margin-top: 2px;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.cat-tag {
+  font-size: 9px;
+  font-family: 'DM Mono', monospace;
+  color: #60a5fa;
+  background: rgba(96,165,250,0.08);
+  border: 1px solid rgba(96,165,250,0.2);
+  border-radius: 99px;
+  padding: 2px 7px;
+  display: inline-block;
+  margin-top: 3px;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ─── MÉTRICAS ─── */
+.metricas-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 14px;
+  margin-bottom: 28px;
+}
+.metrica-card {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 20px;
+}
+.metrica-card.highlight {
+  border-color: rgba(34,197,94,0.4);
+  background: rgba(34,197,94,0.04);
+}
+.metrica-card.green .metrica-val { color: var(--accent); }
+.metrica-label {
+  font-size: 11px;
+  font-family: 'DM Mono', monospace;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  margin-bottom: 8px;
+}
+.metrica-val {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(16px, 2.5vw, 22px);
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.metrica-val.dim { color: var(--muted); }
+.metrica-sub { font-size: 12px; color: var(--muted); margin-top: 4px; }
+.badge-perc {
+  font-size: 12px;
+  background: rgba(34,197,94,0.15);
+  color: var(--accent);
+  border-radius: 99px;
+  padding: 2px 8px;
+}
+
+/* ─── CHARTS ROW ─── */
+.charts-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+  margin-bottom: 24px;
+}
+@media (min-width: 768px) {
+  .charts-row { grid-template-columns: 1fr; }
+}
+
+/* ─── CHART CARD ─── */
+.chart-card {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 24px;
+}
+.chart-card-pie { margin-bottom: 0; }
+.chart-subtitle {
+  font-size: 12px;
+  font-family: 'DM Mono', monospace;
+  color: var(--muted);
+}
+.chart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.chart-header h3 {
+  font-family: 'Syne', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+}
+.chart-legend { display: flex; flex-wrap: wrap; gap: 14px; }
+.leg-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-family: 'DM Mono', monospace;
+  color: var(--muted);
+}
+.leg-dot { width: 10px; height: 10px; border-radius: 50%; }
+
+.chart-wrap {
+  position: relative;
+  width: 100%;
+  height: 280px;
+}
+@media (min-width: 768px)  { .chart-wrap { height: 380px; } }
+@media (min-width: 1200px) { .chart-wrap { height: 420px; } }
+
+/* ─── PIE CHART ─── */
+.pie-wrap {
+  position: relative;
+  width: 100%;
+  height: 260px;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+.pie-wrap canvas {
+  max-width: 260px;
+}
+.pizza-legend {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 10px;
+  padding-top: 8px;
+  border-top: 1px solid var(--border);
+}
+.pizza-leg-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  font-family: 'DM Mono', monospace;
+}
+.pizza-leg-dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.pizza-leg-label {
+  flex: 1;
+  color: var(--muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.pizza-leg-pct {
+  color: var(--text);
+  font-weight: 500;
+}
+
+/* ─── ATIVOS RESULT ─── */
+.ativos-result-grid {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+}
+.ativos-result-title {
+  padding: 14px 20px;
+  font-size: 12px;
+  font-family: 'DM Mono', monospace;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  border-bottom: 1px solid var(--border);
+}
+.ativo-result-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 20px;
+  border-bottom: 1px solid var(--border);
+  transition: background .15s;
+  flex-wrap: wrap;
+}
+.ativo-result-row:last-child { border-bottom: none; }
+.ativo-result-row:hover { background: var(--surface2); }
+.ativo-logo-sm {
+  width: 28px; height: 28px;
+  border-radius: 6px;
+  object-fit: contain;
+  background: var(--surface2);
+  flex-shrink: 0;
+}
+.ativo-ticker-sm {
+  font-family: 'DM Mono', monospace;
+  font-weight: 500;
+  font-size: 13px;
+  min-width: 52px;
+}
+.ativo-emp-sm { font-size: 13px; color: var(--muted); flex: 1; min-width: 80px; }
+.setor-badge {
+  font-size: 11px;
+  font-family: 'DM Mono', monospace;
+  color: var(--muted);
+  background: var(--surface2);
+  border: 1px solid var(--border2);
+  padding: 3px 9px;
+  border-radius: 99px;
+}
+.cat-badge {
+  font-size: 11px;
+  font-family: 'DM Mono', monospace;
+  color: #60a5fa;
+  background: rgba(96,165,250,0.08);
+  border: 1px solid rgba(96,165,250,0.2);
+  padding: 3px 9px;
+  border-radius: 99px;
+}
+.dy-badge {
+  font-size: 12px;
+  font-family: 'DM Mono', monospace;
+  color: var(--accent);
+  background: rgba(34,197,94,0.1);
+  border: 1px solid rgba(34,197,94,0.2);
+  padding: 4px 10px;
+  border-radius: 99px;
+}
+
+/* ─── MISC ─── */
+@media (max-width: 640px) {
+  .header-inner { flex-direction: column; align-items: flex-start; gap: 12px; }
+}
+html, body { max-width: 100%; overflow-x: hidden; }
+.chart-legend { justify-content: flex-start; }
+</style>
+</body>
+</html>
+
+
+</div>
+
+<!-- ANÚNCIO -->
+<div style="margin:20px 0;text-align:center;" aria-label="Publicidade" role="complementary">
+    <ins class="adsbygoogle"
+        style="display:block"
+        data-ad-client="ca-pub-5213961841779335"
+        data-ad-slot="1234567890"
+        data-ad-format="auto"
+        data-full-width-responsive="true"></ins>
+</div>
+
+</main>
+
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<!-- RODAPÉ -->
+<footer>
+<div class="footer">
+  ⚠️ Este ranking utiliza dados públicos do Yahoo Finance e aplica critérios quantitativos próprios.
+  Não constitui recomendação de investimento.<br>
+  <a href="/ranking.csv" aria-label="Baixar ranking em formato CSV">Baixar CSV</a>
+</div>
+
+<div class="footer" style="margin-top:10px">
+  <nav aria-label="Links do rodapé">
+    <a href="../index.html">Ranking</a>
+    <a href="../missao.html">Nossa missão</a>
+    <a href="../fundamentalista.html">Análise Fundamentalista</a>
+    <a href="../pl.html">O que é P/L</a>
+    <a href="../pvp.html">O que é P/VP</a>
+    <a href="../roe.html">O que é ROE</a>
+    <a href="../on-pn.html">Diferença entre ações ON e PN</a>
+    <a href="../dividend-yield.html">Dividend Yield</a>
+    <a href="../estrategia-investidor.html">Como Investir Melhor em Ações</a>
+    <a href="../doacoes.html">💚 Apoie o Projeto</a>
+  </nav>
+  <br>
+  © Tá no Precinho, 2026
+</div>
+</footer>
+
+</div>
+
+</body>
+</html>
