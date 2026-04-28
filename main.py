@@ -4191,7 +4191,7 @@ def gerar_calendario_dividendos_completo(df):
              data-data="{row['DataPagamento'].strftime('%Y-%m-%d')}">
             <a class="card-left" href="/acoes/{ticker}.html">
                 <div class="logo-wrap">
-                    <img class="logo-img" src="https://s3-symbol-logo.tradingview.com/{ticker.lower()}.svg" alt="{ticker}" onerror="this.style.display='none'">
+                    <img class="logo-img" src="/logos/{ticker.lower()}.svg" alt="{ticker}" onerror="this.style.display='none'">
                 </div>
                 <div class="card-info">
                     <span class="ticker-label">{ticker}</span>
