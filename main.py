@@ -8,6 +8,11 @@ import random
 import re
 import unicodedata
 import json
+import feedparser
+from urllib.parse import quote
+from deep_translator import GoogleTranslator
+import datetime
+import yfinance as yf
 from scripts.validate_data import validar_dados
 from scripts.scoring import value_score
 from scripts.scoring import calcular_preco_justo
@@ -815,11 +820,7 @@ def obter_proventos(ticker, limite=6):
 # NOTÍCIAS (PT-BR + FALLBACK)
 # =========================
 
-import feedparser
-from urllib.parse import quote
-from deep_translator import GoogleTranslator
-import datetime
-import yfinance as yf
+
 
 translator = GoogleTranslator(source='auto', target='pt')
 
