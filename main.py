@@ -1988,7 +1988,7 @@ def gerar_paginas_setores(df):
                         margin-bottom:10px;">
                 
                 <div style="display:flex;align-items:center;gap:10px">
-                    <img src="../logos/{row['Ticker']}.png loading="lazy"
+                    <img src="../logos/{row['Ticker']}.png" loading="lazy"
                          style="width:28px;height:28px"
                          onerror="this.onerror=null;this.src='../logos/default.svg';">
 
@@ -2083,7 +2083,7 @@ def gerar_paginas_categorias(df):
                         margin-bottom:10px;">
                 
                 <div style="display:flex;align-items:center;gap:10px">
-                    <img src="../logos/{row['Ticker']}.png loading="lazy"
+                    <img src="../logos/{row['Ticker']}.png" loading="lazy"
                          style="width:28px;height:28px"
                          onerror="this.onerror=null;this.src='../logos/default.svg';">
 
@@ -2990,7 +2990,7 @@ function renderAtivos() {
     return `
     <div class="ativo-card ${sel ? 'sel' : ''}" onclick="toggleAtivo('${a.ticker}')" data-ticker="${a.ticker}">
       <div class="ativo-top">
-        <img src="../logos/${a.ticker}.png loading="lazy"
+        <img src="../logos/${a.ticker}.png" loading="lazy"
           onerror="this.onerror=null;this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 40 40%22><rect width=%2240%22 height=%2240%22 rx=%228%22 fill=%22%231e293b%22/><text x=%2250%25%22 y=%2254%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 font-size=%2213%22 fill=%22%2394a3b8%22 font-family=%22monospace%22>${a.ticker[0]}</text></svg>'"
           class="ativo-logo" alt="${a.ticker}">
         <div class="ativo-info">
@@ -4192,7 +4192,7 @@ def gerar_calendario_dividendos_completo(df):
              data-data="{row['DataPagamento'].strftime('%Y-%m-%d')}">
             <a class="card-left" href="/acoes/{ticker}.html">
                 <div class="logo-wrap">
-                    <img class="logo-img" src="/logos/{ticker.lower()}.svg" alt="{ticker}" onerror="this.style.display='none'">
+                    <img class="logo-img" src="/logos/{ticker.lower()}.png" alt="{ticker}" onerror="this.style.display='../logos/default.svg';">
                 </div>
                 <div class="card-info">
                     <span class="ticker-label">{ticker}</span>
