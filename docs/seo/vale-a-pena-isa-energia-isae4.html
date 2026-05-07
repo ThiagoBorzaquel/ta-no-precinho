@@ -39,6 +39,7 @@ crossorigin="anonymous"></script>
 <meta property="og:site_name" content="Tá no Precinho">
 <meta property="og:locale" content="pt_BR">
 
+
 <!-- SCHEMA SEO -->
 <script type="application/ld+json">
 {
@@ -162,6 +163,95 @@ align-items: flex-start;
 gap: 8px;
 }
 
+/* GRID */
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 14px;
+  margin: 20px 0;
+}
+
+/* CARD */
+.metric {
+  background: linear-gradient(145deg, #020617, #020617);
+  border-radius: 14px;
+  padding: 16px;
+  border: 1px solid rgba(255,255,255,0.04);
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+/* HOVER PREMIUM */
+.metric:hover {
+  transform: translateY(-4px);
+  border-color: rgba(255,255,255,0.08);
+  
+}
+
+/* LABEL */
+.metric-label {
+  font-size: 12px;
+  color: #94a3b8;
+}
+
+/* VALOR */
+.metric-value {
+  font-size: 22px;
+  font-weight: 700;
+  color: #f8fafc;
+  margin-top: 4px;
+}
+
+/* SCORE */
+.metric.score {
+  background: linear-gradient(145deg, rgba(34,197,94,0.08), #020617);
+  border: 1px solid rgba(34,197,94,0.2);
+}
+
+.metric.score .metric-value {
+  color: #22c55e;
+}
+
+/* DESCONTO */
+.metric.desconto .metric-value {
+  color: #22c55e;
+}
+
+/* PREÇO JUSTO (destaque principal) */
+.metric.highlight {
+  background: linear-gradient(145deg, rgba(34,197,94,0.12), #020617);
+  border: 1px solid #22c55e;
+}
+
+.metric.highlight .metric-value {
+  color: #22c55e;
+  font-size: 24px;
+}
+
+/* NEGATIVO (se quiser usar depois) */
+.metric.negative .metric-value {
+  color: #ef4444;
+}
+
+.metric::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at top left, rgba(255,255,255,0.05), transparent 60%);
+  opacity: 0;
+  transition: 0.3s;
+}
+
+.metric:hover::after {
+  opacity: 1;
+}
+
+h1 span {
+  color: #64748b;
+  font-weight: 500;
+}
+
 </style>
 
 </head>
@@ -181,6 +271,8 @@ gap: 8px;
   <a href="../roe.html">O que é ROE</a>
   <a href="../on-pn.html">Diferença entre ações ON e PN</a>
   <a href="../dividend-yield.html">Dividend Yield</a>
+  <a href="../estrategia-investidor.html">Como Investir Melhor em Ações</a>
+  <a href="../doacoes.html">💚 Apoie o Projeto</a>
 </div>
 </nav>
 
@@ -212,7 +304,7 @@ gap: 8px;
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"Article","headline":"Vale a pena investir em ISA ENERGIA (ISAE4) em 2026?",
 "author":{"@type":"Organization","name":"Tá no Precinho"},
-"dateModified":"2026-04-05"}
+"dateModified":"2026-05-07"}
 </script>
 <div style="max-width:780px;margin:auto">
 <a href="/index.html" style="color:#94a3b8;font-size:13px;">← Ranking completo</a>
@@ -225,94 +317,52 @@ gap: 8px;
 </div>
 <div class="card">
 <h2>Visão geral de ISAE4</h2>
-<p><strong>ISA ENERGIA</strong> atua no setor de <strong>Utilidades Públicas</strong>. Com P/L de 7.75 e ROE de 12.1%, a empresa requer análise cuidadosa antes de qualquer decisão.</p>
+<p><strong>ISA ENERGIA</strong> atua no setor de <strong>Utilidades Públicas</strong>. Com P/L de 8.38 e ROE de 12.1%, a empresa requer análise cuidadosa antes de qualquer decisão.</p>
 <p>O score fundamentalista atual é de <strong>80/100</strong>.</p>
 </div>
 <div class="card">
 <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;">
 
-    <div style="
-    background:#020617;
-    padding:14px;
-    border-radius:14px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    ">
-        <span style="color:#cbd5e1">P/L</span>
-        <strong style="color:#e2e8f0">7.75</strong>
+    <div class="metric ">
+        <div class="metric-label">P/L</div>
+        <div class="metric-value">8.38</div>
     </div>
     
 
-    <div style="
-    background:#020617;
-    padding:14px;
-    border-radius:14px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    ">
-        <span style="color:#cbd5e1">P/VP</span>
-        <strong style="color:#e2e8f0">0.9</strong>
+    <div class="metric ">
+        <div class="metric-label">P/VP</div>
+        <div class="metric-value">0.93</div>
     </div>
     
 
-    <div style="
-    background:#020617;
-    padding:14px;
-    border-radius:14px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    ">
-        <span style="color:#cbd5e1">ROE</span>
-        <strong style="color:#e2e8f0">12.1%</strong>
+    <div class="metric ">
+        <div class="metric-label">ROE</div>
+        <div class="metric-value">12.1%</div>
     </div>
     
 
-    <div style="
-    background:#020617;
-    padding:14px;
-    border-radius:14px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    ">
-        <span style="color:#cbd5e1">DY</span>
-        <strong style="color:#e2e8f0">9.15%</strong>
+    <div class="metric ">
+        <div class="metric-label">DY</div>
+        <div class="metric-value">8.64%</div>
     </div>
     
 
-    <div style="
-    background:#020617;
-    padding:14px;
-    border-radius:14px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    ">
-        <span style="color:#cbd5e1">Score</span>
-        <strong style="color:#e2e8f0">80</strong>
+    <div class="metric ">
+        <div class="metric-label">Score</div>
+        <div class="metric-value">80</div>
     </div>
     
 
-    <div style="
-    background:#020617;
-    padding:14px;
-    border-radius:14px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    ">
-        <span style="color:#cbd5e1">Desconto</span>
-        <strong style="color:#e2e8f0">48.33%</strong>
+    <div class="metric ">
+        <div class="metric-label">Desconto</div>
+        <div class="metric-value">44.16%</div>
     </div>
     
 </div>
 </div>
 <div class="card">
 <h2>Riscos e oportunidades</h2>
-<p>Com desconto de 48.33% em relação ao preço justo, existe potencial de valorização.</p>
+<p>Com desconto de 44.16% em relação ao preço justo, existe potencial de valorização.</p>
 <p>⚠️ Esta análise é informativa e não constitui recomendação de investimento.</p>
 </div>
 <div class="card">
@@ -343,6 +393,7 @@ gap: 8px;
 </script>
 
 <!-- RODAPÉ -->
+ 
 <footer>
 <div class="footer">
   ⚠️ Este ranking utiliza dados públicos do Yahoo Finance e aplica critérios quantitativos próprios.
@@ -360,6 +411,8 @@ gap: 8px;
     <a href="../roe.html">O que é ROE</a>
     <a href="../on-pn.html">Diferença entre ações ON e PN</a>
     <a href="../dividend-yield.html">Dividend Yield</a>
+    <a href="../estrategia-investidor.html">Como Investir Melhor em Ações</a>
+    <a href="../doacoes.html">💚 Apoie o Projeto</a>
   </nav>
   <br>
   © Tá no Precinho, 2026

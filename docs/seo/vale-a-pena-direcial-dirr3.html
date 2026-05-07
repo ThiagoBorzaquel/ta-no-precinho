@@ -163,6 +163,95 @@ align-items: flex-start;
 gap: 8px;
 }
 
+/* GRID */
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 14px;
+  margin: 20px 0;
+}
+
+/* CARD */
+.metric {
+  background: linear-gradient(145deg, #020617, #020617);
+  border-radius: 14px;
+  padding: 16px;
+  border: 1px solid rgba(255,255,255,0.04);
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+/* HOVER PREMIUM */
+.metric:hover {
+  transform: translateY(-4px);
+  border-color: rgba(255,255,255,0.08);
+  
+}
+
+/* LABEL */
+.metric-label {
+  font-size: 12px;
+  color: #94a3b8;
+}
+
+/* VALOR */
+.metric-value {
+  font-size: 22px;
+  font-weight: 700;
+  color: #f8fafc;
+  margin-top: 4px;
+}
+
+/* SCORE */
+.metric.score {
+  background: linear-gradient(145deg, rgba(34,197,94,0.08), #020617);
+  border: 1px solid rgba(34,197,94,0.2);
+}
+
+.metric.score .metric-value {
+  color: #22c55e;
+}
+
+/* DESCONTO */
+.metric.desconto .metric-value {
+  color: #22c55e;
+}
+
+/* PREÇO JUSTO (destaque principal) */
+.metric.highlight {
+  background: linear-gradient(145deg, rgba(34,197,94,0.12), #020617);
+  border: 1px solid #22c55e;
+}
+
+.metric.highlight .metric-value {
+  color: #22c55e;
+  font-size: 24px;
+}
+
+/* NEGATIVO (se quiser usar depois) */
+.metric.negative .metric-value {
+  color: #ef4444;
+}
+
+.metric::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at top left, rgba(255,255,255,0.05), transparent 60%);
+  opacity: 0;
+  transition: 0.3s;
+}
+
+.metric:hover::after {
+  opacity: 1;
+}
+
+h1 span {
+  color: #64748b;
+  font-weight: 500;
+}
+
 </style>
 
 </head>
@@ -215,7 +304,7 @@ gap: 8px;
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"Article","headline":"Vale a pena investir em DIRECIAL (DIRR3) em 2026?",
 "author":{"@type":"Organization","name":"Tá no Precinho"},
-"dateModified":"2026-04-28"}
+"dateModified":"2026-05-07"}
 </script>
 <div style="max-width:780px;margin:auto">
 <a href="/index.html" style="color:#94a3b8;font-size:13px;">← Ranking completo</a>
@@ -228,94 +317,52 @@ gap: 8px;
 </div>
 <div class="card">
 <h2>Visão geral de DIRR3</h2>
-<p><strong>DIRECIAL</strong> atua no setor de <strong>Imobiliário</strong>. Com P/L de 8.73 e ROE de 43.12%, a empresa apresenta fundamentos atrativos para o investidor de longo prazo.</p>
+<p><strong>DIRECIAL</strong> atua no setor de <strong>Imobiliário</strong>. Com P/L de 8.77 e ROE de 43.12%, a empresa apresenta fundamentos atrativos para o investidor de longo prazo.</p>
 <p>O score fundamentalista atual é de <strong>60/100</strong>.</p>
 </div>
 <div class="card">
 <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;">
 
-    <div style="
-    background:#020617;
-    padding:14px;
-    border-radius:14px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    ">
-        <span style="color:#cbd5e1">P/L</span>
-        <strong style="color:#e2e8f0">8.73</strong>
+    <div class="metric ">
+        <div class="metric-label">P/L</div>
+        <div class="metric-value">8.77</div>
     </div>
     
 
-    <div style="
-    background:#020617;
-    padding:14px;
-    border-radius:14px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    ">
-        <span style="color:#cbd5e1">P/VP</span>
-        <strong style="color:#e2e8f0">3.54</strong>
+    <div class="metric ">
+        <div class="metric-label">P/VP</div>
+        <div class="metric-value">3.56</div>
     </div>
     
 
-    <div style="
-    background:#020617;
-    padding:14px;
-    border-radius:14px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    ">
-        <span style="color:#cbd5e1">ROE</span>
-        <strong style="color:#e2e8f0">43.12%</strong>
+    <div class="metric ">
+        <div class="metric-label">ROE</div>
+        <div class="metric-value">43.12%</div>
     </div>
     
 
-    <div style="
-    background:#020617;
-    padding:14px;
-    border-radius:14px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    ">
-        <span style="color:#cbd5e1">DY</span>
-        <strong style="color:#e2e8f0">19.27%</strong>
+    <div class="metric ">
+        <div class="metric-label">DY</div>
+        <div class="metric-value">19.48%</div>
     </div>
     
 
-    <div style="
-    background:#020617;
-    padding:14px;
-    border-radius:14px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    ">
-        <span style="color:#cbd5e1">Score</span>
-        <strong style="color:#e2e8f0">60</strong>
+    <div class="metric ">
+        <div class="metric-label">Score</div>
+        <div class="metric-value">60</div>
     </div>
     
 
-    <div style="
-    background:#020617;
-    padding:14px;
-    border-radius:14px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    ">
-        <span style="color:#cbd5e1">Desconto</span>
-        <strong style="color:#e2e8f0">41.82%</strong>
+    <div class="metric ">
+        <div class="metric-label">Desconto</div>
+        <div class="metric-value">41.51%</div>
     </div>
     
 </div>
 </div>
 <div class="card">
 <h2>Riscos e oportunidades</h2>
-<p>Com desconto de 41.82% em relação ao preço justo, existe potencial de valorização.</p>
+<p>Com desconto de 41.51% em relação ao preço justo, existe potencial de valorização.</p>
 <p>⚠️ Esta análise é informativa e não constitui recomendação de investimento.</p>
 </div>
 <div class="card">
@@ -346,6 +393,7 @@ gap: 8px;
 </script>
 
 <!-- RODAPÉ -->
+ 
 <footer>
 <div class="footer">
   ⚠️ Este ranking utiliza dados públicos do Yahoo Finance e aplica critérios quantitativos próprios.
