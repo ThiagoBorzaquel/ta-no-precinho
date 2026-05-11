@@ -4538,7 +4538,9 @@ categorias = sorted(df["Categoria"].unique())
 html = f"""<!DOCTYPE html>
 <html lang="pt-br">
 <head>
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5213961841779335" crossorigin="anonymous"></script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1002994940093124"
+     crossorigin="anonymous"></script>
+<meta name="google-adsense-account" content="ca-pub-1002994940093124">
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
