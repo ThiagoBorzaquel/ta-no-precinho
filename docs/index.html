@@ -412,10 +412,10 @@ function ordenarTabela(coluna) {
 let dados = { top: [], blue: [], mid: [], small: [] };
 try {
     dados = {
-        top:   [{"ticker": "SEER3", "empresa": "SER EDUCA", "desconto": 89.3}, {"ticker": "BSLI3", "empresa": "BRB BANCO", "desconto": 88.7}, {"ticker": "BSLI4", "empresa": "BRB BANCO", "desconto": 88.3}, {"ticker": "VTRU3", "empresa": "VITRUEDUCA", "desconto": 88.0}, {"ticker": "EVEN3", "empresa": "EVEN", "desconto": 80.0}],
-        blue:  [{"ticker": "SUZB3", "empresa": "SUZANO S.A.", "desconto": 70.0}, {"ticker": "PETR4", "empresa": "PETROBRAS", "desconto": 64.4}, {"ticker": "PETR3", "empresa": "PETROBRAS", "desconto": 60.1}, {"ticker": "BBSE3", "empresa": "BBSEGURIDADE ATZ", "desconto": 51.3}, {"ticker": "SANB3", "empresa": "SANTANDER BR", "desconto": 45.5}],
-        mid:   [{"ticker": "BNBR3", "empresa": "NORD BRASIL", "desconto": 77.4}, {"ticker": "GMAT3", "empresa": "GRUPO MATEUS", "desconto": 62.5}, {"ticker": "CMIG4", "empresa": "CEMIG", "desconto": 56.6}, {"ticker": "ISAE4", "empresa": "ISA ENERGIA", "desconto": 47.4}, {"ticker": "TAEE3", "empresa": "TAESA", "desconto": 42.5}],
-        small: [{"ticker": "SEER3", "empresa": "SER EDUCA", "desconto": 89.3}, {"ticker": "BSLI3", "empresa": "BRB BANCO", "desconto": 88.7}, {"ticker": "BSLI4", "empresa": "BRB BANCO", "desconto": 88.3}, {"ticker": "VTRU3", "empresa": "VITRUEDUCA", "desconto": 88.0}, {"ticker": "EVEN3", "empresa": "EVEN", "desconto": 80.0}]
+        top:   [{"ticker": "SEER3", "empresa": "SER EDUCA", "desconto": 89.5}, {"ticker": "BSLI3", "empresa": "BRB BANCO", "desconto": 88.7}, {"ticker": "VTRU3", "empresa": "VITRUEDUCA", "desconto": 88.5}, {"ticker": "BSLI4", "empresa": "BRB BANCO", "desconto": 88.3}, {"ticker": "EVEN3", "empresa": "EVEN", "desconto": 80.0}],
+        blue:  [{"ticker": "SUZB3", "empresa": "SUZANO S.A.", "desconto": 69.9}, {"ticker": "PETR4", "empresa": "PETROBRAS", "desconto": 63.5}, {"ticker": "PETR3", "empresa": "PETROBRAS", "desconto": 58.9}, {"ticker": "BBSE3", "empresa": "BBSEGURIDADE ATZ", "desconto": 51.5}, {"ticker": "SANB3", "empresa": "SANTANDER BR", "desconto": 45.5}],
+        mid:   [{"ticker": "BNBR3", "empresa": "NORD BRASIL", "desconto": 77.4}, {"ticker": "GMAT3", "empresa": "GRUPO MATEUS", "desconto": 62.5}, {"ticker": "CMIG4", "empresa": "CEMIG", "desconto": 56.6}, {"ticker": "ISAE4", "empresa": "ISA ENERGIA", "desconto": 47.1}, {"ticker": "TAEE3", "empresa": "TAESA", "desconto": 42.5}],
+        small: [{"ticker": "SEER3", "empresa": "SER EDUCA", "desconto": 89.5}, {"ticker": "BSLI3", "empresa": "BRB BANCO", "desconto": 88.7}, {"ticker": "VTRU3", "empresa": "VITRUEDUCA", "desconto": 88.5}, {"ticker": "BSLI4", "empresa": "BRB BANCO", "desconto": 88.3}, {"ticker": "EVEN3", "empresa": "EVEN", "desconto": 80.0}]
     };
 } catch(e) {
     console.error("Erro ao carregar dados dos gráficos:", e);
@@ -504,7 +504,7 @@ document.addEventListener("DOMContentLoaded", () => {
 Criamos este site com um objetivo simples: tornar a análise de ações acessível para qualquer pessoa.
 A informação aqui é gratuita e sempre será.<br>
 Atualizado automaticamente todos os dias.<br><br>
-Atualizado em 25/05/2026
+Atualizado em 26/05/2026
 </p>
 </header>
 
@@ -513,7 +513,7 @@ Atualizado em 25/05/2026
 <div class="stats" role="region" aria-label="Estatísticas gerais">
 <div class="stat-box"><div class="stat-num">328</div><div class="stat-label">📊 Ativos B3</div></div>
 <div class="stat-box"><div class="stat-num">228</div><div class="stat-label">🔎 Ações analisadas</div></div>
-<div class="stat-box"><div class="stat-num">110</div><div class="stat-label">💰 Pagadoras de dividendos</div></div>
+<div class="stat-box"><div class="stat-num">112</div><div class="stat-label">💰 Pagadoras de dividendos</div></div>
 <div class="stat-box"><div class="stat-num">34</div><div class="stat-label">🏆 Score ≥ 70</div></div>
 </div>
 
@@ -691,10 +691,10 @@ Small Caps
 </span>
 </td>
 
-<td>1.61</td>
+<td>1.57</td>
 <td>1.12</td>
 <td>18.48%</td>
-<td>4.18%</td>
+<td>4.08%</td>
 
 <td style="font-weight:600;color:#22c55e">
 70
@@ -702,11 +702,11 @@ Small Caps
 
 <td>
 <span style="font-size:15px;font-weight:700;color:#22c55e">
-89.29%
+89.53%
 </span>
 </td>
 
-<td>R$ 109.2</td>
+<td>R$ 111.75</td>
 
 <td style="text-align:center;" aria-label="Risco: Baixo">
 <span style="font-size:18px;display:inline-block;" title="Baixo">
@@ -776,6 +776,66 @@ Small Caps
 
 </tr>
 
+<tr onclick="window.location='acoes/VTRU3.html'"
+    tabindex="0"
+    onkeypress="if(event.key==='Enter') window.location='acoes/VTRU3.html'"
+    aria-label="Ver análise de VITRUEDUCA (VTRU3)"
+    data-setor="Consumo Defensivo"
+    data-categoria="Small Caps"
+    data-score="65"
+    data-variacao="-2.048022351539982">
+
+<td>
+<span style="color:#cbd5e1;font-size:12px">#3 🥉</span>
+<div style="display:flex;align-items:center;gap:8px">
+<img src="logos/VTRU3.png" loading="lazy"
+     alt="Logo VITRUEDUCA"
+     loading="lazy"
+     onerror="this.onerror=null;this.src='logos/default.svg';"
+     style="width:20px;height:20px;object-fit:contain">
+<a class="ticker" href="acoes/VTRU3.html" aria-label="Ver análise completa de VITRUEDUCA">
+VTRU3
+</a>
+</div>
+<span class="empresa">VITRUEDUCA <span style="background:#22c55e20;color:#22c55e;padding:2px 8px;border-radius:6px;font-size:11px;margin-left:6px;">ALTO DY</span></span>
+</td>
+
+<td>Consumo Defensivo</td>
+
+<td>
+<span class="badge" style="
+background:#facc1520;
+color:#facc15;
+border:1px solid #facc15">
+Small Caps
+</span>
+</td>
+
+<td>1.73</td>
+<td>0.63</td>
+<td>13.49%</td>
+<td>17.0%</td>
+
+<td style="font-weight:600;color:#eab308">
+65
+</td>
+
+<td>
+<span style="font-size:15px;font-weight:700;color:#22c55e">
+88.5%
+</span>
+</td>
+
+<td>R$ 120.6</td>
+
+<td style="text-align:center;" aria-label="Risco: Baixo">
+<span style="font-size:18px;display:inline-block;" title="Baixo">
+🟢
+</span>
+</td>
+
+</tr>
+
 <tr onclick="window.location='acoes/BSLI4.html'"
     tabindex="0"
     onkeypress="if(event.key==='Enter') window.location='acoes/BSLI4.html'"
@@ -786,7 +846,7 @@ Small Caps
     data-variacao="-17.44186523606654">
 
 <td>
-<span style="color:#cbd5e1;font-size:12px">#3 🥉</span>
+<span style="color:#cbd5e1;font-size:12px">#4 </span>
 <div style="display:flex;align-items:center;gap:8px">
 <img src="logos/BSLI4.png" loading="lazy"
      alt="Logo BRB BANCO"
@@ -836,66 +896,6 @@ Small Caps
 
 </tr>
 
-<tr onclick="window.location='acoes/VTRU3.html'"
-    tabindex="0"
-    onkeypress="if(event.key==='Enter') window.location='acoes/VTRU3.html'"
-    aria-label="Ver análise de VITRUEDUCA (VTRU3)"
-    data-setor="Consumo Defensivo"
-    data-categoria="Small Caps"
-    data-score="65"
-    data-variacao="-2.048022351539982">
-
-<td>
-<span style="color:#cbd5e1;font-size:12px">#4 </span>
-<div style="display:flex;align-items:center;gap:8px">
-<img src="logos/VTRU3.png" loading="lazy"
-     alt="Logo VITRUEDUCA"
-     loading="lazy"
-     onerror="this.onerror=null;this.src='logos/default.svg';"
-     style="width:20px;height:20px;object-fit:contain">
-<a class="ticker" href="acoes/VTRU3.html" aria-label="Ver análise completa de VITRUEDUCA">
-VTRU3
-</a>
-</div>
-<span class="empresa">VITRUEDUCA <span style="background:#22c55e20;color:#22c55e;padding:2px 8px;border-radius:6px;font-size:11px;margin-left:6px;">ALTO DY</span></span>
-</td>
-
-<td>Consumo Defensivo</td>
-
-<td>
-<span class="badge" style="
-background:#facc1520;
-color:#facc15;
-border:1px solid #facc15">
-Small Caps
-</span>
-</td>
-
-<td>1.8</td>
-<td>0.63</td>
-<td>13.49%</td>
-<td>17.0%</td>
-
-<td style="font-weight:600;color:#eab308">
-65
-</td>
-
-<td>
-<span style="font-size:15px;font-weight:700;color:#22c55e">
-87.99%
-</span>
-</td>
-
-<td>R$ 115.5</td>
-
-<td style="text-align:center;" aria-label="Risco: Baixo">
-<span style="font-size:18px;display:inline-block;" title="Baixo">
-🟢
-</span>
-</td>
-
-</tr>
-
 <tr onclick="window.location='acoes/EVEN3.html'"
     tabindex="0"
     onkeypress="if(event.key==='Enter') window.location='acoes/EVEN3.html'"
@@ -934,7 +934,7 @@ Small Caps
 <td>3.0</td>
 <td>0.61</td>
 <td>12.19%</td>
-<td>15.81%</td>
+<td>15.36%</td>
 
 <td style="font-weight:600;color:#eab308">
 65
@@ -993,7 +993,7 @@ Mid Caps
 
 <td>3.39</td>
 <td>0.66</td>
-<td>19.41%</td>
+<td>20.54%</td>
 <td>6.2%</td>
 
 <td style="font-weight:600;color:#22c55e">
@@ -1302,11 +1302,11 @@ Blue Chips
 
 <td>
 <span style="font-size:15px;font-weight:700;color:#22c55e">
-69.96%
+69.93%
 </span>
 </td>
 
-<td>R$ 137.85</td>
+<td>R$ 137.7</td>
 
 <td style="text-align:center;" aria-label="Risco: Baixo">
 <span style="font-size:18px;display:inline-block;" title="Baixo">
@@ -1376,6 +1376,66 @@ Small Caps
 
 </tr>
 
+<tr onclick="window.location='acoes/CYRE3.html'"
+    tabindex="0"
+    onkeypress="if(event.key==='Enter') window.location='acoes/CYRE3.html'"
+    aria-label="Ver análise de CYRELA REALT (CYRE3)"
+    data-setor="Consumo Cíclico"
+    data-categoria="Small Caps"
+    data-score="85"
+    data-variacao="-21.827585943813983">
+
+<td>
+<span style="color:#cbd5e1;font-size:12px">#13 </span>
+<div style="display:flex;align-items:center;gap:8px">
+<img src="logos/CYRE3.png" loading="lazy"
+     alt="Logo CYRELA REALT"
+     loading="lazy"
+     onerror="this.onerror=null;this.src='logos/default.svg';"
+     style="width:20px;height:20px;object-fit:contain">
+<a class="ticker" href="acoes/CYRE3.html" aria-label="Ver análise completa de CYRELA REALT">
+CYRE3
+</a>
+</div>
+<span class="empresa">CYRELA REALT <span style="background:#22c55e20;color:#22c55e;padding:2px 8px;border-radius:6px;font-size:11px;margin-left:6px;">ALTO DY</span></span>
+</td>
+
+<td>Consumo Cíclico</td>
+
+<td>
+<span class="badge" style="
+background:#facc1520;
+color:#facc15;
+border:1px solid #facc15">
+Small Caps
+</span>
+</td>
+
+<td>4.72</td>
+<td>0.93</td>
+<td>21.14%</td>
+<td>17.88%</td>
+
+<td style="font-weight:600;color:#22c55e">
+85
+</td>
+
+<td>
+<span style="font-size:15px;font-weight:700;color:#22c55e">
+68.51%
+</span>
+</td>
+
+<td>R$ 72.0</td>
+
+<td style="text-align:center;" aria-label="Risco: Baixo">
+<span style="font-size:18px;display:inline-block;" title="Baixo">
+🟢
+</span>
+</td>
+
+</tr>
+
 <tr onclick="window.location='acoes/MDNE3.html'"
     tabindex="0"
     onkeypress="if(event.key==='Enter') window.location='acoes/MDNE3.html'"
@@ -1386,7 +1446,7 @@ Small Caps
     data-variacao="-15.27108881224003">
 
 <td>
-<span style="color:#cbd5e1;font-size:12px">#13 </span>
+<span style="color:#cbd5e1;font-size:12px">#14 </span>
 <div style="display:flex;align-items:center;gap:8px">
 <img src="logos/MDNE3.png" loading="lazy"
      alt="Logo MOURA DUBEUX"
@@ -1414,7 +1474,7 @@ Small Caps
 <td>4.96</td>
 <td>1.57</td>
 <td>27.16%</td>
-<td>17.51%</td>
+<td>16.82%</td>
 
 <td style="font-weight:600;color:#eab308">
 60
@@ -1427,66 +1487,6 @@ Small Caps
 </td>
 
 <td>R$ 85.05</td>
-
-<td style="text-align:center;" aria-label="Risco: Baixo">
-<span style="font-size:18px;display:inline-block;" title="Baixo">
-🟢
-</span>
-</td>
-
-</tr>
-
-<tr onclick="window.location='acoes/CYRE3.html'"
-    tabindex="0"
-    onkeypress="if(event.key==='Enter') window.location='acoes/CYRE3.html'"
-    aria-label="Ver análise de CYRELA REALT (CYRE3)"
-    data-setor="Consumo Cíclico"
-    data-categoria="Small Caps"
-    data-score="85"
-    data-variacao="-21.827585943813983">
-
-<td>
-<span style="color:#cbd5e1;font-size:12px">#14 </span>
-<div style="display:flex;align-items:center;gap:8px">
-<img src="logos/CYRE3.png" loading="lazy"
-     alt="Logo CYRELA REALT"
-     loading="lazy"
-     onerror="this.onerror=null;this.src='logos/default.svg';"
-     style="width:20px;height:20px;object-fit:contain">
-<a class="ticker" href="acoes/CYRE3.html" aria-label="Ver análise completa de CYRELA REALT">
-CYRE3
-</a>
-</div>
-<span class="empresa">CYRELA REALT <span style="background:#22c55e20;color:#22c55e;padding:2px 8px;border-radius:6px;font-size:11px;margin-left:6px;">ALTO DY</span></span>
-</td>
-
-<td>Consumo Cíclico</td>
-
-<td>
-<span class="badge" style="
-background:#facc1520;
-color:#facc15;
-border:1px solid #facc15">
-Small Caps
-</span>
-</td>
-
-<td>5.04</td>
-<td>0.93</td>
-<td>21.14%</td>
-<td>17.88%</td>
-
-<td style="font-weight:600;color:#22c55e">
-85
-</td>
-
-<td>
-<span style="font-size:15px;font-weight:700;color:#22c55e">
-66.41%
-</span>
-</td>
-
-<td>R$ 67.5</td>
 
 <td style="text-align:center;" aria-label="Risco: Baixo">
 <span style="font-size:18px;display:inline-block;" title="Baixo">
@@ -1556,66 +1556,6 @@ Small Caps
 
 </tr>
 
-<tr onclick="window.location='acoes/PETR4.html'"
-    tabindex="0"
-    onkeypress="if(event.key==='Enter') window.location='acoes/PETR4.html'"
-    aria-label="Ver análise de PETROBRAS (PETR4)"
-    data-setor="Energia"
-    data-categoria="Blue Chips"
-    data-score="100"
-    data-variacao="2.5035459836346425">
-
-<td>
-<span style="color:#cbd5e1;font-size:12px">#16 </span>
-<div style="display:flex;align-items:center;gap:8px">
-<img src="logos/PETR4.png" loading="lazy"
-     alt="Logo PETROBRAS"
-     loading="lazy"
-     onerror="this.onerror=null;this.src='logos/default.svg';"
-     style="width:20px;height:20px;object-fit:contain">
-<a class="ticker" href="acoes/PETR4.html" aria-label="Ver análise completa de PETROBRAS">
-PETR4
-</a>
-</div>
-<span class="empresa">PETROBRAS <span style="background:#22c55e20;color:#22c55e;padding:2px 8px;border-radius:6px;font-size:11px;margin-left:6px;">ALTO DY</span></span>
-</td>
-
-<td>Energia</td>
-
-<td>
-<span class="badge" style="
-background:#3b82f620;
-color:#3b82f6;
-border:1px solid #3b82f6">
-Blue Chips
-</span>
-</td>
-
-<td>5.34</td>
-<td>1.35</td>
-<td>25.6%</td>
-<td>8.72%</td>
-
-<td style="font-weight:600;color:#22c55e">
-100
-</td>
-
-<td>
-<span style="font-size:15px;font-weight:700;color:#22c55e">
-64.41%
-</span>
-</td>
-
-<td>R$ 121.95</td>
-
-<td style="text-align:center;" aria-label="Risco: Baixo">
-<span style="font-size:18px;display:inline-block;" title="Baixo">
-🟢
-</span>
-</td>
-
-</tr>
-
 <tr onclick="window.location='acoes/BMGB4.html'"
     tabindex="0"
     onkeypress="if(event.key==='Enter') window.location='acoes/BMGB4.html'"
@@ -1626,7 +1566,7 @@ Blue Chips
     data-variacao="8.686875186761227">
 
 <td>
-<span style="color:#cbd5e1;font-size:12px">#17 </span>
+<span style="color:#cbd5e1;font-size:12px">#16 </span>
 <div style="display:flex;align-items:center;gap:8px">
 <img src="logos/BMGB4.png" loading="lazy"
      alt="Logo BANCO BMG"
@@ -1651,7 +1591,7 @@ Small Caps
 </span>
 </td>
 
-<td>5.38</td>
+<td>5.17</td>
 <td>0.7</td>
 <td>13.51%</td>
 <td>8.57%</td>
@@ -1662,11 +1602,71 @@ Small Caps
 
 <td>
 <span style="font-size:15px;font-weight:700;color:#22c55e">
-64.13%
+65.51%
 </span>
 </td>
 
-<td>R$ 15.0</td>
+<td>R$ 15.6</td>
+
+<td style="text-align:center;" aria-label="Risco: Baixo">
+<span style="font-size:18px;display:inline-block;" title="Baixo">
+🟢
+</span>
+</td>
+
+</tr>
+
+<tr onclick="window.location='acoes/PETR4.html'"
+    tabindex="0"
+    onkeypress="if(event.key==='Enter') window.location='acoes/PETR4.html'"
+    aria-label="Ver análise de PETROBRAS (PETR4)"
+    data-setor="Energia"
+    data-categoria="Blue Chips"
+    data-score="100"
+    data-variacao="2.5035459836346425">
+
+<td>
+<span style="color:#cbd5e1;font-size:12px">#17 </span>
+<div style="display:flex;align-items:center;gap:8px">
+<img src="logos/PETR4.png" loading="lazy"
+     alt="Logo PETROBRAS"
+     loading="lazy"
+     onerror="this.onerror=null;this.src='logos/default.svg';"
+     style="width:20px;height:20px;object-fit:contain">
+<a class="ticker" href="acoes/PETR4.html" aria-label="Ver análise completa de PETROBRAS">
+PETR4
+</a>
+</div>
+<span class="empresa">PETROBRAS <span style="background:#22c55e20;color:#22c55e;padding:2px 8px;border-radius:6px;font-size:11px;margin-left:6px;">ALTO DY</span></span>
+</td>
+
+<td>Energia</td>
+
+<td>
+<span class="badge" style="
+background:#3b82f620;
+color:#3b82f6;
+border:1px solid #3b82f6">
+Blue Chips
+</span>
+</td>
+
+<td>5.47</td>
+<td>1.26</td>
+<td>25.6%</td>
+<td>8.72%</td>
+
+<td style="font-weight:600;color:#22c55e">
+100
+</td>
+
+<td>
+<span style="font-size:15px;font-weight:700;color:#22c55e">
+63.51%
+</span>
+</td>
+
+<td>R$ 118.95</td>
 
 <td style="text-align:center;" aria-label="Risco: Baixo">
 <span style="font-size:18px;display:inline-block;" title="Baixo">
@@ -1834,7 +1834,7 @@ Small Caps
 <td>5.68</td>
 <td>0.94</td>
 <td>16.95%</td>
-<td>11.53%</td>
+<td>11.4%</td>
 
 <td style="font-weight:600;color:#22c55e">
 85
@@ -1954,7 +1954,7 @@ Small Caps
 <td>5.85</td>
 <td>0.83</td>
 <td>14.4%</td>
-<td>9.75%</td>
+<td>9.29%</td>
 
 <td style="font-weight:600;color:#eab308">
 65
@@ -2014,7 +2014,7 @@ Small Caps
 <td>5.9</td>
 <td>0.82</td>
 <td>14.63%</td>
-<td>3.98%</td>
+<td>3.9%</td>
 
 <td style="font-weight:600;color:#eab308">
 50
@@ -2096,66 +2096,6 @@ Small Caps
 
 </tr>
 
-<tr onclick="window.location='acoes/PETR3.html'"
-    tabindex="0"
-    onkeypress="if(event.key==='Enter') window.location='acoes/PETR3.html'"
-    aria-label="Ver análise de PETROBRAS (PETR3)"
-    data-setor="Energia"
-    data-categoria="Blue Chips"
-    data-score="75"
-    data-variacao="5.3440011699945265">
-
-<td>
-<span style="color:#cbd5e1;font-size:12px">#25 </span>
-<div style="display:flex;align-items:center;gap:8px">
-<img src="logos/PETR3.png" loading="lazy"
-     alt="Logo PETROBRAS"
-     loading="lazy"
-     onerror="this.onerror=null;this.src='logos/default.svg';"
-     style="width:20px;height:20px;object-fit:contain">
-<a class="ticker" href="acoes/PETR3.html" aria-label="Ver análise completa de PETROBRAS">
-PETR3
-</a>
-</div>
-<span class="empresa">PETROBRAS </span>
-</td>
-
-<td>Energia</td>
-
-<td>
-<span class="badge" style="
-background:#3b82f620;
-color:#3b82f6;
-border:1px solid #3b82f6">
-Blue Chips
-</span>
-</td>
-
-<td>5.99</td>
-<td>1.51</td>
-<td>25.6%</td>
-<td>7.73%</td>
-
-<td style="font-weight:600;color:#22c55e">
-75
-</td>
-
-<td>
-<span style="font-size:15px;font-weight:700;color:#22c55e">
-60.07%
-</span>
-</td>
-
-<td>R$ 121.95</td>
-
-<td style="text-align:center;" aria-label="Risco: Baixo">
-<span style="font-size:18px;display:inline-block;" title="Baixo">
-🟢
-</span>
-</td>
-
-</tr>
-
 <tr onclick="window.location='acoes/POMO3.html'"
     tabindex="0"
     onkeypress="if(event.key==='Enter') window.location='acoes/POMO3.html'"
@@ -2166,7 +2106,7 @@ Blue Chips
     data-variacao="0.9983351163815853">
 
 <td>
-<span style="color:#cbd5e1;font-size:12px">#26 </span>
+<span style="color:#cbd5e1;font-size:12px">#25 </span>
 <div style="display:flex;align-items:center;gap:8px">
 <img src="logos/POMO3.png" loading="lazy"
      alt="Logo MARCOPOLO"
@@ -2194,7 +2134,7 @@ Small Caps
 <td>6.07</td>
 <td>1.97</td>
 <td>30.91%</td>
-<td>17.28%</td>
+<td>16.83%</td>
 
 <td style="font-weight:600;color:#eab308">
 60
@@ -2226,7 +2166,7 @@ Small Caps
     data-variacao="30.153398006409297">
 
 <td>
-<span style="color:#cbd5e1;font-size:12px">#27 </span>
+<span style="color:#cbd5e1;font-size:12px">#26 </span>
 <div style="display:flex;align-items:center;gap:8px">
 <img src="logos/EUCA4.png" loading="lazy"
      alt="Logo EUCATEX"
@@ -2276,6 +2216,66 @@ Small Caps
 
 </tr>
 
+<tr onclick="window.location='acoes/PETR3.html'"
+    tabindex="0"
+    onkeypress="if(event.key==='Enter') window.location='acoes/PETR3.html'"
+    aria-label="Ver análise de PETROBRAS (PETR3)"
+    data-setor="Energia"
+    data-categoria="Blue Chips"
+    data-score="75"
+    data-variacao="5.3440011699945265">
+
+<td>
+<span style="color:#cbd5e1;font-size:12px">#27 </span>
+<div style="display:flex;align-items:center;gap:8px">
+<img src="logos/PETR3.png" loading="lazy"
+     alt="Logo PETROBRAS"
+     loading="lazy"
+     onerror="this.onerror=null;this.src='logos/default.svg';"
+     style="width:20px;height:20px;object-fit:contain">
+<a class="ticker" href="acoes/PETR3.html" aria-label="Ver análise completa de PETROBRAS">
+PETR3
+</a>
+</div>
+<span class="empresa">PETROBRAS </span>
+</td>
+
+<td>Energia</td>
+
+<td>
+<span class="badge" style="
+background:#3b82f620;
+color:#3b82f6;
+border:1px solid #3b82f6">
+Blue Chips
+</span>
+</td>
+
+<td>6.17</td>
+<td>1.51</td>
+<td>25.6%</td>
+<td>7.73%</td>
+
+<td style="font-weight:600;color:#22c55e">
+75
+</td>
+
+<td>
+<span style="font-size:15px;font-weight:700;color:#22c55e">
+58.86%
+</span>
+</td>
+
+<td>R$ 118.35</td>
+
+<td style="text-align:center;" aria-label="Risco: Baixo">
+<span style="font-size:18px;display:inline-block;" title="Baixo">
+🟢
+</span>
+</td>
+
+</tr>
+
 <tr onclick="window.location='acoes/POMO4.html'"
     tabindex="0"
     onkeypress="if(event.key==='Enter') window.location='acoes/POMO4.html'"
@@ -2314,7 +2314,7 @@ Small Caps
 <td>6.22</td>
 <td>2.01</td>
 <td>30.91%</td>
-<td>17.22%</td>
+<td>16.42%</td>
 
 <td style="font-weight:600;color:#eab308">
 60
@@ -2336,6 +2336,66 @@ Small Caps
 
 </tr>
 
+<tr onclick="window.location='acoes/TEND3.html'"
+    tabindex="0"
+    onkeypress="if(event.key==='Enter') window.location='acoes/TEND3.html'"
+    aria-label="Ver análise de TENDA (TEND3)"
+    data-setor="Imobiliário"
+    data-categoria="Small Caps"
+    data-score="45"
+    data-variacao="5.771107094920228">
+
+<td>
+<span style="color:#cbd5e1;font-size:12px">#29 </span>
+<div style="display:flex;align-items:center;gap:8px">
+<img src="logos/TEND3.png" loading="lazy"
+     alt="Logo TENDA"
+     loading="lazy"
+     onerror="this.onerror=null;this.src='logos/default.svg';"
+     style="width:20px;height:20px;object-fit:contain">
+<a class="ticker" href="acoes/TEND3.html" aria-label="Ver análise completa de TENDA">
+TEND3
+</a>
+</div>
+<span class="empresa">TENDA </span>
+</td>
+
+<td>Imobiliário</td>
+
+<td>
+<span class="badge" style="
+background:#facc1520;
+color:#facc15;
+border:1px solid #facc15">
+Small Caps
+</span>
+</td>
+
+<td>6.27</td>
+<td>3.28</td>
+<td>47.06%</td>
+<td>3.99%</td>
+
+<td style="font-weight:600;color:#eab308">
+45
+</td>
+
+<td>
+<span style="font-size:15px;font-weight:700;color:#22c55e">
+58.17%
+</span>
+</td>
+
+<td>R$ 77.55</td>
+
+<td style="text-align:center;" aria-label="Risco: Baixo">
+<span style="font-size:18px;display:inline-block;" title="Baixo">
+🟢
+</span>
+</td>
+
+</tr>
+
 <tr onclick="window.location='acoes/EZTC3.html'"
     tabindex="0"
     onkeypress="if(event.key==='Enter') window.location='acoes/EZTC3.html'"
@@ -2346,7 +2406,7 @@ Small Caps
     data-variacao="-11.04417446367787">
 
 <td>
-<span style="color:#cbd5e1;font-size:12px">#29 </span>
+<span style="color:#cbd5e1;font-size:12px">#30 </span>
 <div style="display:flex;align-items:center;gap:8px">
 <img src="logos/EZTC3.png" loading="lazy"
      alt="Logo EZTEC ED"
@@ -2406,7 +2466,7 @@ Small Caps
     data-variacao="-1.6474526959091695">
 
 <td>
-<span style="color:#cbd5e1;font-size:12px">#30 </span>
+<span style="color:#cbd5e1;font-size:12px">#31 </span>
 <div style="display:flex;align-items:center;gap:8px">
 <img src="logos/CEAB3.png" loading="lazy"
      alt="Logo CEA MODAS"
@@ -2466,7 +2526,7 @@ Small Caps
     data-variacao="14.110430659283688">
 
 <td>
-<span style="color:#cbd5e1;font-size:12px">#31 </span>
+<span style="color:#cbd5e1;font-size:12px">#32 </span>
 <div style="display:flex;align-items:center;gap:8px">
 <img src="logos/IGTI3.png" loading="lazy"
      alt="Logo IGUATEMI S.A"
@@ -2526,7 +2586,7 @@ Small Caps
     data-variacao="20.172406223809908">
 
 <td>
-<span style="color:#cbd5e1;font-size:12px">#32 </span>
+<span style="color:#cbd5e1;font-size:12px">#33 </span>
 <div style="display:flex;align-items:center;gap:8px">
 <img src="logos/PINE3.png" loading="lazy"
      alt="Logo PINE"
@@ -2586,7 +2646,7 @@ Small Caps
     data-variacao="-6.5420544088141614">
 
 <td>
-<span style="color:#cbd5e1;font-size:12px">#33 </span>
+<span style="color:#cbd5e1;font-size:12px">#34 </span>
 <div style="display:flex;align-items:center;gap:8px">
 <img src="logos/SHUL4.png" loading="lazy"
      alt="Logo SCHULZ"
@@ -2646,7 +2706,7 @@ Small Caps
     data-variacao="-5.53227016369622">
 
 <td>
-<span style="color:#cbd5e1;font-size:12px">#34 </span>
+<span style="color:#cbd5e1;font-size:12px">#35 </span>
 <div style="display:flex;align-items:center;gap:8px">
 <img src="logos/CMIG4.png" loading="lazy"
      alt="Logo CEMIG"
@@ -2687,66 +2747,6 @@ Mid Caps
 </td>
 
 <td>R$ 25.95</td>
-
-<td style="text-align:center;" aria-label="Risco: Baixo">
-<span style="font-size:18px;display:inline-block;" title="Baixo">
-🟢
-</span>
-</td>
-
-</tr>
-
-<tr onclick="window.location='acoes/TEND3.html'"
-    tabindex="0"
-    onkeypress="if(event.key==='Enter') window.location='acoes/TEND3.html'"
-    aria-label="Ver análise de TENDA (TEND3)"
-    data-setor="Imobiliário"
-    data-categoria="Small Caps"
-    data-score="45"
-    data-variacao="5.771107094920228">
-
-<td>
-<span style="color:#cbd5e1;font-size:12px">#35 </span>
-<div style="display:flex;align-items:center;gap:8px">
-<img src="logos/TEND3.png" loading="lazy"
-     alt="Logo TENDA"
-     loading="lazy"
-     onerror="this.onerror=null;this.src='logos/default.svg';"
-     style="width:20px;height:20px;object-fit:contain">
-<a class="ticker" href="acoes/TEND3.html" aria-label="Ver análise completa de TENDA">
-TEND3
-</a>
-</div>
-<span class="empresa">TENDA </span>
-</td>
-
-<td>Imobiliário</td>
-
-<td>
-<span class="badge" style="
-background:#facc1520;
-color:#facc15;
-border:1px solid #facc15">
-Small Caps
-</span>
-</td>
-
-<td>6.58</td>
-<td>3.28</td>
-<td>47.06%</td>
-<td>3.99%</td>
-
-<td style="font-weight:600;color:#eab308">
-45
-</td>
-
-<td>
-<span style="font-size:15px;font-weight:700;color:#22c55e">
-56.13%
-</span>
-</td>
-
-<td>R$ 73.95</td>
 
 <td style="text-align:center;" aria-label="Risco: Baixo">
 <span style="font-size:18px;display:inline-block;" title="Baixo">
@@ -2914,7 +2914,7 @@ Small Caps
 <td>6.75</td>
 <td>0.84</td>
 <td>12.35%</td>
-<td>11.09%</td>
+<td>11.05%</td>
 
 <td style="font-weight:600;color:#eab308">
 65
@@ -2996,6 +2996,66 @@ Small Caps
 
 </tr>
 
+<tr onclick="window.location='acoes/ECOR3.html'"
+    tabindex="0"
+    onkeypress="if(event.key==='Enter') window.location='acoes/ECOR3.html'"
+    aria-label="Ver análise de ECORODOVIAS ED (ECOR3)"
+    data-setor="Indústria"
+    data-categoria="Small Caps"
+    data-score="70"
+    data-variacao="-19.779119071121222">
+
+<td>
+<span style="color:#cbd5e1;font-size:12px">#40 </span>
+<div style="display:flex;align-items:center;gap:8px">
+<img src="logos/ECOR3.png" loading="lazy"
+     alt="Logo ECORODOVIAS ED"
+     loading="lazy"
+     onerror="this.onerror=null;this.src='logos/default.svg';"
+     style="width:20px;height:20px;object-fit:contain">
+<a class="ticker" href="acoes/ECOR3.html" aria-label="Ver análise completa de ECORODOVIAS ED">
+ECOR3
+</a>
+</div>
+<span class="empresa">ECORODOVIAS ED </span>
+</td>
+
+<td>Indústria</td>
+
+<td>
+<span class="badge" style="
+background:#facc1520;
+color:#facc15;
+border:1px solid #facc15">
+Small Caps
+</span>
+</td>
+
+<td>7.01</td>
+<td>1.35</td>
+<td>17.33%</td>
+<td>4.0%</td>
+
+<td style="font-weight:600;color:#22c55e">
+70
+</td>
+
+<td>
+<span style="font-size:15px;font-weight:700;color:#22c55e">
+53.27%
+</span>
+</td>
+
+<td>R$ 17.1</td>
+
+<td style="text-align:center;" aria-label="Risco: Baixo">
+<span style="font-size:18px;display:inline-block;" title="Baixo">
+🟢
+</span>
+</td>
+
+</tr>
+
 <tr onclick="window.location='acoes/BBSE3.html'"
     tabindex="0"
     onkeypress="if(event.key==='Enter') window.location='acoes/BBSE3.html'"
@@ -3006,7 +3066,7 @@ Small Caps
     data-variacao="-0.6599700209660587">
 
 <td>
-<span style="color:#cbd5e1;font-size:12px">#40 </span>
+<span style="color:#cbd5e1;font-size:12px">#41 </span>
 <div style="display:flex;align-items:center;gap:8px">
 <img src="logos/BBSE3.png" loading="lazy"
      alt="Logo BBSEGURIDADE ATZ"
@@ -3031,7 +3091,7 @@ Blue Chips
 </span>
 </td>
 
-<td>7.3</td>
+<td>7.27</td>
 <td>5.32</td>
 <td>75.65%</td>
 <td>15.13%</td>
@@ -3042,11 +3102,11 @@ Blue Chips
 
 <td>
 <span style="font-size:15px;font-weight:700;color:#22c55e">
-51.31%
+51.51%
 </span>
 </td>
 
-<td>R$ 71.1</td>
+<td>R$ 71.4</td>
 
 <td style="text-align:center;" aria-label="Risco: Baixo">
 <span style="font-size:18px;display:inline-block;" title="Baixo">
@@ -3066,7 +3126,7 @@ Blue Chips
     data-variacao="4.822194382646878">
 
 <td>
-<span style="color:#cbd5e1;font-size:12px">#41 </span>
+<span style="color:#cbd5e1;font-size:12px">#42 </span>
 <div style="display:flex;align-items:center;gap:8px">
 <img src="logos/CLSC3.png" loading="lazy"
      alt="Logo CELESC"
@@ -3126,7 +3186,7 @@ Small Caps
     data-variacao="25.247906226533246">
 
 <td>
-<span style="color:#cbd5e1;font-size:12px">#42 </span>
+<span style="color:#cbd5e1;font-size:12px">#43 </span>
 <div style="display:flex;align-items:center;gap:8px">
 <img src="logos/OFSA3.png" loading="lazy"
      alt="Logo OUROFINO S/A"
@@ -3186,7 +3246,7 @@ Small Caps
     data-variacao="-6.229684049646448">
 
 <td>
-<span style="color:#cbd5e1;font-size:12px">#43 </span>
+<span style="color:#cbd5e1;font-size:12px">#44 </span>
 <div style="display:flex;align-items:center;gap:8px">
 <img src="logos/SMTO3.png" loading="lazy"
      alt="Logo SAO MARTINHO"
@@ -3236,66 +3296,6 @@ Small Caps
 
 </tr>
 
-<tr onclick="window.location='acoes/ECOR3.html'"
-    tabindex="0"
-    onkeypress="if(event.key==='Enter') window.location='acoes/ECOR3.html'"
-    aria-label="Ver análise de ECORODOVIAS ED (ECOR3)"
-    data-setor="Indústria"
-    data-categoria="Small Caps"
-    data-score="70"
-    data-variacao="-19.779119071121222">
-
-<td>
-<span style="color:#cbd5e1;font-size:12px">#44 </span>
-<div style="display:flex;align-items:center;gap:8px">
-<img src="logos/ECOR3.png" loading="lazy"
-     alt="Logo ECORODOVIAS ED"
-     loading="lazy"
-     onerror="this.onerror=null;this.src='logos/default.svg';"
-     style="width:20px;height:20px;object-fit:contain">
-<a class="ticker" href="acoes/ECOR3.html" aria-label="Ver análise completa de ECORODOVIAS ED">
-ECOR3
-</a>
-</div>
-<span class="empresa">ECORODOVIAS ED </span>
-</td>
-
-<td>Indústria</td>
-
-<td>
-<span class="badge" style="
-background:#facc1520;
-color:#facc15;
-border:1px solid #facc15">
-Small Caps
-</span>
-</td>
-
-<td>7.47</td>
-<td>1.35</td>
-<td>17.33%</td>
-<td>4.0%</td>
-
-<td style="font-weight:600;color:#22c55e">
-70
-</td>
-
-<td>
-<span style="font-size:15px;font-weight:700;color:#22c55e">
-50.22%
-</span>
-</td>
-
-<td>R$ 16.05</td>
-
-<td style="text-align:center;" aria-label="Risco: Baixo">
-<span style="font-size:18px;display:inline-block;" title="Baixo">
-🟢
-</span>
-</td>
-
-</tr>
-
 <tr onclick="window.location='acoes/BMEB3.html'"
     tabindex="0"
     onkeypress="if(event.key==='Enter') window.location='acoes/BMEB3.html'"
@@ -3332,7 +3332,7 @@ Small Caps
 </td>
 
 <td>7.83</td>
-<td>1.72</td>
+<td>2.52</td>
 <td>32.38%</td>
 <td>2.94%</td>
 
@@ -3348,9 +3348,9 @@ Small Caps
 
 <td>R$ 116.85</td>
 
-<td style="text-align:center;" aria-label="Risco: Baixo">
-<span style="font-size:18px;display:inline-block;" title="Baixo">
-🟢
+<td style="text-align:center;" aria-label="Risco: Médio">
+<span style="font-size:18px;display:inline-block;" title="Médio">
+🟡
 </span>
 </td>
 
@@ -3391,7 +3391,7 @@ Mid Caps
 </span>
 </td>
 
-<td>7.89</td>
+<td>7.94</td>
 <td>0.88</td>
 <td>11.27%</td>
 <td>9.35%</td>
@@ -3402,11 +3402,11 @@ Mid Caps
 
 <td>
 <span style="font-size:15px;font-weight:700;color:#22c55e">
-47.38%
+47.08%
 </span>
 </td>
 
-<td>R$ 53.4</td>
+<td>R$ 53.1</td>
 
 <td style="text-align:center;" aria-label="Risco: Baixo">
 <span style="font-size:18px;display:inline-block;" title="Baixo">
@@ -3574,7 +3574,7 @@ Small Caps
 <td>8.06</td>
 <td>1.48</td>
 <td>18.77%</td>
-<td>10.06%</td>
+<td>9.89%</td>
 
 <td style="font-weight:600;color:#22c55e">
 85
@@ -3634,7 +3634,7 @@ Small Caps
 <td>8.15</td>
 <td>3.0</td>
 <td>83.75%</td>
-<td>3.3%</td>
+<td>3.25%</td>
 
 <td style="font-weight:600;color:#eab308">
 45
@@ -3694,7 +3694,7 @@ Blue Chips
 <td>8.17</td>
 <td>0.4</td>
 <td>10.47%</td>
-<td>6.47%</td>
+<td>6.3%</td>
 
 <td style="font-weight:600;color:#22c55e">
 80
@@ -3754,7 +3754,7 @@ Small Caps
 <td>8.3</td>
 <td>3.2</td>
 <td>14.19%</td>
-<td>13.34%</td>
+<td>13.27%</td>
 
 <td style="font-weight:600;color:#eab308">
 40
@@ -3797,7 +3797,7 @@ Small Caps
 MILS3
 </a>
 </div>
-<span class="empresa">MILLS <span style="background:#22c55e20;color:#22c55e;padding:2px 8px;border-radius:6px;font-size:11px;margin-left:6px;">ALTO DY</span></span>
+<span class="empresa">MILLS </span>
 </td>
 
 <td>Indústria</td>
@@ -3814,7 +3814,7 @@ Small Caps
 <td>8.36</td>
 <td>1.92</td>
 <td>26.31%</td>
-<td>9.15%</td>
+<td>7.97%</td>
 
 <td style="font-weight:600;color:#eab308">
 60
@@ -3896,6 +3896,66 @@ Small Caps
 
 </tr>
 
+<tr onclick="window.location='acoes/DIRR3.html'"
+    tabindex="0"
+    onkeypress="if(event.key==='Enter') window.location='acoes/DIRR3.html'"
+    aria-label="Ver análise de DIRECIAL (DIRR3)"
+    data-setor="Imobiliário"
+    data-categoria="Small Caps"
+    data-score="60"
+    data-variacao="0.37009763055349393">
+
+<td>
+<span style="color:#cbd5e1;font-size:12px">#55 </span>
+<div style="display:flex;align-items:center;gap:8px">
+<img src="logos/DIRR3.png" loading="lazy"
+     alt="Logo DIRECIAL"
+     loading="lazy"
+     onerror="this.onerror=null;this.src='logos/default.svg';"
+     style="width:20px;height:20px;object-fit:contain">
+<a class="ticker" href="acoes/DIRR3.html" aria-label="Ver análise completa de DIRECIAL">
+DIRR3
+</a>
+</div>
+<span class="empresa">DIRECIAL <span style="background:#22c55e20;color:#22c55e;padding:2px 8px;border-radius:6px;font-size:11px;margin-left:6px;">ALTO DY</span></span>
+</td>
+
+<td>Imobiliário</td>
+
+<td>
+<span class="badge" style="
+background:#facc1520;
+color:#facc15;
+border:1px solid #facc15">
+Small Caps
+</span>
+</td>
+
+<td>8.53</td>
+<td>3.67</td>
+<td>42.95%</td>
+<td>19.47%</td>
+
+<td style="font-weight:600;color:#eab308">
+60
+</td>
+
+<td>
+<span style="font-size:15px;font-weight:700;color:#22c55e">
+43.14%
+</span>
+</td>
+
+<td>R$ 23.85</td>
+
+<td style="text-align:center;" aria-label="Risco: Baixo">
+<span style="font-size:18px;display:inline-block;" title="Baixo">
+🟢
+</span>
+</td>
+
+</tr>
+
 <tr onclick="window.location='acoes/WHRL4.html'"
     tabindex="0"
     onkeypress="if(event.key==='Enter') window.location='acoes/WHRL4.html'"
@@ -3906,7 +3966,7 @@ Small Caps
     data-variacao="-12.608694255013969">
 
 <td>
-<span style="color:#cbd5e1;font-size:12px">#55 </span>
+<span style="color:#cbd5e1;font-size:12px">#56 </span>
 <div style="display:flex;align-items:center;gap:8px">
 <img src="logos/WHRL4.png" loading="lazy"
      alt="Logo WHIRLPOOL"
@@ -3934,7 +3994,7 @@ Small Caps
 <td>8.55</td>
 <td>3.3</td>
 <td>14.19%</td>
-<td>13.63%</td>
+<td>13.67%</td>
 
 <td style="font-weight:600;color:#eab308">
 40
@@ -3966,7 +4026,7 @@ Small Caps
     data-variacao="-8.199019192444387">
 
 <td>
-<span style="color:#cbd5e1;font-size:12px">#56 </span>
+<span style="color:#cbd5e1;font-size:12px">#57 </span>
 <div style="display:flex;align-items:center;gap:8px">
 <img src="logos/TAEE3.png" loading="lazy"
      alt="Logo TAESA"
@@ -3994,7 +4054,7 @@ Mid Caps
 <td>8.62</td>
 <td>0.59</td>
 <td>20.56%</td>
-<td>5.81%</td>
+<td>5.69%</td>
 
 <td style="font-weight:600;color:#22c55e">
 100
@@ -4026,7 +4086,7 @@ Mid Caps
     data-variacao="-13.17425272817409">
 
 <td>
-<span style="color:#cbd5e1;font-size:12px">#57 </span>
+<span style="color:#cbd5e1;font-size:12px">#58 </span>
 <div style="display:flex;align-items:center;gap:8px">
 <img src="logos/CPFE3.png" loading="lazy"
      alt="Logo CPFL ENERGIA"
@@ -4086,7 +4146,7 @@ Mid Caps
     data-variacao="-2.437090375444204">
 
 <td>
-<span style="color:#cbd5e1;font-size:12px">#58 </span>
+<span style="color:#cbd5e1;font-size:12px">#59 </span>
 <div style="display:flex;align-items:center;gap:8px">
 <img src="logos/PSSA3.png" loading="lazy"
      alt="Logo PORTO SEGURO"
@@ -4146,7 +4206,7 @@ Mid Caps
     data-variacao="-13.337396613166815">
 
 <td>
-<span style="color:#cbd5e1;font-size:12px">#59 </span>
+<span style="color:#cbd5e1;font-size:12px">#60 </span>
 <div style="display:flex;align-items:center;gap:8px">
 <img src="logos/SANB4.png" loading="lazy"
      alt="Logo SANTANDER BR"
@@ -4174,7 +4234,7 @@ Blue Chips
 <td>8.68</td>
 <td>0.42</td>
 <td>10.47%</td>
-<td>6.6%</td>
+<td>6.52%</td>
 
 <td style="font-weight:600;color:#22c55e">
 80
@@ -4206,7 +4266,7 @@ Blue Chips
     data-variacao="-9.134621147321258">
 
 <td>
-<span style="color:#cbd5e1;font-size:12px">#60 </span>
+<span style="color:#cbd5e1;font-size:12px">#61 </span>
 <div style="display:flex;align-items:center;gap:8px">
 <img src="logos/TAEE4.png" loading="lazy"
      alt="Logo TAESA"
@@ -4234,7 +4294,7 @@ Mid Caps
 <td>8.7</td>
 <td>0.6</td>
 <td>20.56%</td>
-<td>5.72%</td>
+<td>5.63%</td>
 
 <td style="font-weight:600;color:#22c55e">
 100
@@ -4266,7 +4326,7 @@ Mid Caps
     data-variacao="-4.538340655905569">
 
 <td>
-<span style="color:#cbd5e1;font-size:12px">#61 </span>
+<span style="color:#cbd5e1;font-size:12px">#62 </span>
 <div style="display:flex;align-items:center;gap:8px">
 <img src="logos/EQPA3.png" loading="lazy"
      alt="Logo EQTL PARA"
@@ -4294,7 +4354,7 @@ Mid Caps
 <td>8.71</td>
 <td>2.42</td>
 <td>28.2%</td>
-<td>2.27%</td>
+<td>2.21%</td>
 
 <td style="font-weight:600;color:#eab308">
 60
@@ -4326,7 +4386,7 @@ Mid Caps
     data-variacao="-2.5316455696202533">
 
 <td>
-<span style="color:#cbd5e1;font-size:12px">#62 </span>
+<span style="color:#cbd5e1;font-size:12px">#63 </span>
 <div style="display:flex;align-items:center;gap:8px">
 <img src="logos/EKTR4.png" loading="lazy"
      alt="Logo ELEKTRO"
@@ -4386,7 +4446,7 @@ Small Caps
     data-variacao="-13.839887884127592">
 
 <td>
-<span style="color:#cbd5e1;font-size:12px">#63 </span>
+<span style="color:#cbd5e1;font-size:12px">#64 </span>
 <div style="display:flex;align-items:center;gap:8px">
 <img src="logos/TGMA3.png" loading="lazy"
      alt="Logo TEGMA"
@@ -4414,7 +4474,7 @@ Small Caps
 <td>8.8</td>
 <td>2.3</td>
 <td>25.37%</td>
-<td>14.09%</td>
+<td>13.95%</td>
 
 <td style="font-weight:600;color:#eab308">
 60
@@ -4446,7 +4506,7 @@ Small Caps
     data-variacao="-23.390632006107115">
 
 <td>
-<span style="color:#cbd5e1;font-size:12px">#64 </span>
+<span style="color:#cbd5e1;font-size:12px">#65 </span>
 <div style="display:flex;align-items:center;gap:8px">
 <img src="logos/VIVA3.png" loading="lazy"
      alt="Logo VIVARA S.A."
@@ -4506,7 +4566,7 @@ Small Caps
     data-variacao="-5.27752443844722">
 
 <td>
-<span style="color:#cbd5e1;font-size:12px">#65 </span>
+<span style="color:#cbd5e1;font-size:12px">#66 </span>
 <div style="display:flex;align-items:center;gap:8px">
 <img src="logos/ALUP4.png" loading="lazy"
      alt="Logo ALUPAR ED"
@@ -4533,8 +4593,8 @@ Mid Caps
 
 <td>9.21</td>
 <td>1.12</td>
-<td>14.27%</td>
-<td>2.3%</td>
+<td>12.68%</td>
+<td>2.67%</td>
 
 <td style="font-weight:600;color:#eab308">
 65
@@ -4566,7 +4626,7 @@ Mid Caps
     data-variacao="5.090199644830065">
 
 <td>
-<span style="color:#cbd5e1;font-size:12px">#66 </span>
+<span style="color:#cbd5e1;font-size:12px">#67 </span>
 <div style="display:flex;align-items:center;gap:8px">
 <img src="logos/CMIG3.png" loading="lazy"
      alt="Logo CEMIG"
@@ -4626,7 +4686,7 @@ Mid Caps
     data-variacao="-0.3476214666670939">
 
 <td>
-<span style="color:#cbd5e1;font-size:12px">#67 </span>
+<span style="color:#cbd5e1;font-size:12px">#68 </span>
 <div style="display:flex;align-items:center;gap:8px">
 <img src="logos/BEES3.png" loading="lazy"
      alt="Logo BANESTES"
@@ -4686,7 +4746,7 @@ Small Caps
     data-variacao="5.123409216933538">
 
 <td>
-<span style="color:#cbd5e1;font-size:12px">#68 </span>
+<span style="color:#cbd5e1;font-size:12px">#69 </span>
 <div style="display:flex;align-items:center;gap:8px">
 <img src="logos/ISAE3.png" loading="lazy"
      alt="Logo ISA ENERGIA"
@@ -4746,7 +4806,7 @@ Mid Caps
     data-variacao="-1.9318190069237837">
 
 <td>
-<span style="color:#cbd5e1;font-size:12px">#69 </span>
+<span style="color:#cbd5e1;font-size:12px">#70 </span>
 <div style="display:flex;align-items:center;gap:8px">
 <img src="logos/BEES4.png" loading="lazy"
      alt="Logo BANESTES"
@@ -4806,7 +4866,7 @@ Small Caps
     data-variacao="29.96484897293551">
 
 <td>
-<span style="color:#cbd5e1;font-size:12px">#70 </span>
+<span style="color:#cbd5e1;font-size:12px">#71 </span>
 <div style="display:flex;align-items:center;gap:8px">
 <img src="logos/BPAC5.png" loading="lazy"
      alt="Logo BTGP BANCO A"
@@ -4866,7 +4926,7 @@ Blue Chips
     data-variacao="4.443632068169748">
 
 <td>
-<span style="color:#cbd5e1;font-size:12px">#71 </span>
+<span style="color:#cbd5e1;font-size:12px">#72 </span>
 <div style="display:flex;align-items:center;gap:8px">
 <img src="logos/UGPA3.png" loading="lazy"
      alt="Logo ULTRAPAR"
@@ -4894,7 +4954,7 @@ Mid Caps
 <td>9.98</td>
 <td>1.94</td>
 <td>19.18%</td>
-<td>6.1%</td>
+<td>6.15%</td>
 
 <td style="font-weight:600;color:#22c55e">
 75
@@ -4926,7 +4986,7 @@ Mid Caps
     data-variacao="-18.87084668575686">
 
 <td>
-<span style="color:#cbd5e1;font-size:12px">#72 </span>
+<span style="color:#cbd5e1;font-size:12px">#73 </span>
 <div style="display:flex;align-items:center;gap:8px">
 <img src="logos/MOVI3.png" loading="lazy"
      alt="Logo MOVIDA"
@@ -4986,7 +5046,7 @@ Small Caps
     data-variacao="-0.38785015243068893">
 
 <td>
-<span style="color:#cbd5e1;font-size:12px">#73 </span>
+<span style="color:#cbd5e1;font-size:12px">#74 </span>
 <div style="display:flex;align-items:center;gap:8px">
 <img src="logos/LREN3.png" loading="lazy"
      alt="Logo LOJAS RENNER"
@@ -5036,6 +5096,66 @@ Mid Caps
 
 </tr>
 
+<tr onclick="window.location='acoes/ALUP3.html'"
+    tabindex="0"
+    onkeypress="if(event.key==='Enter') window.location='acoes/ALUP3.html'"
+    aria-label="Ver análise de ALUPAR ED (ALUP3)"
+    data-setor="Utilidades Públicas"
+    data-categoria="Mid Caps"
+    data-score="40"
+    data-variacao="-9.104940599556498">
+
+<td>
+<span style="color:#cbd5e1;font-size:12px">#75 </span>
+<div style="display:flex;align-items:center;gap:8px">
+<img src="logos/ALUP3.png" loading="lazy"
+     alt="Logo ALUPAR ED"
+     loading="lazy"
+     onerror="this.onerror=null;this.src='logos/default.svg';"
+     style="width:20px;height:20px;object-fit:contain">
+<a class="ticker" href="acoes/ALUP3.html" aria-label="Ver análise completa de ALUPAR ED">
+ALUP3
+</a>
+</div>
+<span class="empresa">ALUPAR ED </span>
+</td>
+
+<td>Utilidades Públicas</td>
+
+<td>
+<span class="badge" style="
+background:#22c55e20;
+color:#22c55e;
+border:1px solid #22c55e">
+Mid Caps
+</span>
+</td>
+
+<td>10.42</td>
+<td>1.27</td>
+<td>12.68%</td>
+<td>2.36%</td>
+
+<td style="font-weight:600;color:#eab308">
+40
+</td>
+
+<td>
+<span style="font-size:15px;font-weight:700;color:#22c55e">
+30.5%
+</span>
+</td>
+
+<td>R$ 16.95</td>
+
+<td style="text-align:center;" aria-label="Risco: Baixo">
+<span style="font-size:18px;display:inline-block;" title="Baixo">
+🟢
+</span>
+</td>
+
+</tr>
+
 <tr onclick="window.location='acoes/BMEB4.html'"
     tabindex="0"
     onkeypress="if(event.key==='Enter') window.location='acoes/BMEB4.html'"
@@ -5046,7 +5166,7 @@ Mid Caps
     data-variacao="-6.017191977077363">
 
 <td>
-<span style="color:#cbd5e1;font-size:12px">#74 </span>
+<span style="color:#cbd5e1;font-size:12px">#76 </span>
 <div style="display:flex;align-items:center;gap:8px">
 <img src="logos/BMEB4.png" loading="lazy"
      alt="Logo MERCANTIL"
@@ -5072,7 +5192,7 @@ Mid Caps
 </td>
 
 <td>10.53</td>
-<td>2.31</td>
+<td>3.38</td>
 <td>32.38%</td>
 <td>2.47%</td>
 
@@ -5106,7 +5226,7 @@ Mid Caps
     data-variacao="18.51179561808305">
 
 <td>
-<span style="color:#cbd5e1;font-size:12px">#75 </span>
+<span style="color:#cbd5e1;font-size:12px">#77 </span>
 <div style="display:flex;align-items:center;gap:8px">
 <img src="logos/FIQE3.png" loading="lazy"
      alt="Logo UNIFIQUE"
@@ -5166,7 +5286,7 @@ Small Caps
     data-variacao="-13.322457262528362">
 
 <td>
-<span style="color:#cbd5e1;font-size:12px">#76 </span>
+<span style="color:#cbd5e1;font-size:12px">#78 </span>
 <div style="display:flex;align-items:center;gap:8px">
 <img src="logos/CURY3.png" loading="lazy"
      alt="Logo CURY S/A ED"
@@ -5194,7 +5314,7 @@ Small Caps
 <td>10.7</td>
 <td>7.37</td>
 <td>73.69%</td>
-<td>14.32%</td>
+<td>13.71%</td>
 
 <td style="font-weight:600;color:#eab308">
 35
@@ -5226,7 +5346,7 @@ Small Caps
     data-variacao="-14.800763048033607">
 
 <td>
-<span style="color:#cbd5e1;font-size:12px">#77 </span>
+<span style="color:#cbd5e1;font-size:12px">#79 </span>
 <div style="display:flex;align-items:center;gap:8px">
 <img src="logos/CMIN3.png" loading="lazy"
      alt="Logo CSINERACAO"
@@ -5286,7 +5406,7 @@ Mid Caps
     data-variacao="0.4419172610473897">
 
 <td>
-<span style="color:#cbd5e1;font-size:12px">#78 </span>
+<span style="color:#cbd5e1;font-size:12px">#80 </span>
 <div style="display:flex;align-items:center;gap:8px">
 <img src="logos/TTEN3.png" loading="lazy"
      alt="Logo 3TENTOS"
@@ -5346,7 +5466,7 @@ Small Caps
     data-variacao="1.2149543622267243">
 
 <td>
-<span style="color:#cbd5e1;font-size:12px">#79 </span>
+<span style="color:#cbd5e1;font-size:12px">#81 </span>
 <div style="display:flex;align-items:center;gap:8px">
 <img src="logos/BLAU3.png" loading="lazy"
      alt="Logo BLAU"
@@ -5406,7 +5526,7 @@ Small Caps
     data-variacao="-17.40196204469647">
 
 <td>
-<span style="color:#cbd5e1;font-size:12px">#80 </span>
+<span style="color:#cbd5e1;font-size:12px">#82 </span>
 <div style="display:flex;align-items:center;gap:8px">
 <img src="logos/VAMO3.png" loading="lazy"
      alt="Logo VAMOS"
@@ -5434,7 +5554,7 @@ Small Caps
 <td>11.62</td>
 <td>1.4</td>
 <td>12.08%</td>
-<td>4.31%</td>
+<td>4.16%</td>
 
 <td style="font-weight:600;color:#eab308">
 25
@@ -5466,7 +5586,7 @@ Small Caps
     data-variacao="-9.07440978639427">
 
 <td>
-<span style="color:#cbd5e1;font-size:12px">#81 </span>
+<span style="color:#cbd5e1;font-size:12px">#83 </span>
 <div style="display:flex;align-items:center;gap:8px">
 <img src="logos/ALPA3.png" loading="lazy"
      alt="Logo ALPARGATAS"
@@ -5526,7 +5646,7 @@ Small Caps
     data-variacao="-7.313196199312172">
 
 <td>
-<span style="color:#cbd5e1;font-size:12px">#82 </span>
+<span style="color:#cbd5e1;font-size:12px">#84 </span>
 <div style="display:flex;align-items:center;gap:8px">
 <img src="logos/REDE3.png" loading="lazy"
      alt="Logo REDE ENERGIA"
@@ -5586,7 +5706,7 @@ Mid Caps
     data-variacao="-12.570664508345523">
 
 <td>
-<span style="color:#cbd5e1;font-size:12px">#83 </span>
+<span style="color:#cbd5e1;font-size:12px">#85 </span>
 <div style="display:flex;align-items:center;gap:8px">
 <img src="logos/CEBR5.png" loading="lazy"
      alt="Logo CEB A"
@@ -5646,7 +5766,7 @@ Small Caps
     data-variacao="-2.4903091488137283">
 
 <td>
-<span style="color:#cbd5e1;font-size:12px">#84 </span>
+<span style="color:#cbd5e1;font-size:12px">#86 </span>
 <div style="display:flex;align-items:center;gap:8px">
 <img src="logos/CXSE3.png" loading="lazy"
      alt="Logo CAIXA SEGURI"
@@ -5657,7 +5777,7 @@ Small Caps
 CXSE3
 </a>
 </div>
-<span class="empresa">CAIXA SEGURI <span style="background:#22c55e20;color:#22c55e;padding:2px 8px;border-radius:6px;font-size:11px;margin-left:6px;">ALTO DY</span></span>
+<span class="empresa">CAIXA SEGURI </span>
 </td>
 
 <td>Serviços Financeiros</td>
@@ -5674,7 +5794,7 @@ Blue Chips
 <td>12.07</td>
 <td>3.84</td>
 <td>31.59%</td>
-<td>8.01%</td>
+<td>7.95%</td>
 
 <td style="font-weight:600;color:#eab308">
 50
@@ -5706,7 +5826,7 @@ Blue Chips
     data-variacao="-8.27045454309934">
 
 <td>
-<span style="color:#cbd5e1;font-size:12px">#85 </span>
+<span style="color:#cbd5e1;font-size:12px">#87 </span>
 <div style="display:flex;align-items:center;gap:8px">
 <img src="logos/MULT3.png" loading="lazy"
      alt="Logo MULTIPLAN"
@@ -5756,6 +5876,66 @@ Mid Caps
 
 </tr>
 
+<tr onclick="window.location='acoes/SAUD3.html'"
+    tabindex="0"
+    onkeypress="if(event.key==='Enter') window.location='acoes/SAUD3.html'"
+    aria-label="Ver análise de BRADSAUDE (SAUD3)"
+    data-setor="Saúde"
+    data-categoria="Small Caps"
+    data-score="35"
+    data-variacao="0.0">
+
+<td>
+<span style="color:#cbd5e1;font-size:12px">#88 </span>
+<div style="display:flex;align-items:center;gap:8px">
+<img src="logos/SAUD3.png" loading="lazy"
+     alt="Logo BRADSAUDE"
+     loading="lazy"
+     onerror="this.onerror=null;this.src='logos/default.svg';"
+     style="width:20px;height:20px;object-fit:contain">
+<a class="ticker" href="acoes/SAUD3.html" aria-label="Ver análise completa de BRADSAUDE">
+SAUD3
+</a>
+</div>
+<span class="empresa">BRADSAUDE </span>
+</td>
+
+<td>Saúde</td>
+
+<td>
+<span class="badge" style="
+background:#facc1520;
+color:#facc15;
+border:1px solid #facc15">
+Small Caps
+</span>
+</td>
+
+<td>12.44</td>
+<td>5.12</td>
+<td>40.37%</td>
+<td>7.45%</td>
+
+<td style="font-weight:600;color:#eab308">
+35
+</td>
+
+<td>
+<span style="font-size:15px;font-weight:700;color:#22c55e">
+17.04%
+</span>
+</td>
+
+<td>R$ 16.2</td>
+
+<td style="text-align:center;" aria-label="Risco: Baixo">
+<span style="font-size:18px;display:inline-block;" title="Baixo">
+🟢
+</span>
+</td>
+
+</tr>
+
 <tr onclick="window.location='acoes/VBBR3.html'"
     tabindex="0"
     onkeypress="if(event.key==='Enter') window.location='acoes/VBBR3.html'"
@@ -5766,7 +5946,7 @@ Mid Caps
     data-variacao="0.0">
 
 <td>
-<span style="color:#cbd5e1;font-size:12px">#86 </span>
+<span style="color:#cbd5e1;font-size:12px">#89 </span>
 <div style="display:flex;align-items:center;gap:8px">
 <img src="logos/VBBR3.png" loading="lazy"
      alt="Logo VIBRA"
@@ -5794,7 +5974,7 @@ Mid Caps
 <td>12.56</td>
 <td>1.77</td>
 <td>13.96%</td>
-<td>5.67%</td>
+<td>5.75%</td>
 
 <td style="font-weight:600;color:#eab308">
 30
@@ -5826,7 +6006,7 @@ Mid Caps
     data-variacao="-11.167513980465895">
 
 <td>
-<span style="color:#cbd5e1;font-size:12px">#87 </span>
+<span style="color:#cbd5e1;font-size:12px">#90 </span>
 <div style="display:flex;align-items:center;gap:8px">
 <img src="logos/CEBR3.png" loading="lazy"
      alt="Logo CEB"
@@ -5886,7 +6066,7 @@ Small Caps
     data-variacao="-16.76448883511868">
 
 <td>
-<span style="color:#cbd5e1;font-size:12px">#88 </span>
+<span style="color:#cbd5e1;font-size:12px">#91 </span>
 <div style="display:flex;align-items:center;gap:8px">
 <img src="logos/TIMS3.png" loading="lazy"
      alt="Logo TIM"
@@ -5914,7 +6094,7 @@ Blue Chips
 <td>12.68</td>
 <td>2.22</td>
 <td>17.72%</td>
-<td>11.53%</td>
+<td>11.43%</td>
 
 <td style="font-weight:600;color:#eab308">
 50
@@ -5946,7 +6126,7 @@ Blue Chips
     data-variacao="-11.826919109158101">
 
 <td>
-<span style="color:#cbd5e1;font-size:12px">#89 </span>
+<span style="color:#cbd5e1;font-size:12px">#92 </span>
 <div style="display:flex;align-items:center;gap:8px">
 <img src="logos/ENGI4.png" loading="lazy"
      alt="Logo ENERGISA"
@@ -5996,66 +6176,6 @@ Mid Caps
 
 </tr>
 
-<tr onclick="window.location='acoes/SAUD3.html'"
-    tabindex="0"
-    onkeypress="if(event.key==='Enter') window.location='acoes/SAUD3.html'"
-    aria-label="Ver análise de BRADSAUDE (SAUD3)"
-    data-setor="Saúde"
-    data-categoria="Small Caps"
-    data-score="35"
-    data-variacao="0.0">
-
-<td>
-<span style="color:#cbd5e1;font-size:12px">#90 </span>
-<div style="display:flex;align-items:center;gap:8px">
-<img src="logos/SAUD3.png" loading="lazy"
-     alt="Logo BRADSAUDE"
-     loading="lazy"
-     onerror="this.onerror=null;this.src='logos/default.svg';"
-     style="width:20px;height:20px;object-fit:contain">
-<a class="ticker" href="acoes/SAUD3.html" aria-label="Ver análise completa de BRADSAUDE">
-SAUD3
-</a>
-</div>
-<span class="empresa">BRADSAUDE </span>
-</td>
-
-<td>Saúde</td>
-
-<td>
-<span class="badge" style="
-background:#facc1520;
-color:#facc15;
-border:1px solid #facc15">
-Small Caps
-</span>
-</td>
-
-<td>12.92</td>
-<td>5.12</td>
-<td>40.37%</td>
-<td>7.77%</td>
-
-<td style="font-weight:600;color:#eab308">
-35
-</td>
-
-<td>
-<span style="font-size:15px;font-weight:700;color:#22c55e">
-13.85%
-</span>
-</td>
-
-<td>R$ 15.6</td>
-
-<td style="text-align:center;" aria-label="Risco: Baixo">
-<span style="font-size:18px;display:inline-block;" title="Baixo">
-🟢
-</span>
-</td>
-
-</tr>
-
 <tr onclick="window.location='acoes/ENMT3.html'"
     tabindex="0"
     onkeypress="if(event.key==='Enter') window.location='acoes/ENMT3.html'"
@@ -6066,7 +6186,7 @@ Small Caps
     data-variacao="-16.040000915527344">
 
 <td>
-<span style="color:#cbd5e1;font-size:12px">#91 </span>
+<span style="color:#cbd5e1;font-size:12px">#93 </span>
 <div style="display:flex;align-items:center;gap:8px">
 <img src="logos/ENMT3.png" loading="lazy"
      alt="Logo ENERGISA MT"
@@ -6126,7 +6246,7 @@ Small Caps
     data-variacao="0.0">
 
 <td>
-<span style="color:#cbd5e1;font-size:12px">#92 </span>
+<span style="color:#cbd5e1;font-size:12px">#94 </span>
 <div style="display:flex;align-items:center;gap:8px">
 <img src="logos/PNVL3.png" loading="lazy"
      alt="Logo DIMED"
@@ -6154,7 +6274,7 @@ Small Caps
 <td>13.51</td>
 <td>1.38</td>
 <td>10.4%</td>
-<td>2.93%</td>
+<td>2.91%</td>
 
 <td style="font-weight:600;color:#eab308">
 25
@@ -6186,7 +6306,7 @@ Small Caps
     data-variacao="4.686224839554212">
 
 <td>
-<span style="color:#cbd5e1;font-size:12px">#93 </span>
+<span style="color:#cbd5e1;font-size:12px">#95 </span>
 <div style="display:flex;align-items:center;gap:8px">
 <img src="logos/BMOB3.png" loading="lazy"
      alt="Logo BEMOBI TECH EJ"
@@ -6214,7 +6334,7 @@ Small Caps
 <td>13.66</td>
 <td>2.26</td>
 <td>15.55%</td>
-<td>7.18%</td>
+<td>6.92%</td>
 
 <td style="font-weight:600;color:#eab308">
 35
@@ -6246,7 +6366,7 @@ Small Caps
     data-variacao="-2.629971224117659">
 
 <td>
-<span style="color:#cbd5e1;font-size:12px">#94 </span>
+<span style="color:#cbd5e1;font-size:12px">#96 </span>
 <div style="display:flex;align-items:center;gap:8px">
 <img src="logos/FLRY3.png" loading="lazy"
      alt="Logo FLEURY"
@@ -6274,7 +6394,7 @@ Small Caps
 <td>13.72</td>
 <td>1.67</td>
 <td>11.67%</td>
-<td>12.04%</td>
+<td>11.87%</td>
 
 <td style="font-weight:600;color:#eab308">
 15
@@ -6306,7 +6426,7 @@ Small Caps
     data-variacao="-28.820959721210592">
 
 <td>
-<span style="color:#cbd5e1;font-size:12px">#95 </span>
+<span style="color:#cbd5e1;font-size:12px">#97 </span>
 <div style="display:flex;align-items:center;gap:8px">
 <img src="logos/GGPS3.png" loading="lazy"
      alt="Logo GPS"
@@ -6334,7 +6454,7 @@ Small Caps
 <td>13.87</td>
 <td>2.38</td>
 <td>17.13%</td>
-<td>4.07%</td>
+<td>4.09%</td>
 
 <td style="font-weight:600;color:#eab308">
 20
@@ -6366,7 +6486,7 @@ Small Caps
     data-variacao="-0.28846202047147457">
 
 <td>
-<span style="color:#cbd5e1;font-size:12px">#96 </span>
+<span style="color:#cbd5e1;font-size:12px">#98 </span>
 <div style="display:flex;align-items:center;gap:8px">
 <img src="logos/CEBR6.png" loading="lazy"
      alt="Logo CEB B"
@@ -6426,7 +6546,7 @@ Small Caps
     data-variacao="-13.192308866060698">
 
 <td>
-<span style="color:#cbd5e1;font-size:12px">#97 </span>
+<span style="color:#cbd5e1;font-size:12px">#99 </span>
 <div style="display:flex;align-items:center;gap:8px">
 <img src="logos/ENMT4.png" loading="lazy"
      alt="Logo ENERGISA MT"
@@ -6486,7 +6606,7 @@ Small Caps
     data-variacao="-1.4519041811780353">
 
 <td>
-<span style="color:#cbd5e1;font-size:12px">#98 </span>
+<span style="color:#cbd5e1;font-size:12px">#100 </span>
 <div style="display:flex;align-items:center;gap:8px">
 <img src="logos/EGIE3.png" loading="lazy"
      alt="Logo ENGIE BRASIL"
@@ -6511,10 +6631,10 @@ Mid Caps
 </span>
 </td>
 
-<td>14.48</td>
+<td>14.54</td>
 <td>2.74</td>
 <td>20.2%</td>
-<td>5.67%</td>
+<td>5.62%</td>
 
 <td style="font-weight:600;color:#eab308">
 50
@@ -6522,11 +6642,11 @@ Mid Caps
 
 <td>
 <span style="font-size:15px;font-weight:700;color:#22c55e">
-3.47%
+3.04%
 </span>
 </td>
 
-<td>R$ 33.75</td>
+<td>R$ 33.6</td>
 
 <td style="text-align:center;" aria-label="Risco: Baixo">
 <span style="font-size:18px;display:inline-block;" title="Baixo">
@@ -6546,7 +6666,7 @@ Mid Caps
     data-variacao="9.511345104359513">
 
 <td>
-<span style="color:#cbd5e1;font-size:12px">#99 </span>
+<span style="color:#cbd5e1;font-size:12px">#101 </span>
 <div style="display:flex;align-items:center;gap:8px">
 <img src="logos/ALPA4.png" loading="lazy"
      alt="Logo ALPARGATAS"
@@ -6574,7 +6694,7 @@ Small Caps
 <td>14.59</td>
 <td>2.56</td>
 <td>16.46%</td>
-<td>5.26%</td>
+<td>5.16%</td>
 
 <td style="font-weight:600;color:#eab308">
 35
@@ -6606,7 +6726,7 @@ Small Caps
     data-variacao="-1.3032698638925241e-14">
 
 <td>
-<span style="color:#cbd5e1;font-size:12px">#100 </span>
+<span style="color:#cbd5e1;font-size:12px">#102 </span>
 <div style="display:flex;align-items:center;gap:8px">
 <img src="logos/PASS3.png" loading="lazy"
      alt="Logo COMPASS"
@@ -6634,7 +6754,7 @@ Mid Caps
 <td>15.76</td>
 <td>3.66</td>
 <td>18.85%</td>
-<td>4.71%</td>
+<td>4.65%</td>
 
 <td style="font-weight:600;color:#eab308">
 35
@@ -6666,7 +6786,7 @@ Mid Caps
     data-variacao="-1.653439165953776">
 
 <td>
-<span style="color:#cbd5e1;font-size:12px">#101 </span>
+<span style="color:#cbd5e1;font-size:12px">#103 </span>
 <div style="display:flex;align-items:center;gap:8px">
 <img src="logos/CPLE3.png" loading="lazy"
      alt="Logo COPEL"
@@ -6726,7 +6846,7 @@ Mid Caps
     data-variacao="-5.712046615720956">
 
 <td>
-<span style="color:#cbd5e1;font-size:12px">#102 </span>
+<span style="color:#cbd5e1;font-size:12px">#104 </span>
 <div style="display:flex;align-items:center;gap:8px">
 <img src="logos/ENGI3.png" loading="lazy"
      alt="Logo ENERGISA"
@@ -6786,7 +6906,7 @@ Mid Caps
     data-variacao="1.7819714567475398">
 
 <td>
-<span style="color:#cbd5e1;font-size:12px">#103 </span>
+<span style="color:#cbd5e1;font-size:12px">#105 </span>
 <div style="display:flex;align-items:center;gap:8px">
 <img src="logos/SMFT3.png" loading="lazy"
      alt="Logo SMART FIT"
@@ -6814,7 +6934,7 @@ Mid Caps
 <td>17.5</td>
 <td>2.02</td>
 <td>12.06%</td>
-<td>5.84%</td>
+<td>5.7%</td>
 
 <td style="font-weight:600;color:#eab308">
 30
@@ -6836,6 +6956,66 @@ Mid Caps
 
 </tr>
 
+<tr onclick="window.location='acoes/B3SA3.html'"
+    tabindex="0"
+    onkeypress="if(event.key==='Enter') window.location='acoes/B3SA3.html'"
+    aria-label="Ver análise de B3 (B3SA3)"
+    data-setor="Serviços Financeiros"
+    data-categoria="Blue Chips"
+    data-score="35"
+    data-variacao="-6.500535834805002">
+
+<td>
+<span style="color:#cbd5e1;font-size:12px">#106 </span>
+<div style="display:flex;align-items:center;gap:8px">
+<img src="logos/B3SA3.png" loading="lazy"
+     alt="Logo B3"
+     loading="lazy"
+     onerror="this.onerror=null;this.src='logos/default.svg';"
+     style="width:20px;height:20px;object-fit:contain">
+<a class="ticker" href="acoes/B3SA3.html" aria-label="Ver análise completa de B3">
+B3SA3
+</a>
+</div>
+<span class="empresa">B3 </span>
+</td>
+
+<td>Serviços Financeiros</td>
+
+<td>
+<span class="badge" style="
+background:#3b82f620;
+color:#3b82f6;
+border:1px solid #3b82f6">
+Blue Chips
+</span>
+</td>
+
+<td>18.17</td>
+<td>4.74</td>
+<td>26.74%</td>
+<td>3.51%</td>
+
+<td style="font-weight:600;color:#eab308">
+35
+</td>
+
+<td>
+<span style="font-size:15px;font-weight:700;color:#ef4444">
+-21.12%
+</span>
+</td>
+
+<td>R$ 14.25</td>
+
+<td style="text-align:center;" aria-label="Risco: Baixo">
+<span style="font-size:18px;display:inline-block;" title="Baixo">
+🟢
+</span>
+</td>
+
+</tr>
+
 <tr onclick="window.location='acoes/UNIP3.html'"
     tabindex="0"
     onkeypress="if(event.key==='Enter') window.location='acoes/UNIP3.html'"
@@ -6846,7 +7026,7 @@ Mid Caps
     data-variacao="-11.067192025531215">
 
 <td>
-<span style="color:#cbd5e1;font-size:12px">#104 </span>
+<span style="color:#cbd5e1;font-size:12px">#107 </span>
 <div style="display:flex;align-items:center;gap:8px">
 <img src="logos/UNIP3.png" loading="lazy"
      alt="Logo UNIPAR"
@@ -6896,66 +7076,6 @@ Small Caps
 
 </tr>
 
-<tr onclick="window.location='acoes/B3SA3.html'"
-    tabindex="0"
-    onkeypress="if(event.key==='Enter') window.location='acoes/B3SA3.html'"
-    aria-label="Ver análise de B3 (B3SA3)"
-    data-setor="Serviços Financeiros"
-    data-categoria="Blue Chips"
-    data-score="35"
-    data-variacao="-6.500535834805002">
-
-<td>
-<span style="color:#cbd5e1;font-size:12px">#105 </span>
-<div style="display:flex;align-items:center;gap:8px">
-<img src="logos/B3SA3.png" loading="lazy"
-     alt="Logo B3"
-     loading="lazy"
-     onerror="this.onerror=null;this.src='logos/default.svg';"
-     style="width:20px;height:20px;object-fit:contain">
-<a class="ticker" href="acoes/B3SA3.html" aria-label="Ver análise completa de B3">
-B3SA3
-</a>
-</div>
-<span class="empresa">B3 </span>
-</td>
-
-<td>Serviços Financeiros</td>
-
-<td>
-<span class="badge" style="
-background:#3b82f620;
-color:#3b82f6;
-border:1px solid #3b82f6">
-Blue Chips
-</span>
-</td>
-
-<td>18.76</td>
-<td>4.74</td>
-<td>26.74%</td>
-<td>3.64%</td>
-
-<td style="font-weight:600;color:#eab308">
-35
-</td>
-
-<td>
-<span style="font-size:15px;font-weight:700;color:#ef4444">
--25.07%
-</span>
-</td>
-
-<td>R$ 13.8</td>
-
-<td style="text-align:center;" aria-label="Risco: Baixo">
-<span style="font-size:18px;display:inline-block;" title="Baixo">
-🟢
-</span>
-</td>
-
-</tr>
-
 <tr onclick="window.location='acoes/UNIP5.html'"
     tabindex="0"
     onkeypress="if(event.key==='Enter') window.location='acoes/UNIP5.html'"
@@ -6966,7 +7086,7 @@ Blue Chips
     data-variacao="-9.968898154310404">
 
 <td>
-<span style="color:#cbd5e1;font-size:12px">#106 </span>
+<span style="color:#cbd5e1;font-size:12px">#108 </span>
 <div style="display:flex;align-items:center;gap:8px">
 <img src="logos/UNIP5.png" loading="lazy"
      alt="Logo UNIPAR A"
@@ -7026,7 +7146,7 @@ Small Caps
     data-variacao="-11.266780187133959">
 
 <td>
-<span style="color:#cbd5e1;font-size:12px">#107 </span>
+<span style="color:#cbd5e1;font-size:12px">#109 </span>
 <div style="display:flex;align-items:center;gap:8px">
 <img src="logos/UNIP6.png" loading="lazy"
      alt="Logo UNIPAR B"
@@ -7051,7 +7171,7 @@ Small Caps
 </span>
 </td>
 
-<td>19.42</td>
+<td>19.36</td>
 <td>3.76</td>
 <td>20.81%</td>
 <td>16.88%</td>
@@ -7062,11 +7182,11 @@ Small Caps
 
 <td>
 <span style="font-size:15px;font-weight:700;color:#ef4444">
--29.5%
+-29.09%
 </span>
 </td>
 
-<td>R$ 46.95</td>
+<td>R$ 47.1</td>
 
 <td style="text-align:center;" aria-label="Risco: Baixo">
 <span style="font-size:18px;display:inline-block;" title="Baixo">
@@ -7086,7 +7206,7 @@ Small Caps
     data-variacao="0.9813215082146408">
 
 <td>
-<span style="color:#cbd5e1;font-size:12px">#108 </span>
+<span style="color:#cbd5e1;font-size:12px">#110 </span>
 <div style="display:flex;align-items:center;gap:8px">
 <img src="logos/TOTS3.png" loading="lazy"
      alt="Logo TOTVS"
@@ -7111,7 +7231,7 @@ Mid Caps
 </span>
 </td>
 
-<td>21.7</td>
+<td>21.41</td>
 <td>3.67</td>
 <td>16.91%</td>
 <td>2.06%</td>
@@ -7122,11 +7242,11 @@ Mid Caps
 
 <td>
 <span style="font-size:15px;font-weight:700;color:#ef4444">
--44.67%
+-42.73%
 </span>
 </td>
 
-<td>R$ 22.05</td>
+<td>R$ 22.35</td>
 
 <td style="text-align:center;" aria-label="Risco: Médio">
 <span style="font-size:18px;display:inline-block;" title="Médio">
@@ -7146,7 +7266,7 @@ Mid Caps
     data-variacao="0.0">
 
 <td>
-<span style="color:#cbd5e1;font-size:12px">#109 </span>
+<span style="color:#cbd5e1;font-size:12px">#111 </span>
 <div style="display:flex;align-items:center;gap:8px">
 <img src="logos/RADL3.png" loading="lazy"
      alt="Logo RAIADROGASIL"
@@ -7206,7 +7326,7 @@ Mid Caps
     data-variacao="-8.86998982052151">
 
 <td>
-<span style="color:#cbd5e1;font-size:12px">#110 </span>
+<span style="color:#cbd5e1;font-size:12px">#112 </span>
 <div style="display:flex;align-items:center;gap:8px">
 <img src="logos/FRAS3.png" loading="lazy"
      alt="Logo FRAS,LE"
@@ -7233,8 +7353,8 @@ Small Caps
 
 <td>25.0</td>
 <td>2.54</td>
-<td>11.97%</td>
-<td>3.33%</td>
+<td>11.21%</td>
+<td>3.4%</td>
 
 <td style="font-weight:600;color:#eab308">
 0
