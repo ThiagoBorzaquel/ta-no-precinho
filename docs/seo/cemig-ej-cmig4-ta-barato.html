@@ -8,10 +8,10 @@
 <link rel="dns-prefetch" href="//pagead2.googlesyndication.com">
 
 <!-- ADSENSE -->
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5213961841779335"
-crossorigin="anonymous"></script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1002994940093124"
+     crossorigin="anonymous"></script>
 
-<meta name="google-adsense-account" content="ca-pub-5213961841779335">
+<meta name="google-adsense-account" content="ca-pub-1002994940093124">
 
 <!-- META -->
 <meta charset="UTF-8">
@@ -25,27 +25,20 @@ crossorigin="anonymous"></script>
 <meta name="robots" content="index, follow">
 <meta name="author" content="Tá no Precinho">
 
-<<<<<<< HEAD
-<meta name="description" content="Veja se CMIG4 está barata: P/L 7.98, P/VP 1.37 e preço justo estimado em R$ 25.65. Atualizado hoje.">
-=======
-<meta name="description" content="Veja se CMIG4 está barata: P/L 8.08, P/VP 1.38 e preço justo estimado em R$ 25.65. Atualizado hoje.">
->>>>>>> 5b51a4d3a5cfb80d93dddfe3d7e8478307057075
+<meta name="description" content="Veja se CMIG4 está barata: P/L 6.41, P/VP 1.09 e preço justo estimado em R$ 25.65. Atualizado hoje.">
 <meta name="keywords" content="CMIG4 está barata, valuation CMIG4, preço justo CMIG4">
 
 <meta name="theme-color" content="#0f172a">
 
 <!-- OPEN GRAPH -->
 <meta property="og:title" content="CEMIG EJ (CMIG4) está barata? Análise de valuation 2026">
-<<<<<<< HEAD
-<meta property="og:description" content="Veja se CMIG4 está barata: P/L 7.98, P/VP 1.37 e preço justo estimado em R$ 25.65. Atualizado hoje.">
-=======
-<meta property="og:description" content="Veja se CMIG4 está barata: P/L 8.08, P/VP 1.38 e preço justo estimado em R$ 25.65. Atualizado hoje.">
->>>>>>> 5b51a4d3a5cfb80d93dddfe3d7e8478307057075
+<meta property="og:description" content="Veja se CMIG4 está barata: P/L 6.41, P/VP 1.09 e preço justo estimado em R$ 25.65. Atualizado hoje.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://tanoprecinho.site/seo/cemig-ej-cmig4-ta-barato.html">
 <meta property="og:image" content="https://tanoprecinho.site/images/og-image.jpg">
 <meta property="og:site_name" content="Tá no Precinho">
 <meta property="og:locale" content="pt_BR">
+
 
 <!-- SCHEMA SEO -->
 <script type="application/ld+json">
@@ -53,11 +46,7 @@ crossorigin="anonymous"></script>
 "@context": "https://schema.org",
 "@type": "WebPage",
 "name": "CEMIG EJ (CMIG4) está barata? Análise de valuation 2026",
-<<<<<<< HEAD
-"description": "Veja se CMIG4 está barata: P/L 7.98, P/VP 1.37 e preço justo estimado em R$ 25.65. Atualizado hoje.",
-=======
-"description": "Veja se CMIG4 está barata: P/L 8.08, P/VP 1.38 e preço justo estimado em R$ 25.65. Atualizado hoje.",
->>>>>>> 5b51a4d3a5cfb80d93dddfe3d7e8478307057075
+"description": "Veja se CMIG4 está barata: P/L 6.41, P/VP 1.09 e preço justo estimado em R$ 25.65. Atualizado hoje.",
 "url": "https://tanoprecinho.site/seo/cemig-ej-cmig4-ta-barato.html",
 "inLanguage": "pt-BR",
 "publisher": {
@@ -174,6 +163,95 @@ align-items: flex-start;
 gap: 8px;
 }
 
+/* GRID */
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 14px;
+  margin: 20px 0;
+}
+
+/* CARD */
+.metric {
+  background: linear-gradient(145deg, #020617, #020617);
+  border-radius: 14px;
+  padding: 16px;
+  border: 1px solid rgba(255,255,255,0.04);
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+/* HOVER PREMIUM */
+.metric:hover {
+  transform: translateY(-4px);
+  border-color: rgba(255,255,255,0.08);
+  
+}
+
+/* LABEL */
+.metric-label {
+  font-size: 12px;
+  color: #94a3b8;
+}
+
+/* VALOR */
+.metric-value {
+  font-size: 22px;
+  font-weight: 700;
+  color: #f8fafc;
+  margin-top: 4px;
+}
+
+/* SCORE */
+.metric.score {
+  background: linear-gradient(145deg, rgba(34,197,94,0.08), #020617);
+  border: 1px solid rgba(34,197,94,0.2);
+}
+
+.metric.score .metric-value {
+  color: #22c55e;
+}
+
+/* DESCONTO */
+.metric.desconto .metric-value {
+  color: #22c55e;
+}
+
+/* PREÇO JUSTO (destaque principal) */
+.metric.highlight {
+  background: linear-gradient(145deg, rgba(34,197,94,0.12), #020617);
+  border: 1px solid #22c55e;
+}
+
+.metric.highlight .metric-value {
+  color: #22c55e;
+  font-size: 24px;
+}
+
+/* NEGATIVO (se quiser usar depois) */
+.metric.negative .metric-value {
+  color: #ef4444;
+}
+
+.metric::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at top left, rgba(255,255,255,0.05), transparent 60%);
+  opacity: 0;
+  transition: 0.3s;
+}
+
+.metric:hover::after {
+  opacity: 1;
+}
+
+h1 span {
+  color: #64748b;
+  font-weight: 500;
+}
+
 </style>
 
 </head>
@@ -194,6 +272,7 @@ gap: 8px;
   <a href="../on-pn.html">Diferença entre ações ON e PN</a>
   <a href="../dividend-yield.html">Dividend Yield</a>
   <a href="../estrategia-investidor.html">Como Investir Melhor em Ações</a>
+  <a href="../doacoes.html">💚 Apoie o Projeto</a>
 </div>
 </nav>
 
@@ -225,11 +304,7 @@ gap: 8px;
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"Article","headline":"CEMIG EJ (CMIG4) está barata? Análise de valuation 2026",
 "author":{"@type":"Organization","name":"Tá no Precinho"},
-<<<<<<< HEAD
-"dateModified":"2026-04-10"}
-=======
-"dateModified":"2026-04-12"}
->>>>>>> 5b51a4d3a5cfb80d93dddfe3d7e8478307057075
+"dateModified":"2026-06-28"}
 </script>
 <div style="max-width:780px;margin:auto">
 <a href="/index.html" style="color:#94a3b8;font-size:13px;">← Ranking completo</a>
@@ -242,87 +317,39 @@ gap: 8px;
 <div class="card">
 <h2>Preço justo de CMIG4</h2>
 <p>Preço justo estimado (P/L 15x): <strong>R$ 25.65</strong>.</p>
-<<<<<<< HEAD
-<p>Desconto atual de 46.82%.</p>
-=======
-<p>Desconto atual de 46.16%.</p>
->>>>>>> 5b51a4d3a5cfb80d93dddfe3d7e8478307057075
+<p>Desconto atual de 57.27%.</p>
 </div>
 <div class="card">
 <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;">
 
-    <div style="
-    background:#020617;
-    padding:14px;
-    border-radius:14px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    ">
-        <span style="color:#cbd5e1">P/L</span>
-<<<<<<< HEAD
-        <strong style="color:#e2e8f0">7.98</strong>
-=======
-        <strong style="color:#e2e8f0">8.08</strong>
->>>>>>> 5b51a4d3a5cfb80d93dddfe3d7e8478307057075
+    <div class="metric ">
+        <div class="metric-label">P/L</div>
+        <div class="metric-value">6.41</div>
     </div>
     
 
-    <div style="
-    background:#020617;
-    padding:14px;
-    border-radius:14px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    ">
-        <span style="color:#cbd5e1">P/VP</span>
-<<<<<<< HEAD
-        <strong style="color:#e2e8f0">1.37</strong>
-=======
-        <strong style="color:#e2e8f0">1.38</strong>
->>>>>>> 5b51a4d3a5cfb80d93dddfe3d7e8478307057075
+    <div class="metric ">
+        <div class="metric-label">P/VP</div>
+        <div class="metric-value">1.09</div>
     </div>
     
 
-    <div style="
-    background:#020617;
-    padding:14px;
-    border-radius:14px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    ">
-        <span style="color:#cbd5e1">Preço justo</span>
-        <strong style="color:#e2e8f0">R$ 25.65</strong>
+    <div class="metric ">
+        <div class="metric-label">Preço justo</div>
+        <div class="metric-value">R$ 25.65</div>
     </div>
     
 
-    <div style="
-    background:#020617;
-    padding:14px;
-    border-radius:14px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    ">
-        <span style="color:#cbd5e1">Desconto</span>
-<<<<<<< HEAD
-        <strong style="color:#e2e8f0">46.82%</strong>
-=======
-        <strong style="color:#e2e8f0">46.16%</strong>
->>>>>>> 5b51a4d3a5cfb80d93dddfe3d7e8478307057075
+    <div class="metric ">
+        <div class="metric-label">Desconto</div>
+        <div class="metric-value">57.27%</div>
     </div>
     
 </div>
 </div>
 <div class="card">
 <h2>O que o P/L diz sobre CMIG4?</h2>
-<<<<<<< HEAD
-<p>Um P/L de 7.98 é considerado baixo — potencial sinal de subvalorização.</p>
-=======
-<p>Um P/L de 8.08 é razoável para o setor de Utilidades Públicas.</p>
->>>>>>> 5b51a4d3a5cfb80d93dddfe3d7e8478307057075
+<p>Um P/L de 6.41 é considerado baixo — potencial sinal de subvalorização.</p>
 </div>
 <div class="card">
 <p>⚠️ Esta análise é exclusivamente informativa e <strong>não constitui recomendação de investimento</strong>.</p>
@@ -355,6 +382,7 @@ gap: 8px;
 </script>
 
 <!-- RODAPÉ -->
+ 
 <footer>
 <div class="footer">
   ⚠️ Este ranking utiliza dados públicos do Yahoo Finance e aplica critérios quantitativos próprios.
@@ -373,6 +401,7 @@ gap: 8px;
     <a href="../on-pn.html">Diferença entre ações ON e PN</a>
     <a href="../dividend-yield.html">Dividend Yield</a>
     <a href="../estrategia-investidor.html">Como Investir Melhor em Ações</a>
+    <a href="../doacoes.html">💚 Apoie o Projeto</a>
   </nav>
   <br>
   © Tá no Precinho, 2026

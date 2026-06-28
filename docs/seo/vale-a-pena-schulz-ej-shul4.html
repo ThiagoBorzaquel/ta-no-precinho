@@ -8,10 +8,10 @@
 <link rel="dns-prefetch" href="//pagead2.googlesyndication.com">
 
 <!-- ADSENSE -->
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5213961841779335"
-crossorigin="anonymous"></script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1002994940093124"
+     crossorigin="anonymous"></script>
 
-<meta name="google-adsense-account" content="ca-pub-5213961841779335">
+<meta name="google-adsense-account" content="ca-pub-1002994940093124">
 
 <!-- META -->
 <meta charset="UTF-8">
@@ -38,6 +38,7 @@ crossorigin="anonymous"></script>
 <meta property="og:image" content="https://tanoprecinho.site/images/og-image.jpg">
 <meta property="og:site_name" content="Tá no Precinho">
 <meta property="og:locale" content="pt_BR">
+
 
 <!-- SCHEMA SEO -->
 <script type="application/ld+json">
@@ -162,6 +163,95 @@ align-items: flex-start;
 gap: 8px;
 }
 
+/* GRID */
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 14px;
+  margin: 20px 0;
+}
+
+/* CARD */
+.metric {
+  background: linear-gradient(145deg, #020617, #020617);
+  border-radius: 14px;
+  padding: 16px;
+  border: 1px solid rgba(255,255,255,0.04);
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+/* HOVER PREMIUM */
+.metric:hover {
+  transform: translateY(-4px);
+  border-color: rgba(255,255,255,0.08);
+  
+}
+
+/* LABEL */
+.metric-label {
+  font-size: 12px;
+  color: #94a3b8;
+}
+
+/* VALOR */
+.metric-value {
+  font-size: 22px;
+  font-weight: 700;
+  color: #f8fafc;
+  margin-top: 4px;
+}
+
+/* SCORE */
+.metric.score {
+  background: linear-gradient(145deg, rgba(34,197,94,0.08), #020617);
+  border: 1px solid rgba(34,197,94,0.2);
+}
+
+.metric.score .metric-value {
+  color: #22c55e;
+}
+
+/* DESCONTO */
+.metric.desconto .metric-value {
+  color: #22c55e;
+}
+
+/* PREÇO JUSTO (destaque principal) */
+.metric.highlight {
+  background: linear-gradient(145deg, rgba(34,197,94,0.12), #020617);
+  border: 1px solid #22c55e;
+}
+
+.metric.highlight .metric-value {
+  color: #22c55e;
+  font-size: 24px;
+}
+
+/* NEGATIVO (se quiser usar depois) */
+.metric.negative .metric-value {
+  color: #ef4444;
+}
+
+.metric::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at top left, rgba(255,255,255,0.05), transparent 60%);
+  opacity: 0;
+  transition: 0.3s;
+}
+
+.metric:hover::after {
+  opacity: 1;
+}
+
+h1 span {
+  color: #64748b;
+  font-weight: 500;
+}
+
 </style>
 
 </head>
@@ -182,6 +272,7 @@ gap: 8px;
   <a href="../on-pn.html">Diferença entre ações ON e PN</a>
   <a href="../dividend-yield.html">Dividend Yield</a>
   <a href="../estrategia-investidor.html">Como Investir Melhor em Ações</a>
+  <a href="../doacoes.html">💚 Apoie o Projeto</a>
 </div>
 </nav>
 
@@ -213,11 +304,7 @@ gap: 8px;
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"Article","headline":"Vale a pena investir em SCHULZ EJ (SHUL4) em 2026?",
 "author":{"@type":"Organization","name":"Tá no Precinho"},
-<<<<<<< HEAD
-"dateModified":"2026-04-10"}
-=======
-"dateModified":"2026-04-12"}
->>>>>>> 5b51a4d3a5cfb80d93dddfe3d7e8478307057075
+"dateModified":"2026-06-28"}
 </script>
 <div style="max-width:780px;margin:auto">
 <a href="/index.html" style="color:#94a3b8;font-size:13px;">← Ranking completo</a>
@@ -230,118 +317,52 @@ gap: 8px;
 </div>
 <div class="card">
 <h2>Visão geral de SHUL4</h2>
-<<<<<<< HEAD
-<p><strong>SCHULZ EJ</strong> atua no setor de <strong>Consumo Cíclico</strong>. Com P/L de 6.54 e ROE de 19.75%, a empresa apresenta fundamentos atrativos para o investidor de longo prazo.</p>
-=======
-<p><strong>SCHULZ EJ</strong> atua no setor de <strong>Consumo Cíclico</strong>. Com P/L de 6.6 e ROE de 19.75%, a empresa apresenta fundamentos atrativos para o investidor de longo prazo.</p>
->>>>>>> 5b51a4d3a5cfb80d93dddfe3d7e8478307057075
+<p><strong>SCHULZ EJ</strong> atua no setor de <strong>Consumo Cíclico</strong>. Com P/L de 6.16 e ROE de 18.2%, a empresa apresenta fundamentos atrativos para o investidor de longo prazo.</p>
 <p>O score fundamentalista atual é de <strong>85/100</strong>.</p>
 </div>
 <div class="card">
 <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;">
 
-    <div style="
-    background:#020617;
-    padding:14px;
-    border-radius:14px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    ">
-        <span style="color:#cbd5e1">P/L</span>
-<<<<<<< HEAD
-        <strong style="color:#e2e8f0">6.54</strong>
-=======
-        <strong style="color:#e2e8f0">6.6</strong>
->>>>>>> 5b51a4d3a5cfb80d93dddfe3d7e8478307057075
+    <div class="metric ">
+        <div class="metric-label">P/L</div>
+        <div class="metric-value">6.16</div>
     </div>
     
 
-    <div style="
-    background:#020617;
-    padding:14px;
-    border-radius:14px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    ">
-        <span style="color:#cbd5e1">P/VP</span>
-<<<<<<< HEAD
-        <strong style="color:#e2e8f0">1.26</strong>
-=======
-        <strong style="color:#e2e8f0">1.27</strong>
->>>>>>> 5b51a4d3a5cfb80d93dddfe3d7e8478307057075
+    <div class="metric ">
+        <div class="metric-label">P/VP</div>
+        <div class="metric-value">1.11</div>
     </div>
     
 
-    <div style="
-    background:#020617;
-    padding:14px;
-    border-radius:14px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    ">
-        <span style="color:#cbd5e1">ROE</span>
-        <strong style="color:#e2e8f0">19.75%</strong>
+    <div class="metric ">
+        <div class="metric-label">ROE</div>
+        <div class="metric-value">18.2%</div>
     </div>
     
 
-    <div style="
-    background:#020617;
-    padding:14px;
-    border-radius:14px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    ">
-        <span style="color:#cbd5e1">DY</span>
-<<<<<<< HEAD
-        <strong style="color:#e2e8f0">10.52%</strong>
-=======
-        <strong style="color:#e2e8f0">10.4%</strong>
->>>>>>> 5b51a4d3a5cfb80d93dddfe3d7e8478307057075
+    <div class="metric ">
+        <div class="metric-label">DY</div>
+        <div class="metric-value">6.53%</div>
     </div>
     
 
-    <div style="
-    background:#020617;
-    padding:14px;
-    border-radius:14px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    ">
-        <span style="color:#cbd5e1">Score</span>
-        <strong style="color:#e2e8f0">85</strong>
+    <div class="metric ">
+        <div class="metric-label">Score</div>
+        <div class="metric-value">85</div>
     </div>
     
 
-    <div style="
-    background:#020617;
-    padding:14px;
-    border-radius:14px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    ">
-        <span style="color:#cbd5e1">Desconto</span>
-<<<<<<< HEAD
-        <strong style="color:#e2e8f0">56.38%</strong>
-=======
-        <strong style="color:#e2e8f0">55.97%</strong>
->>>>>>> 5b51a4d3a5cfb80d93dddfe3d7e8478307057075
+    <div class="metric ">
+        <div class="metric-label">Desconto</div>
+        <div class="metric-value">58.96%</div>
     </div>
     
 </div>
 </div>
 <div class="card">
 <h2>Riscos e oportunidades</h2>
-<<<<<<< HEAD
-<p>Com desconto de 56.38% em relação ao preço justo, existe potencial de valorização.</p>
-=======
-<p>Com desconto de 55.97% em relação ao preço justo, existe potencial de valorização.</p>
->>>>>>> 5b51a4d3a5cfb80d93dddfe3d7e8478307057075
+<p>Com desconto de 58.96% em relação ao preço justo, existe potencial de valorização.</p>
 <p>⚠️ Esta análise é informativa e não constitui recomendação de investimento.</p>
 </div>
 <div class="card">
@@ -372,6 +393,7 @@ gap: 8px;
 </script>
 
 <!-- RODAPÉ -->
+ 
 <footer>
 <div class="footer">
   ⚠️ Este ranking utiliza dados públicos do Yahoo Finance e aplica critérios quantitativos próprios.
@@ -390,6 +412,7 @@ gap: 8px;
     <a href="../on-pn.html">Diferença entre ações ON e PN</a>
     <a href="../dividend-yield.html">Dividend Yield</a>
     <a href="../estrategia-investidor.html">Como Investir Melhor em Ações</a>
+    <a href="../doacoes.html">💚 Apoie o Projeto</a>
   </nav>
   <br>
   © Tá no Precinho, 2026
