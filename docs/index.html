@@ -412,10 +412,10 @@ function ordenarTabela(coluna) {
 let dados = { top: [], blue: [], mid: [], small: [] };
 try {
     dados = {
-        top:   [{"ticker": "BSLI3", "empresa": "BRB BANCO", "desconto": 90.3}, {"ticker": "SEER3", "empresa": "SER EDUCA", "desconto": 88.9}, {"ticker": "VTRU3", "empresa": "VITRUEDUCA", "desconto": 88.7}, {"ticker": "BRSR6", "empresa": "BANRISUL B", "desconto": 78.2}, {"ticker": "JHSF3", "empresa": "JHSF PART", "desconto": 76.7}],
+        top:   [{"ticker": "BSLI3", "empresa": "BRB BANCO", "desconto": 90.3}, {"ticker": "SEER3", "empresa": "SER EDUCA", "desconto": 88.9}, {"ticker": "VTRU3", "empresa": "VITRUEDUCA", "desconto": 88.7}, {"ticker": "BRSR6", "empresa": "BANRISUL B", "desconto": 78.2}, {"ticker": "JHSF3", "empresa": "JHSF PART ED", "desconto": 76.7}],
         blue:  [{"ticker": "SUZB3", "empresa": "SUZANO S.A.", "desconto": 68.6}, {"ticker": "PETR4", "empresa": "PETROBRAS ATZ", "desconto": 64.4}, {"ticker": "PETR3", "empresa": "PETROBRAS", "desconto": 59.8}, {"ticker": "SANB4", "empresa": "SANTANDER BR EJ", "desconto": 46.7}, {"ticker": "SANB3", "empresa": "SANTANDER BR EJ", "desconto": 45.6}],
         mid:   [{"ticker": "BNBR3", "empresa": "NORD BRASIL", "desconto": 76.4}, {"ticker": "CMIG4", "empresa": "CEMIG", "desconto": 55.8}, {"ticker": "EQPA3", "empresa": "EQTL PARA", "desconto": 49.4}, {"ticker": "ISAE4", "empresa": "ISA ENERGIA", "desconto": 49.1}, {"ticker": "HYPE3", "empresa": "HYPERA", "desconto": 45.9}],
-        small: [{"ticker": "BSLI3", "empresa": "BRB BANCO", "desconto": 90.3}, {"ticker": "SEER3", "empresa": "SER EDUCA", "desconto": 88.9}, {"ticker": "VTRU3", "empresa": "VITRUEDUCA", "desconto": 88.7}, {"ticker": "BRSR6", "empresa": "BANRISUL B", "desconto": 78.2}, {"ticker": "JHSF3", "empresa": "JHSF PART", "desconto": 76.7}]
+        small: [{"ticker": "BSLI3", "empresa": "BRB BANCO", "desconto": 90.3}, {"ticker": "SEER3", "empresa": "SER EDUCA", "desconto": 88.9}, {"ticker": "VTRU3", "empresa": "VITRUEDUCA", "desconto": 88.7}, {"ticker": "BRSR6", "empresa": "BANRISUL B", "desconto": 78.2}, {"ticker": "JHSF3", "empresa": "JHSF PART ED", "desconto": 76.7}]
     };
 } catch(e) {
     console.error("Erro ao carregar dados dos gráficos:", e);
@@ -512,7 +512,7 @@ Atualizado em 02/08/2026
 
 <div class="stats" role="region" aria-label="Estatísticas gerais">
 <div class="stat-box"><div class="stat-num">321</div><div class="stat-label">📊 Ativos B3</div></div>
-<div class="stat-box"><div class="stat-num">223</div><div class="stat-label">🔎 Ações analisadas</div></div>
+<div class="stat-box"><div class="stat-num">222</div><div class="stat-label">🔎 Ações analisadas</div></div>
 <div class="stat-box"><div class="stat-num">110</div><div class="stat-label">💰 Pagadoras de dividendos</div></div>
 <div class="stat-box"><div class="stat-num">34</div><div class="stat-label">🏆 Score ≥ 70</div></div>
 </div>
@@ -899,7 +899,7 @@ Small Caps
 <tr onclick="window.location='acoes/JHSF3.html'"
     tabindex="0"
     onkeypress="if(event.key==='Enter') window.location='acoes/JHSF3.html'"
-    aria-label="Ver análise de JHSF PART (JHSF3)"
+    aria-label="Ver análise de JHSF PART ED (JHSF3)"
     data-setor="Imobiliário"
     data-categoria="Small Caps"
     data-score="85"
@@ -909,15 +909,15 @@ Small Caps
 <span style="color:#cbd5e1;font-size:12px">#5 </span>
 <div style="display:flex;align-items:center;gap:8px">
 <img src="logos/JHSF3.png" loading="lazy"
-     alt="Logo JHSF PART"
+     alt="Logo JHSF PART ED"
      loading="lazy"
      onerror="this.onerror=null;this.src='logos/default.svg';"
      style="width:20px;height:20px;object-fit:contain">
-<a class="ticker" href="acoes/JHSF3.html" aria-label="Ver análise completa de JHSF PART">
+<a class="ticker" href="acoes/JHSF3.html" aria-label="Ver análise completa de JHSF PART ED">
 JHSF3
 </a>
 </div>
-<span class="empresa">JHSF PART </span>
+<span class="empresa">JHSF PART ED </span>
 </td>
 
 <td>Imobiliário</td>
@@ -5579,7 +5579,7 @@ Small Caps
 <tr onclick="window.location='acoes/CEBR6.html'"
     tabindex="0"
     onkeypress="if(event.key==='Enter') window.location='acoes/CEBR6.html'"
-    aria-label="Ver análise de CEB B ED (CEBR6)"
+    aria-label="Ver análise de CEB B (CEBR6)"
     data-setor="Utilidades Públicas"
     data-categoria="Small Caps"
     data-score="35"
@@ -5589,15 +5589,15 @@ Small Caps
 <span style="color:#cbd5e1;font-size:12px">#83 </span>
 <div style="display:flex;align-items:center;gap:8px">
 <img src="logos/CEBR6.png" loading="lazy"
-     alt="Logo CEB B ED"
+     alt="Logo CEB B"
      loading="lazy"
      onerror="this.onerror=null;this.src='logos/default.svg';"
      style="width:20px;height:20px;object-fit:contain">
-<a class="ticker" href="acoes/CEBR6.html" aria-label="Ver análise completa de CEB B ED">
+<a class="ticker" href="acoes/CEBR6.html" aria-label="Ver análise completa de CEB B">
 CEBR6
 </a>
 </div>
-<span class="empresa">CEB B ED <span style="background:#22c55e20;color:#22c55e;padding:2px 8px;border-radius:6px;font-size:11px;margin-left:6px;">ALTO DY</span></span>
+<span class="empresa">CEB B <span style="background:#22c55e20;color:#22c55e;padding:2px 8px;border-radius:6px;font-size:11px;margin-left:6px;">ALTO DY</span></span>
 </td>
 
 <td>Utilidades Públicas</td>
@@ -7199,7 +7199,7 @@ Mid Caps
 <tr onclick="window.location='acoes/FRAS3.html'"
     tabindex="0"
     onkeypress="if(event.key==='Enter') window.location='acoes/FRAS3.html'"
-    aria-label="Ver análise de FRAS,LE EJ (FRAS3)"
+    aria-label="Ver análise de FRAS,LE (FRAS3)"
     data-setor="Consumo Cíclico"
     data-categoria="Small Caps"
     data-score="0"
@@ -7209,15 +7209,15 @@ Mid Caps
 <span style="color:#cbd5e1;font-size:12px">#110 </span>
 <div style="display:flex;align-items:center;gap:8px">
 <img src="logos/FRAS3.png" loading="lazy"
-     alt="Logo FRAS,LE EJ"
+     alt="Logo FRAS,LE"
      loading="lazy"
      onerror="this.onerror=null;this.src='logos/default.svg';"
      style="width:20px;height:20px;object-fit:contain">
-<a class="ticker" href="acoes/FRAS3.html" aria-label="Ver análise completa de FRAS,LE EJ">
+<a class="ticker" href="acoes/FRAS3.html" aria-label="Ver análise completa de FRAS,LE">
 FRAS3
 </a>
 </div>
-<span class="empresa">FRAS,LE EJ </span>
+<span class="empresa">FRAS,LE </span>
 </td>
 
 <td>Consumo Cíclico</td>
